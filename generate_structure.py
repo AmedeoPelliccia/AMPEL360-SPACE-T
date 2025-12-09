@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 # ==============================================================================
@@ -143,8 +142,22 @@ def generate_subsystem_cycle(system_base_path, ata_code, subsystem_num, subsyste
     
     print(f"    -> Injecting Cycle into: {sub_folder_name}")
     
+    # Create main README.md with basic info
     create_folder(sub_path, readme_content=f"# {subsystem_name} Index\nEngineering Cycle Root.")
-    (sub_path / "00_INDEX_README.md").touch()
+    
+    # Create 00_INDEX_README.md as a detailed index placeholder
+    index_readme = sub_path / "00_INDEX_README.md"
+    if not index_readme.exists():
+        with open(index_readme, "w", encoding="utf-8") as f:
+            f.write(f"# {subsystem_name} - Detailed Index\n\n")
+            f.write("## Engineering Cycle Overview\n\n")
+            f.write("This subsystem follows the P-CAD-CAE-CAM-CAOS engineering cycle:\n\n")
+            f.write("- **00_PRE-CAD_Prompt_Engineering**: Prompt engineering and specifications\n")
+            f.write("- **10_CAD**: Computer-Aided Design workspace and components\n")
+            f.write("- **20_CAE**: Computer-Aided Engineering analysis\n")
+            f.write("- **30_CAM**: Computer-Aided Manufacturing process planning\n")
+            f.write("- **40_CAOS**: Computer-Aided Operations and Support\n")
+            f.write("- **META**: Subsystem metadata and traceability\n")
 
     for phase, subfolders in CYCLE_STRUCTURE.items():
         phase_path = sub_path / phase
