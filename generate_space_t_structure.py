@@ -22,7 +22,6 @@ Examples:
     python generate_space_t_structure.py --systems 21,22,53,57,95
 """
 
-import os
 import argparse
 from pathlib import Path
 from datetime import datetime
@@ -241,9 +240,9 @@ _[Main content goes here]_
 
 ## Traceability
 
-| Source | Reference |
-|:-------|:----------|
-| Prompt | _[Link to source prompt]_ |
+| Source   | Reference                      |
+|:---------|:-------------------------------|
+| Prompt   | _[Link to source prompt]_      |
 | Upstream | _[Link to upstream artifact]_ |
 
 ---
@@ -515,7 +514,7 @@ def main():
     
     # Parse system codes
     if args.systems:
-        system_codes = [s.strip() for s in args.systems.split(",")]
+        system_codes = [s.strip() for s in args.systems.split(",") if s.strip()]
     else:
         system_codes = list(SYSTEMS.keys())
     
