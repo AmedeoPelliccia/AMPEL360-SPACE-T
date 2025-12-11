@@ -76,6 +76,53 @@ SYSTEMS = {
     "97": ("WIRING_DATA", "Wiring diagrams, harness data"),
 }
 
+# O-ORGANIZATION axis systems
+O_SYSTEMS = {
+    "00": ("GENERAL_INFO", "Program-wide general information, glossary, units"),
+    "01": ("POLICY_PROCEDURES", "Corporate policies, procedures, directives"),
+    "04": ("AIRWORTHINESS_LIMITS", "Certification basis, airworthiness limitations"),
+    "05": ("TIME_LIMITS_CHECKS", "Scheduled maintenance, life limits, inspections"),
+    "06": ("CONFIG_MANAGEMENT", "Configuration control, baselines, change management"),
+    "07": ("QUALITY_MANAGEMENT", "QMS, audits, non-conformance, supplier quality"),
+    "08": ("SAFETY_MANAGEMENT", "SMS, hazard analysis, risk management"),
+    "09": ("REGULATORY_AFFAIRS", "Certification plans, authority liaison, compliance"),
+}
+
+# P-PROGRAM axis systems
+P_SYSTEMS = {
+    "06": ("PROGRAM_PLANNING", "Master plans, WBS, IMS, resource planning"),
+    "07": ("COST_MANAGEMENT", "Budget, EVM, financial controls, forecasting"),
+    "08": ("RISK_MANAGEMENT", "Program risks, opportunities, mitigation"),
+    "09": ("REVIEWS_GATES", "Design reviews, gate reviews, audits"),
+    "10": ("STAKEHOLDER_MGMT", "Communication, reporting, decisions"),
+    "11": ("CONTRACT_MGMT", "Contracts, procurement, supplier management"),
+    "12": ("INTEGRATION_MGMT", "Cross-axis integration, dependencies"),
+}
+
+# I-INFRASTRUCTURES axis systems
+I_SYSTEMS = {
+    "02": ("OPERATIONS_INFO", "Ground operations information systems"),
+    "03": ("GROUND_EQUIPMENT", "Support equipment, tooling, GSE"),
+    "10": ("PARKING_MOORING", "Pad operations, docking, tie-down"),
+    "13": ("LOGISTICS", "Spare parts, consumables, supply chain"),
+    "85": ("H2_VALUE_CHAIN", "Hydrogen production, storage, distribution"),
+    "86": ("LAUNCH_FACILITIES", "Launch pads, towers, umbilicals"),
+    "87": ("LANDING_RECOVERY", "Landing zones, recovery systems"),
+    "88": ("PASSENGER_TERMINAL", "Check-in, training, boarding facilities"),
+    "89": ("MISSION_CONTROL", "MCC, telemetry, flight dynamics"),
+    "90": ("GROUND_SUPPORT", "GSE, transportation, handling"),
+    "115": ("SUPPLY_CHAIN", "Supplier network, procurement, QA"),
+    "116": ("FACILITIES_MGMT", "Buildings, utilities, security"),
+}
+
+# N-NEURAL_NETWORKS_DPP_TRACEABILITY axis systems
+N_SYSTEMS = {
+    "95": ("NEURAL_OPS_AI", "Neural networks, ML models, AI mission operations"),
+    "96": ("DPP_TRACEABILITY", "Digital Product Passport, blockchain anchoring, provenance"),
+    "97": ("DATA_ANALYTICS", "Big data processing, telemetry analytics, insights"),
+    "98": ("HUMAN_AI_INTERFACE", "XAI, crew decision support, autonomy levels"),
+}
+
 # Default subsystems for key chapters (expandable)
 DEFAULT_SUBSYSTEMS = {
     "21": [("10", "Cabin_Atmosphere"), ("20", "Thermal_Control"), ("30", "Humidity_Contamination")],
@@ -541,23 +588,55 @@ def main():
     # Generate OPT-IN structure
     generate_opt_in_structure(root_path)
     
-    # Generate systems under T-TECHNOLOGY axis
-    tech_path = root_path / "T-TECHNOLOGY_ONBOARD_SYSTEMS"
+    # Generate systems for all axes
+    print("\nGenerating ATA chapters for all OPT-IN axes:")
     
-    print("\nGenerating ATA chapters:")
+    # T-TECHNOLOGY axis
+    tech_path = root_path / "T-TECHNOLOGY_ONBOARD_SYSTEMS"
+    print("\n  T-TECHNOLOGY_ONBOARD_SYSTEMS:")
     for code in system_codes:
         if code in SYSTEMS:
             name, desc = SYSTEMS[code]
             generate_system(tech_path, code, name, desc)
         else:
-            print(f"  ⚠ Unknown system code: {code}")
+            print(f"    ⚠ Unknown system code: {code}")
+    
+    # O-ORGANIZATION axis
+    org_path = root_path / "O-ORGANIZATION"
+    print("\n  O-ORGANIZATION:")
+    for code, (name, desc) in O_SYSTEMS.items():
+        generate_system(org_path, code, name, desc)
+    
+    # P-PROGRAM axis
+    prog_path = root_path / "P-PROGRAM"
+    print("\n  P-PROGRAM:")
+    for code, (name, desc) in P_SYSTEMS.items():
+        generate_system(prog_path, code, name, desc)
+    
+    # I-INFRASTRUCTURES axis
+    infra_path = root_path / "I-INFRASTRUCTURES"
+    print("\n  I-INFRASTRUCTURES:")
+    for code, (name, desc) in I_SYSTEMS.items():
+        generate_system(infra_path, code, name, desc)
+    
+    # N-NEURAL_NETWORKS_DPP_TRACEABILITY axis
+    neural_path = root_path / "N-NEURAL_NETWORKS_DPP_TRACEABILITY"
+    print("\n  N-NEURAL_NETWORKS_DPP_TRACEABILITY:")
+    for code, (name, desc) in N_SYSTEMS.items():
+        generate_system(neural_path, code, name, desc)
     
     # Summary
+    total_systems = len(system_codes) + len(O_SYSTEMS) + len(P_SYSTEMS) + len(I_SYSTEMS) + len(N_SYSTEMS)
     print(f"\n{'='*60}")
     print("GENERATION COMPLETE")
     print(f"{'='*60}")
     print(f"Root: {root_path.absolute()}")
-    print(f"Total chapters: {len(system_codes)}")
+    print(f"T-TECHNOLOGY chapters: {len(system_codes)}")
+    print(f"O-ORGANIZATION chapters: {len(O_SYSTEMS)}")
+    print(f"P-PROGRAM chapters: {len(P_SYSTEMS)}")
+    print(f"I-INFRASTRUCTURES chapters: {len(I_SYSTEMS)}")
+    print(f"N-NEURAL chapters: {len(N_SYSTEMS)}")
+    print(f"Total chapters: {total_systems}")
     print(f"\nNext steps:")
     print("  1. Review generated structure")
     print("  2. Populate README.md files with specific content")

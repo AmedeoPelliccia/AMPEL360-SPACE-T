@@ -10,11 +10,16 @@
 
 This directory contains the complete AMPEL360 Space-T structure with:
 
-- **5 OPT-IN Axes** (O, P, T, I, N)
-- **43 ATA-SpaceT Chapters** (Complete aerospace system catalog)
-- **~3,400 Directories**
-- **~3,300 Template Files**
-- **~27 MB Total Size**
+- **5 OPT-IN Axes** (O, P, T, I, N) - All with ATA chapters
+- **74 Total ATA-SpaceT Chapters** across all axes
+  - 43 T-TECHNOLOGY chapters
+  - 8 O-ORGANIZATION chapters
+  - 7 P-PROGRAM chapters
+  - 12 I-INFRASTRUCTURES chapters
+  - 4 N-NEURAL chapters
+- **~5,360 Directories**
+- **~5,200 Template Files**
+- **~42 MB Total Size**
 
 ---
 
@@ -22,13 +27,13 @@ This directory contains the complete AMPEL360 Space-T structure with:
 
 ### OPT-IN Axes (Top Level)
 
-1. **O-ORGANIZATION** - Governance, standards, program office, stakeholders
-2. **P-PROGRAM** - Lifecycle phases, milestones, reviews, deliverables
-3. **T-TECHNOLOGY_ONBOARD_SYSTEMS** - All 43 ATA chapters
-4. **I-INFRASTRUCTURES** - Ground systems, launch, H₂ value chains, facilities
-5. **N-NEURAL_NETWORKS_DPP_TRACEABILITY** - AI ops, Digital Product Passport
+1. **O-ORGANIZATION** (8 ATA chapters) - Governance, standards, program office, stakeholders
+2. **P-PROGRAM** (7 ATA chapters) - Lifecycle phases, milestones, reviews, deliverables
+3. **T-TECHNOLOGY_ONBOARD_SYSTEMS** (43 ATA chapters) - All onboard systems
+4. **I-INFRASTRUCTURES** (12 ATA chapters) - Ground systems, launch, H₂ value chains, facilities
+5. **N-NEURAL_NETWORKS_DPP_TRACEABILITY** (4 ATA chapters) - AI ops, Digital Product Passport
 
-### ATA Systems (43 Chapters)
+### ATA Systems (74 Total Chapters)
 
 Each chapter includes:
 - **14 Lifecycle Folders** under XX-00_GENERAL

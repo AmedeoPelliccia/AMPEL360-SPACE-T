@@ -1,0 +1,33 @@
+# CAD Agent Configuration
+# AMPEL360 Space-T / CAOS Integration
+
+agent_type: CAD
+version: "1.0"
+created: 2025-12-11
+
+# Agent Profile
+profile:
+  name: "CAD_Agent"
+  role: "Generative engineering assistant"
+  capabilities:
+    - geometry_generation
+    - requirements_analysis
+    - compliance_checking
+  
+# Input Sources
+inputs:
+  prompts_dir: "../PROMPTS/"
+  context_dir: "../CONTEXT/"
+  specs_dir: "../SPECS/"
+
+# Output Configuration
+outputs:
+  format: "native"
+  validation: true
+  trace_links: true
+
+# Quality Gates
+quality:
+  min_confidence: 0.85
+  compliance_check: true
+  review_required: true
