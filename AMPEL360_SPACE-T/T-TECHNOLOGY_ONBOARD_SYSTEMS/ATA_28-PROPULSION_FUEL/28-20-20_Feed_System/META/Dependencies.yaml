@@ -1,0 +1,7 @@
+# Dependencies for 28-20-20_Feed_System
+# Cross-subsystem and cross-system dependencies
+
+dependencies:
+  upstream: []
+  downstream: []
+  interfaces: []

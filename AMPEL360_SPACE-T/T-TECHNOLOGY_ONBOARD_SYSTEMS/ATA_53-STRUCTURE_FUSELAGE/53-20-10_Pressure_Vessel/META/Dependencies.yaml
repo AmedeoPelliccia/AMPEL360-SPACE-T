@@ -1,0 +1,7 @@
+# Dependencies for 53-20-10_Pressure_Vessel
+# Cross-subsystem and cross-system dependencies
+
+dependencies:
+  upstream: []
+  downstream: []
+  interfaces: []

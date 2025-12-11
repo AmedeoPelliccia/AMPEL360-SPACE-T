@@ -1,0 +1,7 @@
+# Dependencies for 53-20-30_Thermal_Protection
+# Cross-subsystem and cross-system dependencies
+
+dependencies:
+  upstream: []
+  downstream: []
+  interfaces: []

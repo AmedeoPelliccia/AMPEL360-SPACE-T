@@ -1,0 +1,22 @@
+# System Registry: ATA 27 - FLIGHT_CONTROLS
+# RCS, aero surfaces, TVC actuators
+
+system:
+  code: "27"
+  name: "FLIGHT_CONTROLS"
+  description: "RCS, aero surfaces, TVC actuators"
+  created: 2025-12-11
+  status: ACTIVE
+
+subsystems: []
+# Add subsystem entries as they are populated
+
+interfaces: []
+# Add interface definitions
+
+compliance:
+  standards:
+    - DO-178C
+    - DO-254
+    - ECSS-E-ST-40C
+  dal_level: TBD
