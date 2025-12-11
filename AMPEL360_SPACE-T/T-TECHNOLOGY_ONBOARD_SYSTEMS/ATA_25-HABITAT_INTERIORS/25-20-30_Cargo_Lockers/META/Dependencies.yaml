@@ -1,0 +1,7 @@
+# Dependencies for 25-20-30_Cargo_Lockers
+# Cross-subsystem and cross-system dependencies
+
+dependencies:
+  upstream: []
+  downstream: []
+  interfaces: []

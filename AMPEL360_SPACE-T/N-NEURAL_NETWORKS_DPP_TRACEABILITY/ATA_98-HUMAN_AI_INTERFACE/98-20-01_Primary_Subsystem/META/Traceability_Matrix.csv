@@ -1,0 +1,4 @@
+artifact_id,system_id,subsystem_id,cycle,source_prompt_ids,status,version,created,compliance_refs
+# AMPEL360 Space-T Traceability Matrix
+# Format: ST-XX-YY-C-NNNN format
+# Cycles: P=Prompting, D=CAD, E=CAE, M=CAM, O=CAOS
