@@ -4,6 +4,14 @@
   "root_code": "00",
   "bucket_code": "00",
   "version": "v01",
+  "affected_path_patterns": [
+    "AMPEL360_SPACE-T/P-PROGRAM/ATA_{ata}-*/{ata}-00_GENERAL/",
+    "AMPEL360_SPACE-T/O-OPS_ORG/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/T-TECHNOLOGY/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/I-INFRASTRUCTURES/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/T-SIMTEST/ATA_{ata}-*/"
+  ],
   "stakeholders": [
     {"id": "CM", "name": "Configuration Management", "knots": ["K01","K04","K06","K08","K10"]},
     {"id": "PMO", "name": "Program Management Office", "knots": ["K01","K02","K10","K14"]},

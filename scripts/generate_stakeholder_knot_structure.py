@@ -257,6 +257,14 @@ def main() -> int:
 
     stakeholders: List[Dict[str, Any]] = cfg["stakeholders"]
     knots: Dict[str, Any] = cfg["knots"]
+    affected_path_patterns: List[str] = cfg.get("affected_path_patterns", [
+        "AMPEL360_SPACE-T/P-PROGRAM/ATA_{ata}-*/{ata}-00_GENERAL/",
+        "AMPEL360_SPACE-T/O-OPS_ORG/ATA_{ata}-*/",
+        "AMPEL360_SPACE-T/T-TECHNOLOGY/ATA_{ata}-*/",
+        "AMPEL360_SPACE-T/I-INFRASTRUCTURES/ATA_{ata}-*/",
+        "AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_{ata}-*/",
+        "AMPEL360_SPACE-T/T-SIMTEST/ATA_{ata}-*/"
+    ])
 
     register_rows = ["knot_id,title,stakeholder_id,affected_atas"]
     global_lines = [
@@ -322,15 +330,8 @@ def main() -> int:
                         tid = t["id"]
                         ttitle = t["title"]
 
-                        # These are routing hints to the real engineering tree
-                        affected_paths = [
-                            f"AMPEL360_SPACE-T/P-PROGRAM/ATA_{ata}-*/{ata}-00_GENERAL/",
-                            f"AMPEL360_SPACE-T/O-OPS_ORG/ATA_{ata}-*/",
-                            f"AMPEL360_SPACE-T/T-TECHNOLOGY/ATA_{ata}-*/",
-                            f"AMPEL360_SPACE-T/I-INFRASTRUCTURES/ATA_{ata}-*/",
-                            f"AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_{ata}-*/",
-                            f"AMPEL360_SPACE-T/T-SIMTEST/ATA_{ata}-*/"
-                        ]
+                        # Build affected paths from config patterns
+                        affected_paths = [pattern.replace("{ata}", ata) for pattern in affected_path_patterns]
 
                         task_file = ata_dir / mk_name(
                             params.root_code, params.bucket_code, "ACT", "LC06", params.variant,
