@@ -101,7 +101,8 @@ class NomenclatureValidator:
     EXCLUDED_DIRS = {
         '.git', '.github', 'node_modules', '__pycache__',
         '.pytest_cache', '.venv', 'venv', 'dist', 'build',
-        'templates'  # Template source files for scaffolding
+        'templates',  # Template source files for scaffolding
+        'scripts'  # Utility scripts
     }
     
     def __init__(self, strict: bool = True):
