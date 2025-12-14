@@ -46,10 +46,10 @@ def scaffold():
         print("\nExample:")
         print("  python scripts/scaffold.py 00 70 FHA SYS propulsion v01")
         print("\nAvailable templates:")
-        print("  PLAN - Project plans, safety plans")
-        print("  STD  - Standards and specifications")
-        print("  FHA  - Functional Hazard Assessments")
-        print("  REQ  - Requirements specifications")
+        print("  Planning/Control: PLAN, MIN, RPT, LOG, ACT, IDX")
+        print("  Safety Analysis: FHA, PSSA, SSA, FTA, ANA")
+        print("  Requirements: REQ, DAL, TRC")
+        print("  Data/Reference: CAT, LST, GLO, MAT, SCH, DIA, TAB, STD")
         sys.exit(1)
 
     root, bucket, ftype, variant, desc, ver = sys.argv[1:7]

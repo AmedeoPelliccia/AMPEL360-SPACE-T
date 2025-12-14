@@ -72,9 +72,27 @@ When creating a new file of a specific `TYPE`, you MUST use the appropriate temp
 | TYPE | Template | Purpose |
 |------|----------|---------|
 | `PLAN` | `templates/PLAN.md` | Project plans, safety plans, management plans |
-| `STD` | `templates/STD.md` | Standards and specifications |
+| `MIN` | `templates/MIN.md` | Meeting minutes |
+| `RPT` | `templates/RPT.md` | Reports and assessments |
+| `LOG` | `templates/LOG.md` | Issue logs, event logs, hazard logs |
+| `ACT` | `templates/ACT.md` | Action item registers |
+| `IDX` | `templates/IDX.md` | Indexes and catalogs |
 | `FHA` | `templates/FHA.md` | Functional Hazard Assessments |
+| `PSSA` | `templates/PSSA.md` | Preliminary System Safety Assessments |
+| `SSA` | `templates/SSA.md` | System Safety Assessments |
+| `FTA` | `templates/FTA.md` | Fault Tree Analysis |
+| `ANA` | `templates/ANA.md` | Engineering analysis and trade studies |
 | `REQ` | `templates/REQ.md` | Requirements specifications |
+| `DAL` | `templates/DAL.md` | Development Assurance Level assignments |
+| `TRC` | `templates/TRC.md` | Traceability matrices |
+| `CAT` | `templates/CAT.md` | Catalogs |
+| `LST` | `templates/LST.md` | Lists and inventories |
+| `GLO` | `templates/GLO.md` | Glossaries and terminology |
+| `MAT` | `templates/MAT.md` | Material specifications |
+| `SCH` | `templates/SCH.md` | Data schemas (JSON, XML) |
+| `DIA` | `templates/DIA.md` | Diagrams and flowcharts |
+| `TAB` | `templates/TAB.md` | Data tables |
+| `STD` | `templates/STD.md` | Standards and specifications |
 
 ### Template Placeholders
 
