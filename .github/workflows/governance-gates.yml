@@ -96,7 +96,7 @@ jobs:
           GOVERNANCE_CHANGE=false
           
           # Pattern 1: Standards (STD files in ATA 00)
-          if echo "$CHANGED_FILES" | grep -E "00_00_STD_LC01.*\.md$"; then
+          if echo "$CHANGED_FILES" | grep -E "00_00_STD_.*\.md$"; then
             echo "✓ Governance standard change detected"
             GOVERNANCE_CHANGE=true
           fi

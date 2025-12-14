@@ -110,7 +110,7 @@ The matrix categorizes all artifact types using these attributes:
 | :--- | :--- | :--- | :--- | :--- |
 | **Test Results** | Hybrid | Authoritative for execution; derived for pass/fail analysis | Test Team | Results are authoritative; summaries are derived |
 | **Code + Documentation** | Hybrid | Code is authoritative; auto-docs are derived | Dev Team | Code SSOT; docs regenerated |
-| **Schema + Instances** | Hybrid | Schema is authoritative; instance validation is derived | Data Team | Schema SSOT; validation reports derived |
+| **Schema + Instances** | Hybrid | Schema is authoritative; instance validation is derived | ATA 91 (Schema Registry) | Schema SSOT; validation reports derived |
 
 ### 4.5 Forbidden Patterns
 

@@ -50,7 +50,7 @@ This standard applies to:
 
 - **Canonical Identifier**: A globally unique, immutable identifier conforming to this grammar.
 - **Namespace**: A logical grouping prefix preventing collisions (e.g., `ATA24`, `REQ`, `HAZ`).
-- **Namespace Boundary**: The scope within which an identifier authority has jurisdiction.
+- **Namespace Boundary**: The organizational or technical limit of an identifier authority's jurisdiction, defining the scope within which an identifier authority has exclusive control over ID assignment.
 - **Identifier Authority**: The ATA, system, or team responsible for issuing IDs within a namespace.
 - **Shadow Registry**: An unauthorized or uncoordinated identifier registry (forbidden).
 - **Deduplication Enforcement**: ATA 99 mechanism preventing duplicate IDs across namespaces.

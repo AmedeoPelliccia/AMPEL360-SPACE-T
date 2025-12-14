@@ -35,7 +35,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 | Gate ID | Gate Name | Script/Tool | Enforcement Level | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **GATE-006** | Governance Change Detection | `scripts/detect_governance_changes.py` | LABELING | Planned | Auto-labels PRs requiring CM review |
+| **GATE-006** | Governance Change Detection | Built into governance-gates.yml | LABELING | Active | Auto-labels PRs requiring CM review |
 | **GATE-007** | Breaking Schema Change Detection | `scripts/detect_schema_breaking_changes.py` | BLOCKING | Planned | Requires migration plan for breaking changes |
 | **GATE-008** | Evidence Link Validation | `scripts/validate_evidence_links.py` | WARNING | Planned | Checks evidence pack integrity |
 | **GATE-009** | TYPE Code Detection | `scripts/detect_new_types.py` | WARNING | Active | Alerts on unapproved TYPE codes |
@@ -71,8 +71,8 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 ### By Status
 
-- **Active (implemented):** GATE-001, GATE-009, GATE-010
-- **Planned (to be implemented):** GATE-002, GATE-003, GATE-004, GATE-005, GATE-006, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
+- **Active (implemented):** GATE-001, GATE-006, GATE-009, GATE-010
+- **Planned (to be implemented):** GATE-002, GATE-003, GATE-004, GATE-005, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
 
 ### By Responsible Team
 
@@ -406,9 +406,9 @@ jobs:
 
 ### Implementation Priority
 
-**Phase 1 (Immediate):** GATE-001, GATE-009, GATE-010 (active)
+**Phase 1 (Immediate - Complete):** GATE-001, GATE-006, GATE-009, GATE-010 (active)
 
-**Phase 2 (Q1 2026):** GATE-002, GATE-003, GATE-004, GATE-005, GATE-006 (critical for governance enforcement)
+**Phase 2 (Q1 2026):** GATE-002, GATE-003, GATE-004, GATE-005 (critical for governance enforcement)
 
 **Phase 3 (Q2 2026):** GATE-007, GATE-008, GATE-015, GATE-016, GATE-017 (audit and staleness detection)
 
