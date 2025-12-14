@@ -317,9 +317,22 @@ def main() -> int:
                 ata_dir = ata_tasks_root / f"ATA_{ata}"
                 ensure_dir(ata_dir, params.dry_run)
 
+                # Use ATA number as ROOT for standard ATAs (01-99), otherwise use 00 for programme-level
+                # ROOT must be exactly 2 digits per nomenclature standard
+                try:
+                    ata_num = int(ata)
+                    if 1 <= ata_num <= 99:
+                        ata_root = ata.zfill(2)
+                    else:
+                        # Programme-level ATAs (100+) use ROOT=00
+                        ata_root = "00"
+                except ValueError:
+                    # Non-numeric ATA codes use ROOT=00
+                    ata_root = "00"
+
                 # Generate tasklist
                 tasklist = ata_dir / mk_name(
-                    params.root_code, params.bucket_code, "IDX", "LC01", params.variant,
+                    ata_root, params.bucket_code, "IDX", "LC01", params.variant,
                     f"{kid}-ata-{ata}-tasklist", params.version, "md"
                 )
                 write_file(tasklist, ata_tasklist_md(kid, k_title, ata), params.dry_run, params.force)
@@ -334,7 +347,7 @@ def main() -> int:
                         affected_paths = [pattern.replace("{ata}", ata) for pattern in affected_path_patterns]
 
                         task_file = ata_dir / mk_name(
-                            params.root_code, params.bucket_code, "ACT", "LC06", params.variant,
+                            ata_root, params.bucket_code, "ACT", "LC06", params.variant,
                             f"{kid}-{tid}-{ttitle}", params.version, "md"
                         )
                         write_file(task_file, task_md(kid, ata, tid, ttitle, affected_paths), params.dry_run, params.force)
