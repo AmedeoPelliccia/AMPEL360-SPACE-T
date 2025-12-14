@@ -33,7 +33,7 @@ All files must strictly adhere to the **8-field format**:
 
 | Field                | Meaning                               | Constraint                             | Regex                        |
 | :------------------- | :------------------------------------ | :------------------------------------- | :--------------------------- |
-| **ROOT**             | ATA Chapter or Project Code           | 2 digits                               | `^\d{2}$`                    |
+| **ROOT**             | ATA Chapter or Project Code           | 2-3 digits                             | `^\d{2,3}$`                  |
 | **BUCKET**           | Domain Classification (OPT-IN + LC)   | 2 digits (enum)                        | `^(00\|10\|20\|30\|40\|50\|60\|70\|80\|90)$` |
 | **TYPE**             | Artifact Type                         | 2–8 uppercase alphanumeric             | `^[A-Z0-9]{2,8}$`            |
 | **LC_OR_SUBBUCKET**  | Lifecycle Stage or Sub-bucket         | LC01-LC14 or SB00-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB\d{2})$` |
@@ -58,10 +58,11 @@ All files must strictly adhere to the **8-field format**:
 
 ## 4. Allowed Values and Semantics
 
-### 4.1 `[ROOT]` (2 digits)
+### 4.1 `[ROOT]` (2-3 digits)
 
 * `00`: General / Project-Level / Cross-Domain
 * `01`–`99`: ATA chapter codes (e.g., `24` Electrical, `27` Flight Controls, `72` Engine) or programme-approved codes.
+* `100`–`999`: Extended ATA chapter codes (e.g., `115` Supply Chain, `116` Facilities Management).
 
 ### 4.2 `[BUCKET]` (2 digits) — Authoritative Allowlist
 
@@ -186,6 +187,9 @@ CI shall additionally enforce:
   * `00_20_TRC_SPACET_traceability-matrix_v01.xlsx`
 * Reference schema:
   * `00_90_SCH_GEN_hazard-log-schema_v01.json`
+* Extended ATA code (3-digit ROOT):
+  * `115_00_PLAN_LC01_SPACET_supply-chain-plan_v01.md`
+  * `116_70_FHA_SB00_SYS_facility-systems_v01.md`
 
 ### 6.2 Invalid examples
 

@@ -41,7 +41,7 @@ class NomenclatureValidator:
     
     # Primary regex pattern (8 fields)
     PRIMARY_PATTERN = re.compile(
-        r'^(?P<root>\d{2})_'
+        r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
         r'(?P<type>[A-Z0-9]{2,8})_'
         r'(?P<stage>(LC(0[1-9]|1[0-4])|SB\d{2}))_'

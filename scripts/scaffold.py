@@ -60,8 +60,8 @@ def scaffold():
     root, bucket, ftype, stage, variant, desc, ver = sys.argv[1:8]
     
     # Validate inputs
-    if not root.isdigit() or len(root) != 2:
-        print(f"Error: ROOT must be 2 digits, got '{root}'")
+    if not root.isdigit() or len(root) < 2 or len(root) > 3:
+        print(f"Error: ROOT must be 2-3 digits, got '{root}'")
         sys.exit(1)
     
     if bucket not in BUCKET_DIRS:
