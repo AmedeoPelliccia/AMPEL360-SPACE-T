@@ -44,9 +44,9 @@ def scaffold():
     if len(sys.argv) < 8:
         print("Usage: python scripts/scaffold.py ROOT BUCKET TYPE LC_OR_SB VARIANT DESC VER")
         print("\nExample (Lifecycle):")
-        print("  python scripts/scaffold.py 00 00 PLAN LC01 Q100BL safety-program v01")
+        print("  python scripts/scaffold.py 00 00 PLAN LC01 SPACET safety-program v02")
         print("\nExample (Non-Lifecycle):")
-        print("  python scripts/scaffold.py 00 70 FHA SB00 SYS propulsion v01")
+        print("  python scripts/scaffold.py 00 70 FHA SB00 SYS propulsion v02")
         print("\nLC_OR_SB field:")
         print("  - For BUCKET=00: LC01-LC14 (lifecycle stage)")
         print("  - For BUCKET≠00: SB00-SB99 (sub-bucket, use SB00 if none)")
