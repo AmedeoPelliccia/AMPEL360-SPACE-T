@@ -1,7 +1,0 @@
-# Dependencies for 95-20-30_Autonomous_Ops
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

@@ -1,7 +1,0 @@
-# Dependencies for 24-20-20_Power_Distribution
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

@@ -1,7 +1,0 @@
-# Dependencies for 28-20-30_Engine_Interface
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

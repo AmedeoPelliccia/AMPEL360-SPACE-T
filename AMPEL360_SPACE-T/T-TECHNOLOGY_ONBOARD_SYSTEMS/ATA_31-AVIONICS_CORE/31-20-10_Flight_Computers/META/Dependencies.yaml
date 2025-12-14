@@ -1,7 +1,0 @@
-# Dependencies for 31-20-10_Flight_Computers
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

@@ -1,7 +1,0 @@
-# Dependencies for 30-20-01_Primary_Subsystem
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []
