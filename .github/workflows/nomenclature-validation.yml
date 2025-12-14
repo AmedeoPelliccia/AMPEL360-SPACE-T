@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate File Nomenclature
     
+    permissions:
+      contents: read
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
