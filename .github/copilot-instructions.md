@@ -116,6 +116,21 @@ Example:
 python scripts/scaffold.py 00 70 FHA SYS propulsion v01
 ```
 
+### New TYPE Detection
+
+If you encounter a need for a new TYPE code not in the approved list:
+
+1. **Check existing TYPEs first**: Ensure no approved TYPE fits the use case
+2. **Use temporary generic TYPE**: Use the closest existing TYPE temporarily
+3. **Run detection tool**:
+   ```bash
+   python scripts/detect_new_types.py --auto-suggest
+   ```
+4. **Follow extension process**: See generated `NOMENCLATURE_EXTENSION_GUIDE.md`
+5. **Notify team**: New TYPEs require Configuration Management WG approval
+
+**Automated Detection**: GitHub Actions automatically detects new TYPEs and creates issues
+
 ---
 
 ## Project Context

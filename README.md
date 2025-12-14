@@ -74,7 +74,22 @@ python scripts/scaffold.py 00 70 FHA SYS propulsion v01
 python scripts/scaffold.py 00 40 REQ SW software-requirements v01
 ```
 
-📚 **Templates**: [`templates/`](templates/) | **Available**: PLAN, STD, FHA, REQ
+📚 **Templates**: [`templates/`](templates/) | **Available**: 22 approved TYPEs
+
+### Automatic TYPE Detection
+
+System automatically detects new TYPE codes and provides extension guidance:
+
+```bash
+# Detect new TYPEs in repository
+python scripts/detect_new_types.py
+
+# Generate extension guide and template stubs
+python scripts/detect_new_types.py --auto-suggest
+```
+
+🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
+📖 **Guide**: [`00_00_IDX_LC01-Q100BL_automatic-type-detection_v01.md`](00_00_IDX_LC01-Q100BL_automatic-type-detection_v01.md)
 
 ---
 
