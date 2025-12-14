@@ -51,7 +51,7 @@ class NomenclatureValidator:
     )
     
     # LC prefix pattern for BUCKET=00
-    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+)*$')
+    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+(?:-[A-Z0-9]+)*)?$')
     
     # VERSION format pattern
     VERSION_PATTERN = re.compile(r'^v\d{2}$')
@@ -143,13 +143,11 @@ class NomenclatureValidator:
         
         # Extract components
         components = match.groupdict()
-        root = components['root']
         bucket = components['bucket']
         type_code = components['type']
         variant = components['variant']
         desc = components['desc']
         version = components['ver']
-        ext = components['ext']
         
         # Validate BUCKET
         if bucket not in self.ALLOWED_BUCKETS:

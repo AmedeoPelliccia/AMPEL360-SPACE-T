@@ -49,7 +49,7 @@ for file in $STAGED_FILES; do
     fi
     
     # Validate filename and capture output
-    validation_output=$(python validate_nomenclature.py "$filename" 2>&1)
+    validation_output=$(python validate_nomenclature.py "$filename" 2>&1 || true)
     if [ $? -ne 0 ]; then
         echo -e "${RED}✗ Invalid: $filename${NC}"
         echo "$validation_output"

@@ -116,7 +116,7 @@ This document summarizes the complete implementation of the mandatory Nomenclatu
 If `BUCKET=00`, then `VARIANT` must match:
 
 ```regex
-^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+)*$
+^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+(?:-[A-Z0-9]+)*)?$
 ```
 
 ### Exclusions
