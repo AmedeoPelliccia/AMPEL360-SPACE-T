@@ -1,0 +1,173 @@
+name: Detect New TYPE Codes
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  schedule:
+    # Run weekly on Monday at 9:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  detect-new-types:
+    runs-on: ubuntu-latest
+    name: Detect and Report New TYPE Codes
+    
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Detect new TYPE codes
+        id: detect
+        run: |
+          echo "Running TYPE detection..."
+          python scripts/detect_new_types.py --directory . > detection_output.txt 2>&1 || true
+          
+          # Check if new types were found
+          if grep -q "new TYPE codes not in approved vocabulary" detection_output.txt; then
+            echo "new_types_found=true" >> $GITHUB_OUTPUT
+            cat detection_output.txt
+          else
+            echo "new_types_found=false" >> $GITHUB_OUTPUT
+            echo "✅ All TYPE codes are approved"
+          fi
+        continue-on-error: true
+      
+      - name: Generate extension guide
+        if: steps.detect.outputs.new_types_found == 'true'
+        run: |
+          echo "Generating extension guide..."
+          python scripts/detect_new_types.py --auto-suggest
+      
+      - name: Create issue for new TYPEs
+        if: steps.detect.outputs.new_types_found == 'true' && github.event_name != 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read the extension guide
+            let guideContent = '';
+            try {
+              guideContent = fs.readFileSync('NOMENCLATURE_EXTENSION_GUIDE.md', 'utf8');
+            } catch (e) {
+              guideContent = 'Extension guide generation failed. Please run scripts/detect_new_types.py --auto-suggest locally.';
+            }
+            
+            // Create or update issue
+            const title = '🔍 New TYPE Codes Detected - Nomenclature Extension Needed';
+            const body = `## Automated Detection Report
+            
+            New TYPE codes have been detected in use that are not in the approved nomenclature vocabulary.
+            
+            ${guideContent}
+            
+            ## Next Steps
+            
+            1. Review the detected TYPE codes
+            2. Determine if they should be added to the standard or if existing TYPEs should be used
+            3. If adding: Follow the extension process outlined above
+            4. If not adding: Update files to use approved TYPEs
+            
+            **Detection Date**: ${new Date().toISOString()}
+            **Triggered by**: ${context.eventName}
+            **Branch**: ${context.ref}
+            `;
+            
+            // Find existing issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: ['nomenclature', 'auto-detected']
+            });
+            
+            const existingIssue = issues.data.find(issue => issue.title === title);
+            
+            if (existingIssue) {
+              // Update existing issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: body
+              });
+              console.log(`Updated existing issue #${existingIssue.number}`);
+            } else {
+              // Create new issue
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['nomenclature', 'auto-detected', 'enhancement']
+              });
+              console.log(`Created new issue #${issue.data.number}`);
+            }
+      
+      - name: Comment on PR
+        if: steps.detect.outputs.new_types_found == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let detectionOutput = '';
+            try {
+              detectionOutput = fs.readFileSync('detection_output.txt', 'utf8');
+            } catch (e) {
+              detectionOutput = 'Detection output not available';
+            }
+            
+            const comment = `## ⚠️ New TYPE Codes Detected
+            
+            This PR introduces files with TYPE codes that are not in the approved nomenclature vocabulary.
+            
+            \`\`\`
+            ${detectionOutput}
+            \`\`\`
+            
+            ### Action Required
+            
+            1. **Review detected TYPEs**: Ensure they are intentional
+            2. **Choose approach**:
+               - Use existing approved TYPEs if applicable
+               - Submit nomenclature extension request if new TYPEs are needed
+            3. **Follow process**: See \`NOMENCLATURE_EXTENSION_GUIDE.md\` for extension process
+            
+            Run locally to generate extension guide:
+            \`\`\`bash
+            python scripts/detect_new_types.py --auto-suggest
+            \`\`\`
+            `;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+      
+      - name: Upload artifacts
+        if: steps.detect.outputs.new_types_found == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomenclature-extension-guide
+          path: |
+            NOMENCLATURE_EXTENSION_GUIDE.md
+            templates/*.md
+          retention-days: 30
