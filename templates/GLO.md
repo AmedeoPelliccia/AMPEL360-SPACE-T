@@ -137,7 +137,7 @@ This glossary defines terms, acronyms, and abbreviations used in [domain/project
 ### V
 
 **Variant**
-: In nomenclature, the configuration or baseline identifier (e.g., Q100BL, LC02-Q100BL).
+: In nomenclature, the configuration or baseline identifier (e.g., SPACET, LC02-SPACET).
 
 **Verification**
 : Process of determining that requirements are correctly implemented in the system.

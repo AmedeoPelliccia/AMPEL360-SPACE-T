@@ -2,17 +2,17 @@
 """
 AMPEL360 Space-T File Scaffolding Tool
 =======================================
-Version: 1.0
+Version: 2.0
 Date: 2025-12-14
 
-Automates creation of files from templates with proper nomenclature.
+Automates creation of files from templates with proper nomenclature v2.0.
 
 Usage:
-    python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
+    python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <LC_OR_SB> <VARIANT> <DESC> <VER>
 
 Example:
-    python scripts/scaffold.py 00 70 FHA SYS propulsion v01
-    Creates: 00_70_FHA_SYS_propulsion_v01.md
+    python scripts/scaffold.py 00 00 PLAN LC01 Q100BL safety-program v01
+    Creates: 00_00_PLAN_LC01_Q100BL_safety-program_v01.md
 """
 
 import sys
@@ -41,10 +41,15 @@ BUCKET_DIRS = {
 
 def scaffold():
     """Main scaffolding function."""
-    if len(sys.argv) < 7:
-        print("Usage: python scripts/scaffold.py ROOT BUCKET TYPE VARIANT DESC VER")
-        print("\nExample:")
-        print("  python scripts/scaffold.py 00 70 FHA SYS propulsion v01")
+    if len(sys.argv) < 8:
+        print("Usage: python scripts/scaffold.py ROOT BUCKET TYPE LC_OR_SB VARIANT DESC VER")
+        print("\nExample (Lifecycle):")
+        print("  python scripts/scaffold.py 00 00 PLAN LC01 Q100BL safety-program v01")
+        print("\nExample (Non-Lifecycle):")
+        print("  python scripts/scaffold.py 00 70 FHA SB00 SYS propulsion v01")
+        print("\nLC_OR_SB field:")
+        print("  - For BUCKET=00: LC01-LC14 (lifecycle stage)")
+        print("  - For BUCKET≠00: SB00-SB99 (sub-bucket, use SB00 if none)")
         print("\nAvailable templates:")
         print("  Planning/Control: PLAN, MIN, RPT, LOG, ACT, IDX")
         print("  Safety Analysis: FHA, PSSA, SSA, FTA, ANA")
@@ -52,7 +57,7 @@ def scaffold():
         print("  Data/Reference: CAT, LST, GLO, MAT, SCH, DIA, TAB, STD")
         sys.exit(1)
 
-    root, bucket, ftype, variant, desc, ver = sys.argv[1:7]
+    root, bucket, ftype, stage, variant, desc, ver = sys.argv[1:8]
     
     # Validate inputs
     if not root.isdigit() or len(root) != 2:
@@ -67,6 +72,20 @@ def scaffold():
         print(f"Error: TYPE must be uppercase, got '{ftype}'")
         sys.exit(1)
     
+    # Validate LC_OR_SUBBUCKET
+    if bucket == "00":
+        if not stage.startswith("LC") or len(stage) != 4 or not stage[2:].isdigit():
+            print(f"Error: BUCKET=00 requires LC_OR_SUBBUCKET to be LC01-LC14, got '{stage}'")
+            sys.exit(1)
+        lc_num = int(stage[2:])
+        if lc_num < 1 or lc_num > 14:
+            print(f"Error: LC must be 01-14, got LC{lc_num:02d}")
+            sys.exit(1)
+    else:
+        if not stage.startswith("SB") or len(stage) != 4 or not stage[2:].isdigit():
+            print(f"Error: BUCKET≠00 requires LC_OR_SUBBUCKET to be SB00-SB99, got '{stage}'")
+            sys.exit(1)
+    
     if not variant.replace('-', '').replace('_', '').isalnum():
         print(f"Error: VARIANT must be alphanumeric with hyphens, got '{variant}'")
         sys.exit(1)
@@ -75,8 +94,8 @@ def scaffold():
         print(f"Error: VERSION must be vNN (e.g., v01), got '{ver}'")
         sys.exit(1)
     
-    # Construct filename
-    filename = f"{root}_{bucket}_{ftype}_{variant}_{desc}_{ver}.md"
+    # Construct filename (8-field format)
+    filename = f"{root}_{bucket}_{ftype}_{stage}_{variant}_{desc}_{ver}.md"
     
     # Determine target directory
     target_dir = BUCKET_DIRS.get(bucket, ".")
@@ -105,7 +124,9 @@ def scaffold():
         "{{VARIANT}}": variant,
         "{{BUCKET}}": bucket,
         "{{ROOT}}": root,
-        "{{LC_PHASE}}": get_lc_phase(bucket, variant),
+        "{{LC_OR_SUBBUCKET}}": stage,
+        "{{LC_PHASE}}": stage if stage.startswith("LC") else "N/A",
+        "{{SUBBUCKET}}": stage if stage.startswith("SB") else "N/A",
         "{{OWNER}}": "TBD",
         "{{SYSTEM_NAME}}": desc.replace("-", " ").title(),
         "{{DATE}}": date.today().isoformat(),
@@ -126,12 +147,7 @@ def scaffold():
 
 
 def get_lc_phase(bucket, variant):
-    """Extract lifecycle phase from variant if bucket is 00."""
-    if bucket == "00":
-        # Try to extract LC phase from variant
-        if variant.startswith("LC"):
-            return variant[2:4]
-        return "TBD"
+    """Extract lifecycle phase (deprecated - kept for compatibility)."""
     return "N/A"
 
 

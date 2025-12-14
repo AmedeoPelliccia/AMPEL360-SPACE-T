@@ -2,9 +2,9 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 1.0
+Version: 2.0
 Date: 2025-12-14
-Standard: Nomenclature Standard v1.0 (Normative)
+Standard: Nomenclature Standard v2.0 (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
 
@@ -37,21 +37,25 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v2.0."""
     
-    # Primary regex pattern
+    # Primary regex pattern (8 fields)
     PRIMARY_PATTERN = re.compile(
         r'^(?P<root>\d{2})_'
         r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
         r'(?P<type>[A-Z0-9]{2,8})_'
+        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB\d{2}))_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
         r'\.(?P<ext>[a-z0-9]{1,6})$'
     )
     
-    # LC prefix pattern for BUCKET=00
-    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+(?:-[A-Z0-9]+)*)?$')
+    # LC stage pattern (LC01-LC14)
+    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
+    
+    # SB stage pattern (SB00-SB99)
+    SB_PATTERN = re.compile(r'^SB\d{2}$')
     
     # VERSION format pattern
     VERSION_PATTERN = re.compile(r'^v\d{2}$')
@@ -137,7 +141,7 @@ class NomenclatureValidator:
         if not match:
             errors.append(
                 "Filename does not match required pattern: "
-                "[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+                "[ROOT]_[BUCKET]_[TYPE]_[LC_OR_SUBBUCKET]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
             )
             return ValidationResult(filename, False, errors, warnings)
         
@@ -145,6 +149,7 @@ class NomenclatureValidator:
         components = match.groupdict()
         bucket = components['bucket']
         type_code = components['type']
+        stage = components['stage']
         variant = components['variant']
         desc = components['desc']
         version = components['ver']
@@ -161,12 +166,18 @@ class NomenclatureValidator:
             else:
                 warnings.append(msg)
         
-        # Validate LC constraint for BUCKET=00
+        # Validate LC_OR_SUBBUCKET conditional rules
         if bucket == '00':
-            if not self.LC_PATTERN.match(variant):
+            # BUCKET=00 requires LC stage
+            if not self.LC_PATTERN.match(stage):
                 errors.append(
-                    f"BUCKET=00 requires VARIANT to start with LC prefix (LC01-LC14), "
-                    f"got '{variant}'"
+                    f"BUCKET=00 requires LC_OR_SUBBUCKET to be LC01-LC14, got '{stage}'"
+                )
+        else:
+            # BUCKET≠00 requires SB stage
+            if not self.SB_PATTERN.match(stage):
+                errors.append(
+                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB00-SB99, got '{stage}'"
                 )
         
         # Check for redundancy in DESCRIPTION

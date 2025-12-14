@@ -108,7 +108,7 @@ All templates support the following placeholders:
 |-------------|-------------|---------|
 | `{{DESCRIPTION}}` | File description field | `safety-program` |
 | `{{TITLE}}` | Human-readable title | `Safety Program` |
-| `{{VARIANT}}` | Configuration variant | `LC02-Q100BL` |
+| `{{VARIANT}}` | Configuration variant | `LC02-SPACET` |
 | `{{BUCKET}}` | Domain bucket code | `70` |
 | `{{ROOT}}` | ATA chapter code | `00` |
 | `{{LC_PHASE}}` | Lifecycle phase (for BUCKET=00) | `02` |
@@ -133,7 +133,7 @@ The script will:
 ### Method 2: Manual (Copy & Edit)
 
 1. Copy the template file: `cp templates/PLAN.md ./my-new-file.md`
-2. Rename to follow nomenclature: `00_00_PLAN_LC02-Q100BL_my-plan_v01.md`
+2. Rename to follow nomenclature: `00_00_PLAN_LC02-SPACET_my-plan_v01.md`
 3. Edit and replace all `{{...}}` placeholders
 4. Validate: `python validate_nomenclature.py <filename>`
 
@@ -184,10 +184,10 @@ Template files themselves are excluded from nomenclature validation (they're in 
 
 ## References
 
-- **Nomenclature Standard**: `00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`
+- **Nomenclature Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
 - **Scaffolding Tool**: `scripts/scaffold.py`
 - **Copilot Instructions**: `.github/copilot-instructions.md`
-- **Automation Guide**: `00_00_IDX_LC01-Q100BL_nomenclature-automation-guide_v01.md`
+- **Automation Guide**: `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_v01.md`
 
 ---
 

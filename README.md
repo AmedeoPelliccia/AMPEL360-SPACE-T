@@ -32,7 +32,7 @@ This repository contains the official directory structure generators for AMPEL36
 
 ### Examples
 
-- `00_00_PLAN_LC02-Q100BL_safety-program_v01.md` (Lifecycle plan)
+- `00_00_PLAN_LC02-SPACET_safety-program_v01.md` (Lifecycle plan)
 - `00_70_FHA_SYS_propulsion_v01.md` (Propulsion FHA)
 - `00_40_REQ_SW_software-safety-reqs_v01.md` (Software requirements)
 - `00_90_SCH_GEN_hazard-log-schema_v01.json` (Reference schema)
@@ -58,7 +58,7 @@ cp scripts/pre-commit .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
-📖 **Full standard**: [`00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`](00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md)
+📖 **Full standard**: [`00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`](00_00_STD_LC01-SPACET_nomenclature-standard_v01.md)
 
 ### Document Templates
 
@@ -69,7 +69,7 @@ Use standardized templates to create compliant documentation:
 python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
 
 # Examples:
-python scripts/scaffold.py 00 00 PLAN LC02-Q100BL safety-program v01
+python scripts/scaffold.py 00 00 PLAN LC02-SPACET safety-program v01
 python scripts/scaffold.py 00 70 FHA SYS propulsion v01
 python scripts/scaffold.py 00 40 REQ SW software-requirements v01
 ```
@@ -89,7 +89,7 @@ python scripts/detect_new_types.py --auto-suggest
 ```
 
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
-📖 **Guide**: [`00_00_IDX_LC01-Q100BL_automatic-type-detection_v01.md`](00_00_IDX_LC01-Q100BL_automatic-type-detection_v01.md)
+📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md)
 
 ---
 

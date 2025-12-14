@@ -202,7 +202,7 @@ The following files are automatically excluded from validation:
 
 **Error**: `BUCKET=00 requires VARIANT to start with LC prefix`
 - **Solution**: Add `LC01` through `LC14` prefix to VARIANT
-- **Example**: Change `Q100BL` to `LC02-Q100BL`
+- **Example**: Change `SPACET` to `LC02-SPACET`
 
 **Error**: `Invalid BUCKET`
 - **Solution**: Use only allowed buckets: `00, 10, 20, 30, 40, 50, 60, 70, 80, 90`
@@ -234,7 +234,7 @@ The following files are automatically excluded from validation:
 
 ## References
 
-- **Full Standard**: `00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`
+- **Full Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
 - **Agent Instructions**: `.github/NOMENCLATURE_AGENT_INSTRUCTIONS.md`
 - **Copilot Instructions**: `.github/copilot-instructions.md`
 - **Validation Script**: `validate_nomenclature.py`

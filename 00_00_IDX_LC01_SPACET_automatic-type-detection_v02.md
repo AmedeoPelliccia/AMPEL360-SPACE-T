@@ -1,7 +1,7 @@
 ---
 title: "Automatic TYPE Detection and Extension System"
 type: IDX
-variant: "LC01-Q100BL"
+variant: "LC01-SPACET"
 status: Active
 owner: "Configuration Management WG"
 ---
@@ -293,7 +293,7 @@ schedule:
 
 ## References
 
-- Nomenclature Standard: `00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`
+- Nomenclature Standard: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
 - Validation Script: `validate_nomenclature.py`
 - Detection Script: `scripts/detect_new_types.py`
 - GitHub Workflow: `.github/workflows/detect-new-types.yml`
@@ -301,6 +301,6 @@ schedule:
 
 ---
 
-**Document ID**: 00_00_IDX_LC01-Q100BL_automatic-type-detection_v01.md  
+**Document ID**: 00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md  
 **Version**: 1.0  
 **Status**: Active
