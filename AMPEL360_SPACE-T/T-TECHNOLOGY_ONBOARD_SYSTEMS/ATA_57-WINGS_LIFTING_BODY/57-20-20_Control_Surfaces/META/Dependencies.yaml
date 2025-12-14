@@ -1,7 +1,0 @@
-# Dependencies for 57-20-20_Control_Surfaces
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

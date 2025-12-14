@@ -1,7 +1,0 @@
-# Dependencies for 23-20-30_Crew_Comms
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

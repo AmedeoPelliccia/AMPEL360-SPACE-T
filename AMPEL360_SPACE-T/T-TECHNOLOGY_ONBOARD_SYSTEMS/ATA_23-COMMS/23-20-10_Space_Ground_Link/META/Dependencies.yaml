@@ -1,7 +1,0 @@
-# Dependencies for 23-20-10_Space_Ground_Link
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

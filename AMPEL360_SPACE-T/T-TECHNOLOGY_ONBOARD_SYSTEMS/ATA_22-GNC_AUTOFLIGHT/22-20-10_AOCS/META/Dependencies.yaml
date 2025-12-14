@@ -1,7 +1,0 @@
-# Dependencies for 22-20-10_AOCS
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

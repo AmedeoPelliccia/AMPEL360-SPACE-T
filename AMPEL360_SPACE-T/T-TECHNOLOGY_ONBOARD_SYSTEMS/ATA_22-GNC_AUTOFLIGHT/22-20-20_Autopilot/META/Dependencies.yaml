@@ -1,7 +1,0 @@
-# Dependencies for 22-20-20_Autopilot
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []

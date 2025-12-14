@@ -1,7 +1,0 @@
-# Dependencies for 72-20-20_Turbomachinery
-# Cross-subsystem and cross-system dependencies
-
-dependencies:
-  upstream: []
-  downstream: []
-  interfaces: []
