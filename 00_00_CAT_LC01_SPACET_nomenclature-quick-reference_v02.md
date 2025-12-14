@@ -10,7 +10,7 @@
 
 | Field | Format | Examples |
 |-------|--------|----------|
-| ROOT | 2 digits | `00`, `24`, `72` |
+| ROOT | 2-3 digits | `00`, `24`, `72`, `115`, `116` |
 | BUCKET | 2 digits | `00`, `10`, `20`, `30`, `40`, `50`, `60`, `70`, `80`, `90` |
 | TYPE | 2-8 uppercase | `PLAN`, `FHA`, `REQ`, `STD`, `IDX` |
 | VARIANT | Uppercase + hyphens | `SPACET`, `DRAFT`, `SYS`, `LC02-SPACET` |
