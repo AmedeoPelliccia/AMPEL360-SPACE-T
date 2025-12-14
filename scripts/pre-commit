@@ -48,10 +48,11 @@ for file in $STAGED_FILES; do
         continue
     fi
     
-    # Validate filename
-    if ! python validate_nomenclature.py "$filename" &> /dev/null; then
+    # Validate filename and capture output
+    validation_output=$(python validate_nomenclature.py "$filename" 2>&1)
+    if [ $? -ne 0 ]; then
         echo -e "${RED}✗ Invalid: $filename${NC}"
-        python validate_nomenclature.py "$filename"
+        echo "$validation_output"
         INVALID_COUNT=$((INVALID_COUNT + 1))
     fi
 done

@@ -23,7 +23,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List
 from dataclasses import dataclass
 
 
@@ -51,7 +51,10 @@ class NomenclatureValidator:
     )
     
     # LC prefix pattern for BUCKET=00
-    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+(?:-[A-Z0-9]+)*)?$')
+    LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])(?:-[A-Z0-9]+)*$')
+    
+    # VERSION format pattern
+    VERSION_PATTERN = re.compile(r'^v\d{2}$')
     
     # Allowed buckets
     ALLOWED_BUCKETS = {'00', '10', '20', '30', '40', '50', '60', '70', '80', '90'}
@@ -175,7 +178,7 @@ class NomenclatureValidator:
             )
         
         # Validate VERSION format
-        if not re.match(r'^v\d{2}$', version):
+        if not self.VERSION_PATTERN.match(version):
             errors.append(f"VERSION '{version}' must be 'vNN' with exactly 2 digits")
         
         valid = len(errors) == 0
