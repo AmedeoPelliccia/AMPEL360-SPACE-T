@@ -1,0 +1,45 @@
+name: Nomenclature Standard Validation
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  validate-nomenclature:
+    runs-on: ubuntu-latest
+    name: Validate File Nomenclature
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Validate all files
+        id: validate
+        run: |
+          echo "Running nomenclature validation..."
+          python validate_nomenclature.py --check-all --strict --verbose
+        continue-on-error: true
+      
+      - name: Check validation result
+        if: steps.validate.outcome == 'failure'
+        run: |
+          echo "❌ Nomenclature validation failed!"
+          echo "Please ensure all files follow the nomenclature standard:"
+          echo "[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+          echo ""
+          echo "See 00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md for details."
+          exit 1
+      
+      - name: Validation success
+        if: steps.validate.outcome == 'success'
+        run: |
+          echo "✅ All files comply with nomenclature standard!"

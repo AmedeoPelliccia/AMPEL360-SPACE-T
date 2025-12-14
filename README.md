@@ -11,11 +11,54 @@ Complete OPT-IN Framework Directory Structure Generator Suite
 This repository contains the official directory structure generators for AMPEL360 Space-T projects, implementing:
 
 - **OPT-IN Framework Standard v1.1** (5 axes: Organization, Program, Technology, Infrastructures, Neural)
+- **Nomenclature Standard v1.0** (Mandatory file naming convention with CI/CD enforcement)
 - **ATA-SpaceT numbering system** (70+ aerospace systems across all axes)
 - **14-folder lifecycle structure** (XX-00_GENERAL canonical pattern)
 - **9 Cross-ATA root buckets** (XX-10 through XX-90)
 - **P→CAD→CAE→CAM→CAOS engineering cycle** (AI-assisted workflow)
 - **ML Lifecycle** for neural systems (Architecture→Training→Validation→Deployment→Monitoring)
+
+---
+
+## File Naming Convention (Nomenclature Standard v1.0)
+
+**All artifacts in this repository MUST follow the mandatory nomenclature standard.**
+
+### Format
+
+```
+[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
+```
+
+### Examples
+
+- `00_00_PLAN_LC02-Q100BL_safety-program_v01.md` (Lifecycle plan)
+- `00_70_FHA_SYS_propulsion_v01.md` (Propulsion FHA)
+- `00_40_REQ_SW_software-safety-reqs_v01.md` (Software requirements)
+- `00_90_SCH_GEN_hazard-log-schema_v01.json` (Reference schema)
+
+### Validation
+
+```bash
+# Validate a single file
+python validate_nomenclature.py <filename>
+
+# Validate all files in repository
+python validate_nomenclature.py --check-all
+
+# Get help
+python validate_nomenclature.py --help
+```
+
+### Installation of Pre-commit Hook
+
+```bash
+# Install the pre-commit hook to validate files before committing
+cp scripts/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+📖 **Full standard**: [`00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`](00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md)
 
 ---
 
