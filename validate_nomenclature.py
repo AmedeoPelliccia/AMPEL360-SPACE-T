@@ -71,8 +71,23 @@ class NomenclatureValidator:
     # Files to exclude from validation
     EXCLUDED_FILES = {
         'README.md', 'LICENSE', 'EXAMPLES.md', 
-        'STRUCTURE_SUMMARY.md', '.gitignore', '.gitattributes'
+        'STRUCTURE_SUMMARY.md', '.gitignore', '.gitattributes',
+        '00_INDEX_README.md', 'Dependencies.yaml', 
+        'Traceability_Matrix.csv', 'Prompt_to_Artifact_Map.csv',
+        'CAOS_Agent_Config.yaml', 'CAE_Agent_Config.yaml', 
+        'CAD_Agent_Config.yaml', 'CAM_Agent_Config.yaml'
     }
+    
+    # File patterns to exclude from validation
+    EXCLUDED_PATTERNS = [
+        r'.*-xx_.*',  # Template files with -xx pattern
+        r'generate_.*\.py',  # Generator scripts
+        r'validate_.*\.py',  # Validation scripts
+        r'pre-commit',  # Git hooks
+        r'.*\.py[cod]$',  # Python bytecode
+        r'.*_Agent_Config\.(yaml|json|yml)$',  # Agent config files
+        r'.*_Config\.(yaml|json|yml)$',  # Config files
+    ]
     
     # Directories to exclude from validation
     EXCLUDED_DIRS = {
@@ -105,6 +120,11 @@ class NomenclatureValidator:
         # Check if file should be excluded
         if filename in self.EXCLUDED_FILES:
             return ValidationResult(filename, True, [], [])
+        
+        # Check if filename matches any excluded pattern
+        for pattern in self.EXCLUDED_PATTERNS:
+            if re.match(pattern, filename):
+                return ValidationResult(filename, True, [], [])
         
         # Match against primary pattern
         match = self.PRIMARY_PATTERN.match(filename)
@@ -207,6 +227,11 @@ class NomenclatureValidator:
         # Check if filename is excluded
         if path.name in self.EXCLUDED_FILES:
             return True
+        
+        # Check if filename matches any excluded pattern
+        for pattern in self.EXCLUDED_PATTERNS:
+            if re.match(pattern, path.name):
+                return True
         
         return False
 
