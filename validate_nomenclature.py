@@ -86,6 +86,7 @@ class NomenclatureValidator:
         r'.*-xx_.*',  # Template files with -xx pattern
         r'generate_.*\.py',  # Generator scripts
         r'validate_.*\.py',  # Validation scripts
+        r'scaffold\.py',  # Scaffolding script
         r'pre-commit',  # Git hooks
         r'.*\.py[cod]$',  # Python bytecode
         r'.*_Agent_Config\.(yaml|json|yml)$',  # Agent config files
@@ -95,7 +96,8 @@ class NomenclatureValidator:
     # Directories to exclude from validation
     EXCLUDED_DIRS = {
         '.git', '.github', 'node_modules', '__pycache__',
-        '.pytest_cache', '.venv', 'venv', 'dist', 'build'
+        '.pytest_cache', '.venv', 'venv', 'dist', 'build',
+        'templates'  # Template source files for scaffolding
     }
     
     def __init__(self, strict: bool = True):

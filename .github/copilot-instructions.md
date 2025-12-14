@@ -58,6 +58,48 @@ Full standard: `00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`
 
 ---
 
+## Template Usage (MANDATORY)
+
+When creating a new file of a specific `TYPE`, you MUST use the appropriate template:
+
+1. **Look up** the template in `templates/[TYPE].md`
+2. **Read** the template content
+3. **Generate** the new file using the requested `BUCKET`, `VARIANT`, and `DESCRIPTION`
+4. **Fill** the placeholders (`{{...}}`) with context from the user's prompt
+
+### Available Templates
+
+| TYPE | Template | Purpose |
+|------|----------|---------|
+| `PLAN` | `templates/PLAN.md` | Project plans, safety plans, management plans |
+| `STD` | `templates/STD.md` | Standards and specifications |
+| `FHA` | `templates/FHA.md` | Functional Hazard Assessments |
+| `REQ` | `templates/REQ.md` | Requirements specifications |
+
+### Template Placeholders
+
+- `{{DESCRIPTION}}` - Replace with the file's description field
+- `{{TITLE}}` - Replace with human-readable title (capitalize description)
+- `{{VARIANT}}` - Replace with the variant code
+- `{{BUCKET}}` - Replace with the bucket code
+- `{{LC_PHASE}}` - Replace with lifecycle phase (for BUCKET=00)
+- `{{OWNER}}` - Replace with responsible owner/team
+- `{{SYSTEM_NAME}}` - Replace with system name (for FHA)
+
+### Scaffolding Script
+
+Use the scaffolding script to automate file creation:
+```bash
+python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
+```
+
+Example:
+```bash
+python scripts/scaffold.py 00 70 FHA SYS propulsion v01
+```
+
+---
+
 ## Project Context
 
 This is the AMPEL360 Space-T project implementing:

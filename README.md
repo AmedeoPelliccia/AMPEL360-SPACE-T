@@ -60,6 +60,22 @@ chmod +x .git/hooks/pre-commit
 
 📖 **Full standard**: [`00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md`](00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md)
 
+### Document Templates
+
+Use standardized templates to create compliant documentation:
+
+```bash
+# Create a new document from template
+python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
+
+# Examples:
+python scripts/scaffold.py 00 00 PLAN LC02-Q100BL safety-program v01
+python scripts/scaffold.py 00 70 FHA SYS propulsion v01
+python scripts/scaffold.py 00 40 REQ SW software-requirements v01
+```
+
+📚 **Templates**: [`templates/`](templates/) | **Available**: PLAN, STD, FHA, REQ
+
 ---
 
 ## Quick Start
