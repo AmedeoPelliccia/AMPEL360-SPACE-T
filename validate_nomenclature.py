@@ -196,19 +196,25 @@ class NomenclatureValidator:
             else:
                 # Validate bucket-specific subbucket range
                 if bucket in self.BUCKET_SUBBUCKET_RANGES:
-                    # Extract numeric part from stage (e.g., "SB15" -> 15)
-                    sb_num = int(stage[2:])
-                    ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
-                    
-                    # Check if subbucket number is in any of the allowed ranges for this bucket
-                    in_range = any(start <= sb_num <= end for start, end in ranges)
-                    
-                    if not in_range:
-                        # Format ranges for error message
-                        range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
-                        allowed = " or ".join(range_strs)
+                    try:
+                        # Extract numeric part from stage (e.g., "SB15" -> 15)
+                        sb_num = int(stage[2:])
+                        ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
+                        
+                        # Check if subbucket number is in any of the allowed ranges for this bucket
+                        in_range = any(start <= sb_num <= end for start, end in ranges)
+                        
+                        if not in_range:
+                            # Format ranges for error message
+                            range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
+                            allowed = " or ".join(range_strs)
+                            errors.append(
+                                f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be {allowed}, got '{stage}'"
+                            )
+                    except (ValueError, IndexError):
+                        # This should not happen if SB_PATTERN matched, but handle defensively
                         errors.append(
-                            f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be {allowed}, got '{stage}'"
+                            f"Invalid subbucket format '{stage}' for BUCKET={bucket}"
                         )
         
         # Check for redundancy in DESCRIPTION
