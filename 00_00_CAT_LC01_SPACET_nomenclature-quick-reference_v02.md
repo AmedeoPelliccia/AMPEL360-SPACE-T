@@ -107,15 +107,18 @@ python validate_nomenclature.py --check-all
 ## Common Mistakes
 
 1. **Wrong subject category for BUCKET=00**: Must use LC01-LC14, not SB
-2. **Using SB00-SB14**: Only SB15-SB99 are valid
-   - Fix: Add `LC01` through `LC14` to start of VARIANT
-   - Example: `SPACET` → `LC02-SPACET`
+   - Fix: Use LC_OR_SUBBUCKET field with LC01-LC14
+   - Example: `00_00_PLAN_SB15_SPACET_...` → `00_00_PLAN_LC02_SPACET_...`
 
-2. **Wrong delimiters**
+2. **Using SB00-SB14 for BUCKET≠00**: Only SB15-SB99 are valid
+   - Fix: Use SB15 or higher in LC_OR_SUBBUCKET field
+   - Example: `00_70_FHA_SB00_SYS_...` → `00_70_FHA_SB15_SYS_...`
+
+3. **Wrong delimiters**
    - Fix: Use `_` between fields, `-` inside fields only
    - Example: `00-70-FHA` → `00_70_FHA`
 
-3. **Wrong version format**
+4. **Wrong version format**
    - Fix: Always use 2 digits after `v`
    - Example: `v1` → `v01`
 
