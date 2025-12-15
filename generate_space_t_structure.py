@@ -33,7 +33,7 @@ from datetime import datetime
 # Updated: 2025-12-15
 # Source: AMPEL360 Space-T Master Table with stakeholder mapping
 
-# T-TECHNOLOGY axis systems (main onboard systems)
+# T-TECHNOLOGY axis systems (ATA 20-79: main onboard systems)
 SYSTEMS = {
     "20": ("STANDARD_PRACTICES_AIRFRAME", "Standard Practices - Airframe"),
     "21": ("AIR_CONDITIONING_ENVIRONMENTAL_CONTROL", "Air Conditioning / Environmental Control"),
@@ -147,9 +147,9 @@ N_SYSTEMS = {
     "99": ("MASTER_REGISTERS_GOLDEN_RECORDS_AND_REFERENCE_DATASETS", "Master Registers (Golden Records) & Reference Datasets"),
 }
 
-# SIMTEST axis systems (simulation/test governance)
+# SIMTEST axis systems (ATA 100-116: simulation/test governance)
 SIMTEST_SYSTEMS = {
-    "100": ("SIM_TEST_GOVERNANCE_PLANS_ENVIRONMENTS_QUALITY", "Sim/Test Governance (Plans, Environments, Quality)"),
+    "100": ("SIM_TEST_GOVERNANCE_PLANS_ENVIRONMENTS_QUALITY", "Simulation/Test Governance (Plans, Environments, Quality)"),
     "101": ("DIGITAL_TWIN_CONFIGURATION_AND_SIM_MODEL_CATALOG", "Digital Twin Configuration & Sim Model Catalog"),
     "102": ("SCENARIO_LIBRARIES_MISSION_OFF_NOMINAL_EMERGENCY", "Scenario Libraries (Mission, Off-Nominal, Emergency)"),
     "103": ("SIL_SOFTWARE_IN_THE_LOOP_AUTOMATION", "SIL (Software-in-the-Loop) Automation"),
@@ -158,17 +158,17 @@ SIMTEST_SYSTEMS = {
     "106": ("TEST_PROCEDURES_TEST_CASES_ACCEPTANCE_CRITERIA", "Test Procedures / Test Cases / Acceptance Criteria"),
     "107": ("TEST_DATA_INPUT_DECKS_STIMULI", "Test Data / Input Decks / Stimuli"),
     "108": ("TEST_RESULTS_REPORTING_ANOMALY_MANAGEMENT", "Test Results / Reporting / Anomaly Management"),
-    "109": ("VV_EVIDENCE_PACKS_LINKED_TO_TRACEABILITY", "VV Evidence Packs (Linked to Traceability)"),
+    "109": ("VV_EVIDENCE_PACKS_LINKED_TO_TRACEABILITY", "V&V (Verification and Validation) Evidence Packs (Linked to Traceability)"),
     "110": ("QUALIFICATION_ENVIRONMENTAL_TESTING_SPACE_T", "Qualification / Environmental Testing (Space-T)"),
     "111": ("SYSTEM_INTEGRATION_TESTING_END_TO_END", "System Integration Testing (End-to-End)"),
     "112": ("MISSION_FLIGHT_TESTING_OPERATIONAL_DEMOS", "Mission/Flight Testing (Operational Demos)"),
     "113": ("UNCERTAINTY_QUANTIFICATION_UQ_MONTE_CARLO_SENSITIVITY", "Uncertainty Quantification (UQ) / Monte Carlo / Sensitivity"),
     "114": ("AI_ML_VALIDATION_SUITES_AND_MONITORING_TESTS", "AI/ML Validation Suites & Monitoring Tests"),
     "115": ("CERTIFICATION_TESTS_SW_HW_ECSS_DO_AND_COMPLIANCE_REPORTS", "Certification Tests (SW/HW/ECSS-DO) & Compliance Reports"),
-    "116": ("SIM_TEST_ARCHIVES_AND_BASELINES_FROZEN_CAMPAIGNS", "Sim/Test Archives & Baselines (Frozen Campaigns)"),
+    "116": ("SIM_TEST_ARCHIVES_AND_BASELINES_FROZEN_CAMPAIGNS", "Simulation/Test Archives & Baselines (Frozen Campaigns)"),
 }
 
-# NOT ASSIGNED / RESERVED systems (reserved for future Space-T tailoring)
+# NOT ASSIGNED / RESERVED systems (ATA 13-17, 19: for future Space-T tailoring and allocation)
 RESERVED_SYSTEMS = {
     "13": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
     "14": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
@@ -575,8 +575,8 @@ def generate_opt_in_structure(root_path: Path) -> None:
         ("T-TECHNOLOGY_ONBOARD_SYSTEMS", "All ATA chapters reside here"),
         ("I-INFRASTRUCTURES", "Ground systems, launch, H₂ value chains, facilities"),
         ("N-NEURAL_NETWORKS_DPP_TRACEABILITY", "AI ops, Digital Product Passport, neural governance"),
-        ("SIMTEST", "Simulation and test governance, VV evidence, qualification"),
-        ("RESERVED", "Reserved ATA codes for future Space-T tailoring and allocation"),
+        ("S-SIMTEST", "Simulation and test governance, V&V evidence, qualification"),
+        ("R-RESERVED", "Reserved ATA codes for future Space-T tailoring and allocation"),
     ]
     
     for axis_name, axis_desc in axes:
@@ -682,15 +682,15 @@ def main():
     for code, (name, desc) in N_SYSTEMS.items():
         generate_system(neural_path, code, name, desc)
     
-    # SIMTEST axis
-    simtest_path = root_path / "SIMTEST"
-    print("\n  SIMTEST:")
+    # S-SIMTEST axis
+    simtest_path = root_path / "S-SIMTEST"
+    print("\n  S-SIMTEST:")
     for code, (name, desc) in SIMTEST_SYSTEMS.items():
         generate_system(simtest_path, code, name, desc)
     
-    # RESERVED axis (not assigned / reserved for future allocation)
-    reserved_path = root_path / "RESERVED"
-    print("\n  RESERVED:")
+    # R-RESERVED axis (not assigned / reserved for future allocation)
+    reserved_path = root_path / "R-RESERVED"
+    print("\n  R-RESERVED:")
     for code, (name, desc) in RESERVED_SYSTEMS.items():
         generate_system(reserved_path, code, name, desc)
     
@@ -705,8 +705,8 @@ def main():
     print(f"P-PROGRAM chapters: {len(P_SYSTEMS)}")
     print(f"I-INFRASTRUCTURES chapters: {len(I_SYSTEMS)}")
     print(f"N-NEURAL chapters: {len(N_SYSTEMS)}")
-    print(f"SIMTEST chapters: {len(SIMTEST_SYSTEMS)}")
-    print(f"RESERVED chapters: {len(RESERVED_SYSTEMS)}")
+    print(f"S-SIMTEST chapters: {len(SIMTEST_SYSTEMS)}")
+    print(f"R-RESERVED chapters: {len(RESERVED_SYSTEMS)}")
     print(f"Total chapters: {total_systems}")
     print(f"\nNext steps:")
     print("  1. Review generated structure")
