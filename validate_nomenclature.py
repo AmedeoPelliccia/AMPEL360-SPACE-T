@@ -105,6 +105,7 @@ class NomenclatureValidator:
         'CAOS_Agent_Config.yaml', 'CAE_Agent_Config.yaml', 
         'CAD_Agent_Config.yaml', 'CAM_Agent_Config.yaml',
         'IMPLEMENTATION_SUMMARY.md', 'REVIEW_NOTES.md',
+        'NOMENCLATURE_V3_AUDIT_REPORT.md',
         '.gitkeep'
     }
     
