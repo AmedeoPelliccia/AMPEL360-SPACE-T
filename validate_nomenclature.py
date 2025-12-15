@@ -103,7 +103,9 @@ class NomenclatureValidator:
         '00_INDEX_README.md', 'Dependencies.yaml', 
         'Traceability_Matrix.csv', 'Prompt_to_Artifact_Map.csv',
         'CAOS_Agent_Config.yaml', 'CAE_Agent_Config.yaml', 
-        'CAD_Agent_Config.yaml', 'CAM_Agent_Config.yaml'
+        'CAD_Agent_Config.yaml', 'CAM_Agent_Config.yaml',
+        'IMPLEMENTATION_SUMMARY.md', 'REVIEW_NOTES.md',
+        '.gitkeep'
     }
     
     # File patterns to exclude from validation
