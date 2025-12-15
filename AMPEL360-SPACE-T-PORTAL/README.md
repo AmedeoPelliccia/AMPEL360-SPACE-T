@@ -1,12 +1,26 @@
 # AMPEL360-SPACE-T-PORTAL
 
-**The All-in-One Digital Environment for Space-T Spacecraft Program Activities**
+**CAXS — Computer-Aided Cross Sustainment Environment**
 
 ---
 
 ## Overview
 
-The **AMPEL360-SPACE-T-PORTAL** is a single, navigable workspace providing a unified digital environment for the Space-T spacecraft program. It integrates stakeholder collaboration, uncertainty resolution, governed outputs, and controlled publication channels into one comprehensive GitHub-based structure.
+The **AMPEL360-SPACE-T-PORTAL** is the first **CAXS (Computer-Aided Cross Sustainment)** environment: a GitHub-based, all-in-one digital workspace for cross-ATA program follow-up and controlled publications (Knots, tasklists, evidence, releases) across the Space-T lifecycle.
+
+It provides a single, navigable workspace integrating stakeholder collaboration, uncertainty resolution, governed outputs, and controlled publication channels into one comprehensive GitHub-based structure.
+
+### Terminology
+
+**CAXS — Computer-Aided Cross Sustainment**  
+Technical term for this integrated digital environment combining:
+- **Cross-ATA coordination** — Multi-discipline program follow-up
+- **Traceability** — Evidence chains and provenance tracking
+- **Evidence packaging** — Structured compliance artifacts
+- **Controlled publications** — RBAC-governed output channels
+- **Lifecycle sustainment** — From requirements through operations
+
+*Also known as:* **CA360º** (Computer-Aided Everything) — equivalent branding term emphasizing the comprehensive, 360-degree coverage across all program activities.
 
 ### Key Features
 
