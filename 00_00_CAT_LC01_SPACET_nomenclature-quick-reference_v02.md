@@ -41,18 +41,18 @@
 
 ## BUCKET Values
 
-| Code | Domain | Subject Category |
-|------|--------|------------------|
-| `00` | Lifecycle | Uses LC01-LC14 |
-| `10` | Operations | Uses SB15-SB99 |
-| `20` | Primary Subsystem | Uses SB15-SB99 |
-| `30` | Circularity | Uses SB15-SB99 |
-| `40` | Software | Uses SB15-SB99 |
-| `50` | Structures | Uses SB15-SB99 |
-| `60` | Storages | Uses SB15-SB99 |
-| `70` | Propulsion | Uses SB15-SB99 |
-| `80` | Energy | Uses SB15-SB99 |
-| `90` | Tables/Schemas/Diagrams/Reference | Uses SB15-SB99 |
+| Code | Domain | Allowed Subbuckets |
+|------|--------|-------------------|
+| `00` | Lifecycle | LC01-LC14 |
+| `10` | Operations | SB15-SB19, SB80-SB85 |
+| `20` | Primary Subsystem | SB20-SB29 |
+| `30` | Circularity | SB30-SB39 |
+| `40` | Software | SB40-SB49 |
+| `50` | Structures | SB50-SB59 |
+| `60` | Storages | SB60-SB69 |
+| `70` | Propulsion | SB70-SB79 |
+| `80` | Energy | SB86-SB89 |
+| `90` | Tables/Schemas/Diagrams/Reference | SB90-SB99 |
 
 ## Approved TYPE Codes
 
@@ -84,24 +84,28 @@ python validate_nomenclature.py --check-all
 
 ```
 00_00_PLAN_LC02_SPACET_safety-program_v01.md
-00_70_FHA_SB15_SYS_propulsion_v01.md
-00_40_REQ_SB15_SW_software-safety-reqs_v01.md
-00_20_TRC_SB15_SPACET_traceability-matrix_v01.xlsx
-00_90_SCH_SB15_GEN_hazard-log-schema_v01.json
-24_40_REQ_SB20_SW_electrical-power-software_v01.md
+00_70_FHA_SB70_SYS_propulsion_v01.md
+00_40_REQ_SB40_SW_software-safety-reqs_v01.md
+00_20_TRC_SB20_SPACET_traceability-matrix_v01.xlsx
+00_90_SCH_SB90_GEN_hazard-log-schema_v01.json
+24_40_REQ_SB40_SW_electrical-power-software_v01.md
+00_10_PLAN_SB15_GEN_operations-plan_v01.md
+00_80_FHA_SB86_SYS_energy-system_v01.md
 ```
 
 ### ❌ Invalid
 
 ```
 00_00_PLAN_SB15_SPACET_safety-program_v01.md  # BUCKET=00 requires LC, not SB
-00_70_FHA_SB00_SYS_propulsion_v01.md          # SB00 not allowed (must be SB15+)
+00_70_FHA_SB00_SYS_propulsion_v01.md          # SB00 not allowed (reserved)
+00_70_FHA_SB40_SYS_propulsion_v01.md          # BUCKET=70 requires SB70-SB79
 00_70_FHA_LC01_SYS_propulsion_v01.md          # BUCKET≠00 requires SB, not LC
-00-70-FHA-SB15-SYS-propulsion-v01.md          # Wrong delimiter
-00_70_FHA_SB15_SYS_propulsion_v1.md           # VERSION must be vNN
-00_99_LST_SB15_GEN_glossary_v01.md            # Invalid BUCKET
-00_70_FHA_SB15_SYS_PropulsionFHA_v01.md       # Uppercase in DESCRIPTION
-00_70_fha_SB15_SYS_propulsion_v01.md          # Lowercase TYPE
+00_40_REQ_SB70_SW_software_v01.md             # BUCKET=40 requires SB40-SB49
+00-70-FHA-SB70-SYS-propulsion-v01.md          # Wrong delimiter
+00_70_FHA_SB70_SYS_propulsion_v1.md           # VERSION must be vNN
+00_99_LST_SB90_GEN_glossary_v01.md            # Invalid BUCKET
+00_70_FHA_SB70_SYS_PropulsionFHA_v01.md       # Uppercase in DESCRIPTION
+00_70_fha_SB70_SYS_propulsion_v01.md          # Lowercase TYPE
 ```
 
 ## Common Mistakes
@@ -110,19 +114,24 @@ python validate_nomenclature.py --check-all
    - Fix: Use LC_OR_SUBBUCKET field with LC01-LC14
    - Example: `00_00_PLAN_SB15_SPACET_...` → `00_00_PLAN_LC02_SPACET_...`
 
-2. **Using SB00-SB14 for BUCKET≠00**: Only SB15-SB99 are valid
-   - Fix: Use SB15 or higher in LC_OR_SUBBUCKET field
-   - Example: `00_70_FHA_SB00_SYS_...` → `00_70_FHA_SB15_SYS_...`
+2. **Using wrong subbucket range for bucket**: Each bucket has specific ranges
+   - Fix: Use the correct subbucket range for your bucket
+   - Example: `00_70_FHA_SB40_SYS_...` → `00_70_FHA_SB70_SYS_...`
+   - Example: `00_40_REQ_SB20_SW_...` → `00_40_REQ_SB40_SW_...`
 
-3. **Wrong delimiters**
+3. **Using SB00-SB14**: These are reserved and not allowed
+   - Fix: Use bucket-specific ranges starting from SB15
+   - Example: `00_70_FHA_SB00_SYS_...` → `00_70_FHA_SB70_SYS_...`
+
+4. **Wrong delimiters**
    - Fix: Use `_` between fields, `-` inside fields only
    - Example: `00-70-FHA` → `00_70_FHA`
 
-4. **Wrong version format**
+5. **Wrong version format**
    - Fix: Always use 2 digits after `v`
    - Example: `v1` → `v01`
 
-4. **Uppercase in DESCRIPTION**
+6. **Uppercase in DESCRIPTION**
    - Fix: Use lowercase-kebab-case only
    - Example: `SafetyProgram` → `safety-program`
 
