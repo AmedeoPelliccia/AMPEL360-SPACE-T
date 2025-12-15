@@ -21,13 +21,13 @@ NKU progress is credited only when each partition is closed with **evidence + ap
 
 ## 1) Global Navigation (GitHub-navigable)
 
-- Knot overview: [K06 overview](../../00_00_IDX_LC01_SPACET_k06-data-governance-ssot-schemas-identifiers_v01.md)  
+- Knot overview: [K06 overview](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-data-governance-ssot-schemas-identifiers_v01.md)  
   _Comment:_ Canonical K06 scope, impacted ATAs, closure criteria, and shared definitions.
 
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md)  
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-entrypoints_v01.md)  
   _Comment:_ Global entry point; use it to navigate stakeholders and the knot portfolio.
 
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_00_IDX_LC01_SPACET_stakeholder-ai-entrypoint_v01.md)  
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-ai-entrypoint_v01.md)  
   _Comment:_ AI/ML execution lane; automation hooks and governance helpers.
 
 - ATA 99 home (Master Registers): [AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA 99](../../../../../../AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_99-MASTER-REGISTERS/)  
@@ -59,43 +59,43 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [01_WBS/](01_WBS/)  
   _Comment:_ Converts uncertainty into executable work packages (tasks, owners, inputs/outputs).
 
-- WBS index: [K06 ATA 99 Work Breakdown](01_WBS/99_00_IDX_LC01_SPACET_k06-ata-99-workbreakdown_v01.md)  
+- WBS index: [K06 ATA 99 Work Breakdown](01_WBS/99_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-99-workbreakdown_v01.md)  
   _Closes:_ “We don’t know what to do next / who owns it.”  
   _Done when:_ T001–T010 exist with owners, acceptance criteria, and artifact links.
 
-- RACI (CSV): [RACI](01_WBS/99_00_MAT_LC06_SPACET_k06-ata-99-raci_v01.csv)  
+- RACI (CSV): [RACI](01_WBS/99_00_MAT_LC06_AMPEL360_SPACET_PLUS_k06-ata-99-raci_v01.csv)  
   _Closes:_ Responsibility ambiguity (execution vs approval).  
   _Done when:_ CM approval path is explicit and accepted.
 
 **Task stubs (minimum set — expanded for master register governance):**
-- T001: [Register inventory SSOT](01_WBS/99_00_ACT_LC06_SPACET_k06-t001-register-inventory-ssot_v01.md)  
+- T001: [Register inventory SSOT](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t001-register-inventory-ssot_v01.md)  
   _Comment:_ Defines the master inventory of registers and their authoritative paths.
 
-- T002: [Namespace & ownership boundaries](01_WBS/99_00_ACT_LC06_SPACET_k06-t002-namespace-ownership-boundaries_v01.md)  
+- T002: [Namespace & ownership boundaries](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t002-namespace-ownership-boundaries_v01.md)  
   _Comment:_ Defines who owns which ID spaces and how delegation works.
 
-- T003: [Deduplication policy](01_WBS/99_00_ACT_LC06_SPACET_k06-t003-deduplication-policy_v01.md)  
+- T003: [Deduplication policy](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t003-deduplication-policy_v01.md)  
   _Comment:_ Detection + resolution workflow; canonical tie-breakers; required decision records.
 
-- T004: [Global identifier coordination](01_WBS/99_00_ACT_LC06_SPACET_k06-t004-global-identifier-coordination_v01.md)  
+- T004: [Global identifier coordination](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t004-global-identifier-coordination_v01.md)  
   _Comment:_ Ensures schema IDs, trace IDs, DPP IDs, BOM IDs do not conflict.
 
-- T005: [Cross-registry link semantics](01_WBS/99_00_ACT_LC06_SPACET_k06-t005-cross-registry-link-semantics_v01.md)  
+- T005: [Cross-registry link semantics](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t005-cross-registry-link-semantics_v01.md)  
   _Comment:_ How registries reference each other (fields, formats, required metadata).
 
-- T006: [Drift monitoring design](01_WBS/99_00_ACT_LC06_SPACET_k06-t006-drift-monitoring-design_v01.md)  
+- T006: [Drift monitoring design](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t006-drift-monitoring-design_v01.md)  
   _Comment:_ Defines checks for divergence, stale references, and missing registry entries.
 
-- T007: [CI validation gates](01_WBS/99_00_ACT_LC06_SPACET_k06-t007-ci-validation-gates_v01.md)  
+- T007: [CI validation gates](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t007-ci-validation-gates_v01.md)  
   _Comment:_ Blocks new duplicates and missing registry entries; enforces link integrity.
 
-- T008: [Registry consolidation procedure](01_WBS/99_00_ACT_LC06_SPACET_k06-t008-registry-consolidation-procedure_v01.md)  
+- T008: [Registry consolidation procedure](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t008-registry-consolidation-procedure_v01.md)  
   _Comment:_ How to merge parallel registries into the master without breaking consumers.
 
-- T009: [Baseline master registers set](01_WBS/99_00_ACT_LC06_SPACET_k06-t009-baseline-master-registers-set_v01.md)  
+- T009: [Baseline master registers set](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t009-baseline-master-registers-set_v01.md)  
   _Comment:_ Frozen master register baseline for a milestone release.
 
-- T010: [Verification procedure](01_WBS/99_00_ACT_LC06_SPACET_k06-t010-verification-procedure_v01.md)  
+- T010: [Verification procedure](01_WBS/99_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t010-verification-procedure_v01.md)  
   _Comment:_ How to verify master registers integrity, dedup, and drift controls.
 
 ---
@@ -104,16 +104,16 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [02_IDS_REGISTRY/](02_IDS_REGISTRY/)  
   _Comment:_ Establishes the authoritative master register set and the rules that bind them.
 
-- Standard (STD): [Master register governance](02_IDS_REGISTRY/99_00_STD_LC03_SPACET_master-register-governance_v01.md)  
+- Standard (STD): [Master register governance](02_IDS_REGISTRY/99_00_STD_LC03_AMPEL360_SPACET_PLUS_master-register-governance_v01.md)  
   _Done when:_ Governance is approved and referenced by CI and all register owners.
 
-- Registry (TAB/CSV): [Master register inventory](02_IDS_REGISTRY/99_00_TAB_LC03_SPACET_master-register-inventory_v01.csv)  
+- Registry (TAB/CSV): [Master register inventory](02_IDS_REGISTRY/99_00_TAB_LC03_AMPEL360_SPACET_PLUS_master-register-inventory_v01.csv)  
   _Done when:_ Inventory is complete, authoritative, and includes owner + scope + SSOT path for each register.
 
-- Registry (TAB/CSV): [Global namespace registry](02_IDS_REGISTRY/99_00_TAB_LC03_SPACET_global-namespace-registry_v01.csv)  
+- Registry (TAB/CSV): [Global namespace registry](02_IDS_REGISTRY/99_00_TAB_LC03_AMPEL360_SPACET_PLUS_global-namespace-registry_v01.csv)  
   _Done when:_ All namespaces are declared and ownership boundaries are explicit.
 
-- Change log (LOG): [Registry change log](02_IDS_REGISTRY/99_00_LOG_LC03_SPACET_registry-change-log_v01.md)  
+- Change log (LOG): [Registry change log](02_IDS_REGISTRY/99_00_LOG_LC03_AMPEL360_SPACET_PLUS_registry-change-log_v01.md)  
   _Done when:_ Every change references a decision (P7).
 
 ---
@@ -122,13 +122,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [03_SCHEMA/](03_SCHEMA/)  
   _Comment:_ Defines machine-readable structures for the master registers and link semantics.
 
-- Schema (SCH/JSON): [Master register inventory schema](03_SCHEMA/99_00_SCH_LC03_SPACET_master-register-inventory-schema_v01.json)  
+- Schema (SCH/JSON): [Master register inventory schema](03_SCHEMA/99_00_SCH_LC03_AMPEL360_SPACET_PLUS_master-register-inventory-schema_v01.json)  
   _Done when:_ Validates inventory structure and is used by CI.
 
-- Schema (SCH/JSON): [Cross-registry link schema](03_SCHEMA/99_00_SCH_LC03_SPACET_cross-registry-link-schema_v01.json)  
+- Schema (SCH/JSON): [Cross-registry link schema](03_SCHEMA/99_00_SCH_LC03_AMPEL360_SPACET_PLUS_cross-registry-link-schema_v01.json)  
   _Done when:_ Validates how registries reference each other.
 
-- Standard (STD): [Schema versioning policy](03_SCHEMA/99_00_STD_LC03_SPACET_schema-versioning-policy_v01.md)  
+- Standard (STD): [Schema versioning policy](03_SCHEMA/99_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-versioning-policy_v01.md)  
   _Done when:_ Compatibility/breaking-change rules exist and are enforced.
 
 ---
@@ -137,16 +137,16 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [04_EXPORTS/](04_EXPORTS/)  
   _Comment:_ Deterministic exports of the master inventory and drift reports for consumers and audits.
 
-- Baseline export (TAB/CSV): [Baseline master register inventory export](04_EXPORTS/99_00_TAB_LC04_SPACET_baseline-master-register-inventory-export_v01.csv)  
+- Baseline export (TAB/CSV): [Baseline master register inventory export](04_EXPORTS/99_00_TAB_LC04_AMPEL360_SPACET_PLUS_baseline-master-register-inventory-export_v01.csv)  
   _Done when:_ Export is reproducible, validated, and milestone-referenced.
 
-- Drift report (RPT): [Drift report](04_EXPORTS/99_00_RPT_LC04_SPACET_drift-report_v01.md)  
+- Drift report (RPT): [Drift report](04_EXPORTS/99_00_RPT_LC04_AMPEL360_SPACET_PLUS_drift-report_v01.md)  
   _Done when:_ Drift signals are generated deterministically and linked to remediation actions.
 
-- Manifest (RPT): [Export manifest](04_EXPORTS/99_00_RPT_LC04_SPACET_export-manifest_v01.md)  
+- Manifest (RPT): [Export manifest](04_EXPORTS/99_00_RPT_LC04_AMPEL360_SPACET_PLUS_export-manifest_v01.md)  
   _Done when:_ Inputs/tools/versions are recorded; rebuild is deterministic.
 
-- Diagram (DIA): [Register topology map](04_EXPORTS/99_00_DIA_LC04_SPACET_register-topology-map_v01.md)  
+- Diagram (DIA): [Register topology map](04_EXPORTS/99_00_DIA_LC04_AMPEL360_SPACET_PLUS_register-topology-map_v01.md)  
   _Done when:_ Diagram references match the inventory and namespaces.
 
 ---
@@ -155,13 +155,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [05_CI_GATES/](05_CI_GATES/)  
   _Comment:_ Blocks merges that introduce duplicates, missing registrations, or broken cross-links.
 
-- Requirements (STD): [CI validation requirements](05_CI_GATES/99_00_STD_LC05_SPACET_ci-validation-requirements_v01.md)  
+- Requirements (STD): [CI validation requirements](05_CI_GATES/99_00_STD_LC05_AMPEL360_SPACET_PLUS_ci-validation-requirements_v01.md)  
   _Done when:_ Rules map to checks; failures are actionable.
 
-- Checklist (LOG): [CI checklist](05_CI_GATES/99_00_LOG_LC05_SPACET_ci-checklist_v01.md)  
+- Checklist (LOG): [CI checklist](05_CI_GATES/99_00_LOG_LC05_AMPEL360_SPACET_PLUS_ci-checklist_v01.md)  
   _Done when:_ Checklist matches CI outputs and reviewer expectations.
 
-- Sample run (RPT): [CI validation sample run](05_CI_GATES/99_00_RPT_LC05_SPACET_ci-validation-sample-run_v01.md)  
+- Sample run (RPT): [CI validation sample run](05_CI_GATES/99_00_RPT_LC05_AMPEL360_SPACET_PLUS_ci-validation-sample-run_v01.md)  
   _Done when:_ Demonstrates pass/fail cases (duplicate ID, missing inventory entry, broken cross-link).
 
 ---
@@ -170,13 +170,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [06_EVIDENCE/](06_EVIDENCE/)  
   _Comment:_ NKU credit requires reproducible evidence and stable links for dedup decisions and drift resolution.
 
-- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/99_00_IDX_LC06_SPACET_k06-ata-99-evidence-pack_v01.md)  
+- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/99_00_IDX_LC06_AMPEL360_SPACET_PLUS_k06-ata-99-evidence-pack_v01.md)  
   _Done when:_ All required evidence is linked and current.
 
-- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/99_00_TRC_LC06_SPACET_k06-ata-99-evidence-links_v01.csv)  
+- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/99_00_TRC_LC06_AMPEL360_SPACET_PLUS_k06-ata-99-evidence-links_v01.csv)  
   _Done when:_ Each claim has evidence links and status (OK/STALE/MISSING).
 
-- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/99_00_TAB_LC06_SPACET_k06-ata-99-nku-ledger_v01.csv)  
+- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/99_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-99-nku-ledger_v01.csv)  
   _Done when:_ Partition scores are updated and backed by evidence + decision.
 
 ---
@@ -185,10 +185,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [07_DECISIONS/](07_DECISIONS/)  
   _Comment:_ Converts evidence into approved baseline outcomes for master register governance, dedup outcomes, and namespace boundaries.
 
-- Decision minutes (MIN): [Decision minutes](07_DECISIONS/99_00_MIN_LC07_SPACET_k06-ata-99-decision-minutes_v01.md)  
+- Decision minutes (MIN): [Decision minutes](07_DECISIONS/99_00_MIN_LC07_AMPEL360_SPACET_PLUS_k06-ata-99-decision-minutes_v01.md)  
   _Done when:_ Decision, rationale, dissent/risks are recorded (including dedup tie-breakers).
 
-- Approvals log (LOG): [Approvals log](07_DECISIONS/99_00_LOG_LC07_SPACET_k06-ata-99-approvals_v01.md)  
+- Approvals log (LOG): [Approvals log](07_DECISIONS/99_00_LOG_LC07_AMPEL360_SPACET_PLUS_k06-ata-99-approvals_v01.md)  
   _Done when:_ CM approval + register authority sign-offs are referenced.
 
 ---
@@ -197,10 +197,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [08_TRACEABILITY/](08_TRACEABILITY/)  
   _Comment:_ Ensures register owners and consumers adopt the master inventory and comply with dedup/link rules.
 
-- Consumers (TRC/CSV): [Register owners & consumers list](08_TRACEABILITY/99_00_TRC_LC08_SPACET_k06-ata-99-consumers_v01.csv)  
+- Consumers (TRC/CSV): [Register owners & consumers list](08_TRACEABILITY/99_00_TRC_LC08_AMPEL360_SPACET_PLUS_k06-ata-99-consumers_v01.csv)  
   _Done when:_ Owners/consumers are listed with responsibilities and verification expectations.
 
-- Adoption status (RPT): [Adoption status](08_TRACEABILITY/99_00_RPT_LC08_SPACET_k06-ata-99-adoption-status_v01.md)  
+- Adoption status (RPT): [Adoption status](08_TRACEABILITY/99_00_RPT_LC08_AMPEL360_SPACET_PLUS_k06-ata-99-adoption-status_v01.md)  
   _Done when:_ Each register owner has compliance status + remediation plan if blocked.
 
 ---
@@ -237,7 +237,7 @@ ATA 99 coordinates the K06 “spine.” These couplings are mandatory.
 
 ### 5.1 NKU Control Model
 **Primary metric:** NKU Progress Score for K06/ATA99  
-**Source of truth:** [NKU ledger](06_EVIDENCE/99_00_TAB_LC06_SPACET_k06-ata-99-nku-ledger_v01.csv)
+**Source of truth:** [NKU ledger](06_EVIDENCE/99_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-99-nku-ledger_v01.csv)
 
 **Scoring:**
 - `score ∈ {0, 0.5, 1.0}`

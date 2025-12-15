@@ -28,15 +28,15 @@ ATA 00 governance authority remains with **CM**, but **AI** provides critical au
 ## Links (GitHub-navigable)
 
 - Knot overview (within STK_AI):  
-  [K06 overview](../../00_00_IDX_LC01_SPACET_k06-data-governance-ssot-schemas-identifiers_v01.md)  
+  [K06 overview](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-data-governance-ssot-schemas-identifiers_v01.md)  
   _Comment:_ Canonical K06 scope, impacted ATAs, closure criteria, and shared definitions.
 
 - Portal index:  
-  [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md)  
+  [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-entrypoints_v01.md)  
   _Comment:_ Single portal navigation for all stakeholders.
 
 - Stakeholder entrypoint (AI):  
-  [STK_AI entrypoint](../../../../00_00_IDX_LC01_SPACET_stakeholder-ai-entrypoint_v01.md)  
+  [STK_AI entrypoint](../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-ai-entrypoint_v01.md)  
   _Comment:_ AI/ML execution lane for K06 automation and validation support.
 
 - CM Authority Reference:  

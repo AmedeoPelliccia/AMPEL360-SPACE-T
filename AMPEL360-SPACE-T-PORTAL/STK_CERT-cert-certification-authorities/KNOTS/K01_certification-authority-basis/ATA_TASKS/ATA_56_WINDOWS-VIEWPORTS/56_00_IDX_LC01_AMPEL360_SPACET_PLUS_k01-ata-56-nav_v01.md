@@ -9,7 +9,7 @@ status: TEMPLATE
 
 ## Quick Links
 
-- [Task List](../56_00_IDX_LC01_SPACET_k01-ata-56-tasklist_v01.md)
+- [Task List](../56_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-ata-56-tasklist_v01.md)
 - [Tasks](./TASKS/)
 - [Decisions](./DECISIONS/)
 - [Evidence](./EVIDENCE/)
@@ -17,5 +17,5 @@ status: TEMPLATE
 
 ## Parent
 
-- [K01 Master Index](../../00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md)
+- [K01 Master Index](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-authority-model-certification-basis_v01.md)
 - [All ATA Tasks](../)

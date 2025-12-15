@@ -12,9 +12,9 @@ lc_or_subbucket: "LC01"
 ## ATA 06 — Tasklist (Dimensions and Areas)
 
 ## Links (GitHub-navigable)
-- Knot overview: [K06 overview](../../00_00_IDX_LC01_SPACET_k06-data-governance-ssot-schemas-identifiers_v01.md)
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md)
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_00_IDX_LC01_SPACET_stakeholder-ai-entrypoint_v01.md)
+- Knot overview: [K06 overview](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-data-governance-ssot-schemas-identifiers_v01.md)
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-entrypoints_v01.md)
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_stakeholder-ai-entrypoint_v01.md)
 - ATA 06 home (P-PROGRAM): [AMPEL360_SPACE-T/P-PROGRAM/ATA 06](../../../../../../AMPEL360_SPACE-T/P-PROGRAM/ATA_06-DIMENSIONS_AND_AREAS/)
   - If your folder name differs, update only this link target.
 

@@ -54,49 +54,49 @@ K06 exists because the program currently lacks a single, governed, machine-enfor
 Each link below is the **ATA-specific K06 tasklist index**. Treat them as **execution partitions**: K06 is not closed unless each critical ATA reaches closure thresholds.
 
 ### P-Program / Governance
-- [ATA 00 — General (program SSOT, nomenclature, CM, finance, trade studies)](./ATA_TASKS/ATA_00/00_00_IDX_LC01_SPACET_k06-ata-00-tasklist_v01.md)  
+- [ATA 00 — General (program SSOT, nomenclature, CM, finance, trade studies)](./ATA_TASKS/ATA_00/00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-00-tasklist_v01.md)  
   _Comment:_ Defines the **program-wide governance spine** and decision rights. K06 cannot close without ATA 00 baseline rules.
 
-- [ATA 06 — Dimensions & Areas (zone/area conventions as identifiers)](./ATA_TASKS/ATA_06/06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md)  
+- [ATA 06 — Dimensions & Areas (zone/area conventions as identifiers)](./ATA_TASKS/ATA_06/06_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-06-tasklist_v01.md)  
   _Comment:_ Prevents ambiguity in **geometric/zone identifiers** used across ops, maintenance, and digital twins.
 
 ### Technology consumers (schema-adopters)
-- [ATA 31](./ATA_TASKS/ATA_31/31_00_IDX_LC01_SPACET_k06-ata-31-tasklist_v01.md)  
+- [ATA 31](./ATA_TASKS/ATA_31/31_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-31-tasklist_v01.md)  
   _Comment:_ Primary consumer of governed schemas (interfaces/telemetry). Ensure no “shadow schemas”.
 
-- [ATA 45](./ATA_TASKS/ATA_45/45_00_IDX_LC01_SPACET_k06-ata-45-tasklist_v01.md)  
+- [ATA 45](./ATA_TASKS/ATA_45/45_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-45-tasklist_v01.md)  
   _Comment:_ High-coupling integration domain; schema governance must be enforced at interface level.
 
-- [ATA 46](./ATA_TASKS/ATA_46/46_00_IDX_LC01_SPACET_k06-ata-46-tasklist_v01.md)  
+- [ATA 46](./ATA_TASKS/ATA_46/46_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-46-tasklist_v01.md)  
   _Comment:_ Data exchange + configuration integration; requires strict ID and trace alignment.
 
 ### Neural / Data Spine (90+)
-- [ATA 90 — Neural Networks / wiring / schema spine](./ATA_TASKS/ATA_90/90_00_IDX_LC01_SPACET_k06-ata-90-tasklist_v01.md)  
+- [ATA 90 — Neural Networks / wiring / schema spine](./ATA_TASKS/ATA_90/90_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-90-tasklist_v01.md)  
   _Comment:_ Meta-registry, provenance expectations, and TEKNIA gating anchors.
 
-- [ATA 91 — Schemas & Canonical Data Models](./ATA_TASKS/ATA_91/91_00_IDX_LC01_SPACET_k06-ata-91-tasklist_v01.md)  
+- [ATA 91 — Schemas & Canonical Data Models](./ATA_TASKS/ATA_91/91_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-91-tasklist_v01.md)  
   _Comment:_ The schema “engine room”: registry, versioning, compatibility, canonical primitives.
 
-- [ATA 93 — Traceability Graph & Evidence Links](./ATA_TASKS/ATA_93/93_00_IDX_LC01_SPACET_k06-ata-93-tasklist_v01.md)  
+- [ATA 93 — Traceability Graph & Evidence Links](./ATA_TASKS/ATA_93/93_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-93-tasklist_v01.md)  
   _Comment:_ Enforces graph integrity and evidence-link semantics. K06 is non-auditable without this closure.
 
-- [ATA 94 — Digital Product Passport (DPP) & Provenance Exports](./ATA_TASKS/ATA_94/94_00_IDX_LC01_SPACET_k06-ata-94-tasklist_v01.md)  
+- [ATA 94 — Digital Product Passport (DPP) & Provenance Exports](./ATA_TASKS/ATA_94/94_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-94-tasklist_v01.md)  
   _Comment:_ External-facing consequence: reproducible packs, redaction rules, signing/provenance metadata.
 
-- [ATA 95 — SBOM / ModelBOM / ML Asset Traceability](./ATA_TASKS/ATA_95/95_00_IDX_LC01_SPACET_k06-ata-95-tasklist_v01.md)  
+- [ATA 95 — SBOM / ModelBOM / ML Asset Traceability](./ATA_TASKS/ATA_95/95_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-95-tasklist_v01.md)  
   _Comment:_ Supply-chain integrity for software/ML; policy gates and trace alignment are mandatory.
 
-- [ATA 99 — Master Registers & Anti-Duplication](./ATA_TASKS/ATA_99/99_00_IDX_LC01_SPACET_k06-ata-99-tasklist_v01.md)  
+- [ATA 99 — Master Registers & Anti-Duplication](./ATA_TASKS/ATA_99/99_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-99-tasklist_v01.md)  
   _Comment:_ Prevents fragmentation: master inventory of registries, namespace boundaries, dedup governance, drift monitoring.
 
 ### Simulations & Testing (100+)
-- [ATA 101 — Simulation evidence node](./ATA_TASKS/ATA_101/101_00_IDX_LC01_SPACET_k06-ata-101-tasklist_v01.md)  
+- [ATA 101 — Simulation evidence node](./ATA_TASKS/ATA_101/101_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-101-tasklist_v01.md)  
   _Comment:_ Must consume governed schemas and output verifiable evidence packs (no local formats).
 
-- [ATA 107 — Test evidence node](./ATA_TASKS/ATA_107/00_00_IDX_LC01_SPACET_k06-ata-107-tasklist_v01.md)  
+- [ATA 107 — Test evidence node](./ATA_TASKS/ATA_107/00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-107-tasklist_v01.md)  
   _Comment:_ Must publish test evidence using ATA 93 semantics and ATA 98-style signed pack expectations (if applicable).
 
-- [ATA 109 — Qualification/validation evidence node](./ATA_TASKS/ATA_109/00_00_IDX_LC01_SPACET_k06-ata-109-tasklist_v01.md)  
+- [ATA 109 — Qualification/validation evidence node](./ATA_TASKS/ATA_109/00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-109-tasklist_v01.md)  
   _Comment:_ Must produce audit-ready V&V trace links; staleness detection is essential.
 
 ---
