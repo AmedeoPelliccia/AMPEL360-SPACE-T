@@ -36,7 +36,7 @@ All files must strictly adhere to the **8-field format**:
 | **ROOT**             | ATA Chapter or Project Code           | 2-3 digits                             | `^\d{2,3}$`                  |
 | **BUCKET**           | Domain Classification (OPT-IN + LC)   | 2 digits (enum)                        | `^(00\|10\|20\|30\|40\|50\|60\|70\|80\|90)$` |
 | **TYPE**             | Artifact Type                         | 2–8 uppercase alphanumeric             | `^[A-Z0-9]{2,8}$`            |
-| **LC_OR_SUBBUCKET**  | Lifecycle Stage or Sub-bucket         | LC01-LC14 or SB00-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB\d{2})$` |
+| **LC_OR_SUBBUCKET**  | Lifecycle Stage or Sub-bucket         | LC01-LC14 or SB15-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB(1[5-9]\|[2-9]\d))$` |
 | **VARIANT**          | Configuration / Baseline / Item Class | uppercase alphanumeric; hyphen allowed | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$` |
 | **DESCRIPTION**      | Human-readable content label          | lowercase kebab-case                   | `^[a-z0-9]+(?:-[a-z0-9]+)*$` |
 | **VERSION**          | Revision Control                      | `v` + 2 digits                         | `^v\d{2}$`                   |
@@ -94,7 +94,7 @@ The following set is **approved** for v1.0. Extensions require Configuration Man
 
 This mandatory field encodes either:
 - **Lifecycle stage** (LC01-LC14) for `BUCKET=00` files
-- **Sub-bucket** identifier (SB00-SB99) for all other buckets
+- **Sub-bucket** identifier (SB15-SB99) for all other buckets
 
 **Conditional rules (mandatory):**
 
@@ -103,21 +103,21 @@ This mandatory field encodes either:
    ^LC(0[1-9]|1[0-4])$
    ```
    * Valid: `LC01`, `LC02`, ..., `LC14`
-   * Invalid: `SB00`, `LC00`, `LC15`
+   * Invalid: `SB15`, `LC00`, `LC15`
 
 2. **If `BUCKET ≠ 00`** → `LC_OR_SUBBUCKET` **must** match:
    ```regex
-   ^SB\d{2}$
+   ^SB(1[5-9]|[2-9]\d)$
    ```
-   * Valid: `SB00`, `SB01`, ..., `SB99`
-   * Invalid: `LC01`, `SB`, `SBXX`
-   * **Convention**: Use `SB00` if no sub-bucket applies
+   * Valid: `SB15`, `SB16`, ..., `SB99`
+   * Invalid: `LC01`, `SB00`, `SB01`, ..., `SB14`, `SB`, `SBXX`
+   * **Convention**: SB00-SB14 are reserved and not allowed
 
 **Sub-bucket mapping:**
-* `SB00` = No sub-bucket / Not applicable
-* `SB01` = Maps to directory sub-bucket `*-01_*` (e.g., `00-20-01_*`)
-* `SB02` = Maps to directory sub-bucket `*-02_*`
+* `SB15` = First available sub-bucket
+* `SB16` = Maps to directory sub-bucket (implementation-specific)
 * etc.
+* Note: SB00-SB14 are reserved and not available for use
 
 ### 4.5 `[VARIANT]` (Configuration / Baseline)
 
@@ -138,7 +138,7 @@ Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`.
 
 * Must be lowercase kebab-case.
 * Must not duplicate semantic content already encoded in `TYPE` or `BUCKET`.
-  * Example: avoid `..._FHA_SYS_propulsion-fha_...` → use `..._FHA_SB00_SYS_propulsion_...`
+  * Example: avoid `..._FHA_SYS_propulsion-fha_...` → use `..._FHA_SB15_SYS_propulsion_...`
 
 ### 4.7 `[VERSION]`
 
@@ -154,7 +154,7 @@ Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`.
 This regex validates the general filename structure for v2.0:
 
 ```regex
-^(?<root>\d{2})_(?<bucket>00|10|20|30|40|50|60|70|80|90)_(?<type>[A-Z0-9]{2,8})_(?<stage>(LC(0[1-9]|1[0-4])|SB\d{2}))_(?<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_(?<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_(?<ver>v\d{2})\.(?<ext>[a-z0-9]{1,6})$
+^(?<root>\d{2})_(?<bucket>00|10|20|30|40|50|60|70|80|90)_(?<type>[A-Z0-9]{2,8})_(?<stage>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_(?<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_(?<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_(?<ver>v\d{2})\.(?<ext>[a-z0-9]{1,6})$
 ```
 
 ### 5.2 Conditional Rules (Mandatory)
@@ -168,7 +168,7 @@ CI shall additionally enforce:
 
 * **If `bucket != "00"`** then `stage` matches:
   ```regex
-  ^SB\d{2}$
+  ^SB(1[5-9]|[2-9]\d)$
   ```
 
 ---
@@ -179,17 +179,17 @@ CI shall additionally enforce:
 
 * Lifecycle (LC) plan:
   * `00_00_PLAN_LC02_SPACET_safety-program_v02.md`
-* Propulsion FHA (domain bucket with no sub-bucket):
-  * `00_70_FHA_SB00_SYS_propulsion_v02.md`
+* Propulsion FHA (domain bucket with sub-bucket):
+  * `00_70_FHA_SB15_SYS_propulsion_v02.md`
 * Software safety requirements:
-  * `00_40_REQ_SB00_SW_software-safety-reqs_v02.md`
+  * `00_40_REQ_SB15_SW_software-safety-reqs_v02.md`
 * Traceability matrix workbook:
-  * `00_20_TRC_SPACET_traceability-matrix_v01.xlsx`
+  * `00_20_TRC_SB15_SPACET_traceability-matrix_v01.xlsx`
 * Reference schema:
-  * `00_90_SCH_GEN_hazard-log-schema_v01.json`
+  * `00_90_SCH_SB15_GEN_hazard-log-schema_v01.json`
 * Extended ATA code (3-digit ROOT):
   * `115_00_PLAN_LC01_SPACET_supply-chain-plan_v01.md`
-  * `116_70_FHA_SB00_SYS_facility-systems_v01.md`
+  * `116_70_FHA_SB15_SYS_facility-systems_v01.md`
 
 ### 6.2 Invalid examples
 

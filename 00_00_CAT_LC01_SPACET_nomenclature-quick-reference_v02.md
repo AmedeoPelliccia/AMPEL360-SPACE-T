@@ -1,9 +1,9 @@
 # Nomenclature Standard Quick Reference
 
-## Pattern
+## Pattern (v2.0 - 8 Fields)
 
 ```
-[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
+[ROOT]_[BUCKET]_[TYPE]_[LC_OR_SUBBUCKET]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
 ```
 
 ## Field Rules
@@ -13,19 +13,26 @@
 | ROOT | 2-3 digits | `00`, `24`, `72`, `115`, `116` |
 | BUCKET | 2 digits | `00`, `10`, `20`, `30`, `40`, `50`, `60`, `70`, `80`, `90` |
 | TYPE | 2-8 uppercase | `PLAN`, `FHA`, `REQ`, `STD`, `IDX` |
-| VARIANT | Uppercase + hyphens | `SPACET`, `DRAFT`, `SYS`, `LC02-SPACET` |
+| LC_OR_SUBBUCKET | LC01-LC14 or SB15-SB99 | `LC01`, `LC14`, `SB15`, `SB99` |
+| VARIANT | Uppercase + hyphens | `SPACET`, `DRAFT`, `SYS`, `HW-01` |
 | DESCRIPTION | lowercase-kebab-case | `safety-program`, `propulsion`, `hazard-log` |
 | VERSION | v + 2 digits | `v01`, `v02`, `v10` |
 | EXT | lowercase | `md`, `json`, `xlsx`, `pdf` |
 
 ## Special Rules
 
-### ⚠️ CRITICAL: BUCKET=00 requires LC prefix
+### ⚠️ CRITICAL: Subject Category Rules
 
-If `BUCKET=00`, then `VARIANT` **MUST** start with `LC01` through `LC14`
+**If `BUCKET=00`** → Use **LC** (Lifecycle) category:
+- `LC_OR_SUBBUCKET` **MUST** be `LC01` through `LC14`
+- Example: ✅ `00_00_PLAN_LC02_SPACET_safety-program_v01.md`
+- Invalid: ❌ `00_00_PLAN_SB15_SPACET_safety-program_v01.md`
 
-✅ `00_00_PLAN_LC02-SPACET_safety-program_v01.md`  
-❌ `00_00_PLAN_SPACET_safety-program_v01.md`
+**If `BUCKET≠00`** → Use **SB** (Sub-bucket) category:
+- `LC_OR_SUBBUCKET` **MUST** be `SB15` through `SB99`
+- Example: ✅ `00_70_FHA_SB15_SYS_propulsion_v01.md`
+- Invalid: ❌ `00_70_FHA_SB00_SYS_propulsion_v01.md`
+- Invalid: ❌ `00_70_FHA_LC01_SYS_propulsion_v01.md`
 
 ### Delimiters
 
@@ -34,18 +41,18 @@ If `BUCKET=00`, then `VARIANT` **MUST** start with `LC01` through `LC14`
 
 ## BUCKET Values
 
-| Code | Domain |
-|------|--------|
-| `00` | Lifecycle (requires LC prefix in VARIANT) |
-| `10` | Operations |
-| `20` | Primary Subsystem |
-| `30` | Circularity |
-| `40` | Software |
-| `50` | Structures |
-| `60` | Storages |
-| `70` | Propulsion |
-| `80` | Energy |
-| `90` | Tables/Schemas/Diagrams/Reference |
+| Code | Domain | Subject Category |
+|------|--------|------------------|
+| `00` | Lifecycle | Uses LC01-LC14 |
+| `10` | Operations | Uses SB15-SB99 |
+| `20` | Primary Subsystem | Uses SB15-SB99 |
+| `30` | Circularity | Uses SB15-SB99 |
+| `40` | Software | Uses SB15-SB99 |
+| `50` | Structures | Uses SB15-SB99 |
+| `60` | Storages | Uses SB15-SB99 |
+| `70` | Propulsion | Uses SB15-SB99 |
+| `80` | Energy | Uses SB15-SB99 |
+| `90` | Tables/Schemas/Diagrams/Reference | Uses SB15-SB99 |
 
 ## Approved TYPE Codes
 
@@ -76,28 +83,31 @@ python validate_nomenclature.py --check-all
 ### ✅ Valid
 
 ```
-00_00_PLAN_LC02-SPACET_safety-program_v01.md
-00_70_FHA_SYS_propulsion_v01.md
-00_40_REQ_SW_software-safety-reqs_v01.md
-00_20_TRC_SPACET_traceability-matrix_v01.xlsx
-00_90_SCH_GEN_hazard-log-schema_v01.json
-24_40_REQ_SW-01_electrical-power-software_v01.md
+00_00_PLAN_LC02_SPACET_safety-program_v01.md
+00_70_FHA_SB15_SYS_propulsion_v01.md
+00_40_REQ_SB15_SW_software-safety-reqs_v01.md
+00_20_TRC_SB15_SPACET_traceability-matrix_v01.xlsx
+00_90_SCH_SB15_GEN_hazard-log-schema_v01.json
+24_40_REQ_SB20_SW_electrical-power-software_v01.md
 ```
 
 ### ❌ Invalid
 
 ```
-00_00_PLAN_SPACET_safety-program_v01.md       # Missing LC prefix
-00-70-FHA-SYS-propulsion-v01.md              # Wrong delimiter
-00_70_FHA_SYS_propulsion_v1.md               # VERSION must be vNN
-00_99_LST_GEN_glossary_v01.md                # Invalid BUCKET
-00_70_FHA_SYS_PropulsionFHA_v01.md           # Uppercase in DESCRIPTION
-00_70_fha_SYS_propulsion_v01.md              # Lowercase TYPE
+00_00_PLAN_SB15_SPACET_safety-program_v01.md  # BUCKET=00 requires LC, not SB
+00_70_FHA_SB00_SYS_propulsion_v01.md          # SB00 not allowed (must be SB15+)
+00_70_FHA_LC01_SYS_propulsion_v01.md          # BUCKET≠00 requires SB, not LC
+00-70-FHA-SB15-SYS-propulsion-v01.md          # Wrong delimiter
+00_70_FHA_SB15_SYS_propulsion_v1.md           # VERSION must be vNN
+00_99_LST_SB15_GEN_glossary_v01.md            # Invalid BUCKET
+00_70_FHA_SB15_SYS_PropulsionFHA_v01.md       # Uppercase in DESCRIPTION
+00_70_fha_SB15_SYS_propulsion_v01.md          # Lowercase TYPE
 ```
 
 ## Common Mistakes
 
-1. **Missing LC prefix for BUCKET=00**
+1. **Wrong subject category for BUCKET=00**: Must use LC01-LC14, not SB
+2. **Using SB00-SB14**: Only SB15-SB99 are valid
    - Fix: Add `LC01` through `LC14` to start of VARIANT
    - Example: `SPACET` → `LC02-SPACET`
 
