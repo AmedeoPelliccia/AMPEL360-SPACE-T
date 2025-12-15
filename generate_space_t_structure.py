@@ -168,6 +168,16 @@ SIMTEST_SYSTEMS = {
     "116": ("SIM_TEST_ARCHIVES_AND_BASELINES_FROZEN_CAMPAIGNS", "Sim/Test Archives & Baselines (Frozen Campaigns)"),
 }
 
+# NOT ASSIGNED / RESERVED systems (reserved for future Space-T tailoring)
+RESERVED_SYSTEMS = {
+    "13": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+    "14": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+    "15": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+    "16": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+    "17": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+    "19": ("NOT_ASSIGNED_RESERVED", "Not Assigned / Reserved"),
+}
+
 # Default subsystems for key chapters (expandable)
 DEFAULT_SUBSYSTEMS = {
     "21": [("10", "Cabin_Atmosphere"), ("20", "Thermal_Control"), ("30", "Humidity_Contamination")],
@@ -566,6 +576,7 @@ def generate_opt_in_structure(root_path: Path) -> None:
         ("I-INFRASTRUCTURES", "Ground systems, launch, H₂ value chains, facilities"),
         ("N-NEURAL_NETWORKS_DPP_TRACEABILITY", "AI ops, Digital Product Passport, neural governance"),
         ("SIMTEST", "Simulation and test governance, VV evidence, qualification"),
+        ("RESERVED", "Reserved ATA codes for future Space-T tailoring and allocation"),
     ]
     
     for axis_name, axis_desc in axes:
@@ -621,7 +632,7 @@ def main():
     if args.dry_run:
         print("DRY RUN - No files will be created\n")
         print("Would generate:")
-        print(f"  - OPT-IN axis structure (6 axes)")
+        print(f"  - OPT-IN axis structure (7 axes)")
         print(f"  - {len(system_codes)} ATA chapters")
         print(f"  - 14 lifecycle folders per chapter")
         print(f"  - 9 cross-ATA buckets per chapter")
@@ -677,8 +688,14 @@ def main():
     for code, (name, desc) in SIMTEST_SYSTEMS.items():
         generate_system(simtest_path, code, name, desc)
     
+    # RESERVED axis (not assigned / reserved for future allocation)
+    reserved_path = root_path / "RESERVED"
+    print("\n  RESERVED:")
+    for code, (name, desc) in RESERVED_SYSTEMS.items():
+        generate_system(reserved_path, code, name, desc)
+    
     # Summary
-    total_systems = len(system_codes) + len(O_SYSTEMS) + len(P_SYSTEMS) + len(I_SYSTEMS) + len(N_SYSTEMS) + len(SIMTEST_SYSTEMS)
+    total_systems = len(system_codes) + len(O_SYSTEMS) + len(P_SYSTEMS) + len(I_SYSTEMS) + len(N_SYSTEMS) + len(SIMTEST_SYSTEMS) + len(RESERVED_SYSTEMS)
     print(f"\n{'='*60}")
     print("GENERATION COMPLETE")
     print(f"{'='*60}")
@@ -689,6 +706,7 @@ def main():
     print(f"I-INFRASTRUCTURES chapters: {len(I_SYSTEMS)}")
     print(f"N-NEURAL chapters: {len(N_SYSTEMS)}")
     print(f"SIMTEST chapters: {len(SIMTEST_SYSTEMS)}")
+    print(f"RESERVED chapters: {len(RESERVED_SYSTEMS)}")
     print(f"Total chapters: {total_systems}")
     print(f"\nNext steps:")
     print("  1. Review generated structure")
