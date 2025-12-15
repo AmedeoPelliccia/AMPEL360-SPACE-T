@@ -77,7 +77,7 @@ class NomenclatureValidator:
     
     # Files to exclude from validation
     EXCLUDED_FILES = {
-        'README.md', 'LICENSE', 'EXAMPLES.md', 
+        'README.md', 'USAGE.md', 'LICENSE', 'EXAMPLES.md', 
         'STRUCTURE_SUMMARY.md', '.gitignore', '.gitattributes',
         '00_INDEX_README.md', 'Dependencies.yaml', 
         'Traceability_Matrix.csv', 'Prompt_to_Artifact_Map.csv',

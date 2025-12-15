@@ -1,0 +1,157 @@
+{
+  "portal_path": "AMPEL360-SPACE-T-PORTAL",
+  "variant": "SPACET",
+  "root_code": "00",
+  "bucket_code": "00",
+  "version": "v01",
+  "affected_path_patterns": [
+    "AMPEL360_SPACE-T/P-PROGRAM/ATA_{ata}-*/{ata}-00_GENERAL/",
+    "AMPEL360_SPACE-T/O-OPS_ORG/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/T-TECHNOLOGY/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/I-INFRASTRUCTURES/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_{ata}-*/",
+    "AMPEL360_SPACE-T/T-SIMTEST/ATA_{ata}-*/"
+  ],
+  "stakeholders": [
+    {"id": "CM", "name": "Configuration Management", "knots": ["K01","K04","K06","K08","K10"]},
+    {"id": "PMO", "name": "Program Management Office", "knots": ["K01","K02","K10","K14"]},
+    {"id": "SE", "name": "Systems Engineering", "knots": ["K02","K04","K05","K06","K14"]},
+    {"id": "SAF", "name": "Safety", "knots": ["K01","K03","K05","K11","K12"]},
+    {"id": "CERT", "name": "Certification & Authorities", "knots": ["K01","K05","K10"]},
+    {"id": "OPS", "name": "Operations", "knots": ["K02","K09","K11","K12","K14"]},
+    {"id": "SPACEPORT", "name": "Spaceport/Airport Ops", "knots": ["K09","K03","K11","K10"]},
+    {"id": "MRO", "name": "MRO / Maintenance", "knots": ["K10","K14","K11"]},
+    {"id": "DATA", "name": "Data Governance", "knots": ["K06","K08","K13"]},
+    {"id": "AI", "name": "AI/ML Engineering", "knots": ["K07","K06","K13"]},
+    {"id": "CY", "name": "Cybersecurity", "knots": ["K13","K06","K09"]},
+    {"id": "TEST", "name": "IVVQ / Testing", "knots": ["K05","K10","K14","K12"]}
+  ],
+  "knots": {
+    "K01": {
+      "title": "certification-authority-basis",
+      "affected_atas": ["00","01","04","05","18","20","21","22","24","26","27","28","42","100","109","115"],
+      "task_templates": [
+        {"id": "T001", "title": "define-certification-basis-and-decision-criteria"},
+        {"id": "T002", "title": "map-compliance-objectives-to-evidence-and-tests"},
+        {"id": "T003", "title": "baseline-authority-interface-and-review-calendar"}
+      ]
+    },
+    "K02": {
+      "title": "conops-mission-phases",
+      "affected_atas": ["01","02","09","10","18","21","22","27","34","100","102","112"],
+      "task_templates": [
+        {"id": "T001", "title": "freeze-mission-phases-and-operational-modes"},
+        {"id": "T002", "title": "derive-operational-limits-and-procedures"},
+        {"id": "T003", "title": "define-readiness-gates-orr-frr"}
+      ]
+    },
+    "K03": {
+      "title": "hazmat-cryo-propellants-safety-case",
+      "affected_atas": ["12","18","26","28","47","78","81","84","110"],
+      "task_templates": [
+        {"id": "T001", "title": "define-hazardous-states-and-control-measures"},
+        {"id": "T002", "title": "define-ground-servicing-icds-and-permits"},
+        {"id": "T003", "title": "qualify-procedures-and-emergency-response"}
+      ]
+    },
+    "K04": {
+      "title": "integration-boundaries-and-icds",
+      "affected_atas": ["00","06","22","23","24","27","40","42","46","71","73","76","83","111"],
+      "task_templates": [
+        {"id": "T001", "title": "define-icd-ownership-and-change-control"},
+        {"id": "T002", "title": "publish-interface-contracts-and-schema-links"},
+        {"id": "T003", "title": "execute-integration-tests-and-close-gaps"}
+      ]
+    },
+    "K05": {
+      "title": "model-fidelity-verification-credit",
+      "affected_atas": ["05","06","07","08","18","21","22","24","27","32","53","57","100","101","109","110","113"],
+      "task_templates": [
+        {"id": "T001", "title": "define-model-credibility-framework-and-acceptance"},
+        {"id": "T002", "title": "plan-correlations-ground-test-to-model"},
+        {"id": "T003", "title": "close-credibility-gaps-and-freeze-evidence"}
+      ]
+    },
+    "K06": {
+      "title": "data-governance-ssot-schemas-identifiers",
+      "affected_atas": ["00","06","31","45","46","90","91","93","94","95","99","101","107","109"],
+      "task_templates": [
+        {"id": "T001", "title": "define-canonical-identifiers-and-registries"},
+        {"id": "T002", "title": "publish-schemas-and-validation-rules"},
+        {"id": "T003", "title": "enforce-ci-quality-gates-and-audit-queries"}
+      ]
+    },
+    "K07": {
+      "title": "ai-autonomy-assurance-monitoring",
+      "affected_atas": ["22","27","42","90","96","114"],
+      "task_templates": [
+        {"id": "T001", "title": "define-ml-assurance-case-and-risk-controls"},
+        {"id": "T002", "title": "define-monitoring-drift-bias-robustness"},
+        {"id": "T003", "title": "validate-and-freeze-model-release-process"}
+      ]
+    },
+    "K08": {
+      "title": "dpp-sbom-provenance-scope",
+      "affected_atas": ["00","85","93","94","95","98","99"],
+      "task_templates": [
+        {"id": "T001", "title": "define-dpp-scope-events-and-signatures"},
+        {"id": "T002", "title": "define-sbom-and-modelbom-policy"},
+        {"id": "T003", "title": "produce-signed-export-packs-and-audit-trace"}
+      ]
+    },
+    "K09": {
+      "title": "infrastructure-permitting-jurisdiction",
+      "affected_atas": ["09","12","80","81","83","84","87","89","110"],
+      "task_templates": [
+        {"id": "T001", "title": "map-jurisdiction-permits-and-acceptance-criteria"},
+        {"id": "T002", "title": "define-spaceport-interfaces-and-sla"},
+        {"id": "T003", "title": "execute-commissioning-and-readiness-reviews"}
+      ]
+    },
+    "K10": {
+      "title": "industrialization-supplychain-quality",
+      "affected_atas": ["00","05","10","20","51","70","80","82","89","100","115"],
+      "task_templates": [
+        {"id": "T001", "title": "define-industrial-readiness-and-supplier-qualification"},
+        {"id": "T002", "title": "establish-production-and-quality-gates"},
+        {"id": "T003", "title": "freeze-baselines-and-release-process"}
+      ]
+    },
+    "K11": {
+      "title": "human-factors-training-readiness",
+      "affected_atas": ["01","09","10","11","12","18","25","44","84","112"],
+      "task_templates": [
+        {"id": "T001", "title": "define-hfe-requirements-and-procedural-controls"},
+        {"id": "T002", "title": "build-training-and-checklists"},
+        {"id": "T003", "title": "run-exercises-and-close-readiness-gaps"}
+      ]
+    },
+    "K12": {
+      "title": "nvh-metrics-corridors-exposure",
+      "affected_atas": ["18","61","78","110","112"],
+      "task_templates": [
+        {"id": "T001", "title": "define-nvh-metrics-and-limits"},
+        {"id": "T002", "title": "measurement-plan-and-correlation"},
+        {"id": "T003", "title": "mitigations-and-operational-corridors"}
+      ]
+    },
+    "K13": {
+      "title": "cybersecurity-zones-key-management",
+      "affected_atas": ["23","46","83","87","90","94","98","103","111"],
+      "task_templates": [
+        {"id": "T001", "title": "define-security-architecture-and-zoning"},
+        {"id": "T002", "title": "implement-crypto-and-key-management"},
+        {"id": "T003", "title": "execute-security-validation-and-pen-tests"}
+      ]
+    },
+    "K14": {
+      "title": "reliability-growth-maintenance-intervals-health",
+      "affected_atas": ["05","08","45","77","79","88","108","113"],
+      "task_templates": [
+        {"id": "T001", "title": "define-reliability-model-and-interval-policy"},
+        {"id": "T002", "title": "instrumentation-and-health-monitoring-plan"},
+        {"id": "T003", "title": "feedback-loop-and-interval-optimization"}
+      ]
+    }
+  }
+}
