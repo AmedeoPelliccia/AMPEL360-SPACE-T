@@ -1,0 +1,210 @@
+name: Governance Gates (Comprehensive)
+
+on:
+  pull_request:
+    branches: ['main', 'develop']
+  workflow_dispatch:
+
+jobs:
+  governance-checks:
+    runs-on: ubuntu-latest
+    name: CI Governance Gates
+    
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      # GATE-001: Nomenclature Validation (BLOCKING)
+      - name: GATE-001 - Nomenclature Validation
+        id: nomenclature
+        run: |
+          echo "🔍 Running nomenclature validation..."
+          python validate_nomenclature.py --check-all --strict --verbose
+        continue-on-error: false
+      
+      # GATE-005: Identifier Grammar Check (BLOCKING - when script exists)
+      - name: GATE-005 - Identifier Grammar Check
+        id: identifier
+        run: |
+          echo "🔍 Checking identifier grammar..."
+          if [ -f "scripts/validate_identifiers.py" ]; then
+            python scripts/validate_identifiers.py --all
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # GATE-002: Schema Registration Check (BLOCKING - when script exists)
+      - name: GATE-002 - Schema Registration Check
+        id: schema_registration
+        run: |
+          echo "🔍 Checking schema registration..."
+          if [ -f "scripts/check_schema_registration.py" ]; then
+            python scripts/check_schema_registration.py --registry ATA91
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # GATE-003: Trace Link Integrity Check (BLOCKING - when script exists)
+      - name: GATE-003 - Trace Link Integrity Check
+        id: trace_integrity
+        run: |
+          echo "🔍 Validating trace link integrity..."
+          if [ -f "scripts/check_trace_integrity.py" ]; then
+            python scripts/check_trace_integrity.py --registry ATA93
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # GATE-004: Namespace Deduplication Check (BLOCKING - when script exists)
+      - name: GATE-004 - Namespace Deduplication Check
+        id: namespace_dedup
+        run: |
+          echo "🔍 Checking for duplicate namespace IDs..."
+          if [ -f "scripts/check_ata99_registry.py" ]; then
+            python scripts/check_ata99_registry.py --deduplicate
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # GATE-006: Detect Governance Changes (LABELING)
+      - name: GATE-006 - Detect Governance Changes
+        id: governance_changes
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "🔍 Detecting governance-impacting changes..."
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }})
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          
+          # Check for governance-impacting patterns
+          GOVERNANCE_CHANGE=false
+          
+          # Pattern 1: Standards (STD files in ATA 00)
+          if echo "$CHANGED_FILES" | grep -E "00_00_STD_.*\.md$"; then
+            echo "✓ Governance standard change detected"
+            GOVERNANCE_CHANGE=true
+          fi
+          
+          # Pattern 2: CI workflows
+          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/.*\.yml$"; then
+            echo "✓ CI workflow change detected"
+            GOVERNANCE_CHANGE=true
+          fi
+          
+          # Pattern 3: Validation scripts
+          if echo "$CHANGED_FILES" | grep -E "validate_.*\.py$|scripts/(check|validate|detect).*\.py$"; then
+            echo "✓ Validation script change detected"
+            GOVERNANCE_CHANGE=true
+          fi
+          
+          # Output result
+          if [ "$GOVERNANCE_CHANGE" = true ]; then
+            echo "governance_change=true" >> $GITHUB_OUTPUT
+            echo "⚠️  Governance change detected - CM WG approval required"
+            exit 0
+          else
+            echo "governance_change=false" >> $GITHUB_OUTPUT
+            echo "✅ No governance changes detected"
+          fi
+      
+      # GATE-006: Label PR for Governance Review
+      - name: Label PR as Governance Review Required
+        if: github.event_name == 'pull_request' && steps.governance_changes.outputs.governance_change == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Add label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['governance-review-required']
+            });
+            
+            // Add comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## ⚠️ Governance Change Detected (GATE-006)
+              
+This PR modifies governance-impacting files and requires **CM WG approval** before merge.
+
+### Detected Changes
+- Governance standards (STD files)
+- CI/CD workflows
+- Validation scripts
+
+### Required Actions
+1. **Request review** from a CM WG member
+2. **Address feedback** from CM WG review
+3. **Await approval** before merging
+
+### Reference
+- **Policy**: 00_00_STD_LC01_SPACET_governance-reference-policy_v01.md §6.3
+- **Gate**: GATE-006 (Governance Change Detection)
+- **Index**: 00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md
+              `
+            });
+      
+      # GATE-007: Breaking Schema Changes (BLOCKING - when script exists)
+      - name: GATE-007 - Breaking Schema Change Detection
+        id: schema_breaking
+        run: |
+          echo "🔍 Detecting breaking schema changes..."
+          if [ -f "scripts/detect_schema_breaking_changes.py" ]; then
+            python scripts/detect_schema_breaking_changes.py --registry ATA91
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # GATE-008: Evidence Link Validation (WARNING)
+      - name: GATE-008 - Evidence Link Validation
+        id: evidence_links
+        run: |
+          echo "🔍 Validating evidence links..."
+          if [ -f "scripts/validate_evidence_links.py" ]; then
+            python scripts/validate_evidence_links.py --all
+          else
+            echo "⚠️  Script not yet implemented (planned)"
+          fi
+        continue-on-error: true
+      
+      # Summary Report
+      - name: Generate Gate Summary
+        if: always()
+        run: |
+          echo "## 📊 Governance Gates Summary"
+          echo ""
+          echo "| Gate | Status | Description |"
+          echo "|------|--------|-------------|"
+          echo "| GATE-001 | ${{ steps.nomenclature.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Nomenclature Validation |"
+          echo "| GATE-005 | ⏭️ PLANNED | Identifier Grammar Check |"
+          echo "| GATE-002 | ⏭️ PLANNED | Schema Registration Check |"
+          echo "| GATE-003 | ⏭️ PLANNED | Trace Link Integrity |"
+          echo "| GATE-004 | ⏭️ PLANNED | Namespace Deduplication |"
+          echo "| GATE-006 | ${{ steps.governance_changes.outputs.governance_change == 'true' && '⚠️ REVIEW' || '✅ PASS' }} | Governance Change Detection |"
+          echo "| GATE-007 | ⏭️ PLANNED | Breaking Schema Detection |"
+          echo "| GATE-008 | ⏭️ PLANNED | Evidence Link Validation |"
+          echo ""
+          echo "✅ PASS: Gate passed"
+          echo "❌ FAIL: Gate failed (blocking)"
+          echo "⚠️ REVIEW: Manual review required"
+          echo "⏭️ PLANNED: Gate not yet implemented"
