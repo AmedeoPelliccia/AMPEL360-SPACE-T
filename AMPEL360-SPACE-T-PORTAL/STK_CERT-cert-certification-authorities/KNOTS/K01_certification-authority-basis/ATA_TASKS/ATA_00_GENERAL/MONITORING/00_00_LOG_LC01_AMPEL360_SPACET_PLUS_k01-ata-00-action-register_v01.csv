@@ -1,2 +1,11 @@
-# K01 ATA 00 Action Register
 Action_ID,Date,Description,Owner,Due_Date,Status,Closure_Date,Notes
+K01-ATA00-ACT-001,YYYY-MM-DD,Confirm certification basis scope boundaries for ATA 00 (in/out) and publish in scope-interfaces artifact,CM,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-002,YYYY-MM-DD,Define authority engagement cadence and decision rights (RACI) for K01/ATA00 and link to decision record,CERT,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-003,YYYY-MM-DD,Publish applicable standards list for ATA 00 (regulations + ECSS/DO baselines) and obtain CERT review,CM,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-004,YYYY-MM-DD,Create/confirm compliance matrix structure (MoC/MoE columns, IDs, trace hooks) and align with portal effectivity rules,SE,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-005,YYYY-MM-DD,Define RBAC role matrix for K01 artifacts (CODEOWNERS + required reviews) and validate enforcement in a PR,CY,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-006,YYYY-MM-DD,Define evidence pack manifest structure and acceptance criteria (what “complete” means) and link to K01 ASSETS/SCHEMAS,CM,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-007,YYYY-MM-DD,Establish audit query path (click-path or script) proving decision→criteria→evidence→release pack,QA,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-008,YYYY-MM-DD,Confirm cross-ATA dependency list for K01 (minimum: 91,93,98,100,109) and add interface rows in scope-interfaces,SE,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-009,YYYY-MM-DD,Publish closure summary template as ACTIVE upon first evidence completion and initiate closure checklist,CERT,YYYY-MM-DD,OPEN,,
+K01-ATA00-ACT-010,YYYY-MM-DD,Run nomenclature + link integrity checks after retrofit and record results in closure summary,CM,YYYY-MM-DD,OPEN,,
