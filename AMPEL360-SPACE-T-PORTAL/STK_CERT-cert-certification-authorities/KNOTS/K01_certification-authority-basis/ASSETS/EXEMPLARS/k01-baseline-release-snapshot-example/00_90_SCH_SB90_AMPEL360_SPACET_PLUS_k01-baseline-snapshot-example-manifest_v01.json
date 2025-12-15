@@ -1,22 +1,131 @@
 {
-  "snapshot_id": "K01-BASELINE-SNAPSHOT-EXAMPLE-001",
-  "knot_id": "K01",
-  "baseline_name": "Certification Basis Baseline v1.0",
-  "snapshot_date": "2025-12-15",
-  "git_commit": "example_commit_hash",
-  "status": "Example",
-  "included_artifacts": [
+  "schema_ref": "../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_v01.json",
+  "snapshot": {
+    "snapshot_id": "K01-BASELINE-SNAPSHOT-EXAMPLE-001",
+    "knot_id": "K01",
+    "title": "K01 Baseline Release Snapshot Example",
+    "project": "AMPEL360",
+    "program": "SPACET",
+    "variant": "PLUS",
+    "bucket": "90",
+    "lc_or_subbucket": "SB90",
+    "version": "v01",
+    "status": "EXAMPLE",
+    "baseline_name": "Certification Basis Baseline v1.0",
+    "git": {
+      "commit": "example_commit_hash",
+      "branch": "main",
+      "tag": null
+    },
+    "created": "2025-12-15",
+    "owner_stakeholder": "CM",
+    "reviewers": ["CERT"],
+    "approvals": {
+      "cm": { "status": "N/A", "approver": null, "date": null },
+      "cert": { "status": "N/A", "approver": null, "date": null }
+    },
+    "notes": [
+      "Example-only snapshot manifest. Demonstrates how a baseline snapshot is inventoried and linked.",
+      "All referenced artifacts must be GitHub-navigable (relative paths)."
+    ]
+  },
+  "links": {
+    "index": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-index_v01.md",
+    "contents_list": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-contents_v01.md",
+    "release_notes": "./00_90_RPT_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-release-notes-example_v01.md",
+    "effectivity": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-effectivity-example_v01.md",
+    "evidence_links": "./00_90_TRC_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-evidence-links-example_v01.md",
+    "decision_pointer": "./00_90_STD_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-decision-pointer-example_v01.md",
+    "audit_query": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-audit-query-example_v01.md"
+  },
+  "effectivity": {
+    "portal_entrypoints_in_scope": [
+      "STK_CM-cm-configuration-management",
+      "STK_CERT-cert-certification-authorities"
+    ],
+    "workspaces_in_scope": [
+      "KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL"
+    ],
+    "workspaces_out_of_scope": [
+      "KNOTS/K01_certification-authority-basis/ATA_TASKS/* (other ATAs not included in this example)"
+    ],
+    "rbac": {
+      "default_access": "INTERNAL",
+      "grants": [
+        {
+          "path": "./",
+          "access": "INTERNAL",
+          "roles": ["CM", "CERT", "SE", "QA"],
+          "note": "Exemplar folder is internal by default."
+        },
+        {
+          "path": "../../DIAGRAMS/",
+          "access": "INTERNAL",
+          "roles": ["CM", "CERT", "SE", "QA"],
+          "note": "Diagrams are reviewer-facing but not public."
+        }
+      ]
+    }
+  },
+  "inventory": [
     {
-      "artifact_id": "K01-CERT-BASIS",
-      "file_path": "00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md",
-      "hash": "sha256:example789",
-      "cm_status": "Approved"
+      "artifact_id": "K01-CERT-BASIS-PLAN",
+      "type": "PLAN",
+      "title": "Program-level Certification Strategy / Plan Anchor",
+      "source": "../../../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_v01.md",
+      "cm_status": "Approved (Example)",
+      "required": true,
+      "hash": { "alg": "sha256", "value": null }
     },
     {
-      "artifact_id": "K01-INDEX",
-      "file_path": "00_00_IDX_LC10_CERT_certification-knots-index_v01.md",
-      "hash": "sha256:exampleabc",
-      "cm_status": "Approved"
+      "artifact_id": "K01-ASSETS-INDEX",
+      "type": "IDX",
+      "title": "K01 Assets Index",
+      "source": "../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_v01.md",
+      "cm_status": "Approved (Example)",
+      "required": true,
+      "hash": { "alg": "sha256", "value": null }
+    },
+    {
+      "artifact_id": "K01-AUTH-PACK-EXAMPLE-MANIFEST",
+      "type": "SCH",
+      "title": "Authority Pack Example Manifest",
+      "source": "../k01-authority-pack-example/00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-manifest_v01.json",
+      "cm_status": "Approved (Example)",
+      "required": false,
+      "hash": { "alg": "sha256", "value": null }
+    },
+    {
+      "artifact_id": "K01-COMPLIANCE-WORKFLOW",
+      "type": "DIA",
+      "title": "K01 Compliance Workflow Diagram",
+      "source": "../../DIAGRAMS/00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_v01.md",
+      "cm_status": "Approved (Example)",
+      "required": false,
+      "hash": { "alg": "sha256", "value": null }
     }
-  ]
+  ],
+  "controls": {
+    "link_policy": {
+      "relative_paths_only": true,
+      "github_renderable": true,
+      "no_dead_links": true
+    },
+    "nku_gate": {
+      "enabled": true,
+      "target_metric": "NKU",
+      "release_threshold": null,
+      "note": "Example snapshot does not enforce threshold; real baselines must set threshold and record measured value."
+    },
+    "teknia_sharing_rules": {
+      "share_level": "INTERNAL",
+      "evidence_first": true,
+      "promote_to_external_when": [
+        "CERT approval recorded",
+        "CM baseline/release reference exists",
+        "Audit query reproducible end-to-end",
+        "Signed release pack reference available where required"
+      ]
+    }
+  }
 }
