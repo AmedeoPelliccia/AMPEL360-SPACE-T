@@ -91,6 +91,31 @@ python scripts/detect_new_types.py --auto-suggest
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
 📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md)
 
+### Certification Knots System
+
+Cross-cutting workflow elements for systematic certification and compliance activities:
+
+```bash
+# View active knots
+cat 00_90_CAT_SB00_CERT_knots-catalog_v01.json
+
+# Validate knot data structure
+python3 -c "
+import json, jsonschema
+schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_v01.json'))
+data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_v01.json'))
+jsonschema.validate(instance=data, schema=schema)
+print('✓ Knot data validated successfully')
+"
+```
+
+**Active Knots:**
+- **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (16 ATA systems)
+
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_00_CAT_LC10_CERT_knots-quick-reference_v01.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_00_IDX_LC10_CERT_certification-knots-index_v01.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md)
+
 ---
 
 ## Quick Start
