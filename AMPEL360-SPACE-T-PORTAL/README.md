@@ -88,7 +88,7 @@ Stakeholders collaborate through **shared Backlog Knots**. Each knot addresses a
 - **Partitioned Uncertainty Resolution** — Each stakeholder tackles their portion using ATA-specific tasklists
 - **Coordinated Decision-Making** — Decisions require cross-stakeholder input and CM approval
 - **Unified Evidence Chains** — All contributions link to the same traceability graph
-- **NKU Progress Tracking** — Non-Knowledge Uncertainty (NKU) metrics track resolution progress
+- **NKU Progress Tracking** — Net Knowledge Unit (NKU) metrics track resolution progress
 
 ---
 
@@ -513,9 +513,9 @@ AUTHORITY_PACK_<ID>/
 
 ## 6. Key Concepts
 
-### NKU (Non-Knowledge Uncertainty)
+### NKU (Net Knowledge Unit / Next Knowledge Aggregation)
 
-A metric tracking unresolved uncertainty in the program. Each knot has NKU credit assigned; closure requires:
+A metric tracking knowledge aggregation and uncertainty resolution in the program. Each knot has NKU credit assigned; closure requires:
 - **Evidence links** (reproducible, stable targets)
 - **Decision record** (minutes + approvals)
 - **Baseline update** (CM-approved incorporation)
