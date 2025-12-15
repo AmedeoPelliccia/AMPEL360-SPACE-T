@@ -1,0 +1,5 @@
+Gate_ID,Phase,Gate_Name,Entry_Criteria,Exit_Criteria,Authority_Review_Required
+G01,LC02,Safety Gate,FHA Complete,PSSA Approved,No
+G02,LC03,Requirements Gate,Requirements Baselined,Cert Basis Draft,Yes
+G03,LC10,Certification Gate,All Evidence Collected,Authority Approval,Yes
+G04,LC14,Operations Gate,Cert Complete,Operations Manual Approved,Yes

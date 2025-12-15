@@ -1,0 +1,28 @@
+{
+  "pack_id": "K01-AUTH-PACK-EXAMPLE-001",
+  "knot_id": "K01",
+  "ata_codes": [
+    "00",
+    "21",
+    "22"
+  ],
+  "created_date": "2025-12-15",
+  "version": "v01",
+  "status": "Example",
+  "evidence_items": [
+    {
+      "item_id": "CERT-BASIS-001",
+      "type": "STD",
+      "file_path": "00_00_STD_LC10_CERT_certification-basis_v01.md",
+      "hash": "sha256:example123",
+      "verification_status": "Complete"
+    },
+    {
+      "item_id": "COMPLIANCE-MATRIX-001",
+      "type": "TRC",
+      "file_path": "00_00_TRC_LC10_CERT_compliance-matrix_v01.md",
+      "hash": "sha256:example456",
+      "verification_status": "Complete"
+    }
+  ]
+}

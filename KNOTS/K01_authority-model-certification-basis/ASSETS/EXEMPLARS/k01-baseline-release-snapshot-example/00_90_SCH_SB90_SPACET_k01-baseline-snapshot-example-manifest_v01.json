@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "K01-BASELINE-SNAPSHOT-EXAMPLE-001",
+  "knot_id": "K01",
+  "baseline_name": "Certification Basis Baseline v1.0",
+  "snapshot_date": "2025-12-15",
+  "git_commit": "example_commit_hash",
+  "status": "Example",
+  "included_artifacts": [
+    {
+      "artifact_id": "K01-CERT-BASIS",
+      "file_path": "00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md",
+      "hash": "sha256:example789",
+      "cm_status": "Approved"
+    },
+    {
+      "artifact_id": "K01-INDEX",
+      "file_path": "00_00_IDX_LC10_CERT_certification-knots-index_v01.md",
+      "hash": "sha256:exampleabc",
+      "cm_status": "Approved"
+    }
+  ]
+}

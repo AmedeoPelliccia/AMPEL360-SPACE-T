@@ -1,0 +1,6 @@
+Criterion_ID,Category,Description,Verification_Method,Evidence_Type,Responsible_STK
+AC001,Documentation,Certification Basis Document Complete,Review,STD,STK_CERT
+AC002,Traceability,All Requirements Traced to Evidence,Audit,TRC,STK_DATA
+AC003,Testing,All Tests Executed Per Plan,Execution,RPT,STK_TEST
+AC004,Compliance,All Findings Resolved,Review,RPT,STK_CERT
+AC005,Authority,Authority Approval Received,Submission,STD,STK_CERT
