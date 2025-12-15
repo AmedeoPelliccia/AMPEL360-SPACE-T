@@ -132,7 +132,87 @@
         "LC10"
       ],
       "owner": "Regulatory Affairs / Certification Department",
-      "status": "active"
+      "status": "active",
+      "slug": "authority-model-certification-basis",
+      "directory_path": "KNOTS/K01_authority-model-certification-basis/",
+      "portal_effectivity": [
+        "SPACET-INT",
+        "SPACET-AUTH"
+      ],
+      "rbac_grants": {
+        "paths": [
+          {
+            "path": "PORTAL/STK_CERT/**/KNOTS/K01_*/**",
+            "grants": {
+              "STK_CERT": "W",
+              "STK_CM": "M",
+              "STK_PMO": "R",
+              "STK_SE": "R",
+              "STK_SAF": "R",
+              "STK_DATA": "R"
+            }
+          },
+          {
+            "path": "PORTAL/**/DECISIONS/**",
+            "grants": {
+              "STK_CM": "M",
+              "STK_CERT": "W"
+            }
+          },
+          {
+            "path": "PORTAL/**/EVIDENCE/**",
+            "grants": {
+              "STK_CM": "M",
+              "STK_CERT": "W"
+            }
+          },
+          {
+            "path": "PROGRAM/ATA_00-GENERAL/**",
+            "grants": {
+              "STK_CM": "M",
+              "STK_CERT": "W"
+            }
+          },
+          {
+            "path": "EXPORTS/**",
+            "grants": {
+              "STK_CM": "M",
+              "STK_CY": "M",
+              "STK_CERT": "R"
+            }
+          }
+        ]
+      },
+      "primary_aor": "STK_CERT",
+      "stakeholder_dependencies": [
+        "STK_CM",
+        "STK_PMO",
+        "STK_SE",
+        "STK_SAF",
+        "STK_DATA"
+      ],
+      "focus": "Certification basis, authority model, decision rights, acceptance criteria, compliance mapping",
+      "primary_outputs": [
+        "STD",
+        "IDX",
+        "RPT",
+        "TRC"
+      ],
+      "affected_ata_pattern": "00,01-04,18,20-79,80-89,90-99,100-116",
+      "canonical_dir_skeleton": [
+        "KNOTS/K01_authority-model-certification-basis/",
+        "00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md",
+        "ATA_TASKS/ATA_XX/XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_v01.md",
+        "DECISIONS/00_00_STD_LC01_SPACET_k01-decision-record_v01.md",
+        "EVIDENCE/00_00_TRC_LC01_SPACET_k01-evidence-map_v01.md",
+        "EVIDENCE/00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md",
+        "MONITORING/00_00_LOG_LC01_SPACET_k01-nku-tracking_v01.csv",
+        "TEKNIA/00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_v01.md",
+        "ASSETS/",
+        "EXPORTS/",
+        "ISSUES/",
+        "NOTES/"
+      ]
     }
   }
 }

@@ -108,6 +108,88 @@
               "type": "string",
               "enum": ["draft", "active", "deprecated"],
               "description": "Current status of the knot definition"
+            },
+            "slug": {
+              "type": "string",
+              "description": "URL-friendly slug for the knot (kebab-case)",
+              "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+            },
+            "directory_path": {
+              "type": "string",
+              "description": "Canonical directory path for knot artifacts"
+            },
+            "portal_effectivity": {
+              "type": "array",
+              "description": "Portal view applicability tags",
+              "items": {
+                "type": "string",
+                "enum": ["SPACET-INT", "SPACET-OPS", "SPACET-AUTH", "SPACET-SUP"]
+              }
+            },
+            "rbac_grants": {
+              "type": "object",
+              "description": "RBAC workspace access grants",
+              "properties": {
+                "paths": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "description": "Path pattern for access control"
+                      },
+                      "grants": {
+                        "type": "object",
+                        "description": "Stakeholder access rights",
+                        "patternProperties": {
+                          "^STK_[A-Z]+$": {
+                            "type": "string",
+                            "enum": ["R", "W", "M"],
+                            "description": "R=read, W=write via PR, M=merge/approval"
+                          }
+                        }
+                      }
+                    },
+                    "required": ["path", "grants"]
+                  }
+                }
+              }
+            },
+            "primary_aor": {
+              "type": "string",
+              "description": "Primary Area of Responsibility (Portal STK)",
+              "pattern": "^STK_[A-Z]+$"
+            },
+            "stakeholder_dependencies": {
+              "type": "array",
+              "description": "Cross-dependent stakeholders",
+              "items": {
+                "type": "string",
+                "pattern": "^STK_[A-Z]+$"
+              }
+            },
+            "focus": {
+              "type": "string",
+              "description": "Primary focus and uncertainty areas"
+            },
+            "primary_outputs": {
+              "type": "array",
+              "description": "Typical output TYPE codes",
+              "items": {
+                "type": "string"
+              }
+            },
+            "affected_ata_pattern": {
+              "type": "string",
+              "description": "Compact pattern representation of affected ATAs"
+            },
+            "canonical_dir_skeleton": {
+              "type": "array",
+              "description": "Canonical directory structure for this knot",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "required": ["title", "affected_atas", "task_templates"]

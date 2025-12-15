@@ -69,6 +69,94 @@ This knot applies to 52 ATA systems across all OPT-IN Framework axes:
 - **114**: AI/ML VALIDATION SUITES - AI validation, robustness testing
 - **115**: CERTIFICATION TESTS - Compliance tests and reports
 
+## 2. Knot Definition
+
+### 2.1 Knot Overview
+**Knot ID:** K01  
+**Title:** certification-authority-basis  
+**Slug:** authority-model-certification-basis  
+**Status:** Active  
+**Owner:** Regulatory Affairs / Certification Department  
+**Primary AoR:** STK_CERT (Certification Stakeholder)
+
+### 2.2 Organizational Structure
+**Directory Path:** `KNOTS/K01_authority-model-certification-basis/`
+
+**Portal Effectivity:**
+- **SPACET-INT**: Internal team access
+- **SPACET-AUTH**: Authority pack-ready (for submission to certification authorities)
+
+**Stakeholder Dependencies:**
+- STK_CM (Configuration Management)
+- STK_PMO (Program Management Office)
+- STK_SE (Systems Engineering)
+- STK_SAF (Safety)
+- STK_DATA (Data Governance)
+
+### 2.3 Access Control (RBAC)
+
+The following workspace access grants apply to K01 artifacts:
+
+1. **Knot-specific artifacts** (`PORTAL/STK_CERT/**/KNOTS/K01_*/**`):
+   - STK_CERT: Write (via PR)
+   - STK_CM: Merge/Approval authority
+   - STK_PMO, STK_SE, STK_SAF, STK_DATA: Read access
+
+2. **Decision records** (`PORTAL/**/DECISIONS/**`):
+   - STK_CM: Merge/Approval authority
+   - STK_CERT: Write (via PR)
+
+3. **Evidence packages** (`PORTAL/**/EVIDENCE/**`):
+   - STK_CM: Merge/Approval authority
+   - STK_CERT: Write (via PR)
+
+4. **Program-level artifacts** (`PROGRAM/ATA_00-GENERAL/**`):
+   - STK_CM: Merge/Approval authority
+   - STK_CERT: Write (via PR)
+
+5. **Export packages** (`EXPORTS/**`):
+   - STK_CM, STK_CY: Merge/Approval authority
+   - STK_CERT: Read access
+
+### 2.4 Focus Areas
+K01 addresses the following focus areas and uncertainties:
+- Certification basis establishment
+- Authority model and decision rights
+- Acceptance criteria definition
+- Compliance mapping and traceability
+
+### 2.5 Primary Outputs
+K01 activities typically produce the following document types:
+- **STD**: Standards and specifications
+- **IDX**: Indexes and catalogs
+- **RPT**: Reports and assessments
+- **TRC**: Traceability matrices
+
+### 2.6 Canonical Directory Structure
+
+The following directory skeleton defines the standard organization for K01 artifacts:
+
+```
+KNOTS/K01_authority-model-certification-basis/
+├── 00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md
+├── ATA_TASKS/
+│   └── ATA_XX/
+│       └── XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_v01.md
+├── DECISIONS/
+│   └── 00_00_STD_LC01_SPACET_k01-decision-record_v01.md
+├── EVIDENCE/
+│   ├── 00_00_TRC_LC01_SPACET_k01-evidence-map_v01.md
+│   └── 00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md
+├── MONITORING/
+│   └── 00_00_LOG_LC01_SPACET_k01-nku-tracking_v01.csv
+├── TEKNIA/
+│   └── 00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_v01.md
+├── ASSETS/
+├── EXPORTS/
+├── ISSUES/
+└── NOTES/
+```
+
 ### 1.3 Applicable Documents
 
 **Regulatory Standards:**
@@ -92,21 +180,13 @@ This knot applies to 52 ATA systems across all OPT-IN Framework axes:
 - Safety Management System Plan
 - Configuration Management Plan
 
-## 2. Knot Definition
-
-### 2.1 Knot Overview
-**Knot ID:** K01  
-**Title:** certification-authority-basis  
-**Status:** Active  
-**Owner:** Regulatory Affairs / Certification Department  
-
-### 2.2 Lifecycle Phases
+### 2.7 Lifecycle Phases
 This knot is active during the following lifecycle phases:
 - **LC02**: Safety - Initial safety and airworthiness planning
 - **LC03**: Requirements - Requirements definition and compliance planning
 - **LC10**: Certification - Active certification activities and authority engagement
 
-### 2.3 Dependencies
+### 2.8 Dependencies
 This is a foundational knot with no dependencies. Other knots may depend on K01 outputs.
 
 ## 3. Task Templates

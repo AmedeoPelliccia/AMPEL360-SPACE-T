@@ -33,11 +33,26 @@ Knots provide a systematic approach to managing complex, cross-system certificat
 ### 2.1 K01: Certification Authority Basis
 
 **Status:** Active  
+**Slug:** authority-model-certification-basis  
 **Owner:** Regulatory Affairs / Certification Department  
+**Primary AoR:** STK_CERT  
 **Lifecycle Phases:** LC02, LC03, LC10
 
 **Purpose:**  
 Establishes the certification basis and decision criteria for the Space-T vehicle, defining compliance objectives and mapping them to evidence and verification activities.
+
+**Organizational Structure:**
+- **Directory Path:** `KNOTS/K01_authority-model-certification-basis/`
+- **Portal Effectivity:** SPACET-INT (internal), SPACET-AUTH (authority pack-ready)
+- **Stakeholder Dependencies:** STK_CM, STK_PMO, STK_SE, STK_SAF, STK_DATA
+
+**Focus Areas:**
+- Certification basis establishment
+- Authority model and decision rights
+- Acceptance criteria definition
+- Compliance mapping and traceability
+
+**Primary Outputs:** STD, IDX, RPT, TRC
 
 **Affected ATA Systems:** 52 systems across all OPT-IN axes
 - O/P Axis: 00, 01, 02, 03, 04, 11, 13-19

@@ -14,7 +14,11 @@ A **knot** is a cross-cutting workflow element that represents certification/com
 ## Active Knots
 
 ### K01: Certification Authority Basis
-**Status:** Active | **Owner:** Regulatory Affairs
+**Status:** Active | **Slug:** authority-model-certification-basis  
+**Owner:** Regulatory Affairs | **AoR:** STK_CERT
+
+**Directory:** `KNOTS/K01_authority-model-certification-basis/`  
+**Portal:** SPACET-INT | SPACET-AUTH
 
 **Affected Systems:** 52 ATAs across all axes (O/P, T, N, SIMTEST)
 - Full list: 00, 01, 02, 03, 04, 11, 13-19, 21, 22, 24-28, 32-35, 38, 42-44, 47, 48, 52, 56, 58, 59, 67-69, 72-74, 76, 90, 93, 96, 100, 105, 106, 109, 110, 112, 114, 115
