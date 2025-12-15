@@ -44,7 +44,7 @@ class NomenclatureValidator:
         r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
         r'(?P<type>[A-Z0-9]{2,8})_'
-        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB\d{2}))_'
+        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
@@ -54,14 +54,27 @@ class NomenclatureValidator:
     # LC stage pattern (LC01-LC14)
     LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
     
-    # SB stage pattern (SB00-SB99)
-    SB_PATTERN = re.compile(r'^SB\d{2}$')
+    # SB stage pattern (SB15-SB99)
+    SB_PATTERN = re.compile(r'^SB(1[5-9]|[2-9]\d)$')
     
     # VERSION format pattern
     VERSION_PATTERN = re.compile(r'^v\d{2}$')
     
     # Allowed buckets
     ALLOWED_BUCKETS = {'00', '10', '20', '30', '40', '50', '60', '70', '80', '90'}
+    
+    # Bucket-specific subbucket ranges
+    BUCKET_SUBBUCKET_RANGES = {
+        '10': [(15, 19), (80, 85)],  # Operations: SB15-SB19 + SB80-SB85
+        '20': [(20, 29)],             # Primary Subsystem: SB20-SB29
+        '30': [(30, 39)],             # Circularity: SB30-SB39
+        '40': [(40, 49)],             # Software: SB40-SB49
+        '50': [(50, 59)],             # Structures: SB50-SB59
+        '60': [(60, 69)],             # Storages: SB60-SB69
+        '70': [(70, 79)],             # Propulsion: SB70-SB79
+        '80': [(86, 89)],             # Energy: SB86-SB89
+        '90': [(90, 99)],             # Tables/Schemas/Diagrams/Reference: SB90-SB99
+    }
     
     # Approved TYPE vocabulary
     APPROVED_TYPES = {
@@ -178,8 +191,31 @@ class NomenclatureValidator:
             # BUCKET≠00 requires SB stage
             if not self.SB_PATTERN.match(stage):
                 errors.append(
-                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB00-SB99, got '{stage}'"
+                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB format, got '{stage}'"
                 )
+            else:
+                # Validate bucket-specific subbucket range
+                if bucket in self.BUCKET_SUBBUCKET_RANGES:
+                    try:
+                        # Extract numeric part from stage (e.g., "SB15" -> 15)
+                        sb_num = int(stage[2:])
+                        ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
+                        
+                        # Check if subbucket number is in any of the allowed ranges for this bucket
+                        in_range = any(start <= sb_num <= end for start, end in ranges)
+                        
+                        if not in_range:
+                            # Format ranges for error message
+                            range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
+                            allowed = " or ".join(range_strs)
+                            errors.append(
+                                f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be {allowed}, got '{stage}'"
+                            )
+                    except (ValueError, IndexError):
+                        # This should not happen if SB_PATTERN matched, but handle defensively
+                        errors.append(
+                            f"Invalid subbucket format '{stage}' for BUCKET={bucket}"
+                        )
         
         # Check for redundancy in DESCRIPTION
         desc_lower = desc.lower()
