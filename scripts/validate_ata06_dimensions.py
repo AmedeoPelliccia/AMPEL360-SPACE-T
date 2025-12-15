@@ -294,12 +294,16 @@ def validate_geometry_bounds(data: Dict, result: ValidationResult):
         bounds = zone.get("bounds", {})
         
         if bounds.get("type") == "cuboid":
-            if bounds.get("x_min", 0) >= bounds.get("x_max", 0):
-                result.add_error(f"{identifier}: x_min must be less than x_max")
-            if bounds.get("y_min", 0) >= bounds.get("y_max", 0):
-                result.add_error(f"{identifier}: y_min must be less than y_max")
-            if bounds.get("z_min", 0) >= bounds.get("z_max", 0):
-                result.add_error(f"{identifier}: z_min must be less than z_max")
+            # Check that required fields exist before comparing
+            if "x_min" in bounds and "x_max" in bounds:
+                if bounds["x_min"] >= bounds["x_max"]:
+                    result.add_error(f"{identifier}: x_min must be less than x_max")
+            if "y_min" in bounds and "y_max" in bounds:
+                if bounds["y_min"] >= bounds["y_max"]:
+                    result.add_error(f"{identifier}: y_min must be less than y_max")
+            if "z_min" in bounds and "z_max" in bounds:
+                if bounds["z_min"] >= bounds["z_max"]:
+                    result.add_error(f"{identifier}: z_min must be less than z_max")
 
 
 def validate_file(file_path: str, schema_path: str) -> ValidationResult:

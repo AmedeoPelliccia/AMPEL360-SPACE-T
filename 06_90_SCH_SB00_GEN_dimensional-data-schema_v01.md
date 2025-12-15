@@ -359,8 +359,9 @@ See the JSON schema file for comprehensive examples.
   "metadata": {
     "export_timestamp": "not-a-valid-timestamp",  // Invalid: not ISO 8601
     "cad_source": {
-      "tool": "CATIA V6"
+      "tool": "CATIA V6",
       // Missing required fields: version, model_file
+      "placeholder": "to make valid JSON"
     },
     "baseline_id": "BASELINE-1",  // Invalid: doesn't match pattern BL-NNNN
     "schema_version": "1.0"
