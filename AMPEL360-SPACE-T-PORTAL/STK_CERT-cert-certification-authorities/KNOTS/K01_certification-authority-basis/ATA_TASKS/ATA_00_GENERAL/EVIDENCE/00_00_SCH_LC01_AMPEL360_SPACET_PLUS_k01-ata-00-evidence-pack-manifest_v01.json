@@ -1,1 +1,636 @@
-{"ata": "00", "knot_id": "K01", "status": "template"}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-manifest_v01.json",
+  "title": "K01 ATA 00 Evidence Pack Manifest (Schema)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest",
+    "contents"
+  ],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "project",
+        "program",
+        "variant",
+        "knot_id",
+        "ata_code",
+        "lc_or_subbucket",
+        "status",
+        "aor_owner",
+        "created_date",
+        "description",
+        "effectivity",
+        "rbac",
+        "teknia_sharing"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^v\\d{2}$",
+          "description": "Schema revision identifier aligned to repository naming (e.g., v01)."
+        },
+        "project": {
+          "type": "string",
+          "const": "AMPEL360"
+        },
+        "program": {
+          "type": "string",
+          "const": "SPACET"
+        },
+        "variant": {
+          "type": "string",
+          "const": "PLUS",
+          "description": "Variant for AMPEL360 Space-T Plus (AMPEL360+)."
+        },
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K\\d{2}$",
+          "const": "K01"
+        },
+        "ata_code": {
+          "type": "string",
+          "pattern": "^(\\d{2}|\\d{3})$",
+          "const": "00"
+        },
+        "ata_title": {
+          "type": "string",
+          "default": "GENERAL",
+          "description": "Human-readable ATA title used for navigability."
+        },
+        "lc_or_subbucket": {
+          "type": "string",
+          "pattern": "^LC(0[1-9]|1[0-4])$",
+          "const": "LC01",
+          "description": "Lifecycle category. For BUCKET=00, LC01–LC14 is mandatory."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "DRAFT",
+            "ACTIVE",
+            "FROZEN",
+            "RELEASED",
+            "OBSOLETE"
+          ]
+        },
+        "aor_owner": {
+          "type": "string",
+          "enum": [
+            "CERT",
+            "CM",
+            "PMO",
+            "SE",
+            "SAF",
+            "OPS",
+            "SPACEPORT",
+            "MRO",
+            "DATA",
+            "AI",
+            "CY",
+            "TEST",
+            "QA",
+            "ESG",
+            "LEGAL"
+          ],
+          "description": "Portal entry point with Area of Responsibility (AoR)."
+        },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10
+        },
+        "purpose": {
+          "type": "string",
+          "description": "What decision/evidence this pack supports."
+        },
+        "related_acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^AC-00-\\d{3}$"
+          },
+          "default": []
+        },
+        "related_tasks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^T\\d{3}$"
+          },
+          "default": []
+        },
+        "effectivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "portal_scopes",
+            "workspace_access_grants"
+          ],
+          "properties": {
+            "portal_scopes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "description": "Portal scopes (e.g., SPACET-INT, SPACET-EXT, PUBLIC-SNAPSHOT)."
+              }
+            },
+            "workspace_access_grants": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "principal",
+                  "role",
+                  "access",
+                  "paths"
+                ],
+                "properties": {
+                  "principal": {
+                    "type": "string",
+                    "description": "RBAC principal group (e.g., STK_CERT, STK_CM, STK_SE, STK_AI)."
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Role name (e.g., Owner, Maintainer, Reviewer, Contributor, Viewer)."
+                  },
+                  "access": {
+                    "type": "string",
+                    "enum": [
+                      "read",
+                      "write",
+                      "review",
+                      "admin"
+                    ]
+                  },
+                  "paths": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "description": "Repo-relative paths to which this grant applies."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rbac": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "classification",
+            "minimum_reviewers"
+          ],
+          "properties": {
+            "classification": {
+              "type": "string",
+              "enum": [
+                "INTERNAL",
+                "PARTNER",
+                "PUBLIC"
+              ],
+              "description": "Repository disclosure level for this evidence pack."
+            },
+            "minimum_reviewers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "CERT",
+                  "CM",
+                  "QA",
+                  "SAF",
+                  "SE",
+                  "CY"
+                ]
+              }
+            },
+            "required_approvals": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          }
+        },
+        "teknia_sharing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "share_policy",
+            "nku_reporting"
+          ],
+          "properties": {
+            "share_policy": {
+              "type": "string",
+              "enum": [
+                "EVIDENCE_FIRST",
+                "RESTRICTED",
+                "PUBLIC_SNAPSHOT"
+              ],
+              "description": "Controls how/when this pack can be shared (TEKNIA rule gate)."
+            },
+            "nku_reporting": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "nku_tracker_path",
+                "reporting_frequency"
+              ],
+              "properties": {
+                "nku_tracker_path": {
+                  "type": "string",
+                  "description": "Repo-relative CSV path for NKU tracking for this ATA/Knot."
+                },
+                "reporting_frequency": {
+                  "type": "string",
+                  "enum": [
+                    "per_pr",
+                    "weekly",
+                    "monthly",
+                    "per_release"
+                  ]
+                },
+                "nku_thresholds": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "block_release_if_open_nku_count_ge": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "block_release_if_critical_nku_open": {
+                      "type": "boolean"
+                    }
+                  },
+                  "default": {}
+                }
+              }
+            }
+          }
+        },
+        "signing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "signing_required": {
+              "type": "boolean",
+              "default": true
+            },
+            "signature_algorithm": {
+              "type": "string",
+              "description": "E.g., minisign, cosign, pgp, x509, or program-defined."
+            },
+            "key_id": {
+              "type": "string"
+            },
+            "signed_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "signature": {
+              "type": "string",
+              "description": "Detached signature or signature reference."
+            }
+          }
+        }
+      }
+    },
+    "contents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "artifact_role",
+          "nomenclature",
+          "hashes"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 5,
+            "description": "Repo-relative path to the artifact."
+          },
+          "artifact_role": {
+            "type": "string",
+            "enum": [
+              "requirement",
+              "acceptance_criteria",
+              "decision",
+              "evidence",
+              "traceability",
+              "report",
+              "schema",
+              "table",
+              "diagram",
+              "link"
+            ]
+          },
+          "nomenclature": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "root",
+              "bucket",
+              "type",
+              "lc_or_subbucket",
+              "project",
+              "program",
+              "variant",
+              "description",
+              "version",
+              "ext"
+            ],
+            "properties": {
+              "root": {
+                "type": "string",
+                "pattern": "^\\d{2}$"
+              },
+              "bucket": {
+                "type": "string",
+                "pattern": "^\\d{2}$",
+                "const": "00"
+              },
+              "type": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{2,8}$"
+              },
+              "lc_or_subbucket": {
+                "type": "string",
+                "pattern": "^LC(0[1-9]|1[0-4])$"
+              },
+              "project": {
+                "type": "string",
+                "const": "AMPEL360"
+              },
+              "program": {
+                "type": "string",
+                "const": "SPACET"
+              },
+              "variant": {
+                "type": "string",
+                "const": "PLUS"
+              },
+              "description": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^v\\d{2}$"
+              },
+              "ext": {
+                "type": "string",
+                "pattern": "^[a-z0-9]{1,6}$"
+              }
+            }
+          },
+          "hashes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sha256"
+            ],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[A-Fa-f0-9]{64}$"
+              },
+              "sha1": {
+                "type": "string",
+                "pattern": "^[A-Fa-f0-9]{40}$"
+              }
+            }
+          },
+          "linked_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^AC-00-\\d{3}$"
+            },
+            "default": []
+          },
+          "linked_tasks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^T\\d{3}$"
+            },
+            "default": []
+          },
+          "source_refs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "commits": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              }
+            },
+            "default": {}
+          }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audit_queries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "expected_output": {
+                "type": "string"
+              }
+            }
+          },
+          "default": []
+        }
+      },
+      "default": {}
+    }
+  },
+  "examples": [
+    {
+      "manifest": {
+        "schema_version": "v01",
+        "project": "AMPEL360",
+        "program": "SPACET",
+        "variant": "PLUS",
+        "knot_id": "K01",
+        "ata_code": "00",
+        "ata_title": "GENERAL",
+        "lc_or_subbucket": "LC01",
+        "status": "ACTIVE",
+        "aor_owner": "CERT",
+        "contributors": [
+          "CM",
+          "QA",
+          "SE"
+        ],
+        "created_date": "2025-12-15",
+        "updated_date": "2025-12-15",
+        "description": "Evidence-pack manifest schema for K01 ATA 00 certification authority basis.",
+        "purpose": "Define and audit the minimum evidence bundle required for ATA 00 K01 closure.",
+        "related_acceptance_criteria": [
+          "AC-00-011",
+          "AC-00-012"
+        ],
+        "related_tasks": [
+          "T001",
+          "T002"
+        ],
+        "effectivity": {
+          "portal_scopes": [
+            "SPACET-INT"
+          ],
+          "workspace_access_grants": [
+            {
+              "principal": "STK_CERT",
+              "role": "Owner",
+              "access": "admin",
+              "paths": [
+                "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/"
+              ]
+            },
+            {
+              "principal": "STK_CM",
+              "role": "Reviewer",
+              "access": "review",
+              "paths": [
+                "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/"
+              ]
+            }
+          ]
+        },
+        "rbac": {
+          "classification": "INTERNAL",
+          "minimum_reviewers": [
+            "CERT",
+            "CM"
+          ],
+          "required_approvals": [
+            "CERT"
+          ]
+        },
+        "teknia_sharing": {
+          "share_policy": "EVIDENCE_FIRST",
+          "nku_reporting": {
+            "nku_tracker_path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv",
+            "reporting_frequency": "per_pr",
+            "nku_thresholds": {
+              "block_release_if_open_nku_count_ge": 1,
+              "block_release_if_critical_nku_open": true
+            }
+          }
+        },
+        "signing": {
+          "signing_required": true,
+          "signature_algorithm": "program-defined",
+          "key_id": "",
+          "signed_at": "",
+          "signature": ""
+        }
+      },
+      "contents": [
+        {
+          "path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-acceptance-criteria_v01.md",
+          "artifact_role": "acceptance_criteria",
+          "nomenclature": {
+            "root": "00",
+            "bucket": "00",
+            "type": "REQ",
+            "lc_or_subbucket": "LC01",
+            "project": "AMPEL360",
+            "program": "SPACET",
+            "variant": "PLUS",
+            "description": "k01-ata-00-acceptance-criteria",
+            "version": "v01",
+            "ext": "md"
+          },
+          "hashes": {
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "linked_criteria": [
+            "AC-00-011"
+          ],
+          "linked_tasks": [
+            "T001"
+          ],
+          "source_refs": {
+            "prs": [],
+            "issues": [],
+            "commits": []
+          }
+        }
+      ],
+      "audit": {
+        "audit_queries": [
+          {
+            "name": "K01 ATA00 pack completeness",
+            "path": "KNOTS/K01_authority-model-certification-basis/ASSETS/SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-audit-query-contract_v01.yaml",
+            "expected_output": "All mandatory artifacts present, hashed, and linked to criteria."
+          }
+        ]
+      }
+    }
+  ]
+}
+
