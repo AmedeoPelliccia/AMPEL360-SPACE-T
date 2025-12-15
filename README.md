@@ -110,7 +110,7 @@ print('✓ Knot data validated successfully')
 ```
 
 **Active Knots:**
-- **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (16 ATA systems)
+- **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
 📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_00_CAT_LC10_CERT_knots-quick-reference_v01.md)  
 📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_00_IDX_LC10_CERT_certification-knots-index_v01.md)  

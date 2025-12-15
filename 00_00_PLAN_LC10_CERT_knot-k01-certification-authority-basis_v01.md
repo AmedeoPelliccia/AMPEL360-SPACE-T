@@ -15,29 +15,59 @@ status: Active
 This document defines the Certification Authority Basis Knot (K01), a cross-cutting workflow element that establishes the certification basis and decision criteria for the AMPEL360 Space-T vehicle. The knot ensures systematic compliance with regulatory requirements across all affected ATA systems.
 
 ### 1.2 Scope
-This knot applies to the following ATA systems:
+This knot applies to 52 ATA systems across all OPT-IN Framework axes:
 
 **Organization & Program (O/P Axis):**
 - **00**: GENERAL_PROGRAM - Program governance, standards, configuration management
-- **01**: POLICY_PROCEDURES - Corporate policies, procedures, directives  
+- **01**: POLICY_PROCEDURES - Corporate policies, procedures, directives
+- **02**: OPERATIONS/ORGANIZATION - Operational governance and organization
+- **03**: SUPPORT INFORMATION - Operational support information
 - **04**: AIRWORTHINESS_LIMITS - Certification basis, airworthiness limitations
+- **11**: PLACARDS AND MARKINGS - Placards, markings, labels
+- **13-19**: NOT ASSIGNED / RESERVED - Reserved for future Space-T allocation
 
 **Technology Systems (T Axis):**
-- **05**: TIME_LIMITS - Inspection intervals, maintenance schedules
-- **18**: Helicopter vibration and noise (Space-T adaptation: Vehicle vibration/acoustics)
-- **20**: Standard practices (Space-T adaptation: Space operations standard practices)
-- **21**: ECLSS - Environmental Control & Life Support System
-- **22**: GNC_AUTOFLIGHT - Guidance, Navigation, Control (AOCS)
-- **24**: EPS_POWER - Electrical Power System
-- **26**: FIRE_PROTECTION - Fire detection, suppression, smoke management
-- **27**: FLIGHT_CONTROLS - RCS, aero surfaces, TVC actuators
-- **28**: PROPULSION_FUEL - Tanks, feed lines, engines, propellants
-- **42**: IMA_SYSTEMS - Integrated Modular Avionics
+- **21**: AIR CONDITIONING / ENVIRONMENTAL CONTROL - ECLSS, ECS, thermal
+- **22**: AUTO FLIGHT / GUIDANCE-NAVIGATION-CONTROL - GNC, autonomy
+- **24**: ELECTRICAL POWER - Power generation, distribution, HVDC
+- **25**: EQUIPMENT / FURNISHINGS - Cabin equipment, interiors
+- **26**: FIRE PROTECTION - Fire detection, suppression, flammability
+- **27**: FLIGHT CONTROLS - Actuators, surfaces, control laws
+- **28**: FUEL / PROPELLANT SYSTEMS - Tanks, feeds, propellants
+- **32**: LANDING GEAR - Gear, braking, steering
+- **33**: LIGHTS - External/internal lighting, signaling
+- **34**: NAVIGATION - Nav sensors, GNSS/INS, sensor fusion
+- **35**: OXYGEN / LIFE SUPPORT GAS - Life support gas storage/distribution
+- **38**: WATER / WASTE - Life support water/waste systems
+- **42**: INTEGRATED MODULAR AVIONICS - Compute platform, IMA
+- **43**: RESERVED / PLATFORM INTEGRATION - Platform integration adapters
+- **44**: CABIN SYSTEMS - Cabin comfort, passenger services
+- **47**: INERT GAS SYSTEM - Tank inerting, purge systems
+- **48**: IN-FLIGHT FUEL DISPENSING - Reserved for in-flight fuel transfer
+- **52**: DOORS / HATCHES - Doors, hatches, seals, egress
+- **56**: WINDOWS / VIEWPORTS - Windows, optical viewports
+- **58-59**: RESERVED / EXTENSION - Reserved for extensions
+- **67**: ROTORS FLIGHT CONTROL - Rotor control (if applicable)
+- **68-69**: RESERVED / EXTENSION - Reserved for extensions
+- **72**: ENGINE - Main propulsion engines (turbine/rocket/hybrid)
+- **73**: ENGINE FUEL AND CONTROL - Engine fuel control, FADEC
+- **74**: IGNITION - Engine ignition, interlocks
+- **76**: ENGINE CONTROLS - Engine control integration
 
-**Infrastructure (I Axis):**
-- **100**: Ground operations infrastructure
-- **109**: Mission control and flight operations
-- **115**: SUPPLY_CHAIN - Supplier network, procurement, QA
+**Neural Networks & DPP (N Axis):**
+- **90**: AI/ML MODEL REGISTRY - Model lifecycle management
+- **93**: TRACEABILITY GRAPH - Requirements/design/V&V traceability
+- **96**: AI GOVERNANCE - AI risk, assurance, monitoring
+
+**Simulation & Test (T-SIMTEST):**
+- **100**: SIM/TEST GOVERNANCE - Test plans, environments, quality
+- **105**: PIL / TARGET EXECUTION - Processor-in-the-loop testing
+- **106**: TEST PROCEDURES - Test cases, acceptance criteria
+- **109**: VV EVIDENCE PACKS - Verification/validation evidence
+- **110**: QUALIFICATION TESTING - Environmental testing (thermal/vac/vib)
+- **112**: MISSION/FLIGHT TESTING - Operational demos, readiness
+- **114**: AI/ML VALIDATION SUITES - AI validation, robustness testing
+- **115**: CERTIFICATION TESTS - Compliance tests and reports
 
 ### 1.3 Applicable Documents
 

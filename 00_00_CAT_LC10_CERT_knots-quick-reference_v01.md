@@ -16,7 +16,8 @@ A **knot** is a cross-cutting workflow element that represents certification/com
 ### K01: Certification Authority Basis
 **Status:** Active | **Owner:** Regulatory Affairs
 
-**Affected Systems:** 16 ATAs (00, 01, 04, 05, 18, 20, 21, 22, 24, 26, 27, 28, 42, 100, 109, 115)
+**Affected Systems:** 52 ATAs across all axes (O/P, T, N, SIMTEST)
+- Full list: 00, 01, 02, 03, 04, 11, 13-19, 21, 22, 24-28, 32-35, 38, 42-44, 47, 48, 52, 56, 58, 59, 67-69, 72-74, 76, 90, 93, 96, 100, 105, 106, 109, 110, 112, 114, 115
 
 **Tasks:**
 - **T001**: Define Certification Basis and Decision Criteria (8-12 weeks)

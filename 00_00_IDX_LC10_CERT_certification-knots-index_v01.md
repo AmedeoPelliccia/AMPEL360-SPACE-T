@@ -39,7 +39,11 @@ Knots provide a systematic approach to managing complex, cross-system certificat
 **Purpose:**  
 Establishes the certification basis and decision criteria for the Space-T vehicle, defining compliance objectives and mapping them to evidence and verification activities.
 
-**Affected ATA Systems:** 00, 01, 04, 05, 18, 20, 21, 22, 24, 26, 27, 28, 42, 100, 109, 115 (16 systems)
+**Affected ATA Systems:** 52 systems across all OPT-IN axes
+- O/P Axis: 00, 01, 02, 03, 04, 11, 13-19
+- T-Technology: 21, 22, 24-28, 32-35, 38, 42-44, 47, 48, 52, 56, 58, 59, 67-69, 72-74, 76
+- N-Neural: 90, 93, 96
+- T-SIMTEST: 100, 105, 106, 109, 110, 112, 114, 115
 
 **Task Templates:**
 - **T001**: Define Certification Basis and Decision Criteria
