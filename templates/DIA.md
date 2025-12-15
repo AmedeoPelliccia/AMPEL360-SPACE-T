@@ -1,6 +1,8 @@
 ---
 title: "Diagram: {{DESCRIPTION}}"
 type: DIA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 diagram_type: "TBD"
 status: Draft

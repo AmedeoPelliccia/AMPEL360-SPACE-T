@@ -1,6 +1,8 @@
 ---
 title: "Fault Tree Analysis: {{SYSTEM_NAME}}"
 type: FTA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 bucket: "{{BUCKET}}"
 top_event: "TBD"

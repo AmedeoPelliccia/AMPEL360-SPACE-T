@@ -1,6 +1,8 @@
 ---
 title: "{{DESCRIPTION}}"
 type: REQ
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 traceability_link: "TRC-{{BUCKET}}"
 status: Draft

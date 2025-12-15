@@ -1,6 +1,8 @@
 ---
 title: "Index: {{DESCRIPTION}}"
 type: IDX
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 indexed_content: "TBD"
 status: Draft

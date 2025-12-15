@@ -1,6 +1,8 @@
 ---
 title: "Schema: {{DESCRIPTION}}"
 type: SCH
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 schema_type: "JSON Schema"
 version: "{{VERSION}}"

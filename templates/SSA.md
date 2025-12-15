@@ -1,6 +1,8 @@
 ---
 title: "System Safety Assessment: {{SYSTEM_NAME}}"
 type: SSA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 bucket: "{{BUCKET}}"
 certification_basis: "TBD"

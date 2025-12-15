@@ -11,7 +11,7 @@ Complete OPT-IN Framework Directory Structure Generator Suite
 This repository contains the official directory structure generators for AMPEL360 Space-T projects, implementing:
 
 - **OPT-IN Framework Standard v1.1** (5 axes: Organization, Program, Technology, Infrastructures, Neural)
-- **Nomenclature Standard v1.0** (Mandatory file naming convention with CI/CD enforcement)
+- **Nomenclature Standard v3.0** (Mandatory 10-field file naming with PROJECT/PROGRAM identity)
 - **ATA-SpaceT numbering system** (70+ aerospace systems across all axes)
 - **14-folder lifecycle structure** (XX-00_GENERAL canonical pattern)
 - **9 Cross-ATA root buckets** (XX-10 through XX-90)
@@ -20,22 +20,36 @@ This repository contains the official directory structure generators for AMPEL36
 
 ---
 
-## File Naming Convention (Nomenclature Standard v1.0)
+## File Naming Convention (Nomenclature Standard v3.0)
 
 **All artifacts in this repository MUST follow the mandatory nomenclature standard.**
 
 ### Format
 
 ```
-[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
+[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
 ```
+
+### Field Definitions
+
+- **ROOT**: ATA code (2-3 digits, e.g., `00`, `24`, `115`)
+- **BUCKET**: Domain classification (`00|10|20|30|40|50|60|70|80|90`)
+- **TYPE**: Artifact type (2-8 uppercase, e.g., `PLAN`, `FHA`, `REQ`)
+- **SUBJECT**: Lifecycle stage (`LC01-LC14`) or Sub-bucket (`SB15-SB99`)
+- **PROJECT**: Fixed value `AMPEL360` (hard constraint)
+- **PROGRAM**: Program identity `SPACET` (allowlist, extensible)
+- **VARIANT**: Configuration variant (e.g., `PLUS`, `CERT`, `SYS`, `SW`)
+- **DESCRIPTION**: lowercase-kebab-case description
+- **VERSION**: `vNN` (e.g., `v01`, `v02`)
+- **EXT**: File extension (lowercase)
 
 ### Examples
 
-- `00_00_PLAN_LC02-SPACET_safety-program_v01.md` (Lifecycle plan)
-- `00_70_FHA_SYS_propulsion_v01.md` (Propulsion FHA)
-- `00_40_REQ_SW_software-safety-reqs_v01.md` (Software requirements)
-- `00_90_SCH_GEN_hazard-log-schema_v01.json` (Reference schema)
+- `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md` (Lifecycle plan)
+- `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md` (Propulsion FHA)
+- `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_v01.md` (Software requirements)
+- `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_v01.json` (Reference schema)
+- `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_v01.md` (Certification plan)
 
 ### Validation
 
@@ -112,9 +126,9 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_00_CAT_LC10_CERT_knots-quick-reference_v01.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_00_IDX_LC10_CERT_certification-knots-index_v01.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_00_CAT_LC10_AMPEL360_SPACET_CERT_knots-quick-reference_v01.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_00_IDX_LC10_AMPEL360_SPACET_CERT_certification-knots-index_v01.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_00_PLAN_LC10_AMPEL360_SPACET_CERT_knot-k01-certification-authority-basis_v01.md)
 
 ---
 

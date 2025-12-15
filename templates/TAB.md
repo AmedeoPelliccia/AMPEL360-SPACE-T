@@ -1,6 +1,8 @@
 ---
 title: "Table: {{DESCRIPTION}}"
 type: TAB
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 table_type: "TBD"
 status: Draft

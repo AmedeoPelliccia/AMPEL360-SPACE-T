@@ -1,6 +1,8 @@
 ---
 title: "Development Assurance Level Assignment: {{DESCRIPTION}}"
 type: DAL
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 system: "{{SYSTEM_NAME}}"
 status: Draft

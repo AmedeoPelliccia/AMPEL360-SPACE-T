@@ -62,9 +62,9 @@ if [ $INVALID_COUNT -gt 0 ]; then
     echo -e "${RED}❌ Commit blocked: $INVALID_COUNT file(s) violate nomenclature standard${NC}"
     echo ""
     echo "Please rename files to follow the pattern:"
-    echo "[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+    echo "[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
     echo ""
-    echo "See 00_00_STD_LC01-Q100BL_nomenclature-standard_v01.md for details"
+    echo "See 00_00_STD_LC01_AMPEL360_SPACET_PLUS_nomenclature-standard_v03.md for details"
     echo "Or run: python validate_nomenclature.py --help"
     exit 1
 fi

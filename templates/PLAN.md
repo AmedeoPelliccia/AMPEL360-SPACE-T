@@ -1,6 +1,8 @@
 ---
 title: "{{DESCRIPTION}}"
 type: PLAN
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 lifecycle_phase: "{{LC_PHASE}}"
 owner: "{{OWNER}}"
