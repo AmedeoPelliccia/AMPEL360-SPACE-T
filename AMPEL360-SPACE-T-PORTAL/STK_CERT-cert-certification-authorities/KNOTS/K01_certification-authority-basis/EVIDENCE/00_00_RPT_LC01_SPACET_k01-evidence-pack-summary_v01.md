@@ -19,4 +19,4 @@ This document is part of the K01 certification authority basis knot.
 
 **Generated:** 2025-12-15 14:52:23  
 **Knot:** K01 - Certification Authority Basis  
-**Path:** KNOTS/K01_authority-model-certification-basis/EVIDENCE/00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md
+**Path:** AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/EVIDENCE/00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md
