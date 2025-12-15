@@ -29,98 +29,143 @@ from datetime import datetime
 # ============================================================================
 # CONFIGURATION: ATA-SpaceT Systems Master Table
 # ============================================================================
+# Complete ATA 00-116 mapping following OPT-IN Framework Standard v1.1
+# Updated: 2025-12-15
+# Source: AMPEL360 Space-T Master Table with stakeholder mapping
 
+# T-TECHNOLOGY axis systems (main onboard systems)
 SYSTEMS = {
-    "00": ("GENERAL_PROGRAM", "Program governance, standards, config mgmt"),
-    "05": ("TIME_LIMITS", "Inspection intervals, maintenance schedules"),
-    "06": ("DIMENSIONS_AREAS", "Vehicle dimensions, zones, access areas"),
-    "07": ("LIFTING_SHORING", "Ground handling, jacking, transportation"),
-    "10": ("PARKING_MOORING", "Pad operations, docking, tie-down"),
-    "21": ("ECLSS", "Environmental Control & Life Support System"),
-    "22": ("GNC_AUTOFLIGHT", "Guidance, Navigation, Control (AOCS)"),
-    "23": ("COMMS", "Communications (Ground-Space, Inter-vehicle)"),
-    "24": ("EPS_POWER", "Electrical Power System"),
-    "25": ("HABITAT_INTERIORS", "Cabin modules, seats, restraints, cargo"),
-    "26": ("FIRE_PROTECTION", "Fire detection, suppression, smoke mgmt"),
-    "27": ("FLIGHT_CONTROLS", "RCS, aero surfaces, TVC actuators"),
-    "28": ("PROPULSION_FUEL", "Tanks, feed lines, engines, propellants"),
-    "29": ("HYDRAULICS", "Hydraulic/pneumatic actuation systems"),
-    "30": ("ICE_RAIN_PROTECT", "Thermal protection, de-icing"),
-    "31": ("AVIONICS_CORE", "Flight computers, displays, data acquisition"),
-    "32": ("LANDING_GEAR", "Landing systems, gear, recovery"),
-    "34": ("NAVIGATION", "Inertial nav, star trackers, GPS"),
-    "35": ("OXYGEN", "Crew oxygen, emergency supply"),
-    "36": ("PNEUMATICS", "Pneumatic systems, pressurization"),
-    "42": ("IMA_SYSTEMS", "Integrated Modular Avionics"),
-    "44": ("CABIN_SYSTEMS", "Lighting, entertainment, crew facilities"),
-    "45": ("CENTRAL_MAINT", "Central maintenance, diagnostics"),
-    "46": ("INFO_SYSTEMS", "Information systems, connectivity"),
-    "47": ("NITROGEN", "Nitrogen systems, cryogenic interfaces"),
-    "49": ("APU", "Auxiliary Power Unit"),
-    "53": ("STRUCTURE_FUSELAGE", "Pressure vessel, primary structure, TPS"),
-    "55": ("STABILIZERS", "Vertical/horizontal stabilizers, fins"),
-    "57": ("WINGS_LIFTING_BODY", "Wings, lifting surfaces, flaperons"),
-    "72": ("MAIN_ENGINES", "Primary propulsion engines"),
-    "73": ("ENGINE_FUEL_CTRL", "Engine fuel control, regulators"),
-    "74": ("IGNITION", "Engine ignition systems"),
-    "75": ("BLEED_AIR", "Bleed air systems"),
-    "76": ("ENGINE_CONTROLS", "Engine electronic controls, FADEC"),
-    "77": ("ENGINE_INDICATING", "Engine parameters, health monitoring"),
-    "78": ("EXHAUST", "Exhaust systems, nozzles"),
-    "79": ("OIL", "Lubrication systems"),
-    "80": ("STARTING", "Engine starting systems"),
-    "85": ("CIRCULARITY_SYSTEMS", "Recycling, LCA, bio-regeneration"),
-    "90": ("GROUND_SUPPORT", "Ground support equipment, interfaces"),
-    "95": ("NEURAL_OPS_AI", "Neural networks, AI mission ops"),
-    "96": ("DPP_TRACEABILITY", "Digital Product Passport"),
-    "97": ("WIRING_DATA", "Wiring diagrams, harness data"),
+    "20": ("STANDARD_PRACTICES_AIRFRAME", "Standard Practices - Airframe"),
+    "21": ("AIR_CONDITIONING_ENVIRONMENTAL_CONTROL", "Air Conditioning / Environmental Control"),
+    "22": ("AUTO_FLIGHT_GUIDANCE_NAVIGATION_CONTROL", "Auto Flight / Guidance-Navigation-Control"),
+    "23": ("COMMUNICATIONS", "Communications"),
+    "24": ("ELECTRICAL_POWER", "Electrical Power"),
+    "25": ("EQUIPMENT_FURNISHINGS", "Equipment / Furnishings"),
+    "26": ("FIRE_PROTECTION", "Fire Protection"),
+    "27": ("FLIGHT_CONTROLS", "Flight Controls"),
+    "28": ("FUEL_PROPELLANT_SYSTEMS", "Fuel / Propellant Systems"),
+    "29": ("HYDRAULIC_POWER", "Hydraulic Power"),
+    "30": ("ICE_AND_RAIN_PROTECTION_ATMOSPHERIC_PROTECTION", "Ice and Rain Protection / Atmospheric Protection"),
+    "31": ("INDICATING_RECORDING_SYSTEMS", "Indicating / Recording Systems"),
+    "32": ("LANDING_GEAR", "Landing Gear"),
+    "33": ("LIGHTS", "Lights"),
+    "34": ("NAVIGATION", "Navigation"),
+    "35": ("OXYGEN_LIFE_SUPPORT_GAS", "Oxygen / Life Support Gas"),
+    "36": ("PNEUMATIC_GAS_DISTRIBUTION", "Pneumatic / Gas Distribution"),
+    "37": ("VACUUM_IF_APPLICABLE", "Vacuum (if applicable)"),
+    "38": ("WATER_WASTE_LIFE_SUPPORT", "Water / Waste (Life Support)"),
+    "39": ("ELECTRICAL_ELECTRONIC_PANELS_AND_MULTIPURPOSE_COMPONENTS", "Electrical / Electronic Panels & Multipurpose Components"),
+    "40": ("MULTI_SYSTEM_INTEGRATION_SERVICES", "Multi-System / Integration Services"),
+    "41": ("WATER_BALLAST_MASS_TRIM_IF_APPLICABLE", "Water Ballast / Mass Trim (if applicable)"),
+    "42": ("INTEGRATED_MODULAR_AVIONICS_COMPUTE_PLATFORM", "Integrated Modular Avionics / Compute Platform"),
+    "43": ("RESERVED_PLATFORM_INTEGRATION", "Reserved / Platform Integration"),
+    "44": ("CABIN_SYSTEMS", "Cabin Systems"),
+    "45": ("CENTRAL_MAINTENANCE_SYSTEM_HEALTH_MONITORING", "Central Maintenance System / Health Monitoring"),
+    "46": ("INFORMATION_SYSTEMS_DATA_NETWORKS", "Information Systems / Data Networks"),
+    "47": ("INERT_GAS_SYSTEM_TANK_INERTING", "Inert Gas System / Tank Inerting"),
+    "48": ("IN_FLIGHT_FUEL_DISPENSING_RESERVED", "In-Flight Fuel Dispensing (Reserved)"),
+    "49": ("AIRBORNE_AUXILIARY_POWER_APU_AUX_POWER_MODULES", "Airborne Auxiliary Power / APU / Aux Power Modules"),
+    "50": ("CARGO_AND_ACCESSORY_COMPARTMENTS", "Cargo and Accessory Compartments"),
+    "51": ("STANDARD_PRACTICES_AND_STRUCTURES_GENERAL", "Standard Practices & Structures - General"),
+    "52": ("DOORS_HATCHES", "Doors / Hatches"),
+    "53": ("FUSELAGE_PRESSURE_VESSEL", "Fuselage / Pressure Vessel"),
+    "54": ("NACELLES_PYLONS_IF_APPLICABLE", "Nacelles / Pylons (if applicable)"),
+    "55": ("STABILIZERS_CONTROL_SURFACES", "Stabilizers / Control Surfaces"),
+    "56": ("WINDOWS_VIEWPORTS", "Windows / Viewports"),
+    "57": ("WINGS_LIFTING_SURFACES", "Wings / Lifting Surfaces"),
+    "58": ("RESERVED_EXTENSION", "Reserved / Extension"),
+    "59": ("RESERVED_EXTENSION", "Reserved / Extension"),
+    "60": ("STANDARD_PRACTICES_PROPELLER_ROTOR", "Standard Practices - Propeller / Rotor"),
+    "61": ("PROPELLERS_PROPULSORS_IF_APPLICABLE", "Propellers / Propulsors (if applicable)"),
+    "62": ("ROTORS_IF_APPLICABLE", "Rotors (if applicable)"),
+    "63": ("ROTOR_DRIVES_IF_APPLICABLE", "Rotor Drives (if applicable)"),
+    "64": ("TAIL_ROTOR_IF_APPLICABLE", "Tail Rotor (if applicable)"),
+    "65": ("TAIL_ROTOR_DRIVE_IF_APPLICABLE", "Tail Rotor Drive (if applicable)"),
+    "66": ("FOLDING_BLADES_TAIL_PYLON_IF_APPLICABLE", "Folding Blades / Tail Pylon (if applicable)"),
+    "67": ("ROTORS_FLIGHT_CONTROL_IF_APPLICABLE", "Rotors Flight Control (if applicable)"),
+    "68": ("RESERVED_EXTENSION", "Reserved / Extension"),
+    "69": ("RESERVED_EXTENSION", "Reserved / Extension"),
+    "70": ("STANDARD_PRACTICES_ENGINE", "Standard Practices - Engine"),
+    "71": ("POWER_PLANT_PROPULSION_INTEGRATION", "Power Plant / Propulsion Integration"),
+    "72": ("ENGINE_TURBINE_ROCKET_HYBRID_AS_APPLICABLE", "Engine (Turbine/Rocket/Hybrid as applicable)"),
+    "73": ("ENGINE_FUEL_AND_CONTROL", "Engine Fuel and Control"),
+    "74": ("IGNITION", "Ignition"),
+    "75": ("AIR_BLEED_INLET_APU_AIR_INTAKE", "Air (Bleed / Inlet / APU Air) / Intake"),
+    "76": ("ENGINE_CONTROLS", "Engine Controls"),
+    "77": ("ENGINE_INDICATING", "Engine Indicating"),
+    "78": ("EXHAUST_PLUME_MANAGEMENT", "Exhaust / Plume Management"),
+    "79": ("OIL_LUBRICATION", "Oil / Lubrication"),
 }
 
-# O-ORGANIZATION axis systems
+# O-ORGANIZATION axis systems (Operations/Organization)
 O_SYSTEMS = {
-    "00": ("GENERAL_INFO", "Program-wide general information, glossary, units"),
-    "01": ("POLICY_PROCEDURES", "Corporate policies, procedures, directives"),
-    "04": ("AIRWORTHINESS_LIMITS", "Certification basis, airworthiness limitations"),
-    "05": ("TIME_LIMITS_CHECKS", "Scheduled maintenance, life limits, inspections"),
-    "06": ("CONFIG_MANAGEMENT", "Configuration control, baselines, change management"),
-    "07": ("QUALITY_MANAGEMENT", "QMS, audits, non-conformance, supplier quality"),
-    "08": ("SAFETY_MANAGEMENT", "SMS, hazard analysis, risk management"),
-    "09": ("REGULATORY_AFFAIRS", "Certification plans, authority liaison, compliance"),
+    "01": ("OPERATIONS_ORGANIZATION_POLICY_RESERVED", "Operations/Organization Policy (Reserved)"),
+    "02": ("OPERATIONS_ORGANIZATION_RESERVED", "Operations/Organization (Reserved)"),
+    "03": ("SUPPORT_INFORMATION_RESERVED", "Support Information (Reserved)"),
+    "04": ("AIRWORTHINESS_LIMITATIONS_OPERATIONAL_LIMITS_RESERVED", "Airworthiness Limitations / Operational Limits (Reserved)"),
+    "12": ("SERVICING", "Servicing"),
+    "18": ("NOISE_AND_VIBRATION_MANAGEMENT", "Noise & Vibration Management"),
 }
 
 # P-PROGRAM axis systems
 P_SYSTEMS = {
-    "06": ("PROGRAM_PLANNING", "Master plans, WBS, IMS, resource planning"),
-    "07": ("COST_MANAGEMENT", "Budget, EVM, financial controls, forecasting"),
-    "08": ("RISK_MANAGEMENT", "Program risks, opportunities, mitigation"),
-    "09": ("REVIEWS_GATES", "Design reviews, gate reviews, audits"),
-    "10": ("STAKEHOLDER_MGMT", "Communication, reporting, decisions"),
-    "11": ("CONTRACT_MGMT", "Contracts, procurement, supplier management"),
-    "12": ("INTEGRATION_MGMT", "Cross-axis integration, dependencies"),
+    "00": ("GENERAL", "General"),
+    "05": ("TIME_LIMITS_MAINTENANCE_CHECKS", "Time Limits / Maintenance Checks"),
+    "06": ("DIMENSIONS_AND_AREAS", "Dimensions and Areas"),
+    "07": ("LIFTING_AND_SHORING", "Lifting and Shoring"),
+    "08": ("LEVELING_AND_WEIGHING", "Leveling and Weighing"),
+    "09": ("TOWING_AND_TAXIING", "Towing and Taxiing"),
+    "10": ("PARKING_MOORING_STORAGE_RETURN_TO_SERVICE", "Parking / Mooring / Storage / Return to Service"),
+    "11": ("PLACARDS_AND_MARKINGS", "Placards and Markings"),
 }
 
 # I-INFRASTRUCTURES axis systems
 I_SYSTEMS = {
-    "02": ("OPERATIONS_INFO", "Ground operations information systems"),
-    "03": ("GROUND_EQUIPMENT", "Support equipment, tooling, GSE"),
-    "10": ("PARKING_MOORING", "Pad operations, docking, tie-down"),
-    "13": ("LOGISTICS", "Spare parts, consumables, supply chain"),
-    "85": ("H2_VALUE_CHAIN", "Hydrogen production, storage, distribution"),
-    "86": ("LAUNCH_FACILITIES", "Launch pads, towers, umbilicals"),
-    "87": ("LANDING_RECOVERY", "Landing zones, recovery systems"),
-    "88": ("PASSENGER_TERMINAL", "Check-in, training, boarding facilities"),
-    "89": ("MISSION_CONTROL", "MCC, telemetry, flight dynamics"),
-    "90": ("GROUND_SUPPORT", "GSE, transportation, handling"),
-    "115": ("SUPPLY_CHAIN", "Supplier network, procurement, QA"),
-    "116": ("FACILITIES_MGMT", "Buildings, utilities, security"),
+    "80": ("OFF_BOARD_AIRPORT_SPACEPORT_INFRASTRUCTURES_MASTER", "Off-Board / Airport / Spaceport Infrastructures (Master)"),
+    "81": ("OFF_BOARD_ENERGY_CRYO_SERVICES", "Off-Board Energy / Cryo Services"),
+    "82": ("OFF_BOARD_MRO_FACILITIES_TOOLING_LOGISTICS", "Off-Board MRO Facilities / Tooling / Logistics"),
+    "83": ("GROUND_COMMS_DATA_EXCHANGE_INFRA_GATEWAYS_EDGE", "Ground Comms / Data Exchange Infra (Gateways, Edge)"),
+    "84": ("SPACEPORT_SAFETY_EMERGENCY_RESPONSE_INFRA", "Spaceport Safety / Emergency Response Infra"),
+    "85": ("CIRCULARITY_INFRA_RETURN_FLOWS_RECYCLING_CO2_H2_LOOPS", "Circularity Infra (Return Flows, Recycling, CO2/H2 Loops)"),
+    "86": ("OFF_BOARD_DIGITAL_SERVICES_PLATFORM_PORTALS_ORCHESTRATION", "Off-Board Digital Services Platform (Portals, Orchestration)"),
+    "87": ("IDENTITY_ACCESS_CYBERSECURITY_INFRA_PHYSICAL_DIGITAL", "Identity / Access / Cybersecurity Infra (Physical+Digital)"),
+    "88": ("GSE_CONFIGURATION_ASSET_MANAGEMENT", "GSE Configuration / Asset Management"),
+    "89": ("TEST_RIGS_INSTRUMENTATION_INFRA_GROUND", "Test Rigs / Instrumentation Infra (Ground)"),
 }
 
 # N-NEURAL_NETWORKS_DPP_TRACEABILITY axis systems
 N_SYSTEMS = {
-    "95": ("NEURAL_OPS_AI", "Neural networks, ML models, AI mission operations"),
-    "96": ("DPP_TRACEABILITY", "Digital Product Passport, blockchain anchoring, provenance"),
-    "97": ("DATA_ANALYTICS", "Big data processing, telemetry analytics, insights"),
-    "98": ("HUMAN_AI_INTERFACE", "XAI, crew decision support, autonomy levels"),
+    "90": ("AI_ML_MODEL_REGISTRY_AND_MODEL_LIFECYCLE", "AI/ML Model Registry & Model Lifecycle"),
+    "91": ("DATA_SCHEMAS_ONTOLOGIES_SEMANTIC_MODEL_SSOT", "Data Schemas / Ontologies / Semantic Model (SSOT)"),
+    "92": ("WIRING_CONNECTIVITY_GRAPHS_AND_HARNESS_DATA_PACKAGES", "Wiring / Connectivity Graphs & Harness Data Packages"),
+    "93": ("TRACEABILITY_GRAPH_REQ_DESIGN_VV_OPS_AND_EVIDENCE_LEDGERS", "Traceability Graph (REQ↔DESIGN↔VV↔OPS) & Evidence Ledgers"),
+    "94": ("DPP_CORE_DIGITAL_PRODUCT_PASSPORT_AND_PROVENANCE", "DPP Core (Digital Product Passport) & Provenance"),
+    "95": ("SBOM_SWHW_BOM_MODEL_BOM_EXPORTS", "SBOM / SWHW BOM / Model BOM Exports"),
+    "96": ("AI_GOVERNANCE_RISK_ASSURANCE_MONITORING_DRIFT_BIAS", "AI Governance (Risk, Assurance, Monitoring, Drift/Bias)"),
+    "97": ("CHANGE_IMPACT_ANALYTICS_WIRING_CONFIG_TRACE", "Change Impact Analytics (Wiring/Config/Trace)"),
+    "98": ("SIGNED_RELEASE_PACKS_MANIFESTS_EXPORTS", "Signed Release Packs / Manifests / Exports"),
+    "99": ("MASTER_REGISTERS_GOLDEN_RECORDS_AND_REFERENCE_DATASETS", "Master Registers (Golden Records) & Reference Datasets"),
+}
+
+# SIMTEST axis systems (simulation/test governance)
+SIMTEST_SYSTEMS = {
+    "100": ("SIM_TEST_GOVERNANCE_PLANS_ENVIRONMENTS_QUALITY", "Sim/Test Governance (Plans, Environments, Quality)"),
+    "101": ("DIGITAL_TWIN_CONFIGURATION_AND_SIM_MODEL_CATALOG", "Digital Twin Configuration & Sim Model Catalog"),
+    "102": ("SCENARIO_LIBRARIES_MISSION_OFF_NOMINAL_EMERGENCY", "Scenario Libraries (Mission, Off-Nominal, Emergency)"),
+    "103": ("SIL_SOFTWARE_IN_THE_LOOP_AUTOMATION", "SIL (Software-in-the-Loop) Automation"),
+    "104": ("HIL_HARDWARE_IN_THE_LOOP_BENCHES", "HIL (Hardware-in-the-Loop) Benches"),
+    "105": ("PIL_TARGET_EXECUTION_PROCESSOR_PLATFORM_IN_THE_LOOP", "PIL / Target Execution (Processor/Platform-in-the-Loop)"),
+    "106": ("TEST_PROCEDURES_TEST_CASES_ACCEPTANCE_CRITERIA", "Test Procedures / Test Cases / Acceptance Criteria"),
+    "107": ("TEST_DATA_INPUT_DECKS_STIMULI", "Test Data / Input Decks / Stimuli"),
+    "108": ("TEST_RESULTS_REPORTING_ANOMALY_MANAGEMENT", "Test Results / Reporting / Anomaly Management"),
+    "109": ("VV_EVIDENCE_PACKS_LINKED_TO_TRACEABILITY", "VV Evidence Packs (Linked to Traceability)"),
+    "110": ("QUALIFICATION_ENVIRONMENTAL_TESTING_SPACE_T", "Qualification / Environmental Testing (Space-T)"),
+    "111": ("SYSTEM_INTEGRATION_TESTING_END_TO_END", "System Integration Testing (End-to-End)"),
+    "112": ("MISSION_FLIGHT_TESTING_OPERATIONAL_DEMOS", "Mission/Flight Testing (Operational Demos)"),
+    "113": ("UNCERTAINTY_QUANTIFICATION_UQ_MONTE_CARLO_SENSITIVITY", "Uncertainty Quantification (UQ) / Monte Carlo / Sensitivity"),
+    "114": ("AI_ML_VALIDATION_SUITES_AND_MONITORING_TESTS", "AI/ML Validation Suites & Monitoring Tests"),
+    "115": ("CERTIFICATION_TESTS_SW_HW_ECSS_DO_AND_COMPLIANCE_REPORTS", "Certification Tests (SW/HW/ECSS-DO) & Compliance Reports"),
+    "116": ("SIM_TEST_ARCHIVES_AND_BASELINES_FROZEN_CAMPAIGNS", "Sim/Test Archives & Baselines (Frozen Campaigns)"),
 }
 
 # Default subsystems for key chapters (expandable)
@@ -520,6 +565,7 @@ def generate_opt_in_structure(root_path: Path) -> None:
         ("T-TECHNOLOGY_ONBOARD_SYSTEMS", "All ATA chapters reside here"),
         ("I-INFRASTRUCTURES", "Ground systems, launch, H₂ value chains, facilities"),
         ("N-NEURAL_NETWORKS_DPP_TRACEABILITY", "AI ops, Digital Product Passport, neural governance"),
+        ("SIMTEST", "Simulation and test governance, VV evidence, qualification"),
     ]
     
     for axis_name, axis_desc in axes:
@@ -575,7 +621,7 @@ def main():
     if args.dry_run:
         print("DRY RUN - No files will be created\n")
         print("Would generate:")
-        print(f"  - OPT-IN axis structure (5 axes)")
+        print(f"  - OPT-IN axis structure (6 axes)")
         print(f"  - {len(system_codes)} ATA chapters")
         print(f"  - 14 lifecycle folders per chapter")
         print(f"  - 9 cross-ATA buckets per chapter")
@@ -625,8 +671,14 @@ def main():
     for code, (name, desc) in N_SYSTEMS.items():
         generate_system(neural_path, code, name, desc)
     
+    # SIMTEST axis
+    simtest_path = root_path / "SIMTEST"
+    print("\n  SIMTEST:")
+    for code, (name, desc) in SIMTEST_SYSTEMS.items():
+        generate_system(simtest_path, code, name, desc)
+    
     # Summary
-    total_systems = len(system_codes) + len(O_SYSTEMS) + len(P_SYSTEMS) + len(I_SYSTEMS) + len(N_SYSTEMS)
+    total_systems = len(system_codes) + len(O_SYSTEMS) + len(P_SYSTEMS) + len(I_SYSTEMS) + len(N_SYSTEMS) + len(SIMTEST_SYSTEMS)
     print(f"\n{'='*60}")
     print("GENERATION COMPLETE")
     print(f"{'='*60}")
@@ -636,6 +688,7 @@ def main():
     print(f"P-PROGRAM chapters: {len(P_SYSTEMS)}")
     print(f"I-INFRASTRUCTURES chapters: {len(I_SYSTEMS)}")
     print(f"N-NEURAL chapters: {len(N_SYSTEMS)}")
+    print(f"SIMTEST chapters: {len(SIMTEST_SYSTEMS)}")
     print(f"Total chapters: {total_systems}")
     print(f"\nNext steps:")
     print("  1. Review generated structure")
