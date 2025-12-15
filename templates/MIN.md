@@ -1,6 +1,8 @@
 ---
 title: "Meeting Minutes: {{DESCRIPTION}}"
 type: MIN
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 meeting_date: "{{DATE}}"
 attendees: "TBD"

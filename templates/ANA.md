@@ -1,6 +1,8 @@
 ---
 title: "Analysis: {{DESCRIPTION}}"
 type: ANA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 analysis_type: "TBD"
 status: Draft

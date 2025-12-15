@@ -1,6 +1,8 @@
 ---
 title: "Glossary: {{DESCRIPTION}}"
 type: GLO
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 domain: "TBD"
 status: Draft

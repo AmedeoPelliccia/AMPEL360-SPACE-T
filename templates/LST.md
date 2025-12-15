@@ -1,6 +1,8 @@
 ---
 title: "List: {{DESCRIPTION}}"
 type: LST
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 list_type: "TBD"
 status: Active

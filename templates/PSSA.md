@@ -1,6 +1,8 @@
 ---
 title: "Preliminary System Safety Assessment: {{SYSTEM_NAME}}"
 type: PSSA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 bucket: "{{BUCKET}}"
 safety_level: "TBD"

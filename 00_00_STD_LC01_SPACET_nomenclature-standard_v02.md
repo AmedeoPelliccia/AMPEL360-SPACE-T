@@ -1,14 +1,14 @@
 ---
-title: "Nomenclature Standard v2.0"
+title: "Nomenclature Standard v3.0"
 lifecycle_phase: "All"
-generated: "2025-12-14"
+generated: "2025-12-15"
 standard: "OPT-IN Framework v1.1 / AMPEL360 Space-T"
 status: "Normative"
 owner: "Configuration Management WG"
-breaking_change: "v2.0 introduces mandatory LC_OR_SUBBUCKET field (8-field format)"
+breaking_change: "v3.0 introduces mandatory PROJECT and PROGRAM fields (10-field format)"
 ---
 
-# Nomenclature Standard v2.0 (Normative)
+# Nomenclature Standard v3.0 (Normative)
 
 ## 1. Purpose
 
@@ -21,26 +21,30 @@ This standard defines the **mandatory** file naming convention for all artifacts
 
 ## 2. Filename Format
 
-All files must strictly adhere to the **8-field format**:
+All files must strictly adhere to the **10-field format**:
 
-`[ROOT]_[BUCKET]_[TYPE]_[LC_OR_SUBBUCKET]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]`
+`[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]`
 
-**Breaking change from v1.0**: A new mandatory `LC_OR_SUBBUCKET` field has been added between `TYPE` and `VARIANT`.
+**Breaking changes**:
+- **v2.0**: Introduced mandatory `SUBJECT` field (renamed from `LC_OR_SUBBUCKET`)
+- **v3.0**: Introduced mandatory `PROJECT` and `PROGRAM` fields between `SUBJECT` and `VARIANT`
 
 ## 3. Field Definitions and Constraints
 
 ### 3.1 Field Definitions
 
-| Field                | Meaning                               | Constraint                             | Regex                        |
-| :------------------- | :------------------------------------ | :------------------------------------- | :--------------------------- |
-| **ROOT**             | ATA Chapter or Project Code           | 2-3 digits                             | `^\d{2,3}$`                  |
-| **BUCKET**           | Domain Classification (OPT-IN + LC)   | 2 digits (enum)                        | `^(00\|10\|20\|30\|40\|50\|60\|70\|80\|90)$` |
-| **TYPE**             | Artifact Type                         | 2–8 uppercase alphanumeric             | `^[A-Z0-9]{2,8}$`            |
-| **LC_OR_SUBBUCKET**  | Lifecycle Stage or Sub-bucket         | LC01-LC14 or SB15-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB(1[5-9]\|[2-9]\d))$` |
-| **VARIANT**          | Configuration / Baseline / Item Class | uppercase alphanumeric; hyphen allowed | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$` |
-| **DESCRIPTION**      | Human-readable content label          | lowercase kebab-case                   | `^[a-z0-9]+(?:-[a-z0-9]+)*$` |
-| **VERSION**          | Revision Control                      | `v` + 2 digits                         | `^v\d{2}$`                   |
-| **EXT**              | File Extension                        | lowercase alphanumeric                 | `^[a-z0-9]{1,6}$`            |
+| Field           | Meaning                               | Constraint                             | Regex                        |
+| :-------------- | :------------------------------------ | :------------------------------------- | :--------------------------- |
+| **ROOT**        | ATA Chapter or Project Code           | 2-3 digits                             | `^\d{2,3}$`                  |
+| **BUCKET**      | Domain Classification (OPT-IN + LC)   | 2 digits (enum)                        | `^(00\|10\|20\|30\|40\|50\|60\|70\|80\|90)$` |
+| **TYPE**        | Artifact Type                         | 2–8 uppercase alphanumeric             | `^[A-Z0-9]{2,8}$`            |
+| **SUBJECT**     | Lifecycle Stage or Sub-bucket         | LC01-LC14 or SB15-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB(1[5-9]\|[2-9]\d))$` |
+| **PROJECT**     | Project Identity                      | Fixed: AMPEL360                        | `^AMPEL360$`                 |
+| **PROGRAM**     | Program Identity                      | Allowlist: SPACET (extensible)         | `^(SPACET)$`                 |
+| **VARIANT**     | Configuration / Baseline / Item Class | uppercase alphanumeric; hyphen allowed | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$` |
+| **DESCRIPTION** | Human-readable content label          | lowercase kebab-case                   | `^[a-z0-9]+(?:-[a-z0-9]+)*$` |
+| **VERSION**     | Revision Control                      | `v` + 2 digits                         | `^v\d{2}$`                   |
+| **EXT**         | File Extension                        | lowercase alphanumeric                 | `^[a-z0-9]{1,6}$`            |
 
 ### 3.2 General Naming Rules (Mandatory)
 
@@ -90,7 +94,7 @@ The following set is **approved** for v1.0. Extensions require Configuration Man
 * **Requirements / Allocation:** `REQ`, `DAL`, `TRC`
 * **Data / Reference:** `CAT`, `LST`, `GLO`, `MAT`, `SCH`, `DIA`, `TAB`, `STD`
 
-### 4.4 `[LC_OR_SUBBUCKET]` (Lifecycle Stage or Sub-bucket) **[NEW in v2.0]**
+### 4.4 `[SUBJECT]` (Lifecycle Stage or Sub-bucket)
 
 This mandatory field encodes either:
 - **Lifecycle stage** (LC01-LC14) for `BUCKET=00` files
@@ -98,14 +102,14 @@ This mandatory field encodes either:
 
 **Conditional rules (mandatory):**
 
-1. **If `BUCKET = 00`** → `LC_OR_SUBBUCKET` **must** match:
+1. **If `BUCKET = 00`** → `SUBJECT` **must** match:
    ```regex
    ^LC(0[1-9]|1[0-4])$
    ```
    * Valid: `LC01`, `LC02`, ..., `LC14`
    * Invalid: `SB15`, `LC00`, `LC15`
 
-2. **If `BUCKET ≠ 00`** → `LC_OR_SUBBUCKET` **must** match bucket-specific ranges:
+2. **If `BUCKET ≠ 00`** → `SUBJECT` **must** match bucket-specific ranges:
    ```regex
    ^SB(1[5-9]|[2-9]\d)$
    ```
@@ -133,29 +137,57 @@ This mandatory field encodes either:
 * Ranges are enforced to maintain clear separation between buckets
 * Note: SB00-SB14 are reserved and not available for use
 
+### 4.5 `[PROJECT]` (Project Identity) **[NEW in v3.0]**
 
-### 4.5 `[VARIANT]` (Configuration / Baseline)
+The `PROJECT` field identifies the portfolio-level project identity.
 
-`VARIANT` encodes the configuration context (no longer includes lifecycle stage).
+**Hard constraint:**
+* `PROJECT` **must** be `AMPEL360` for all files in this repository
+* This ensures filenames are self-describing at portfolio scale
+* Future projects in the AMPEL360 portfolio would use the same PROJECT value
 
-**Reserved tokens (recommended baseline):**
+**Rationale:**
+* Prevents ambiguity when files are shared across organizational boundaries
+* Enables portfolio-level aggregation and reporting
+* Maintains consistent identity across all AMPEL360 programs
 
-* `SPACET`: Formally controlled baseline (Freeze/Release)
+### 4.6 `[PROGRAM]` (Program Identity) **[NEW in v3.0]**
+
+The `PROGRAM` field identifies the specific program within the AMPEL360 project.
+
+**Allowlist (extensible):**
+* `SPACET`: Space-T program (AMPEL360-SPACE-T)
+* Future programs may be added through Configuration Management WG approval
+
+**Rationale:**
+* Previously, `SPACET` was overloaded into the `VARIANT` field
+* Dedicated `PROGRAM` field enables clear program identity
+* Frees `VARIANT` for its intended purpose (configuration/baseline variants)
+
+### 4.7 `[VARIANT]` (Configuration / Baseline)
+
+`VARIANT` encodes the configuration context, now decoupled from program identity.
+
+**Recommended baseline tokens:**
+
+* `PLUS`: AMPEL360+ variant (the enhanced AMPEL360-SPACE-T configuration)
+* `CERT`: Certification-related artifacts
 * `DRAFT`: Work in progress (non-baseline)
 * `PROTO`: Prototyping artifacts
 * `SYS`, `SW`, `HW`: System / Software / Hardware scoped artifacts
+* `GEN`: General-purpose artifacts
 
-Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`.
+Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`, `CERT-EASA`.
 
-**Breaking change from v1.0:** LC prefix is no longer embedded in VARIANT; it is now in the dedicated `LC_OR_SUBBUCKET` field.
+**Breaking change from v2.0:** `SPACET` is no longer a valid VARIANT; it is now the PROGRAM field.
 
-### 4.6 `[DESCRIPTION]`
+### 4.8 `[DESCRIPTION]`
 
 * Must be lowercase kebab-case.
 * Must not duplicate semantic content already encoded in `TYPE` or `BUCKET`.
-  * Example: avoid `..._FHA_SYS_propulsion-fha_...` → use `..._FHA_SB15_SYS_propulsion_...`
+  * Example: avoid `..._FHA_SB70_AMPEL360_SPACET_PLUS_propulsion-fha_...` → use `..._FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_...`
 
-### 4.7 `[VERSION]`
+### 4.9 `[VERSION]`
 
 * Exactly `vNN` where `NN` is two digits (`v01`, `v02`, …).
 * Increment `vNN` only per the versioning rules in Section 7.
@@ -164,24 +196,28 @@ Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`.
 
 ## 5. Enforcement
 
-### 5.1 Primary Regex (PCRE) — 8-Field Format
+### 5.1 Primary Regex (PCRE) — 10-Field Format
 
-This regex validates the general filename structure for v2.0:
+This regex validates the general filename structure for v3.0:
 
 ```regex
-^(?<root>\d{2})_(?<bucket>00|10|20|30|40|50|60|70|80|90)_(?<type>[A-Z0-9]{2,8})_(?<stage>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_(?<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_(?<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_(?<ver>v\d{2})\.(?<ext>[a-z0-9]{1,6})$
+^(?<root>\d{2,3})_(?<bucket>00|10|20|30|40|50|60|70|80|90)_(?<type>[A-Z0-9]{2,8})_(?<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_(?<project>AMPEL360)_(?<program>SPACET)_(?<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_(?<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_(?<ver>v\d{2})\.(?<ext>[a-z0-9]{1,6})$
 ```
 
 ### 5.2 Conditional Rules (Mandatory)
 
 CI shall additionally enforce:
 
-* **If `bucket == "00"`** then `stage` matches:
+* **`project` field** must be exactly `AMPEL360` (hard constraint)
+
+* **`program` field** must be in allowlist: `SPACET` (extensible via CM WG)
+
+* **If `bucket == "00"`** then `subject` matches:
   ```regex
   ^LC(0[1-9]|1[0-4])$
   ```
 
-* **If `bucket != "00"`** then `stage` matches bucket-specific ranges:
+* **If `bucket != "00"`** then `subject` matches bucket-specific ranges:
   ```regex
   ^SB(1[5-9]|[2-9]\d)$
   ```
@@ -191,36 +227,42 @@ CI shall additionally enforce:
 
 ## 6. Examples
 
-### 6.1 Valid examples (v2.0 format)
+### 6.1 Valid examples (v3.0 format)
 
-* Lifecycle (LC) plan:
-  * `00_00_PLAN_LC02_SPACET_safety-program_v02.md`
+* Lifecycle (LC) plan for AMPEL360+ Space-T:
+  * `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md`
 * Propulsion FHA (domain bucket with sub-bucket):
-  * `00_70_FHA_SB70_SYS_propulsion_v02.md`
+  * `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md`
 * Software safety requirements:
-  * `00_40_REQ_SB40_SW_software-safety-reqs_v02.md`
+  * `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_v01.md`
 * Traceability matrix workbook:
-  * `00_20_TRC_SB20_SPACET_traceability-matrix_v01.xlsx`
+  * `00_20_TRC_SB20_AMPEL360_SPACET_PLUS_traceability-matrix_v01.xlsx`
 * Reference schema:
-  * `00_90_SCH_SB90_GEN_hazard-log-schema_v01.json`
+  * `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_v01.json`
 * Operations plan:
-  * `00_10_PLAN_SB15_GEN_operations-plan_v01.md`
+  * `00_10_PLAN_SB15_AMPEL360_SPACET_GEN_operations-plan_v01.md`
 * Energy system FHA:
-  * `00_80_FHA_SB86_SYS_energy-system_v01.md`
+  * `00_80_FHA_SB86_AMPEL360_SPACET_SYS_energy-system_v01.md`
+* Certification artifacts:
+  * `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_v01.md`
 * Extended ATA code (3-digit ROOT):
-  * `115_00_PLAN_LC01_SPACET_supply-chain-plan_v01.md`
-  * `116_70_FHA_SB70_SYS_facility-systems_v01.md`
+  * `115_00_PLAN_LC01_AMPEL360_SPACET_PLUS_supply-chain-plan_v01.md`
+  * `116_70_FHA_SB70_AMPEL360_SPACET_SYS_facility-systems_v01.md`
 
 ### 6.2 Invalid examples
 
-* Missing LC stage while using lifecycle bucket:
-  * `00_00_PLAN_SPACET_safety-program_v01.md` *(non-compliant: BUCKET=00 requires VARIANT prefix `LCxx`)*
+* Missing PROJECT and PROGRAM fields (v2.0 format):
+  * `00_00_PLAN_LC02_SPACET_safety-program_v01.md` *(non-compliant: missing PROJECT/PROGRAM)*
+* Wrong PROJECT value:
+  * `00_70_FHA_SB70_PROJECT2_SPACET_PLUS_propulsion_v01.md` *(non-compliant: PROJECT must be AMPEL360)*
+* Wrong PROGRAM value:
+  * `00_70_FHA_SB70_AMPEL360_OTHER_PLUS_propulsion_v01.md` *(non-compliant: PROGRAM must be SPACET)*
 * Wrong delimiter:
-  * `00-70-FHA-SYS-propulsion-v01.md` *(non-compliant: must use `_` between fields)*
+  * `00-70-FHA-SB70-AMPEL360-SPACET-PLUS-propulsion-v01.md` *(non-compliant: must use `_` between fields)*
 * Wrong version format:
-  * `00_70_FHA_SYS_propulsion_v1.md` *(non-compliant: version must be `vNN`)*
+  * `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v1.md` *(non-compliant: version must be `vNN`)*
 * Invalid bucket:
-  * `00_99_LST_GEN_glossary_v01.md` *(non-compliant: bucket must be in allowlist)*
+  * `00_99_LST_SB90_AMPEL360_SPACET_GEN_glossary_v01.md` *(non-compliant: bucket must be in allowlist)*
 
 ---
 

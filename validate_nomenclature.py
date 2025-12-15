@@ -2,9 +2,9 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 2.0
-Date: 2025-12-14
-Standard: Nomenclature Standard v2.0 (Normative)
+Version: 3.0
+Date: 2025-12-15
+Standard: Nomenclature Standard v3.0 (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
 
@@ -37,14 +37,16 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard v2.0."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v3.0."""
     
-    # Primary regex pattern (8 fields)
+    # Primary regex pattern (10 fields)
     PRIMARY_PATTERN = re.compile(
         r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
         r'(?P<type>[A-Z0-9]{2,8})_'
-        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
+        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
+        r'(?P<project>AMPEL360)_'
+        r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
@@ -62,6 +64,12 @@ class NomenclatureValidator:
     
     # Allowed buckets
     ALLOWED_BUCKETS = {'00', '10', '20', '30', '40', '50', '60', '70', '80', '90'}
+    
+    # Allowed PROJECT values (hard constraint)
+    ALLOWED_PROJECTS = {'AMPEL360'}
+    
+    # Allowed PROGRAM values (extensible allowlist)
+    ALLOWED_PROGRAMS = {'SPACET'}
     
     # Bucket-specific subbucket ranges
     BUCKET_SUBBUCKET_RANGES = {
@@ -155,7 +163,7 @@ class NomenclatureValidator:
         if not match:
             errors.append(
                 "Filename does not match required pattern: "
-                "[ROOT]_[BUCKET]_[TYPE]_[LC_OR_SUBBUCKET]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+                "[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
             )
             return ValidationResult(filename, False, errors, warnings)
         
@@ -163,7 +171,9 @@ class NomenclatureValidator:
         components = match.groupdict()
         bucket = components['bucket']
         type_code = components['type']
-        stage = components['stage']
+        subject = components['subject']
+        project = components['project']
+        program = components['program']
         variant = components['variant']
         desc = components['desc']
         version = components['ver']
@@ -171,6 +181,18 @@ class NomenclatureValidator:
         # Validate BUCKET
         if bucket not in self.ALLOWED_BUCKETS:
             errors.append(f"Invalid BUCKET '{bucket}': must be one of {sorted(self.ALLOWED_BUCKETS)}")
+        
+        # Validate PROJECT (hard constraint)
+        if project not in self.ALLOWED_PROJECTS:
+            errors.append(
+                f"Invalid PROJECT '{project}': must be AMPEL360 (hard constraint)"
+            )
+        
+        # Validate PROGRAM (allowlist)
+        if program not in self.ALLOWED_PROGRAMS:
+            errors.append(
+                f"Invalid PROGRAM '{program}': must be one of {sorted(self.ALLOWED_PROGRAMS)}"
+            )
         
         # Validate TYPE vocabulary
         if type_code not in self.APPROVED_TYPES:
@@ -180,25 +202,25 @@ class NomenclatureValidator:
             else:
                 warnings.append(msg)
         
-        # Validate LC_OR_SUBBUCKET conditional rules
+        # Validate SUBJECT conditional rules
         if bucket == '00':
             # BUCKET=00 requires LC stage
-            if not self.LC_PATTERN.match(stage):
+            if not self.LC_PATTERN.match(subject):
                 errors.append(
-                    f"BUCKET=00 requires LC_OR_SUBBUCKET to be LC01-LC14, got '{stage}'"
+                    f"BUCKET=00 requires SUBJECT to be LC01-LC14, got '{subject}'"
                 )
         else:
             # BUCKET≠00 requires SB stage
-            if not self.SB_PATTERN.match(stage):
+            if not self.SB_PATTERN.match(subject):
                 errors.append(
-                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB format, got '{stage}'"
+                    f"BUCKET={bucket} requires SUBJECT to be SB format, got '{subject}'"
                 )
             else:
                 # Validate bucket-specific subbucket range
                 if bucket in self.BUCKET_SUBBUCKET_RANGES:
                     try:
-                        # Extract numeric part from stage (e.g., "SB15" -> 15)
-                        sb_num = int(stage[2:])
+                        # Extract numeric part from subject (e.g., "SB15" -> 15)
+                        sb_num = int(subject[2:])
                         ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
                         
                         # Check if subbucket number is in any of the allowed ranges for this bucket
@@ -209,12 +231,12 @@ class NomenclatureValidator:
                             range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
                             allowed = " or ".join(range_strs)
                             errors.append(
-                                f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be {allowed}, got '{stage}'"
+                                f"BUCKET={bucket} requires SUBJECT to be {allowed}, got '{subject}'"
                             )
                     except (ValueError, IndexError):
                         # This should not happen if SB_PATTERN matched, but handle defensively
                         errors.append(
-                            f"Invalid subbucket format '{stage}' for BUCKET={bucket}"
+                            f"Invalid subbucket format '{subject}' for BUCKET={bucket}"
                         )
         
         # Check for redundancy in DESCRIPTION
@@ -309,7 +331,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s 00_70_FHA_SYS_propulsion_v01.md
+  %(prog)s 00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md
   %(prog)s --check-all
   %(prog)s --check-dir ./AMPEL360_SPACE-T/T-TECHNOLOGY_ONBOARD_SYSTEMS
   %(prog)s --check-all --strict

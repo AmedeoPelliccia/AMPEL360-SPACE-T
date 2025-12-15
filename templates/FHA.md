@@ -1,6 +1,8 @@
 ---
 title: "Functional Hazard Assessment: {{SYSTEM_NAME}}"
 type: FHA
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 bucket: "{{BUCKET}}"
 status: Draft

@@ -1,6 +1,8 @@
 ---
 title: "Catalog: {{DESCRIPTION}}"
 type: CAT
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 catalog_type: "TBD"
 status: Draft

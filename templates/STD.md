@@ -1,6 +1,8 @@
 ---
 title: "{{DESCRIPTION}}"
 type: STD
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 owner: "{{OWNER}}"
 status: Draft

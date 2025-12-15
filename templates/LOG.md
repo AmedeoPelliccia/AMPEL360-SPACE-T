@@ -1,6 +1,8 @@
 ---
 title: "{{DESCRIPTION}}"
 type: LOG
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 log_type: "Issue|Event|Change|Test"
 status: Active

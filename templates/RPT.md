@@ -1,6 +1,8 @@
 ---
 title: "{{DESCRIPTION}}"
 type: RPT
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 report_date: "{{DATE}}"
 author: "{{OWNER}}"

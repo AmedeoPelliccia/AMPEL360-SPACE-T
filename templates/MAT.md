@@ -1,6 +1,8 @@
 ---
 title: "Material Specification: {{DESCRIPTION}}"
 type: MAT
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 material_type: "TBD"
 status: Draft

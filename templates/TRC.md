@@ -1,6 +1,8 @@
 ---
 title: "Traceability Matrix: {{DESCRIPTION}}"
 type: TRC
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 trace_from: "TBD"
 trace_to: "TBD"

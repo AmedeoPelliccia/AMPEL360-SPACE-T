@@ -1,6 +1,8 @@
 ---
 title: "Action Items: {{DESCRIPTION}}"
 type: ACT
+project: "{{PROJECT}}"
+program: "{{PROGRAM}}"
 variant: "{{VARIANT}}"
 status: Active
 owner: "{{OWNER}}"
