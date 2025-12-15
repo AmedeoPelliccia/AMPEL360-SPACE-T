@@ -44,7 +44,7 @@ class NomenclatureValidator:
         r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
         r'(?P<type>[A-Z0-9]{2,8})_'
-        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB\d{2}))_'
+        r'(?P<stage>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
@@ -54,8 +54,8 @@ class NomenclatureValidator:
     # LC stage pattern (LC01-LC14)
     LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
     
-    # SB stage pattern (SB00-SB99)
-    SB_PATTERN = re.compile(r'^SB\d{2}$')
+    # SB stage pattern (SB15-SB99)
+    SB_PATTERN = re.compile(r'^SB(1[5-9]|[2-9]\d)$')
     
     # VERSION format pattern
     VERSION_PATTERN = re.compile(r'^v\d{2}$')
@@ -178,7 +178,7 @@ class NomenclatureValidator:
             # BUCKET≠00 requires SB stage
             if not self.SB_PATTERN.match(stage):
                 errors.append(
-                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB00-SB99, got '{stage}'"
+                    f"BUCKET={bucket} requires LC_OR_SUBBUCKET to be SB15-SB99, got '{stage}'"
                 )
         
         # Check for redundancy in DESCRIPTION
