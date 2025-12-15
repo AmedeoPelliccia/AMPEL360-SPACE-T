@@ -1,0 +1,6 @@
+Authority,Role,Decision_Type,Escalation_Path,Contact
+FAA,Primary Authority,Type Certification,DOT,authority@faa.gov
+EASA,Secondary Authority,Import Recognition,EU Aviation Safety,authority@easa.europa.eu
+ESA,Technical Authority,ECSS Compliance,ESA Council,authority@esa.int
+STK_CERT,Program Cert Manager,Day-to-day Decisions,STK_PMO,cert.manager@spacet.example
+STK_CM,Configuration Control,Baseline Approval,STK_PMO,cm.lead@spacet.example

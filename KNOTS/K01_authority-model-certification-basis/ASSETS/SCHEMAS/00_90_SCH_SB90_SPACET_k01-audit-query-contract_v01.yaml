@@ -1,0 +1,48 @@
+# K01 Audit Query Contract Schema
+# Version: v01
+
+audit_query:
+  type: object
+  required:
+    - query_id
+    - knot_id
+    - scope
+  properties:
+    query_id:
+      type: string
+      description: Unique query identifier
+    knot_id:
+      type: string
+      pattern: '^K[0-9]{2}$'
+    scope:
+      type: object
+      properties:
+        ata_codes:
+          type: array
+          items:
+            type: string
+        lifecycle_phases:
+          type: array
+          items:
+            type: string
+        date_range:
+          type: object
+          properties:
+            start: 
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
+    filters:
+      type: object
+      properties:
+        status:
+          type: array
+          items:
+            type: string
+        responsible:
+          type: string
+    output_format:
+      type: string
+      enum: [json, csv, pdf]

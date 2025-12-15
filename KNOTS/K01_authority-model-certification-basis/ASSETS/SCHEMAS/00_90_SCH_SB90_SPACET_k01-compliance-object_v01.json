@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "K01 Compliance Object",
+  "type": "object",
+  "properties": {
+    "requirement_id": {
+      "type": "string"
+    },
+    "requirement_text": {
+      "type": "string"
+    },
+    "applicable_atas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification_method": {
+      "type": "string",
+      "enum": [
+        "Test",
+        "Analysis",
+        "Inspection",
+        "Demonstration"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "In Progress",
+        "Verified",
+        "Closed"
+      ]
+    },
+    "responsible": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "requirement_id",
+    "verification_method",
+    "status"
+  ]
+}

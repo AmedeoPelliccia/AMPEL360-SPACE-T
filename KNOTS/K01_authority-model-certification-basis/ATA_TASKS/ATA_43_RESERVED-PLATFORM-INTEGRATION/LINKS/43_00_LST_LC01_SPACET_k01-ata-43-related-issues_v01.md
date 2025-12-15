@@ -1,0 +1,16 @@
+---
+knot_id: K01
+ata_code: 43
+type: LST
+status: TEMPLATE
+---
+
+# K01 ATA 43 Related Issues
+
+## Issues
+
+Link to related issues for ATA 43.
+
+## Template
+
+Populate as needed.
