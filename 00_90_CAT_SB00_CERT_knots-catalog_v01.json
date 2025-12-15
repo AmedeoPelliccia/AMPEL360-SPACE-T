@@ -1,0 +1,102 @@
+{
+  "knots": {
+    "K01": {
+      "title": "certification-authority-basis",
+      "description": "Establishes the certification basis and decision criteria for the Space-T vehicle, defining compliance objectives and mapping them to evidence and verification activities. This knot ensures systematic documentation of how the design meets regulatory requirements across all affected systems.",
+      "affected_atas": [
+        "00",
+        "01",
+        "04",
+        "05",
+        "18",
+        "20",
+        "21",
+        "22",
+        "24",
+        "26",
+        "27",
+        "28",
+        "42",
+        "100",
+        "109",
+        "115"
+      ],
+      "task_templates": [
+        {
+          "id": "T001",
+          "title": "define-certification-basis-and-decision-criteria",
+          "description": "Define the certification basis for the Space-T vehicle including applicable regulations (FAA/EASA/ESA), special conditions, equivalent level of safety findings, and certification decision criteria. Document the regulatory framework and authority agreements.",
+          "inputs": [
+            "Program requirements and objectives",
+            "Applicable regulations (FAA Part 460, EASA CS-SC, ECSS standards)",
+            "Design concepts and operational envelope",
+            "Precedent certifications and lessons learned",
+            "Authority guidance materials"
+          ],
+          "outputs": [
+            "Certification Basis Document (00_00_PLAN_LC10_CERT_certification-basis_v01.md)",
+            "Special Conditions list",
+            "Equivalent Safety Findings (ESF) justifications",
+            "Certification Plan outline",
+            "Authority engagement strategy"
+          ],
+          "responsible_roles": [
+            "Certification Manager",
+            "Chief Engineer",
+            "Regulatory Affairs Manager",
+            "System Safety Engineer"
+          ],
+          "compliance_refs": [
+            "FAA Part 460 - Human Space Flight Requirements",
+            "EASA CS-SC - Certification Specifications for Space Vehicles",
+            "ECSS-E-ST-10C - System engineering general requirements",
+            "ECSS-Q-ST-40C - Safety",
+            "DO-178C - Software Considerations in Airborne Systems",
+            "DO-254 - Design Assurance Guidance for Airborne Electronic Hardware"
+          ]
+        },
+        {
+          "id": "T002",
+          "title": "map-compliance-objectives-to-evidence-and-tests",
+          "description": "Create detailed compliance matrices mapping each certification requirement to specific verification activities, test cases, analyses, and documentation. Establish traceability from requirements through verification to certification evidence.",
+          "inputs": [
+            "Certification Basis Document",
+            "System requirements specifications",
+            "Safety assessment results (FHA, PSSA, SSA)",
+            "Design documentation",
+            "Verification and validation plans"
+          ],
+          "outputs": [
+            "Compliance Matrix (00_00_TRC_LC10_CERT_compliance-matrix_v01.md)",
+            "Verification Cross-Reference Matrix",
+            "Test procedures mapped to requirements",
+            "Certification evidence plan",
+            "Traceability reports"
+          ],
+          "responsible_roles": [
+            "Certification Manager",
+            "System Engineer",
+            "Verification Engineer",
+            "Quality Assurance Manager",
+            "Test Engineer"
+          ],
+          "compliance_refs": [
+            "DO-178C - Software verification objectives",
+            "DO-254 - Hardware verification processes",
+            "ECSS-E-ST-10-02C - Verification guidelines",
+            "ECSS-Q-ST-20C - Quality assurance requirements",
+            "ISO 9001 - Quality management systems"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "lifecycle_phases": [
+        "LC02",
+        "LC03",
+        "LC10"
+      ],
+      "owner": "Regulatory Affairs / Certification Department",
+      "status": "active"
+    }
+  }
+}

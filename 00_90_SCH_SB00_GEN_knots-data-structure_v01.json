@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space/schemas/knots-data-structure.json",
+  "title": "AMPEL360 Space-T Knots Data Structure",
+  "description": "Schema for workflow knots representing certification and compliance task groupings across ATA systems",
+  "type": "object",
+  "properties": {
+    "knots": {
+      "type": "object",
+      "description": "Collection of workflow knots, each representing a cross-cutting certification or compliance activity",
+      "patternProperties": {
+        "^K[0-9]{2}$": {
+          "type": "object",
+          "description": "Individual knot definition",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Human-readable title of the knot (kebab-case)",
+              "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+            },
+            "description": {
+              "type": "string",
+              "description": "Detailed description of the knot's purpose and scope"
+            },
+            "affected_atas": {
+              "type": "array",
+              "description": "List of ATA system codes affected by this knot",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]{2,3}$"
+              },
+              "minItems": 1
+            },
+            "task_templates": {
+              "type": "array",
+              "description": "Ordered list of task templates that comprise this knot",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique task template identifier",
+                    "pattern": "^T[0-9]{3}$"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Task template title (kebab-case)",
+                    "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Detailed description of the task"
+                  },
+                  "inputs": {
+                    "type": "array",
+                    "description": "Required inputs for this task",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "outputs": {
+                    "type": "array",
+                    "description": "Expected outputs from this task",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "responsible_roles": {
+                    "type": "array",
+                    "description": "Roles responsible for executing this task",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "compliance_refs": {
+                    "type": "array",
+                    "description": "References to compliance standards",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["id", "title"]
+              },
+              "minItems": 1
+            },
+            "dependencies": {
+              "type": "array",
+              "description": "Other knots that must be completed before this one",
+              "items": {
+                "type": "string",
+                "pattern": "^K[0-9]{2}$"
+              }
+            },
+            "lifecycle_phases": {
+              "type": "array",
+              "description": "Lifecycle phases where this knot applies",
+              "items": {
+                "type": "string",
+                "enum": ["LC01", "LC02", "LC03", "LC04", "LC05", "LC06", "LC07", "LC08", "LC09", "LC10", "LC11", "LC12", "LC13", "LC14"]
+              }
+            },
+            "owner": {
+              "type": "string",
+              "description": "Organization or role responsible for this knot"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["draft", "active", "deprecated"],
+              "description": "Current status of the knot definition"
+            }
+          },
+          "required": ["title", "affected_atas", "task_templates"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["knots"]
+}
