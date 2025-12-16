@@ -24,7 +24,6 @@ Exit codes:
 
 import argparse
 import json
-import os
 import re
 import sys
 import traceback
@@ -68,20 +67,6 @@ def get_identifier_patterns() -> Dict[str, re.Pattern]:
 CANONICAL_ID_PATTERN = re.compile(
     r'^[A-Z0-9]{2,8}-[A-Z0-9]{2,8}-\d{3,6}(-[A-Z0-9]{1,8})?$'
 )
-
-# File naming pattern for nomenclature standard v3.0
-FILE_NAMING_PATTERN = re.compile(
-    r'^(?P<root>\d{2,3})_'
-    r'(?P<bucket>\d{2})_'
-    r'(?P<type>[A-Z]{2,8})_'
-    r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)|[A-Z0-9]+))_'
-)
-
-# Approved system codes
-APPROVED_SYSTEMS = [
-    "GLOBAL", "FUS", "PROP", "AVION", "POWER", "THERM",
-    "STRUCT", "MECH", "PAYLOAD", "GNC", "COMM", "INTEG"
-]
 
 # Schema file locations (relative paths)
 SCHEMA_LOCATIONS = [
@@ -236,10 +221,13 @@ class AuditProofPathValidator:
 
     def _is_excluded_path(self, path: Path) -> bool:
         """Check if path should be excluded from scanning."""
+        # Check current path first for efficiency
+        if path.name.startswith('.'):
+            return True
         for parent in path.parents:
             if parent.name in EXCLUDED_DIRS:
                 return True
-        return path.name.startswith('.')
+        return False
 
     def _parse_identifier(self, identifier: str) -> Optional[IdentifierInfo]:
         """
@@ -500,7 +488,8 @@ class AuditProofPathValidator:
                     self._extract_trace_links_from_json(
                         content, identifier, str(path), trace_links
                     )
-            except Exception:
+            except (json.JSONDecodeError, OSError, UnicodeDecodeError, TypeError, KeyError):
+                # Skip files that can't be parsed or have unexpected structure
                 continue
         
         return trace_links

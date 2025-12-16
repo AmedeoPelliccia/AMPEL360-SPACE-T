@@ -1,8 +1,8 @@
 ---
 title: "K06 ATA 00 Tasklist"
-type: IDX
+type: "IDX"
 variant: "SPACET"
-status: Active
+status: "Active"
 knot_id: "K06"
 ata: "00"
 last_updated: "2025-12-16"
