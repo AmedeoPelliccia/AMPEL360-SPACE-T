@@ -637,10 +637,6 @@ Exit codes:
                 print("⚠️  REGISTRY_MISSING: No ATA 91 schema registry found in repository")
                 registry_missing = True
 
-        # Output registry status for CI workflow consumption
-        if registry_missing:
-            print("::set-output name=registry_missing::true")
-
         # Run validation
         result = validator.validate_all(registry_path)
         return 0 if result.passed else 1

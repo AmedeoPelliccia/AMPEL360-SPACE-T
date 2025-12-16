@@ -51,18 +51,23 @@ jobs:
         id: schema_registration
         run: |
           echo "🔍 Checking schema registration..."
+          set +e  # Don't exit on error, we need to capture the exit code
           OUTPUT=$(python scripts/validate_schema_registry.py --check-all --verbose 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          # Print output
           echo "$OUTPUT"
           
-          # Check if registry is missing
+          # Check if registry is missing and output to GITHUB_OUTPUT
           if echo "$OUTPUT" | grep -q "REGISTRY_MISSING"; then
             echo "registry_missing=true" >> $GITHUB_OUTPUT
           else
             echo "registry_missing=false" >> $GITHUB_OUTPUT
           fi
           
-          # Return the exit code from the validator
-          python scripts/validate_schema_registry.py --check-all --verbose
+          # Exit with the original exit code
+          exit $EXIT_CODE
         continue-on-error: false
       
       # Create issue if ATA 91 schema registry is missing
