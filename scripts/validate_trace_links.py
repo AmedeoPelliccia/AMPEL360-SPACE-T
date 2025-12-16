@@ -25,11 +25,10 @@ Consumes:
 
 import argparse
 import json
-import os
 import re
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
@@ -86,11 +85,6 @@ class TraceLinkValidator:
         r'(?P<evd_id>EVD-K\d{2}-\d{3})'
     )
     
-    # Pattern for relative file paths in markdown tables
-    TABLE_PATH_PATTERN = re.compile(
-        r'\|\s*[^|]*\|\s*(?P<path>[^\s|]+\.(md|json|yaml|yml|py|csv))\s*\|'
-    )
-    
     # File extensions to scan for trace links
     SCANNABLE_EXTENSIONS = {'.md', '.json'}
     
@@ -143,6 +137,8 @@ class TraceLinkValidator:
                     if evd_id not in self._evidence_registry:
                         self._evidence_registry[evd_id] = md_file
             except (OSError, UnicodeDecodeError):
+                # Silently skip files that cannot be read (permissions, encoding issues)
+                # This is intentional to avoid blocking the registry build for a few bad files
                 pass
     
     def _is_excluded_path(self, path: Path) -> bool:
@@ -169,12 +165,8 @@ class TraceLinkValidator:
         Returns:
             Resolved absolute path, or None if path is external
         """
-        # Skip external URLs
+        # Skip external URLs and anchor-only links
         if target_path.startswith(('http://', 'https://', 'mailto:', '#')):
-            return None
-        
-        # Skip anchor-only links
-        if target_path.startswith('#'):
             return None
         
         # Remove anchor from path
@@ -367,19 +359,21 @@ class TraceLinkValidator:
         else:
             return result
         
-        result.links_found = len(links)
-        
-        # Validate each link
-        # Note: Links are deduplicated by target_path and link_type to avoid
+        # Deduplicate links by target_path and link_type to avoid
         # reporting the same broken/stale link multiple times when it appears
         # in the same file. This is intentional to reduce noise in reports.
-        seen_links: Set[str] = set()  # Deduplicate links by target and type
+        seen_links: Set[str] = set()
+        unique_links: List[TraceLink] = []
         for link in links:
             link_key = f"{link.target_path}:{link.link_type}"
-            if link_key in seen_links:
-                continue
-            seen_links.add(link_key)
-            
+            if link_key not in seen_links:
+                seen_links.add(link_key)
+                unique_links.append(link)
+        
+        result.links_found = len(unique_links)
+        
+        # Validate each unique link
+        for link in unique_links:
             issue = self.validate_link(link, file_path)
             if issue is None:
                 result.links_valid += 1
@@ -448,11 +442,6 @@ def print_summary(results: List[ValidationResult]) -> Tuple[int, int]:
     total_valid = sum(r.links_valid for r in results)
     total_broken = sum(r.links_broken for r in results)
     total_stale = sum(r.links_stale for r in results)
-    
-    files_with_errors = sum(1 for r in results if not r.valid)
-    # Count files with warnings (any warning-level issues, regardless of validity)
-    files_with_warnings = sum(1 for r in results 
-                               if any(i.severity == 'warning' for i in r.issues))
     
     print(f"\n{'='*60}")
     print("Trace Link Validation Summary")
@@ -534,9 +523,13 @@ Examples:
     if not any([args.file, args.check_all, args.check_dir]):
         parser.error('Must specify file, --check-all, or --check-dir')
     
-    # Determine repository root
+    # Determine repository root based on mode
     if args.check_dir:
         repo_root = Path(args.check_dir).resolve()
+    elif args.file:
+        # For single file, use the file's directory as root to avoid path resolution errors
+        file_path = Path(args.file).resolve()
+        repo_root = file_path.parent
     else:
         repo_root = Path('.').resolve()
     
@@ -553,7 +546,7 @@ Examples:
     try:
         if args.file:
             # Validate single file
-            file_path = Path(args.file)
+            file_path = Path(args.file).resolve()
             if not file_path.exists():
                 print(f"Error: File '{args.file}' not found", file=sys.stderr)
                 return 2
