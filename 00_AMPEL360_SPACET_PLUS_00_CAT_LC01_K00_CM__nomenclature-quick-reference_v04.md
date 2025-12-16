@@ -115,6 +115,7 @@ owner: "Configuration Management WG"
 
 * **PLUS**: AMPEL360+ baseline (enhanced configuration)
 * **CERT**: Certification-controlled artifacts
+* **BB**: Body-Brain protorobotics models (protorobotics integration)
 * **DRAFT**: Work in progress (non-baseline)
 * **PROTO**: Prototyping artifacts
 * **SYS**: System-level scope

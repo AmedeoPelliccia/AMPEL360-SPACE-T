@@ -111,12 +111,13 @@ The `PROGRAM` field identifies the specific program within the AMPEL360 project.
 
 * `PLUS`: AMPEL360+ variant (the enhanced AMPEL360-SPACE-T configuration)
 * `CERT`: Certification-related artifacts
+* `BB`: Body-Brain protorobotics models (protorobotics integration artifacts)
 * `DRAFT`: Work in progress (non-baseline)
 * `PROTO`: Prototyping artifacts
 * `SYS`, `SW`, `HW`: System / Software / Hardware scoped artifacts
 * `GEN`: General-purpose artifacts
 
-Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`, `CERT-EASA`.
+Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`, `CERT-EASA`, `BB-PROTO`.
 
 ### 4.5 `[BUCKET]` (2 digits) — Authoritative Allowlist
 

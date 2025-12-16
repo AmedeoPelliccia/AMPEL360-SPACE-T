@@ -61,7 +61,7 @@ def scaffold():
         print("  ROOT: 2-3 digits (ATA chapter)")
         print("  PROJECT: AMPEL360 (hard constraint)")
         print("  PROGRAM: SPACET (fixed)")
-        print("  VARIANT: PLUS, CERT, DRAFT, PROTO, SYS, SW, HW, GEN")
+        print("  VARIANT: PLUS, CERT, BB, DRAFT, PROTO, SYS, SW, HW, GEN")
         print("  BUCKET: 00, 10, 20, 30, 40, 50, 60, 70, 80, 90")
         print("  TYPE: PLAN, FHA, REQ, etc.")
         print("  LC|SB: LC01-LC14 (for BUCKET=00) or SB15-SB99 (for others)")
