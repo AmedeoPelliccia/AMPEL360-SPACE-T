@@ -25,9 +25,9 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 | Gate ID | Gate Name | Script/Tool | Enforcement Level | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **GATE-001** | Nomenclature Validation | `validate_nomenclature.py` | BLOCKING | Active | Validates all files against v2.0 standard |
-| **GATE-002** | Schema Registration Check | `scripts/check_schema_registration.py` | BLOCKING | Planned | Verifies schema refs exist in ATA 91 |
-| **GATE-003** | Trace Link Integrity | `scripts/check_trace_integrity.py` | BLOCKING | Planned | Validates trace link targets exist |
+| **GATE-001** | Nomenclature Validation | `validate_nomenclature.py` | BLOCKING | Active | Validates all files against v3.0 standard |
+| **GATE-002** | Schema Registration Check | `scripts/validate_schema_registry.py` | BLOCKING | Active | Verifies schema refs exist in ATA 91 |
+| **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py` | BLOCKING | Active | Validates trace link targets exist |
 | **GATE-004** | Namespace Deduplication | `scripts/check_ata99_registry.py` | BLOCKING | Planned | Prevents duplicate IDs across namespaces |
 | **GATE-005** | Identifier Grammar Check | `scripts/validate_identifiers.py` | BLOCKING | Planned | Validates canonical ID format |
 
@@ -71,8 +71,8 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 ### By Status
 
-- **Active (implemented):** GATE-001, GATE-006, GATE-009, GATE-010
-- **Planned (to be implemented):** GATE-002, GATE-003, GATE-004, GATE-005, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
+- **Active (implemented):** GATE-001, GATE-002, GATE-003, GATE-006, GATE-009, GATE-010
+- **Planned (to be implemented):** GATE-004, GATE-005, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
 
 ### By Responsible Team
 
@@ -87,15 +87,15 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 | Gate | Related Policy | Related Workflow | Dependencies |
 | :--- | :--- | :--- | :--- |
-| GATE-001 | Nomenclature Standard v2.0 | `.github/workflows/nomenclature-validation.yml` | `validate_nomenclature.py` |
-| GATE-002 | Governance Reference Policy §4.2 | Planned: `.github/workflows/governance-gates.yml` | ATA 91 schema registry |
-| GATE-003 | Governance Reference Policy §5.3 | Planned: `.github/workflows/governance-gates.yml` | ATA 93 trace registry |
+| GATE-001 | Nomenclature Standard v3.0 | `.github/workflows/nomenclature-validation.yml` | `validate_nomenclature.py` |
+| GATE-002 | Governance Reference Policy §4.2 | `.github/workflows/governance-gates.yml` | ATA 91 schema registry |
+| GATE-003 | Governance Reference Policy §5.3 | `.github/workflows/governance-gates.yml` | `scripts/validate_trace_links.py` |
 | GATE-004 | Identifier Grammar §4.5.2 | Planned: `.github/workflows/governance-gates.yml` | ATA 99 namespace registry |
 | GATE-005 | Identifier Grammar §4.1 | Planned: `.github/workflows/governance-gates.yml` | None |
-| GATE-006 | Governance Reference Policy §6.3 | Planned: `.github/workflows/governance-gates.yml` | CM WG approval list |
+| GATE-006 | Governance Reference Policy §6.3 | `.github/workflows/governance-gates.yml` | CM WG approval list |
 | GATE-007 | Governance Reference Policy §4.3 | Planned: `.github/workflows/governance-gates.yml` | ATA 91 schema versioning |
 | GATE-008 | Governance Reference Policy §7.1 | Planned: `.github/workflows/governance-gates.yml` | Evidence pack index |
-| GATE-009 | Nomenclature Standard v2.0 §4.3 | `.github/workflows/detect-new-types.yml` | TYPE vocabulary list |
+| GATE-009 | Nomenclature Standard v3.0 §4.3 | `.github/workflows/detect-new-types.yml` | TYPE vocabulary list |
 | GATE-010 | SSOT Decision Matrix §5.1 | Manual PR review process | CM WG roster |
 
 ## Workflow Configurations
@@ -289,7 +289,10 @@ jobs:
 **Trigger:** Weekly schedule (Sunday night)  
 **Enforcement:** REPORTING (creates issues for violations)
 
-**Proposed Configuration:**
+**Configuration (Active):**
+
+**File:** `.github/workflows/weekly-governance-audit.yml`
+
 ```yaml
 name: Weekly Governance Audit
 
@@ -304,21 +307,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: SSOT Ownership Audit (GATE-015)
-        run: python scripts/audit_ssot_ownership.py --matrix 00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md
+      - name: GATE-003 - Trace Link Validation (Weekly Scan)
+        run: python scripts/validate_trace_links.py --check-all --verbose
+        continue-on-error: true
       
-      - name: Staleness Detection (GATE-016)
-        run: python scripts/check_staleness.py --all
+      - name: GATE-016 - Staleness Detection
+        run: python scripts/check_staleness.py --all  # Planned
+        continue-on-error: true
       
-      - name: Shadow Registry Detection (GATE-017)
-        run: python scripts/detect_shadow_registries.py --namespaces ATA99
+      - name: GATE-017 - Shadow Registry Detection
+        run: python scripts/detect_shadow_registries.py --namespaces ATA99  # Planned
+        continue-on-error: true
+      
+      - name: GATE-002 - Schema Registry Audit
+        run: python scripts/validate_schema_registry.py --check-all --verbose
+        continue-on-error: true
+      
+      - name: GATE-001 - Nomenclature Audit
+        run: python validate_nomenclature.py --check-all --strict --verbose
+        continue-on-error: true
       
       - name: Create Audit Issues
         if: failure()
         uses: actions/github-script@v7
-        with:
-          script: |
-            // Create issues for audit failures
+        # Creates issues for audit failures
 ```
 
 ## Script Inventory
@@ -327,17 +339,17 @@ jobs:
 
 | Script | Location | Purpose | Used By |
 | :--- | :--- | :--- | :--- |
-| `validate_nomenclature.py` | Repository root | Validates nomenclature v2.0 compliance | GATE-001 |
+| `validate_nomenclature.py` | Repository root | Validates nomenclature v3.0 compliance | GATE-001 |
 | `scripts/detect_new_types.py` | `scripts/` | Detects unapproved TYPE codes | GATE-009 |
 | `scripts/scaffold.py` | `scripts/` | Generates files from templates | Development |
+| `scripts/validate_schema_registry.py` | `scripts/` | Verifies schema refs in ATA 91 | GATE-002 |
+| `scripts/validate_trace_links.py` | `scripts/` | Validates trace link targets | GATE-003 |
 
 ### Planned Scripts
 
 | Script | Location | Purpose | Used By |
 | :--- | :--- | :--- | :--- |
 | `scripts/validate_identifiers.py` | `scripts/` | Validates canonical ID grammar | GATE-005 |
-| `scripts/check_schema_registration.py` | `scripts/` | Verifies schema refs in ATA 91 | GATE-002 |
-| `scripts/check_trace_integrity.py` | `scripts/` | Validates trace link targets | GATE-003 |
 | `scripts/check_ata99_registry.py` | `scripts/` | Deduplicates namespace IDs | GATE-004 |
 | `scripts/detect_governance_changes.py` | `scripts/` | Identifies governance-impacting diffs | GATE-006 |
 | `scripts/detect_schema_breaking_changes.py` | `scripts/` | Flags incompatible schema changes | GATE-007 |
@@ -360,12 +372,34 @@ jobs:
 2. Rename file per error message guidance
 3. Re-commit and push
 
-### GATE-002/003/004: Registry Check Failures
+### GATE-002: Schema Registration Failure
 
-**Symptom:** Referenced schema/trace/namespace does not exist in registry
+**Symptom:** Schema file is not registered or has version conflicts
 
 **Remediation:**
-1. **Option A (register):** Register the missing item in ATA 91/93/99
+1. Run locally: `python scripts/validate_schema_registry.py --check-all`
+2. **Option A (register):** Register the missing schema in ATA 91 schema registry
+3. **Option B (fix reference):** Correct the schema file to use existing registered ID
+4. Re-run check locally before pushing
+
+### GATE-003: Trace Link Integrity Failure
+
+**Symptom:** Markdown file contains broken internal links
+
+**Remediation:**
+1. Run locally: `python scripts/validate_trace_links.py --check-file <file>`
+2. Review broken links in the output
+3. **Option A (fix target):** Update link to point to correct existing file
+4. **Option B (create target):** Create the missing target file
+5. **Option C (remove link):** Remove the broken link if target is no longer needed
+6. Re-commit and push
+
+### GATE-004: Namespace Deduplication Failure
+
+**Symptom:** Duplicate identifier IDs found across namespaces
+
+**Remediation:**
+1. **Option A (register):** Register the missing item in ATA 99
 2. **Option B (fix reference):** Correct the reference to existing item
 3. Re-run check locally before pushing
 
@@ -390,7 +424,7 @@ jobs:
 
 ## Maintenance
 
-**Last Updated:** 2025-12-14  
+**Last Updated:** 2025-12-16  
 **Update Frequency:** As gates are added/modified  
 **Maintained By:** Configuration Management WG (Tooling Authority)
 
@@ -406,9 +440,9 @@ jobs:
 
 ### Implementation Priority
 
-**Phase 1 (Immediate - Complete):** GATE-001, GATE-006, GATE-009, GATE-010 (active)
+**Phase 1 (Immediate - Complete):** GATE-001, GATE-002, GATE-003, GATE-006, GATE-009, GATE-010 (active)
 
-**Phase 2 (Q1 2026):** GATE-002, GATE-003, GATE-004, GATE-005 (critical for governance enforcement)
+**Phase 2 (Q1 2026):** GATE-004, GATE-005 (critical for governance enforcement)
 
 **Phase 3 (Q2 2026):** GATE-007, GATE-008, GATE-015, GATE-016, GATE-017 (audit and staleness detection)
 
@@ -430,5 +464,5 @@ jobs:
 | **Version** | v01 |
 | **Status** | Normative |
 | **Owner** | Configuration Management WG (Tooling Authority) |
-| **Last Updated** | 2025-12-14 |
+| **Last Updated** | 2025-12-16 |
 | **Next Review** | 2026-03-14 (quarterly) |

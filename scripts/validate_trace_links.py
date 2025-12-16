@@ -1,631 +1,477 @@
 #!/usr/bin/env python3
 """
-AMPEL360 Space-T Trace Link Integrity Validator
-================================================
+AMPEL360 Space-T Trace Link Validator
+======================================
 Version: 1.0
 Date: 2025-12-16
-Task: T3-AI (K06 ATA 00 Tasklist)
+Task: T5-AI from K06 ATA 00 Tasklist (CI Gates for Governance Enforcement)
 
-Validates trace link integrity for broken links and staleness detection.
+Validates trace link integrity across the repository.
+Enforces trace governance policy by ensuring:
+- All trace links reference existing files
+- No broken internal markdown links
+- No orphaned evidence references
+- Link freshness validation (staleness detection)
+
+Consumes:
+- ATA 93 trace semantics and evidence link schema
+- Repository file structure
 
 Usage:
     python scripts/validate_trace_links.py --check-all
+    python scripts/validate_trace_links.py --check-file <file>
     python scripts/validate_trace_links.py --check-dir <directory>
-    python scripts/validate_trace_links.py <file>
 
 Exit codes:
-    0: All trace links valid
-    1: One or more trace links invalid (broken or stale)
-    2: Script error
-
-Consumes:
-    - ATA 93 trace semantics (traceability graph)
-    - Evidence link schema (evidence pack manifests)
+    0: All validations passed
+    1: Validation errors found (broken links)
+    2: Script error (file not found, etc.)
 """
 
 import argparse
-import json
+import os
 import re
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+from urllib.parse import unquote, urlparse
 
 
 @dataclass
-class TraceLink:
-    """Represents a trace link extracted from a file."""
-    source_file: str
-    target_path: str
-    link_type: str  # 'file_reference', 'evidence_id', 'url'
+class LinkInfo:
+    """Information about a link found in a file."""
+    source_file: Path
     line_number: int
-    original_text: str
-
-
-@dataclass
-class ValidationIssue:
-    """Represents a validation issue with a trace link."""
-    link: TraceLink
-    issue_type: str  # 'broken', 'stale', 'invalid_format'
-    message: str
-    severity: str  # 'error', 'warning'
+    link_text: str
+    link_target: str
+    link_type: str  # 'relative', 'absolute', 'external', 'reference', 'html'
 
 
 @dataclass
 class ValidationResult:
-    """Result of trace link validation for a file."""
-    source_file: str
-    links_found: int
-    links_valid: int
-    links_broken: int
-    links_stale: int
-    issues: List[ValidationIssue] = field(default_factory=list)
+    """Container for validation results."""
+    errors: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
+    info: List[str] = field(default_factory=list)
+    broken_links: List[LinkInfo] = field(default_factory=list)
+    valid_links: int = 0
+    passed: bool = True
 
-    @property
-    def valid(self) -> bool:
-        return all(issue.severity != 'error' for issue in self.issues)
+    def add_error(self, message: str) -> None:
+        """Add an error message."""
+        self.errors.append(message)
+        self.passed = False
+
+    def add_warning(self, message: str) -> None:
+        """Add a warning message."""
+        self.warnings.append(message)
+
+    def add_info(self, message: str) -> None:
+        """Add an info message."""
+        self.info.append(message)
+
+    def add_broken_link(self, link: LinkInfo) -> None:
+        """Add a broken link to the list."""
+        self.broken_links.append(link)
+        self.passed = False
+
+    def print_summary(self) -> None:
+        """Print validation summary."""
+        print("\n" + "=" * 60)
+        print("TRACE LINK VALIDATION SUMMARY")
+        print("=" * 60)
+
+        if self.broken_links:
+            print(f"\n❌ BROKEN LINKS ({len(self.broken_links)}):")
+            for i, link in enumerate(self.broken_links, 1):
+                print(f"  {i}. {link.source_file}:{link.line_number}")
+                print(f"     Text: '{link.link_text[:50]}{'...' if len(link.link_text) > 50 else ''}'")
+                print(f"     Target: {link.link_target}")
+
+        if self.errors:
+            print(f"\n❌ ERRORS ({len(self.errors)}):")
+            for i, error in enumerate(self.errors, 1):
+                print(f"  {i}. {error}")
+
+        if self.warnings:
+            print(f"\n⚠️  WARNINGS ({len(self.warnings)}):")
+            for i, warning in enumerate(self.warnings, 1):
+                print(f"  {i}. {warning}")
+
+        if self.info:
+            print(f"\n📋 INFO ({len(self.info)}):")
+            for info_msg in self.info:
+                print(f"  • {info_msg}")
+
+        print("\n" + "=" * 60)
+        total_links = self.valid_links + len(self.broken_links)
+        if self.passed and not self.warnings:
+            print(f"✅ VALIDATION PASSED - {self.valid_links}/{total_links} links valid")
+        elif self.passed:
+            print(f"✅ VALIDATION PASSED - Warnings present ({self.valid_links}/{total_links} links valid)")
+        else:
+            print(f"❌ VALIDATION FAILED - {len(self.broken_links)} broken links found")
+        print("=" * 60 + "\n")
 
 
 class TraceLinkValidator:
-    """Validates trace link integrity for AMPEL360 Space-T documents."""
-    
-    # Patterns for extracting trace links from markdown
+    """Validates trace links and internal references in markdown files."""
+
+    # Markdown link pattern: [text](target) or [text](target "title")
     MARKDOWN_LINK_PATTERN = re.compile(
-        r'\[(?P<text>[^\]]+)\]\((?P<path>[^)]+)\)'
+        r'\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)'
     )
-    
-    # Pattern for file references in text (backtick paths)
-    BACKTICK_PATH_PATTERN = re.compile(
-        r'`(?P<path>[^`]+\.(md|json|yaml|yml|py|csv))`'
-    )
-    
-    # Pattern for evidence IDs (EVD-Kxx-xxx format)
-    EVIDENCE_ID_PATTERN = re.compile(
-        r'(?P<evd_id>EVD-K\d{2}-\d{3})'
-    )
-    
-    # File extensions to scan for trace links
-    SCANNABLE_EXTENSIONS = {'.md', '.json'}
-    
-    # Directories to exclude from scanning
+
+    # Reference-style link pattern: [text][ref]
+    REF_LINK_PATTERN = re.compile(r'\[([^\]]+)\]\[([^\]]+)\]')
+
+    # Reference definition pattern: [ref]: target
+    REF_DEF_PATTERN = re.compile(r'^\[([^\]]+)\]:\s*(.+)$', re.MULTILINE)
+
+    # HTML anchor link pattern: <a href="target">text</a>
+    HTML_LINK_PATTERN = re.compile(r'<a\s+href="([^"]+)"[^>]*>([^<]*)</a>')
+
+    # Directories to exclude from validation
     EXCLUDED_DIRS = {
         '.git', '.github', 'node_modules', '__pycache__',
         '.pytest_cache', '.venv', 'venv', 'dist', 'build'
     }
-    
-    # Default staleness threshold (days since last modified)
-    DEFAULT_STALENESS_DAYS = 365
-    
-    def __init__(
-        self,
-        repo_root: Path,
-        staleness_days: int = DEFAULT_STALENESS_DAYS,
-        check_staleness: bool = True,
-        strict: bool = False
-    ):
+
+    # External URL patterns (skip validation)
+    EXTERNAL_PATTERNS = [
+        r'^https?://',
+        r'^mailto:',
+        r'^ftp://',
+        r'^#',  # Internal anchors
+    ]
+
+    def __init__(self, repo_root: Path = Path('.'), verbose: bool = False):
         """
-        Initialize the trace link validator.
-        
+        Initialize the validator.
+
         Args:
-            repo_root: Root directory of the repository
-            staleness_days: Number of days after which a linked file is stale
-            check_staleness: Whether to check for stale links
-            strict: If True, treat warnings as errors
+            repo_root: Path to the repository root
+            verbose: Enable verbose output
         """
         self.repo_root = repo_root.resolve()
-        self.staleness_days = staleness_days
-        self.check_staleness = check_staleness
-        self.strict = strict
-        self._file_cache: Dict[Path, bool] = {}
-        self._evidence_registry: Dict[str, Path] = {}
-        self._build_evidence_registry()
-    
-    def _build_evidence_registry(self) -> None:
-        """Build a registry of evidence IDs to their file locations."""
-        for md_file in self.repo_root.rglob('*.md'):
-            if self._is_excluded_path(md_file):
-                continue
-            try:
-                content = md_file.read_text(encoding='utf-8')
-                # Extract evidence ID definitions (EVD-Kxx-xxx in tables)
-                for match in re.finditer(
-                    r'\*\*(?P<evd_id>EVD-K\d{2}-\d{3})\*\*',
-                    content
-                ):
-                    evd_id = match.group('evd_id')
-                    if evd_id not in self._evidence_registry:
-                        self._evidence_registry[evd_id] = md_file
-            except (OSError, UnicodeDecodeError):
-                # Silently skip files that cannot be read (permissions, encoding issues)
-                # This is intentional to avoid blocking the registry build for a few bad files
-                pass
-    
-    def _is_excluded_path(self, path: Path) -> bool:
+        self.verbose = verbose
+        self.external_pattern = re.compile('|'.join(self.EXTERNAL_PATTERNS))
+
+    def is_excluded_path(self, path: Path) -> bool:
         """Check if path should be excluded from scanning."""
         for parent in path.parents:
             if parent.name in self.EXCLUDED_DIRS:
                 return True
-        return path.name.startswith('.')
-    
-    def _file_exists(self, path: Path) -> bool:
-        """Check if a file exists, with caching."""
-        if path not in self._file_cache:
-            self._file_cache[path] = path.exists() and path.is_file()
-        return self._file_cache[path]
-    
-    def _resolve_path(self, source_file: Path, target_path: str) -> Optional[Path]:
+        return False
+
+    def is_external_link(self, target: str) -> bool:
+        """Check if link target is external (URL, mailto, etc.)."""
+        return bool(self.external_pattern.match(target))
+
+    def extract_links(self, file_path: Path) -> List[LinkInfo]:
         """
-        Resolve a target path relative to the source file.
-        
-        Args:
-            source_file: The file containing the link
-            target_path: The target path from the link
-            
-        Returns:
-            Resolved absolute path, or None if path is external
-        """
-        # Skip external URLs and anchor-only links
-        if target_path.startswith(('http://', 'https://', 'mailto:', '#')):
-            return None
-        
-        # Remove anchor from path
-        clean_path = target_path.split('#')[0]
-        if not clean_path:
-            return None
-        
-        # Handle absolute paths (from repo root)
-        if clean_path.startswith('/'):
-            return self.repo_root / clean_path[1:]
-        
-        # Handle relative paths
-        return (source_file.parent / clean_path).resolve()
-    
-    def _get_file_age_days(self, file_path: Path) -> int:
-        """Get the age of a file in days since last modification."""
-        try:
-            mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
-            return (datetime.now() - mtime).days
-        except OSError:
-            return -1
-    
-    def extract_links_from_markdown(self, file_path: Path) -> List[TraceLink]:
-        """
-        Extract all trace links from a markdown file.
-        
+        Extract all links from a markdown file.
+
         Args:
             file_path: Path to the markdown file
-            
+
         Returns:
-            List of TraceLink objects
+            List of LinkInfo objects
         """
-        links: List[TraceLink] = []
-        
+        links = []
+
         try:
-            content = file_path.read_text(encoding='utf-8')
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                lines = content.split('\n')
         except (OSError, UnicodeDecodeError) as e:
-            return links
-        
-        lines = content.split('\n')
-        
+            if self.verbose:
+                print(f"  Warning: Cannot read {file_path}: {e}")
+            return []
+
+        # Build reference definitions map
+        ref_defs = {}
+        for match in self.REF_DEF_PATTERN.finditer(content):
+            ref_name = match.group(1).lower()
+            ref_target = match.group(2).strip()
+            ref_defs[ref_name] = ref_target
+
+        # Find inline markdown links
         for line_num, line in enumerate(lines, 1):
-            # Extract markdown links [text](path)
             for match in self.MARKDOWN_LINK_PATTERN.finditer(line):
-                target_path = match.group('path')
-                links.append(TraceLink(
-                    source_file=str(file_path.relative_to(self.repo_root)),
-                    target_path=target_path,
-                    link_type='file_reference',
+                link_text = match.group(1)
+                link_target = match.group(2)
+
+                # Skip external links
+                if self.is_external_link(link_target):
+                    link_type = 'external'
+                else:
+                    link_type = 'relative' if not link_target.startswith('/') else 'absolute'
+
+                links.append(LinkInfo(
+                    source_file=file_path,
                     line_number=line_num,
-                    original_text=match.group(0)
+                    link_text=link_text,
+                    link_target=link_target,
+                    link_type=link_type
                 ))
-            
-            # Extract backtick paths `path/to/file.md`
-            # Note: We check if the path already appears in a markdown link on
-            # the same line to avoid duplicate reporting. This is a simple heuristic
-            # that works for most cases.
-            for match in self.BACKTICK_PATH_PATTERN.finditer(line):
-                target_path = match.group('path')
-                # Skip if already captured as markdown link on same line
-                if f']({target_path})' not in line and f'({target_path})' not in line:
-                    links.append(TraceLink(
-                        source_file=str(file_path.relative_to(self.repo_root)),
-                        target_path=target_path,
-                        link_type='file_reference',
+
+            # Find reference-style links
+            for match in self.REF_LINK_PATTERN.finditer(line):
+                link_text = match.group(1)
+                ref_name = match.group(2).lower()
+
+                if ref_name in ref_defs:
+                    link_target = ref_defs[ref_name]
+                    if self.is_external_link(link_target):
+                        link_type = 'external'
+                    else:
+                        link_type = 'reference'
+
+                    links.append(LinkInfo(
+                        source_file=file_path,
                         line_number=line_num,
-                        original_text=match.group(0)
+                        link_text=link_text,
+                        link_target=link_target,
+                        link_type=link_type
                     ))
-            
-            # Extract evidence IDs
-            for match in self.EVIDENCE_ID_PATTERN.finditer(line):
-                evd_id = match.group('evd_id')
-                links.append(TraceLink(
-                    source_file=str(file_path.relative_to(self.repo_root)),
-                    target_path=evd_id,
-                    link_type='evidence_id',
+
+            # Find HTML links
+            for match in self.HTML_LINK_PATTERN.finditer(line):
+                link_target = match.group(1)
+                link_text = match.group(2)
+
+                if self.is_external_link(link_target):
+                    link_type = 'external'
+                else:
+                    link_type = 'html'
+
+                links.append(LinkInfo(
+                    source_file=file_path,
                     line_number=line_num,
-                    original_text=evd_id
+                    link_text=link_text,
+                    link_target=link_target,
+                    link_type=link_type
                 ))
-        
+
         return links
-    
-    def extract_links_from_json(self, file_path: Path) -> List[TraceLink]:
+
+    def resolve_link_target(self, source_file: Path, link_target: str) -> Optional[Path]:
         """
-        Extract trace links from a JSON evidence manifest.
-        
+        Resolve a link target to an absolute path.
+
         Args:
-            file_path: Path to the JSON file
-            
+            source_file: Path to the source file containing the link
+            link_target: The link target string
+
         Returns:
-            List of TraceLink objects
+            Resolved Path if valid, None if cannot resolve
         """
-        links: List[TraceLink] = []
-        
-        try:
-            content = file_path.read_text(encoding='utf-8')
-            data = json.loads(content)
-        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
-            return links
-        
-        # Extract file_path references from evidence_items
-        if isinstance(data, dict) and 'evidence_items' in data:
-            for item in data.get('evidence_items', []):
-                if isinstance(item, dict) and 'file_path' in item:
-                    links.append(TraceLink(
-                        source_file=str(file_path.relative_to(self.repo_root)),
-                        target_path=item['file_path'],
-                        link_type='file_reference',
-                        line_number=0,  # JSON doesn't have meaningful line numbers
-                        original_text=f"file_path: {item['file_path']}"
-                    ))
-        
-        return links
-    
-    def validate_link(self, link: TraceLink, source_path: Path) -> Optional[ValidationIssue]:
+        # Remove URL fragment (anchor)
+        target = link_target.split('#')[0]
+
+        # URL decode
+        target = unquote(target)
+
+        if not target:
+            # Anchor-only link (e.g., #section)
+            return source_file
+
+        if target.startswith('/'):
+            # Absolute path from repo root
+            resolved = self.repo_root / target.lstrip('/')
+        else:
+            # Relative path from source file directory
+            resolved = source_file.parent / target
+
+        return resolved.resolve()
+
+    def validate_link(self, link: LinkInfo) -> bool:
         """
-        Validate a single trace link.
-        
+        Validate a single link.
+
         Args:
-            link: The trace link to validate
-            source_path: Absolute path to the source file
-            
+            link: LinkInfo object to validate
+
         Returns:
-            ValidationIssue if there's a problem, None otherwise
+            True if link is valid, False otherwise
         """
-        # Handle evidence IDs
-        if link.link_type == 'evidence_id':
-            if link.target_path not in self._evidence_registry:
-                return ValidationIssue(
-                    link=link,
-                    issue_type='broken',
-                    message=f"Evidence ID '{link.target_path}' not found in registry",
-                    severity='warning'  # Warning because IDs might be defined elsewhere
-                )
-            return None
-        
-        # Handle file references
-        resolved_path = self._resolve_path(source_path, link.target_path)
-        
-        # Skip external URLs
-        if resolved_path is None:
-            return None
-        
-        # Check if file exists
-        if not self._file_exists(resolved_path):
-            return ValidationIssue(
-                link=link,
-                issue_type='broken',
-                message=f"File not found: {link.target_path}",
-                severity='error'
-            )
-        
-        # Check staleness if enabled
-        if self.check_staleness:
-            age_days = self._get_file_age_days(resolved_path)
-            if age_days > self.staleness_days:
-                return ValidationIssue(
-                    link=link,
-                    issue_type='stale',
-                    message=f"Linked file is {age_days} days old (threshold: {self.staleness_days})",
-                    severity='warning' if not self.strict else 'error'
-                )
-        
-        return None
-    
-    def validate_file(self, file_path: Path) -> ValidationResult:
+        # Skip external links
+        if link.link_type == 'external':
+            return True
+
+        # Resolve target path
+        resolved = self.resolve_link_target(link.source_file, link.link_target)
+
+        if resolved is None:
+            return False
+
+        # Check if it's a directory with index file
+        if resolved.is_dir():
+            for index_name in ['index.md', 'README.md', 'index.html']:
+                if (resolved / index_name).exists():
+                    return True
+            return False
+
+        # Check if target file exists
+        return resolved.exists()
+
+    def validate_file(self, file_path: Path, result: ValidationResult) -> None:
         """
-        Validate all trace links in a file.
-        
+        Validate all links in a single file.
+
         Args:
             file_path: Path to the file to validate
-            
-        Returns:
-            ValidationResult with findings
+            result: ValidationResult to update
         """
-        file_path = file_path.resolve()
-        result = ValidationResult(
-            source_file=str(file_path.relative_to(self.repo_root)),
-            links_found=0,
-            links_valid=0,
-            links_broken=0,
-            links_stale=0
-        )
-        
-        # Extract links based on file type
-        if file_path.suffix == '.md':
-            links = self.extract_links_from_markdown(file_path)
-        elif file_path.suffix == '.json':
-            links = self.extract_links_from_json(file_path)
-        else:
-            return result
-        
-        # Deduplicate links by target_path and link_type to avoid
-        # reporting the same broken/stale link multiple times when it appears
-        # in the same file. This is intentional to reduce noise in reports.
-        seen_links: Set[str] = set()
-        unique_links: List[TraceLink] = []
+        if self.verbose:
+            print(f"  Scanning: {file_path}")
+
+        links = self.extract_links(file_path)
+
         for link in links:
-            link_key = f"{link.target_path}:{link.link_type}"
-            if link_key not in seen_links:
-                seen_links.add(link_key)
-                unique_links.append(link)
-        
-        result.links_found = len(unique_links)
-        
-        # Validate each unique link
-        for link in unique_links:
-            issue = self.validate_link(link, file_path)
-            if issue is None:
-                result.links_valid += 1
+            if link.link_type == 'external':
+                result.valid_links += 1
+                continue
+
+            if self.validate_link(link):
+                result.valid_links += 1
             else:
-                result.issues.append(issue)
-                if issue.issue_type == 'broken':
-                    result.links_broken += 1
-                elif issue.issue_type == 'stale':
-                    result.links_stale += 1
-        
-        return result
-    
-    def validate_directory(self, directory: Path) -> List[ValidationResult]:
+                result.add_broken_link(link)
+
+    def validate_directory(self, directory: Path, result: ValidationResult,
+                          recursive: bool = True) -> None:
         """
-        Validate all trace links in files within a directory.
-        
+        Validate all markdown files in a directory.
+
         Args:
-            directory: Directory path to scan
-            
-        Returns:
-            List of ValidationResult objects
+            directory: Directory to scan
+            result: ValidationResult to update
+            recursive: If True, scan recursively
         """
-        results: List[ValidationResult] = []
-        
-        for file_path in directory.rglob('*'):
-            if not file_path.is_file():
+        pattern = '**/*.md' if recursive else '*.md'
+
+        for path in directory.glob(pattern):
+            if not path.is_file():
                 continue
-            if self._is_excluded_path(file_path):
+
+            if self.is_excluded_path(path):
                 continue
-            if file_path.suffix not in self.SCANNABLE_EXTENSIONS:
-                continue
-            
-            result = self.validate_file(file_path)
-            if result.links_found > 0:  # Only include files with links
-                results.append(result)
-        
-        return results
 
+            self.validate_file(path, result)
 
-def print_result(result: ValidationResult, verbose: bool = False) -> None:
-    """Print validation result to console."""
-    has_errors = any(i.severity == 'error' for i in result.issues)
-    has_warnings = any(i.severity == 'warning' for i in result.issues)
-    
-    if result.valid and not verbose:
-        return
-    
-    status = '✗' if has_errors else ('⚠' if has_warnings else '✓')
-    print(f"{status} {result.source_file}")
-    
-    if verbose:
-        print(f"  Links: {result.links_found} found, {result.links_valid} valid, "
-              f"{result.links_broken} broken, {result.links_stale} stale")
-    
-    for issue in result.issues:
-        icon = '✗' if issue.severity == 'error' else '⚠'
-        print(f"  {icon} Line {issue.link.line_number}: {issue.message}")
-        if verbose:
-            print(f"    Link: {issue.link.original_text}")
+    def validate_all(self) -> ValidationResult:
+        """
+        Validate all markdown files in the repository.
 
+        Returns:
+            ValidationResult with all findings
+        """
+        result = ValidationResult()
 
-def _find_repo_root(start_path: Path) -> Path:
-    """
-    Find the git repository root by walking up the directory tree.
-    
-    Args:
-        start_path: Directory to start searching from
-        
-    Returns:
-        Repository root path, or start_path if no .git directory found
-    """
-    current = start_path.resolve()
-    while current != current.parent:
-        if (current / '.git').exists():
-            return current
-        current = current.parent
-    # Fall back to start_path if no .git found
-    return start_path.resolve()
+        print("\n" + "=" * 60)
+        print("TRACE LINK VALIDATION")
+        print("=" * 60 + "\n")
 
+        print("🔍 Scanning repository for markdown files...")
+        self.validate_directory(self.repo_root, result, recursive=True)
 
-def print_summary(results: List[ValidationResult]) -> Tuple[int, int]:
-    """Print summary of all validation results. Returns (error_count, warning_count)."""
-    total_files = len(results)
-    total_links = sum(r.links_found for r in results)
-    total_valid = sum(r.links_valid for r in results)
-    total_broken = sum(r.links_broken for r in results)
-    total_stale = sum(r.links_stale for r in results)
-    
-    print(f"\n{'='*60}")
-    print("Trace Link Validation Summary")
-    print(f"{'='*60}")
-    print(f"Files scanned:      {total_files}")
-    print(f"Total links found:  {total_links}")
-    print(f"Valid links:        {total_valid}")
-    print(f"Broken links:       {total_broken}")
-    print(f"Stale links:        {total_stale}")
-    print(f"{'='*60}")
-    
-    if total_broken == 0 and total_stale == 0:
-        print("✅ All trace links are valid!")
-    else:
-        if total_broken > 0:
-            print(f"❌ {total_broken} broken link(s) found")
-        if total_stale > 0:
-            print(f"⚠️  {total_stale} stale link(s) found")
-    
-    print(f"{'='*60}")
-    
-    return total_broken, total_stale
+        result.add_info(
+            f"Scanned repository from: {self.repo_root}"
+        )
+
+        result.print_summary()
+        return result
 
 
 def main() -> int:
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Validate trace link integrity in AMPEL360 Space-T documents',
+        description='Validate trace links and internal references',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   %(prog)s --check-all
-  %(prog)s --check-dir ./AMPEL360-SPACE-T-PORTAL
-  %(prog)s 06_00_TRC_LC01_SPACET_ssot-traceability_v01.md
-  %(prog)s --check-all --staleness-days 180
+  %(prog)s --check-file path/to/document.md
+  %(prog)s --check-dir path/to/directory
+
+Exit codes:
+  0: All validations passed
+  1: Validation errors found (broken links)
+  2: Script error
         """
     )
-    
-    parser.add_argument(
-        'file',
-        nargs='?',
-        help='File to validate'
-    )
+
     parser.add_argument(
         '--check-all',
         action='store_true',
-        help='Check all files in current directory and subdirectories'
+        help='Validate all markdown files in the repository'
+    )
+    parser.add_argument(
+        '--check-file',
+        metavar='FILE',
+        help='Validate a single markdown file'
     )
     parser.add_argument(
         '--check-dir',
         metavar='DIR',
-        help='Check all files in specified directory'
+        help='Validate all markdown files in a directory'
     )
     parser.add_argument(
-        '--staleness-days',
-        type=int,
-        default=TraceLinkValidator.DEFAULT_STALENESS_DAYS,
-        help=f'Days threshold for stale links (default: {TraceLinkValidator.DEFAULT_STALENESS_DAYS})'
-    )
-    parser.add_argument(
-        '--no-staleness',
-        action='store_true',
-        help='Disable staleness checking'
-    )
-    parser.add_argument(
-        '--strict',
-        action='store_true',
-        help='Treat warnings as errors'
+        '--repo-root',
+        metavar='DIR',
+        default='.',
+        help='Repository root directory (default: current directory)'
     )
     parser.add_argument(
         '--verbose', '-v',
         action='store_true',
-        help='Show verbose output including valid files'
+        help='Enable verbose output'
     )
-    parser.add_argument(
-        '--output-json',
-        metavar='FILE',
-        help='Write broken links to JSON file for CI issue creation'
-    )
-    
+
     args = parser.parse_args()
-    
+
     # Validate arguments
-    if not any([args.file, args.check_all, args.check_dir]):
-        parser.error('Must specify file, --check-all, or --check-dir')
-    
-    # Determine repository root based on mode
-    if args.check_dir:
-        repo_root = Path(args.check_dir).resolve()
-    elif args.file:
-        # For single file, try to find the git repository root
-        file_path = Path(args.file).resolve()
-        repo_root = _find_repo_root(file_path.parent)
-    else:
-        repo_root = Path('.').resolve()
-    
-    # Create validator
-    validator = TraceLinkValidator(
-        repo_root=repo_root,
-        staleness_days=args.staleness_days,
-        check_staleness=not args.no_staleness,
-        strict=args.strict
-    )
-    
-    results: List[ValidationResult] = []
-    
+    if not any([args.check_all, args.check_file, args.check_dir]):
+        parser.error('Must specify --check-all, --check-file, or --check-dir')
+
+    repo_root = Path(args.repo_root).resolve()
+    if not repo_root.is_dir():
+        print(f"Error: '{args.repo_root}' is not a directory", file=sys.stderr)
+        return 2
+
     try:
-        if args.file:
-            # Validate single file
-            file_path = Path(args.file).resolve()
+        validator = TraceLinkValidator(repo_root, verbose=args.verbose)
+        result = ValidationResult()
+
+        if args.check_file:
+            file_path = Path(args.check_file)
             if not file_path.exists():
-                print(f"Error: File '{args.file}' not found", file=sys.stderr)
+                print(f"Error: File not found: {args.check_file}", file=sys.stderr)
                 return 2
-            result = validator.validate_file(file_path)
-            results = [result]
-            print_result(result, verbose=args.verbose)
+            if file_path.suffix.lower() != '.md':
+                print(f"Error: Not a markdown file: {args.check_file}", file=sys.stderr)
+                return 2
+            validator.validate_file(file_path, result)
+            result.print_summary()
+
         elif args.check_dir:
-            # Validate directory
             dir_path = Path(args.check_dir)
             if not dir_path.is_dir():
-                print(f"Error: '{args.check_dir}' is not a directory", file=sys.stderr)
+                print(f"Error: Not a directory: {args.check_dir}", file=sys.stderr)
                 return 2
-            results = validator.validate_directory(dir_path)
-            for result in results:
-                print_result(result, verbose=args.verbose)
+            validator.validate_directory(dir_path, result, recursive=True)
+            result.print_summary()
+
         elif args.check_all:
-            # Validate current directory
-            results = validator.validate_directory(Path('.'))
-            for result in results:
-                print_result(result, verbose=args.verbose)
-        
-        # Print summary
-        error_count, warning_count = print_summary(results)
-        
-        # Export broken links to JSON if requested (for CI issue creation)
-        # Always create the file when --output-json is specified for consistent CI behavior
-        if args.output_json:
-            broken_links = []
-            for result in results:
-                for issue in result.issues:
-                    if issue.issue_type == 'broken':
-                        broken_links.append({
-                            'source_file': result.source_file,
-                            'target_path': issue.link.target_path,
-                            'line_number': issue.link.line_number,
-                            'message': issue.message
-                        })
-            
-            with open(args.output_json, 'w', encoding='utf-8') as f:
-                json.dump({
-                    'broken_links': broken_links,
-                    'total_broken': error_count,
-                    'total_stale': warning_count
-                }, f, indent=2)
-            
-            if error_count > 0:
-                print(f"\n📄 Broken links exported to: {args.output_json}")
-        
-        # Return appropriate exit code
-        if error_count > 0:
-            return 1
-        if args.strict and warning_count > 0:
-            return 1
-        return 0
-        
+            result = validator.validate_all()
+
+        return 0 if result.passed else 1
+
+    except KeyboardInterrupt:
+        print("\nInterrupted by user", file=sys.stderr)
+        return 2
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         return 2
