@@ -76,7 +76,7 @@ This tasklist is **closed only if** all conditions are true:
 
 ## 6) Tasks (minimum set)
 ### 6.1 Define SSOT and identifiers
-- [ ] **T1** Define authoritative source (CAD vs derived tables) and ownership.
+- [x] **T1** Define authoritative source (CAD vs derived tables) and ownership. ✅ **COMPLETE**
 - [ ] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique).
 - [ ] **T3** Define schema: units, coordinate frame, tolerances, metadata.
 
@@ -99,3 +99,66 @@ This tasklist is **closed only if** all conditions are true:
 - Risk: multiple competing “truths” (CAD vs spreadsheets vs diagrams) without SSOT.
 - Risk: unit/frame mismatches causing downstream integration errors (K04 coupling).
 - Dependency: CM approval and registry governance (ATA 00).
+
+---
+
+## T1 Resolution: Authoritative Source and Ownership
+
+### Decision
+
+**CAD models are designated as the Single Source of Truth (SSOT) for ATA-06 dimensional data.**
+
+### Authoritative Source Definition
+
+| Attribute | Value |
+| :--- | :--- |
+| **SSOT Type** | CAD Models (CATIA V6 / NX / SolidWorks) |
+| **Authority** | Authoritative |
+| **Location** | Design Engineering CAD Repository |
+| **Rationale** | Primary design authority; engineering integration; version control; geometry accuracy; change traceability |
+
+### Derived Sources (NOT authoritative)
+
+| Source Type | Status | Usage | Update Trigger |
+| :--- | :--- | :--- | :--- |
+| Spreadsheets | Derived | Analysis, quick reference | When CAD changes |
+| Diagrams | Derived | Communication, documentation | When CAD changes |
+| Presentations | Derived | Reviews, approvals | When CAD changes |
+| Simulation Models | Derived | Analysis input | When CAD changes |
+| Manufacturing Drawings | Derived | Fabrication | When CAD changes |
+| JSON/CSV Exports | Derived | Machine-readable distribution | When CAD changes |
+
+**Conflict Resolution Rule**: If spreadsheet, diagram, or document conflicts with CAD, **CAD is correct**.
+
+### Ownership Model
+
+| Role | Team | Responsibility | Authority Level |
+| :--- | :--- | :--- | :--- |
+| **Primary Owner** | Design Engineering | CAD model maintenance, export generation | Update CAD |
+| **Data Custodian** | Configuration Management WG | Baseline approval, governance | Approve baselines |
+| **Technical Authority** | Systems Engineering | Schema definition, validation rules | Define requirements |
+| **Tooling Owner** | DevOps | CI pipeline, automation | Implement validation |
+| **Consumers** | Ops/Infra/Sim Teams | Use canonical exports, report issues | Read-only access |
+
+### Decision Authority Matrix
+
+| Decision Type | Authority | Process |
+| :--- | :--- | :--- |
+| Dimensional changes | Design Engineering + Chief Engineer | ECR/ECO process |
+| Baseline release | Configuration Management WG | CM review and approval |
+| Schema changes | Systems Engineering + CM WG | Change control board |
+| Export format | Systems Engineering | Technical review |
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| SSOT Implementation Plan | `06_00_PLAN_LC01_AMPEL360_SPACET_PLUS_ssot-implementation-plan_v01.md` | Published |
+| SSOT Decision Matrix | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_ssot-decision-matrix_v01.md` | Published |
+| Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
