@@ -11,7 +11,7 @@ Implements NKU (Non-Known Unknowns / Partitioned Uncertainty Resolution) scoring
 
 Usage:
     # Add/update NKU entry
-    python scripts/nku_scoring.py add-entry --knot K06 --ata 00 --category OPEN \\
+    python scripts/nku_scoring.py add-entry --knot K06 --ata 00 --category GOVERNANCE \\
         --description "Missing schema registry" --owner "CM WG" --notes "Priority: High"
     
     # Update entry status
@@ -33,13 +33,12 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import os
 import re
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Any
 
 
 # NKU Status values
@@ -68,6 +67,42 @@ SCORE_COMPLETE = 1.0
 # CSV header for NKU tracking files
 NKU_CSV_HEADER = ["ID", "Date", "Category", "Description", "Status", "Owner", "Resolution_Date", "Notes"]
 
+# Validation constraints from schema
+MAX_DESCRIPTION_LENGTH = 500
+MAX_NOTES_LENGTH = 1000
+
+# Date format pattern (ISO 8601)
+DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+# Characters that can trigger CSV injection when at the start of a field
+CSV_INJECTION_CHARS = ('=', '+', '-', '@', '\t', '\r', '\n')
+
+
+def sanitize_csv_field(value: Optional[str]) -> str:
+    """
+    Sanitize a string field to prevent CSV injection attacks.
+    
+    Prefixes dangerous characters (=, +, -, @, tab, carriage return, newline) 
+    with a single quote when they appear at the start of the string.
+    Also replaces embedded newlines to prevent row injection.
+    
+    Args:
+        value: The string value to sanitize (can be None)
+        
+    Returns:
+        Sanitized string safe for CSV output
+    """
+    if value is None:
+        return ""
+    
+    # Replace embedded newlines to prevent row injection
+    result = value.replace('\n', ' ').replace('\r', ' ')
+    
+    # Prefix dangerous starting characters
+    if result and result[0] in CSV_INJECTION_CHARS:
+        return "'" + result
+    return result
+
 
 @dataclass
 class NKUEntry:
@@ -82,10 +117,17 @@ class NKUEntry:
     notes: str = ""
     
     def to_row(self) -> List[str]:
-        """Convert to CSV row."""
+        """Convert to CSV row with sanitized fields to prevent CSV injection."""
+        # Sanitize all fields to ensure no injection vectors
         return [
-            self.id, self.date, self.category, self.description,
-            self.status, self.owner, self.resolution_date, self.notes
+            sanitize_csv_field(self.id), 
+            sanitize_csv_field(self.date), 
+            sanitize_csv_field(self.category), 
+            sanitize_csv_field(self.description),
+            sanitize_csv_field(self.status), 
+            sanitize_csv_field(self.owner), 
+            sanitize_csv_field(self.resolution_date), 
+            sanitize_csv_field(self.notes)
         ]
     
     @classmethod
@@ -198,8 +240,15 @@ class NKULedger:
         if not self.csv_path.exists():
             return
         
-        with open(self.csv_path, 'r', newline='', encoding='utf-8') as f:
-            lines = f.readlines()
+        try:
+            with open(self.csv_path, 'r', newline='', encoding='utf-8') as f:
+                lines = f.readlines()
+        except (IOError, OSError, PermissionError) as e:
+            print(f"Warning: Could not read NKU file {self.csv_path}: {e}", file=sys.stderr)
+            return
+        except UnicodeDecodeError as e:
+            print(f"Warning: Encoding error reading NKU file {self.csv_path}: {e}", file=sys.stderr)
+            return
         
         # Parse header comment and data
         data_lines = []
@@ -235,19 +284,30 @@ class NKULedger:
                     continue
     
     def save(self) -> None:
-        """Save entries to CSV file."""
-        self.csv_path.parent.mkdir(parents=True, exist_ok=True)
+        """
+        Save entries to CSV file.
         
-        with open(self.csv_path, 'w', newline='', encoding='utf-8') as f:
-            # Write header comment if present
-            if self.header_comment:
-                f.write(self.header_comment)
-            
-            writer = csv.writer(f)
-            writer.writerow(NKU_CSV_HEADER)
-            
-            for entry in self.entries:
-                writer.writerow(entry.to_row())
+        Raises:
+            IOError: If the file cannot be written due to permissions or disk issues
+        """
+        try:
+            self.csv_path.parent.mkdir(parents=True, exist_ok=True)
+        except (IOError, OSError, PermissionError) as e:
+            raise IOError(f"Could not create directory {self.csv_path.parent}: {e}") from e
+        
+        try:
+            with open(self.csv_path, 'w', newline='', encoding='utf-8') as f:
+                # Write header comment if present
+                if self.header_comment:
+                    f.write(self.header_comment)
+                
+                writer = csv.writer(f)
+                writer.writerow(NKU_CSV_HEADER)
+                
+                for entry in self.entries:
+                    writer.writerow(entry.to_row())
+        except (IOError, OSError, PermissionError) as e:
+            raise IOError(f"Could not write to NKU file {self.csv_path}: {e}") from e
     
     def generate_id(self, knot_id: str, ata: str) -> str:
         """Generate next NKU ID for the ledger."""
@@ -382,33 +442,47 @@ class NKUScoringEngine:
         self._discover_nku_files()
     
     def _discover_nku_files(self) -> None:
-        """Discover all NKU tracking files in the repository."""
+        """
+        Discover all NKU tracking files in the repository.
+        
+        Searches in known locations (STK_*/KNOTS/*/ATA_TASKS/*/MONITORING/ and STK_*/KNOTS/*/MONITORING/)
+        to optimize performance for large repositories.
+        """
         portal_path = self.repo_root / "AMPEL360-SPACE-T-PORTAL"
         
         if not portal_path.exists():
             return
         
-        for csv_file in portal_path.rglob("*.csv"):
-            if not self.NKU_FILE_PATTERN.match(csv_file.name):
-                continue
-            
-            # Try to extract knot and ATA from filename
-            match = self.KNOT_ATA_PATTERN.search(csv_file.name)
-            if match:
-                knot_id = f"K{match.group(1)}"
-                ata = match.group(2)
+        # Search in specific known directories for better performance
+        # Pattern 1: STK_*/KNOTS/*/ATA_TASKS/*/MONITORING/*.csv (ATA-level NKU files)
+        # Pattern 2: STK_*/KNOTS/*/MONITORING/*.csv (Knot-level NKU files)
+        search_patterns = [
+            "STK_*/KNOTS/*/ATA_TASKS/*/MONITORING/*nku-tracking*.csv",
+            "STK_*/KNOTS/*/MONITORING/*nku-tracking*.csv"
+        ]
+        
+        for pattern in search_patterns:
+            for csv_file in portal_path.glob(pattern):
+                if not self.NKU_FILE_PATTERN.match(csv_file.name):
+                    continue
                 
-                if knot_id not in self.nku_files:
-                    self.nku_files[knot_id] = {}
-                self.nku_files[knot_id][ata] = csv_file
-            else:
-                # Try knot-level pattern
-                match = self.KNOT_PATTERN.search(csv_file.name)
+                # Try to extract knot and ATA from filename
+                match = self.KNOT_ATA_PATTERN.search(csv_file.name)
                 if match:
                     knot_id = f"K{match.group(1)}"
+                    ata = match.group(2)
+                    
                     if knot_id not in self.nku_files:
                         self.nku_files[knot_id] = {}
-                    self.nku_files[knot_id]["_knot"] = csv_file
+                    self.nku_files[knot_id][ata] = csv_file
+                else:
+                    # Try knot-level pattern
+                    match = self.KNOT_PATTERN.search(csv_file.name)
+                    if match:
+                        knot_id = f"K{match.group(1)}"
+                        if knot_id not in self.nku_files:
+                            self.nku_files[knot_id] = {}
+                        self.nku_files[knot_id]["_knot"] = csv_file
     
     def get_nku_file_path(self, knot_id: str, ata: str) -> Optional[Path]:
         """Get path to NKU tracking file for a specific knot and ATA."""
@@ -569,17 +643,42 @@ def cmd_add_entry(args: argparse.Namespace, engine: NKUScoringEngine) -> int:
     if category not in NKU_CATEGORIES:
         print(f"Warning: Category '{category}' not in standard categories: {sorted(NKU_CATEGORIES)}")
     
-    entry = ledger.add_entry(
-        knot_id=knot_id,
-        ata=ata,
-        category=category,
-        description=args.description,
-        owner=args.owner,
-        notes=args.notes or "",
-        status=args.status or NKU_STATUS_OPEN
-    )
+    # Validate status
+    status = (args.status or NKU_STATUS_OPEN).upper()
+    if status not in NKU_STATUSES:
+        print(f"Error: Status '{status}' not valid. Must be one of: {sorted(NKU_STATUSES)}", file=sys.stderr)
+        return 1
     
-    ledger.save()
+    # Validate description length
+    description = args.description
+    if len(description) > MAX_DESCRIPTION_LENGTH:
+        print(f"Error: Description exceeds maximum length of {MAX_DESCRIPTION_LENGTH} characters "
+              f"(got {len(description)})", file=sys.stderr)
+        return 1
+    
+    # Validate notes length
+    notes = args.notes or ""
+    if len(notes) > MAX_NOTES_LENGTH:
+        print(f"Error: Notes exceed maximum length of {MAX_NOTES_LENGTH} characters "
+              f"(got {len(notes)})", file=sys.stderr)
+        return 1
+    
+    try:
+        entry = ledger.add_entry(
+            knot_id=knot_id,
+            ata=ata,
+            category=category,
+            description=description,
+            owner=args.owner,
+            notes=notes,
+            status=status
+        )
+        
+        ledger.save()
+    except IOError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+    
     print(f"✅ Added NKU entry: {entry.id}")
     print(f"   File: {csv_path}")
     return 0
@@ -595,20 +694,47 @@ def cmd_update_entry(args: argparse.Namespace, engine: NKUScoringEngine) -> int:
         print(f"Error: NKU file not found for {knot_id} ATA {ata}", file=sys.stderr)
         return 1
     
+    # Validate status if provided
+    status = None
+    if args.status:
+        status = args.status.upper()
+        if status not in NKU_STATUSES:
+            print(f"Error: Status '{status}' not valid. Must be one of: {sorted(NKU_STATUSES)}", file=sys.stderr)
+            return 1
+    
+    # Validate resolution_date format if provided
+    resolution_date = args.resolution_date
+    if resolution_date and not DATE_PATTERN.match(resolution_date):
+        print(f"Error: Resolution date '{resolution_date}' must be in ISO 8601 format (YYYY-MM-DD)", 
+              file=sys.stderr)
+        return 1
+    
+    # Validate notes length if provided
+    notes = args.notes
+    if notes and len(notes) > MAX_NOTES_LENGTH:
+        print(f"Error: Notes exceed maximum length of {MAX_NOTES_LENGTH} characters "
+              f"(got {len(notes)})", file=sys.stderr)
+        return 1
+    
     ledger = NKULedger(csv_path)
     
     entry = ledger.update_entry(
         entry_id=args.id,
-        status=args.status,
-        resolution_date=args.resolution_date,
-        notes=args.notes
+        status=status,
+        resolution_date=resolution_date,
+        notes=notes
     )
     
     if not entry:
         print(f"Error: Entry '{args.id}' not found", file=sys.stderr)
         return 1
     
-    ledger.save()
+    try:
+        ledger.save()
+    except IOError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+    
     print(f"✅ Updated NKU entry: {entry.id}")
     print(f"   Status: {entry.status}")
     if entry.resolution_date:
@@ -668,9 +794,28 @@ def cmd_report(args: argparse.Namespace, engine: NKUScoringEngine) -> int:
     report = engine.generate_report(knot_id=args.knot.upper() if args.knot else None)
     
     if args.output:
-        output_path = Path(args.output)
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(report, f, indent=2)
+        output_path = Path(args.output).resolve()
+        
+        # Validate output path is not a directory and doesn't point to sensitive locations
+        if output_path.is_dir():
+            print(f"Error: Output path '{output_path}' is a directory", file=sys.stderr)
+            return 1
+        
+        # Ensure we're writing to a reasonable location (not system directories)
+        try:
+            # Check if parent directory exists or can be created
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+        except (IOError, OSError, PermissionError) as e:
+            print(f"Error: Could not create output directory: {e}", file=sys.stderr)
+            return 1
+        
+        try:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(report, f, indent=2)
+        except (IOError, OSError, PermissionError) as e:
+            print(f"Error: Could not write report to '{output_path}': {e}", file=sys.stderr)
+            return 1
+        
         print(f"✅ Report saved to: {output_path}")
     else:
         print(json.dumps(report, indent=2))
