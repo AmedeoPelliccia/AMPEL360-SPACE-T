@@ -77,7 +77,7 @@ This tasklist is **closed only if** all conditions are true:
 ## 6) Tasks (minimum set)
 ### 6.1 Define SSOT and identifiers
 - [x] **T1** Define authoritative source (CAD vs derived tables) and ownership. ✅ **COMPLETE**
-- [ ] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique).
+- [x] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique). ✅ **COMPLETE**
 - [ ] **T3** Define schema: units, coordinate frame, tolerances, metadata.
 
 ### 6.2 Publish and enforce
@@ -156,6 +156,95 @@ This tasklist is **closed only if** all conditions are true:
 | SSOT Implementation Plan | `06_00_PLAN_LC01_AMPEL360_SPACET_PLUS_ssot-implementation-plan_v01.md` | Published |
 | SSOT Decision Matrix | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_ssot-decision-matrix_v01.md` | Published |
 | Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
+
+---
+
+## T2 Resolution: Identifier Grammar for Datums/Zones/Envelopes
+
+### Decision
+
+**A canonical identifier grammar has been defined for all ATA-06 dimensional data elements (datums, zones, envelopes).**
+
+### Identifier Grammar
+
+All ATA-06 identifiers follow this grammar:
+
+```
+{CATEGORY}-{SYSTEM}-{SEQUENCE}[-{VARIANT}]
+```
+
+### Grammar Components
+
+| Component | Description | Format | Required |
+| :--- | :--- | :--- | :--- |
+| **CATEGORY** | Artifact type | `DATUM` \| `ZONE` \| `ENVELOPE` | Yes |
+| **SYSTEM** | System code | 2-5 uppercase alphanumeric | Yes |
+| **SEQUENCE** | Sequence number | 3-digit zero-padded | Yes |
+| **VARIANT** | Sub-variant | 1-8 uppercase alphanumeric | Optional |
+
+### System Codes
+
+| Code | System Name | Description |
+| :--- | :--- | :--- |
+| **GLOBAL** | Global | Spacecraft-level references |
+| **FUS** | Fuselage | Main body structure |
+| **PROP** | Propulsion | Engines, tanks, propellant systems |
+| **AVION** | Avionics | Electronics, computers, sensors |
+| **POWER** | Power | Electrical power generation |
+| **THERM** | Thermal | Thermal control systems |
+| **STRUCT** | Structure | Primary and secondary structure |
+| **MECH** | Mechanisms | Deployables, actuators |
+| **PAYLOAD** | Payload | Mission-specific equipment |
+| **GNC** | Guidance/Nav/Control | GNC sensors and actuators |
+| **COMM** | Communications | Antennas, transceivers |
+| **INTEG** | Integration | Cross-system interfaces |
+
+### Identifier Examples
+
+| Identifier | Description |
+| :--- | :--- |
+| `DATUM-GLOBAL-001` | Spacecraft Primary Datum Origin |
+| `DATUM-GLOBAL-002` | Spacecraft X-Axis Reference Line |
+| `DATUM-FUS-001` | Fuselage Station 0 (FS0) |
+| `ZONE-PROP-001` | Main Propulsion Module Zone |
+| `ZONE-INTEG-001` | Launch Vehicle Interface Zone |
+| `ENVELOPE-GLOBAL-001` | Launch Configuration Envelope |
+| `ENVELOPE-PROP-001` | Propulsion Module Envelope |
+| `ENVELOPE-STRUCT-001` | Primary Structure Keep-Out |
+
+### Stability and Uniqueness Rules
+
+| Rule | Description |
+| :--- | :--- |
+| **Permanence** | Identifiers are permanent once allocated |
+| **No Reuse** | Deprecated identifiers are never reused |
+| **Historical Record** | Superseded identifiers maintain pointer to replacement |
+| **Full ID Unique** | Each full identifier (e.g., `DATUM-GLOBAL-001`) is globally unique |
+| **Sequence Scope** | Sequence numbers are allocated within {CATEGORY}-{SYSTEM} scope (e.g., `DATUM-GLOBAL-001` and `ZONE-GLOBAL-001` both valid) |
+| **Immutable Base** | Identifiers themselves do not version; values may change |
+
+### Identifier Allocation Process
+
+1. **Check Registry**: Verify identifier doesn't already exist
+2. **Determine Category**: DATUM, ZONE, or ENVELOPE
+3. **Select System**: Use approved system code
+4. **Assign Sequence**: Next available sequence number
+5. **Document**: Create catalog entry with all required fields
+6. **Submit**: Send to Configuration Management WG for approval
+7. **Publish**: Add to registry and update statistics
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
+| Identifier Grammar Standard | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_identifier-grammar_v01.md` | Published |
 
 ### Approval
 

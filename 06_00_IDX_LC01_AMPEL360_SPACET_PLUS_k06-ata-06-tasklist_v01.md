@@ -61,7 +61,7 @@ This tasklist defines the implementation plan for establishing a Single Source o
 | Task ID | Description | Owner | Status | Artifacts |
 | :--- | :--- | :--- | :--- | :--- |
 | **T1** | Define authoritative source (CAD vs derived tables) and ownership | Config Mgmt WG | ✅ Complete | 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md |
-| **T2** | Define identifier grammar for datums/zones/envelopes (stable, unique) | Systems Eng | Planned | 06_00_CAT_LC01_SPACET_identifier-registry_v01.md |
+| **T2** | Define identifier grammar for datums/zones/envelopes (stable, unique) | Systems Eng | ✅ Complete | 06_00_CAT_LC01_SPACET_identifier-registry_v01.md |
 | **T3** | Define schema: units, coordinate frame, tolerances, metadata | Systems Eng | Planned | 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json |
 
 **T1 Details**: Define authoritative source (CAD vs derived tables) and ownership ✅ **COMPLETE**
@@ -78,11 +78,19 @@ This tasklist defines the implementation plan for establishing a Single Source o
 - **Conflict Rule**: If any derived source conflicts with CAD, CAD is correct
 - **Evidence**: See `06_00_PLAN_LC01_AMPEL360_SPACET_PLUS_ssot-implementation-plan_v01.md` and `00_00_STD_LC01_AMPEL360_SPACET_PLUS_ssot-decision-matrix_v01.md`
 
-**T2 Details**: Define identifier grammar for datums/zones/envelopes (stable, unique)
-- Create identifier patterns (e.g., `DATUM-{system}-{number}`, `ZONE-{area}-{id}`)
-- Ensure stability across versions
-- Define uniqueness constraints
-- Document identifier allocation process
+**T2 Details**: Define identifier grammar for datums/zones/envelopes (stable, unique) ✅ **COMPLETE**
+- ✅ Create identifier patterns: `{CATEGORY}-{SYSTEM}-{SEQUENCE}[-{VARIANT}]`
+- ✅ Ensure stability across versions (identifiers are permanent, never reused)
+- ✅ Define uniqueness constraints (unique across all categories and systems)
+- ✅ Document identifier allocation process
+
+**T2 Resolution Summary**:
+- **Grammar**: `{CATEGORY}-{SYSTEM}-{SEQUENCE}[-{VARIANT}]`
+- **Categories**: DATUM, ZONE, ENVELOPE
+- **System Codes**: GLOBAL, FUS, PROP, AVION, POWER, THERM, STRUCT, MECH, PAYLOAD, GNC, COMM, INTEG
+- **Stability**: Identifiers are permanent once allocated; deprecated IDs are never reused
+- **Examples**: `DATUM-GLOBAL-001`, `ZONE-PROP-001`, `ENVELOPE-STRUCT-001`
+- **Evidence**: See `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` and `00_00_STD_LC01_AMPEL360_SPACET_PLUS_identifier-grammar_v01.md`
 
 **T3 Details**: Define schema: units, coordinate frame, tolerances, metadata
 - Define coordinate reference frame (origin, axes, handedness)
