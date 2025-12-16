@@ -59,6 +59,7 @@ This index catalogs all **evidence artifacts** produced for **Task K06: Governan
 | **EVD-K06-011** | Type Detection Workflow | `.github/workflows/detect-new-types.yml` | YAML | Active | Existing CI workflow |
 | **EVD-K06-012** | Validation Script | `validate_nomenclature.py` | Python | Active | Repository root |
 | **EVD-K06-013** | Scaffolding Script | `scripts/scaffold.py` | Python | Active | scripts/ directory |
+| **EVD-K06-014** | Auditability Proof Path Validator | `scripts/validate_audit_proof_path.py` | Python | Active | ID→Schema→Trace→Export validation |
 
 ## Evidence Chain Traceability
 
@@ -232,7 +233,7 @@ python validate_nomenclature.py 00_00_LOG_LC01_SPACET_k06-approvals_v01.md
 
 - **Complete:** EVD-K06-001, EVD-K06-002, EVD-K06-003, EVD-K06-004, EVD-K06-005, EVD-K06-006, EVD-K06-007
 - **Pending:** EVD-K06-008, EVD-K06-009
-- **Supporting (Active):** EVD-K06-010, EVD-K06-011, EVD-K06-012, EVD-K06-013
+- **Supporting (Active):** EVD-K06-010, EVD-K06-011, EVD-K06-012, EVD-K06-013, EVD-K06-014
 
 ### By Type
 
@@ -242,7 +243,7 @@ python validate_nomenclature.py 00_00_LOG_LC01_SPACET_k06-approvals_v01.md
 - **MIN (Minutes):** EVD-K06-008
 - **LOG (Logs):** EVD-K06-009
 - **YAML (Workflows):** EVD-K06-005, EVD-K06-010, EVD-K06-011
-- **Python (Scripts):** EVD-K06-012, EVD-K06-013
+- **Python (Scripts):** EVD-K06-012, EVD-K06-013, EVD-K06-014
 
 ## Cross-Reference Matrix
 
@@ -368,6 +369,6 @@ gpg --verify K06-evidence-pack-signed.tar.gz.asc K06-evidence-pack-signed.tar.gz
 | **Version** | v01 |
 | **Status** | Active (In Progress) |
 | **Owner** | Configuration Management WG |
-| **Last Updated** | 2025-12-14 |
-| **Evidence Count** | 13 items (7 complete, 2 pending, 4 supporting) |
+| **Last Updated** | 2025-12-16 |
+| **Evidence Count** | 14 items (7 complete, 2 pending, 5 supporting) |
 | **Baseline Target** | K06-Governance-SSOT-v01 |
