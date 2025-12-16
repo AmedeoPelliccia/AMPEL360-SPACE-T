@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "🔍 Checking schema registration..."
           python scripts/validate_schema_registry.py --check-all --verbose
-        continue-on-error: true
+        continue-on-error: false
       
       # GATE-003: Trace Link Integrity Check (BLOCKING - when script exists)
       - name: GATE-003 - Trace Link Integrity Check

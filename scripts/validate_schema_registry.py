@@ -32,7 +32,6 @@ import argparse
 import csv
 import hashlib
 import json
-import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -123,18 +122,13 @@ class SchemaRegistryValidator:
         r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>\d{2})_'
         r'SCH_'  # TYPE must be SCH
-        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9][0-9])))_'
+        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
         r'\.json$'
-    )
-
-    # Pattern for schema ID in JSON schema files
-    SCHEMA_ID_PATTERN = re.compile(
-        r'^https?://[^/]+/schemas/[a-zA-Z0-9._/-]+-v\d+\.json$'
     )
 
     # Directories to exclude from scanning
@@ -150,25 +144,27 @@ class SchemaRegistryValidator:
         '.eslintrc.json', '.prettierrc.json'
     }
 
-    def __init__(self, repo_root: Path = Path('.')):
+    def __init__(self, repo_root: Path = Path('.'), verbose: bool = False):
         """
         Initialize the validator.
 
         Args:
             repo_root: Path to the repository root
+            verbose: Enable verbose output
         """
         self.repo_root = repo_root
+        self.verbose = verbose
         self.registry: Dict[str, SchemaEntry] = {}
-        self.discovered_schemas: Dict[str, Path] = {}
+        self.discovered_schemas: Dict[str, List[Path]] = {}
 
-    def discover_schema_files(self) -> Dict[str, Path]:
+    def discover_schema_files(self) -> Dict[str, List[Path]]:
         """
         Discover all JSON schema files in the repository.
 
         Returns:
-            Dictionary mapping schema IDs to file paths
+            Dictionary mapping schema IDs to list of file paths (to detect duplicates)
         """
-        schemas = {}
+        schemas: Dict[str, List[Path]] = {}
 
         for path in self.repo_root.rglob('*.json'):
             # Skip excluded directories
@@ -184,7 +180,11 @@ class SchemaRegistryValidator:
             if schema_info:
                 schema_id, _ = schema_info
                 if schema_id:
-                    schemas[schema_id] = path
+                    if schema_id not in schemas:
+                        schemas[schema_id] = []
+                    schemas[schema_id].append(path)
+                    if self.verbose:
+                        print(f"  Found schema: {schema_id} -> {path}")
 
         return schemas
 
@@ -284,7 +284,7 @@ class SchemaRegistryValidator:
 
             return True
 
-        except (OSError, csv.Error):
+        except (OSError, csv.Error, UnicodeDecodeError):
             return False
 
     def validate_completeness(self, result: ValidationResult) -> None:
@@ -297,9 +297,9 @@ class SchemaRegistryValidator:
         print("🔍 Checking schema registry completeness...")
 
         unregistered = []
-        for schema_id, path in self.discovered_schemas.items():
+        for schema_id, paths in self.discovered_schemas.items():
             if schema_id not in self.registry:
-                unregistered.append((schema_id, path))
+                unregistered.append((schema_id, paths[0]))  # Use first path for error message
 
         if unregistered:
             for schema_id, path in unregistered:
@@ -307,8 +307,9 @@ class SchemaRegistryValidator:
                     f"Unregistered schema: {schema_id} (file: {path})"
                 )
         else:
+            total_files = sum(len(paths) for paths in self.discovered_schemas.values())
             result.add_info(
-                f"All {len(self.discovered_schemas)} discovered schemas are registered"
+                f"All {total_files} discovered schema files are registered"
             )
 
     def validate_duplicate_ids(self, result: ValidationResult) -> None:
@@ -320,15 +321,9 @@ class SchemaRegistryValidator:
         """
         print("🔍 Checking for duplicate schema IDs...")
 
-        # Group discovered schemas by ID
-        id_to_paths: Dict[str, List[Path]] = {}
-        for schema_id, path in self.discovered_schemas.items():
-            if schema_id not in id_to_paths:
-                id_to_paths[schema_id] = []
-            id_to_paths[schema_id].append(path)
-
+        # discovered_schemas already maps schema_id to List[Path]
         duplicates = {
-            sid: paths for sid, paths in id_to_paths.items()
+            sid: paths for sid, paths in self.discovered_schemas.items()
             if len(paths) > 1
         }
 
@@ -357,25 +352,27 @@ class SchemaRegistryValidator:
         # Group schemas by base ID (without version)
         base_id_to_versions: Dict[str, List[Tuple[str, Path, str]]] = {}
 
-        for schema_id, path in self.discovered_schemas.items():
+        for schema_id, paths in self.discovered_schemas.items():
             # Extract base ID and version
             # Pattern: ends with -vNN.json or :vNN or -vNN
             base_id = re.sub(r'[-:]v\d+(\.json)?$', '', schema_id)
 
-            # Get version from schema or filename
-            version = "unknown"
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    version = str(data.get('version', 'unknown'))
-            except (json.JSONDecodeError, OSError):
-                pass
+            for path in paths:
+                # Get version from schema or filename
+                version = "unknown"
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        version = str(data.get('version', 'unknown'))
+                except (json.JSONDecodeError, OSError):
+                    # Silently continue if unable to read version from file
+                    pass
 
-            content_hash = self._compute_content_hash(path)
+                content_hash = self._compute_content_hash(path)
 
-            if base_id not in base_id_to_versions:
-                base_id_to_versions[base_id] = []
-            base_id_to_versions[base_id].append((version, path, content_hash))
+                if base_id not in base_id_to_versions:
+                    base_id_to_versions[base_id] = []
+                base_id_to_versions[base_id].append((version, path, content_hash))
 
         # Check for conflicts
         conflicts = []
@@ -489,8 +486,9 @@ class SchemaRegistryValidator:
         # Discover schemas
         print("🔍 Discovering schema files...")
         self.discovered_schemas = self.discover_schema_files()
+        total_files = sum(len(paths) for paths in self.discovered_schemas.values())
         result.add_info(
-            f"Discovered {len(self.discovered_schemas)} schema files"
+            f"Discovered {total_files} schema files ({len(self.discovered_schemas)} unique IDs)"
         )
 
         # Load registry if provided
@@ -514,8 +512,9 @@ class SchemaRegistryValidator:
 
         # Validate individual schema files
         print("🔍 Validating schema file syntax...")
-        for schema_id, path in self.discovered_schemas.items():
-            self.validate_schema_syntax(path, result)
+        for schema_id, paths in self.discovered_schemas.items():
+            for path in paths:
+                self.validate_schema_syntax(path, result)
 
         result.print_summary()
         return result
@@ -603,7 +602,7 @@ Exit codes:
         return 2
 
     try:
-        validator = SchemaRegistryValidator(repo_root)
+        validator = SchemaRegistryValidator(repo_root, verbose=args.verbose)
 
         if args.schema:
             # Validate single schema file
