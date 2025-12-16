@@ -71,7 +71,6 @@
         "lc_or_subbucket": {
           "type": "string",
           "pattern": "^LC(0[1-9]|1[0-4])$",
-          "default": "LC01",
           "description": "Lifecycle category. For BUCKET=00, LC01–LC14 is mandatory."
         },
         "status": {
@@ -105,7 +104,6 @@
             "ESG",
             "LEGAL"
           ],
-          "default": "{{OWNER}}",
           "description": "Portal entry point with Area of Responsibility (AoR)."
         },
         "contributors": {
@@ -119,13 +117,11 @@
         "created_date": {
           "type": "string",
           "format": "date",
-          "default": "{{DATE}}",
           "description": "ISO 8601 date when pack was created."
         },
         "updated_date": {
           "type": "string",
           "format": "date",
-          "default": "{{DATE}}",
           "description": "ISO 8601 date when pack was last updated."
         },
         "description": {

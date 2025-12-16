@@ -108,7 +108,7 @@ python scripts/generate_evidence_pack.py --knot {{KNOT_ID}} --ata {{ATA_CODE}}
 | Knot ID | {{KNOT_ID}} |
 | ATA Code | {{ATA_CODE}} |
 | ATA Title | {{ATA_TITLE}} |
-| Variant | {{VARIANT}} |
+| Variant | "{{VARIANT}}" |
 | Owner | {{OWNER}} |
 | Repository Root | {{REPO_ROOT}} |
 | Generated At | {{TIMESTAMP}} |

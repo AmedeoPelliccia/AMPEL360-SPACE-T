@@ -136,37 +136,17 @@ class EvidenceItem:
     source_refs: Dict[str, List[str]] = field(default_factory=dict)
 
 
-@dataclass
-class EvidencePackManifest:
-    """Complete evidence pack manifest."""
-    schema_version: str
-    project: str
-    program: str
-    variant: str
-    knot_id: str
-    ata_code: str
-    ata_title: str
-    lc_or_subbucket: str
-    status: str
-    aor_owner: str
-    contributors: List[str]
-    created_date: str
-    updated_date: str
-    description: str
-    purpose: str
-    effectivity: Dict[str, Any]
-    rbac: Dict[str, Any]
-    teknia_sharing: Dict[str, Any]
-    contents: List[Dict[str, Any]]
-
-
-def compute_sha256(filepath: Path) -> str:
-    """Compute SHA256 hash of a file."""
+def compute_sha256(filepath: Path) -> Optional[str]:
+    """Compute SHA256 hash of a file. Returns None if file cannot be read."""
     sha256_hash = hashlib.sha256()
-    with open(filepath, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(chunk)
-    return sha256_hash.hexdigest()
+    try:
+        with open(filepath, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                sha256_hash.update(chunk)
+        return sha256_hash.hexdigest()
+    except (FileNotFoundError, PermissionError, OSError) as e:
+        print(f"Warning: Could not compute SHA256 for {filepath}: {e}", file=sys.stderr)
+        return None
 
 
 def parse_nomenclature(filename: str) -> Optional[NomenclatureComponents]:
@@ -234,9 +214,11 @@ def scan_for_evidence(
             # Check if filename matches nomenclature
             components = parse_nomenclature(filepath.name)
             
-            # Filter by knot_id in filename if present
-            filename_lower = filepath.name.lower()
-            if knot_id.lower() in filename_lower:
+            # Filter by knot_id in filename - use word boundary matching to avoid false positives
+            filename_no_ext = filepath.stem
+            # Match knot_id as a discrete identifier (delimited by _ or - or start/end)
+            knot_pattern = re.compile(r'(?i)(?:^|[_\-])' + re.escape(knot_id) + r'(?:[_\-]|$)')
+            if knot_pattern.search(filename_no_ext):
                 # Add to evidence list - components may be None for non-nomenclature files
                 evidence_files.append((filepath, components))
                 if verbose:
@@ -274,10 +256,14 @@ def create_evidence_item(
     repo_root: Path,
     filepath: Path,
     components: Optional[NomenclatureComponents]
-) -> EvidenceItem:
-    """Create an EvidenceItem from a file path."""
+) -> Optional[EvidenceItem]:
+    """Create an EvidenceItem from a file path. Returns None if hash computation fails."""
     rel_path = filepath.relative_to(repo_root).as_posix()
     sha256 = compute_sha256(filepath)
+    
+    # Skip items where hash computation failed
+    if sha256 is None:
+        return None
     
     if components:
         artifact_role = ARTIFACT_ROLE_MAP.get(components.type, 'evidence')
@@ -485,7 +471,10 @@ def generate_summary_report(
     lines.append("To reproduce:")
     lines.append("")
     lines.append("```bash")
-    lines.append(f"python scripts/generate_evidence_pack.py --knot {knot_id} --ata {ata_code}")
+    cmd = f"python scripts/generate_evidence_pack.py --knot {knot_id} --ata {ata_code}"
+    if ata_title and ata_title != "GENERAL":
+        cmd += f' --ata-title "{ata_title}"'
+    lines.append(cmd)
     lines.append("```")
     lines.append("")
     
@@ -514,14 +503,6 @@ def generate_summary_report(
     lines.append("")
     
     return "\n".join(lines)
-
-
-def slugify(s: str) -> str:
-    """Convert string to lowercase kebab-case."""
-    s = s.strip().lower()
-    s = re.sub(r"[^a-z0-9]+", "-", s)
-    s = re.sub(r"-{2,}", "-", s).strip("-")
-    return s or "tbd"
 
 
 def main() -> int:
@@ -625,9 +606,13 @@ Examples:
     if args.scan_patterns:
         patterns_file = Path(args.scan_patterns)
         if patterns_file.exists():
-            patterns = json.loads(patterns_file.read_text())
-            if args.verbose:
-                print(f"Loaded {len(patterns)} custom scan patterns")
+            try:
+                patterns = json.loads(patterns_file.read_text())
+                if args.verbose:
+                    print(f"Loaded {len(patterns)} custom scan patterns")
+            except json.JSONDecodeError as e:
+                print(f"Error: Invalid JSON in scan patterns file '{patterns_file}': {e}")
+                return 1
     
     print(f"🔍 Scanning for evidence: {knot_id} ATA {ata_code}")
     if args.verbose:
@@ -652,7 +637,8 @@ Examples:
     items: List[EvidenceItem] = []
     for filepath, components in evidence_files:
         item = create_evidence_item(repo_root, filepath, components)
-        items.append(item)
+        if item is not None:
+            items.append(item)
     
     # Generate filenames following nomenclature
     ata_root = ata_code[:2] if len(ata_code) >= 2 else '00'
