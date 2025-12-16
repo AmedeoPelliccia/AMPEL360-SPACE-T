@@ -596,7 +596,8 @@ Examples:
         error_count, warning_count = print_summary(results)
         
         # Export broken links to JSON if requested (for CI issue creation)
-        if args.output_json and error_count > 0:
+        # Always create the file when --output-json is specified for consistent CI behavior
+        if args.output_json:
             broken_links = []
             for result in results:
                 for issue in result.issues:
@@ -614,7 +615,9 @@ Examples:
                     'total_broken': error_count,
                     'total_stale': warning_count
                 }, f, indent=2)
-            print(f"\n📄 Broken links exported to: {args.output_json}")
+            
+            if error_count > 0:
+                print(f"\n📄 Broken links exported to: {args.output_json}")
         
         # Return appropriate exit code
         if error_count > 0:

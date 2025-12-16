@@ -137,14 +137,18 @@ The CSV should include the following columns:
         id: trace_integrity
         run: |
           echo "🔍 Validating trace link integrity..."
-          set +e  # Don't exit on error
-          python scripts/validate_trace_links.py --check-all --no-staleness --verbose --output-json broken-links.json
-          EXIT_CODE=$?
-          set -e
+          python scripts/validate_trace_links.py --check-all --no-staleness --verbose --output-json broken-links.json || EXIT_CODE=$?
           
-          # Check if broken links file exists and has content
+          # Check if broken links file exists and extract count safely
           if [ -f "broken-links.json" ]; then
-            BROKEN_COUNT=$(python -c "import json; data=json.load(open('broken-links.json')); print(data.get('total_broken', 0))")
+            BROKEN_COUNT=$(python -c "
+          import json
+          try:
+              data = json.load(open('broken-links.json'))
+              print(data.get('total_broken', 0))
+          except Exception:
+              print(0)
+          " 2>/dev/null || echo "0")
             echo "broken_count=$BROKEN_COUNT" >> $GITHUB_OUTPUT
             echo "has_broken_links=true" >> $GITHUB_OUTPUT
           else
@@ -152,7 +156,7 @@ The CSV should include the following columns:
             echo "has_broken_links=false" >> $GITHUB_OUTPUT
           fi
           
-          exit $EXIT_CODE
+          exit ${EXIT_CODE:-0}
         continue-on-error: true
       
       # Create issue for broken trace links (if any found)
