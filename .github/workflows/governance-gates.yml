@@ -152,6 +152,120 @@ The CSV should include the following columns:
           exit $EXIT_CODE
         continue-on-error: false
       
+      # Create issue for broken trace links (if any found)
+      - name: Create Issue for Broken Trace Links
+        if: always() && steps.trace_integrity.outputs.has_broken_links == 'true' && steps.trace_integrity.outputs.broken_count != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read broken links JSON
+            let brokenLinks = [];
+            let totalBroken = 0;
+            try {
+              const data = JSON.parse(fs.readFileSync('broken-links.json', 'utf8'));
+              brokenLinks = data.broken_links || [];
+              totalBroken = data.total_broken || 0;
+            } catch (e) {
+              console.log('Could not read broken-links.json:', e.message);
+              return;
+            }
+            
+            if (brokenLinks.length === 0) {
+              console.log('No broken links to report');
+              return;
+            }
+            
+            // Check if an issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'broken-trace-links',
+              state: 'open'
+            });
+            
+            if (issues.data.length > 0) {
+              console.log('Issue already exists for broken trace links, updating...');
+              // Update existing issue with new broken links
+              const existingIssue = issues.data[0];
+              
+              // Build updated body
+              let linksTable = '| Source File | Missing Path | Line |\n|---|---|---|\n';
+              for (const link of brokenLinks.slice(0, 50)) {  // Limit to 50 links
+                linksTable += `| \`${link.source_file}\` | \`${link.target_path}\` | ${link.line_number} |\n`;
+              }
+              
+              if (brokenLinks.length > 50) {
+                linksTable += `\n_...and ${brokenLinks.length - 50} more broken links_\n`;
+              }
+              
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: `## 🔗 Broken Trace Links Detected
+            
+            The CI governance gate (GATE-003) detected **${totalBroken} broken trace link(s)** in this repository.
+            
+            ### Broken Links
+            
+            ${linksTable}
+            
+            ### Required Action
+            Create the missing files at the paths listed above, or fix the references in the source files.
+            
+            ### Reference
+            - **Task**: T3-AI from K06 ATA 00 Tasklist
+            - **Gate**: GATE-003 (Trace Link Integrity Check)
+            - **Validator**: \`scripts/validate_trace_links.py\`
+            
+            ---
+            *Last updated by CI governance gate on ${new Date().toISOString()}*`
+              });
+              
+              console.log('Updated existing issue #' + existingIssue.number);
+              return;
+            }
+            
+            // Build links table for new issue
+            let linksTable = '| Source File | Missing Path | Line |\n|---|---|---|\n';
+            for (const link of brokenLinks.slice(0, 50)) {  // Limit to 50 links
+              linksTable += `| \`${link.source_file}\` | \`${link.target_path}\` | ${link.line_number} |\n`;
+            }
+            
+            if (brokenLinks.length > 50) {
+              linksTable += `\n_...and ${brokenLinks.length - 50} more broken links_\n`;
+            }
+            
+            // Create new issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔗 Fix Broken Trace Links in Documentation',
+              body: `## 🔗 Broken Trace Links Detected
+            
+            The CI governance gate (GATE-003) detected **${totalBroken} broken trace link(s)** in this repository.
+            
+            ### Broken Links
+            
+            ${linksTable}
+            
+            ### Required Action
+            Create the missing files at the paths listed above, or fix the references in the source files.
+            
+            ### Reference
+            - **Task**: T3-AI from K06 ATA 00 Tasklist
+            - **Gate**: GATE-003 (Trace Link Integrity Check)
+            - **Validator**: \`scripts/validate_trace_links.py\`
+            
+            ---
+            *This issue was automatically created by the CI governance gate.*`,
+              labels: ['broken-trace-links', 'governance', 'K06', 'ATA-93', 'documentation']
+            });
+            
+            console.log('Created new issue for broken trace links');
+      
       # GATE-004: Namespace Deduplication Check (BLOCKING - when script exists)
       - name: GATE-004 - Namespace Deduplication Check
         id: namespace_dedup
@@ -289,4 +403,5 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
           echo "✅ PASS: Gate passed"
           echo "❌ FAIL: Gate failed (blocking)"
           echo "⚠️ REVIEW: Manual review required"
+          echo "⚠️ WARNING: Issues detected (non-blocking)"
           echo "⏭️ PLANNED: Gate not yet implemented"
