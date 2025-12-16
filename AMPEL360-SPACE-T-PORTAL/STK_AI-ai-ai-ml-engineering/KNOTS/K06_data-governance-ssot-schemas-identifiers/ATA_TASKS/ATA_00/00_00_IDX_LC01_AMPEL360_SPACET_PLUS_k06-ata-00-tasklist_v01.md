@@ -219,8 +219,10 @@ AI deliverables support CM's closure criteria:
 - [ ] **T7-AI (AI-owned)** Implement TEKNIA dedup checker
   - _Deliverable:_ Dedup validation script (hash + namespace checks)
 
-- [ ] **T8-AI (AI-owned)** Implement NKU scoring automation
+- [x] **T8-AI (AI-owned)** Implement NKU scoring automation
   - _Deliverable:_ NKU ledger updater + partition score calculator
+  - _Implementation:_ `scripts/nku_scoring.py` + `00_90_SCH_SB90_AMPEL360_SPACET_GEN_nku-ledger-schema_v01.json`
+  - _Status:_ Complete (2025-12-16)
 
 - [ ] **T9-AI (AI-owned)** Implement auditability proof validator
   - _Deliverable:_ Query path validator for `ID → Schema → Trace → Export`
