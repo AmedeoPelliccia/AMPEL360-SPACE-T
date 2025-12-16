@@ -1,0 +1,693 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space-t.org/schemas/ata06-dimensional-data-v01.json",
+  "title": "ATA-06 Dimensional Data Schema",
+  "description": "JSON Schema for ATA-06 dimensional data exports (datums, zones, envelopes). Addresses Task T3: Define schema with units, coordinate frame, tolerances, metadata.",
+  "version": "1.0",
+  "type": "object",
+  "required": ["metadata", "coordinate_frame", "data"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about this dimensional data export",
+      "required": [
+        "export_timestamp",
+        "cad_source",
+        "baseline_id",
+        "schema_version"
+      ],
+      "properties": {
+        "export_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when export was generated",
+          "example": "2025-12-15T10:30:00Z"
+        },
+        "cad_source": {
+          "type": "object",
+          "description": "Information about the CAD source (SSOT)",
+          "required": ["tool", "version", "model_file"],
+          "properties": {
+            "tool": {
+              "type": "string",
+              "description": "CAD tool name",
+              "example": "CATIA V6"
+            },
+            "version": {
+              "type": "string",
+              "description": "CAD tool version",
+              "example": "R2021x"
+            },
+            "model_file": {
+              "type": "string",
+              "description": "CAD model file name or reference",
+              "example": "SpaceT_Main_Assembly_v1.0.CATPart"
+            },
+            "export_script": {
+              "type": "string",
+              "description": "Script used to generate export",
+              "example": "export_dimensions_v1.0.py"
+            }
+          }
+        },
+        "baseline_id": {
+          "type": "string",
+          "description": "Configuration Management baseline identifier",
+          "pattern": "^BL-[0-9]{4}$",
+          "example": "BL-0001"
+        },
+        "schema_version": {
+          "type": "string",
+          "description": "Version of this schema",
+          "pattern": "^[0-9]+\\.[0-9]+$",
+          "example": "1.0"
+        },
+        "approval_status": {
+          "type": "string",
+          "enum": ["draft", "candidate", "approved", "superseded"],
+          "description": "CM approval status of this export"
+        },
+        "approved_by": {
+          "type": "string",
+          "description": "Name of approver (if approved)",
+          "example": "CM Board Chair"
+        },
+        "approval_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of approval (if approved)",
+          "example": "2025-12-20"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Any additional notes about this export"
+        }
+      }
+    },
+    "coordinate_frame": {
+      "type": "object",
+      "description": "Definition of the coordinate reference frame",
+      "required": ["name", "origin", "axes", "handedness", "units"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the coordinate frame",
+          "example": "Spacecraft Body Frame"
+        },
+        "origin": {
+          "type": "object",
+          "description": "Description of the coordinate origin",
+          "required": ["identifier", "description"],
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "pattern": "^DATUM-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$",
+              "description": "Identifier of the datum defining the origin",
+              "example": "DATUM-GLOBAL-001"
+            },
+            "description": {
+              "type": "string",
+              "description": "Human-readable description of the origin",
+              "example": "Spacecraft primary datum origin at launch vehicle interface center"
+            },
+            "physical_reference": {
+              "type": "string",
+              "description": "Physical reference point description",
+              "example": "Geometric center of adapter bolt circle"
+            }
+          }
+        },
+        "axes": {
+          "type": "object",
+          "description": "Definition of coordinate axes",
+          "required": ["x", "y", "z"],
+          "properties": {
+            "x": {
+              "type": "object",
+              "description": "X-axis definition",
+              "required": ["direction", "description"],
+              "properties": {
+                "direction": {
+                  "type": "string",
+                  "description": "Direction description",
+                  "example": "Forward (nose direction)"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed axis description",
+                  "example": "Longitudinal axis aligned with spacecraft centerline, positive forward"
+                },
+                "identifier": {
+                  "type": "string",
+                  "description": "Datum identifier for this axis (if applicable)",
+                  "example": "DATUM-GLOBAL-002"
+                }
+              }
+            },
+            "y": {
+              "type": "object",
+              "description": "Y-axis definition",
+              "required": ["direction", "description"],
+              "properties": {
+                "direction": {
+                  "type": "string",
+                  "description": "Direction description",
+                  "example": "Right (starboard)"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed axis description"
+                }
+              }
+            },
+            "z": {
+              "type": "object",
+              "description": "Z-axis definition",
+              "required": ["direction", "description"],
+              "properties": {
+                "direction": {
+                  "type": "string",
+                  "description": "Direction description",
+                  "example": "Down (nadir)"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed axis description"
+                }
+              }
+            }
+          }
+        },
+        "handedness": {
+          "type": "string",
+          "enum": ["right-handed", "left-handed"],
+          "description": "Coordinate system handedness",
+          "example": "right-handed"
+        },
+        "units": {
+          "type": "object",
+          "description": "Units for dimensional data",
+          "required": ["length", "angle"],
+          "properties": {
+            "length": {
+              "type": "string",
+              "enum": ["mm", "m", "in", "ft"],
+              "description": "Linear dimension units (SI preferred)",
+              "example": "mm"
+            },
+            "angle": {
+              "type": "string",
+              "enum": ["deg", "rad"],
+              "description": "Angular dimension units",
+              "example": "deg"
+            }
+          }
+        },
+        "convention": {
+          "type": "string",
+          "description": "Reference to coordinate convention standard",
+          "example": "Aerospace right-handed convention per ISO 1151"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "description": "Dimensional data organized by category",
+      "required": ["datums", "zones", "envelopes"],
+      "properties": {
+        "datums": {
+          "type": "array",
+          "description": "Array of datum definitions",
+          "items": {
+            "$ref": "#/definitions/datum"
+          }
+        },
+        "zones": {
+          "type": "array",
+          "description": "Array of zone definitions",
+          "items": {
+            "$ref": "#/definitions/zone"
+          }
+        },
+        "envelopes": {
+          "type": "array",
+          "description": "Array of envelope definitions",
+          "items": {
+            "$ref": "#/definitions/envelope"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "datum": {
+      "type": "object",
+      "description": "Definition of a datum (reference point, line, plane, or coordinate system)",
+      "required": [
+        "identifier",
+        "name",
+        "category",
+        "system",
+        "type",
+        "status"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^DATUM-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$",
+          "description": "Unique datum identifier per ATA-06 identifier grammar",
+          "example": "DATUM-FUS-001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name",
+          "example": "Fuselage Station 0 (FS0)"
+        },
+        "category": {
+          "type": "string",
+          "const": "DATUM",
+          "description": "Category (always DATUM for datums)"
+        },
+        "system": {
+          "type": "string",
+          "pattern": "^[A-Z]{2,6}$",
+          "description": "System code",
+          "example": "FUS"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["point", "line", "plane", "coordinate_system"],
+          "description": "Datum type"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deprecated", "superseded"],
+          "description": "Datum status"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the datum"
+        },
+        "geometry": {
+          "type": "object",
+          "description": "Geometric definition of the datum",
+          "oneOf": [
+            {"$ref": "#/definitions/point_geometry"},
+            {"$ref": "#/definitions/line_geometry"},
+            {"$ref": "#/definitions/plane_geometry"}
+          ]
+        },
+        "tolerance": {
+          "type": "object",
+          "description": "Tolerance specification",
+          "properties": {
+            "positional": {
+              "type": "number",
+              "description": "Positional tolerance (in length units)",
+              "example": 0.5
+            },
+            "angular": {
+              "type": "number",
+              "description": "Angular tolerance (in angle units)",
+              "example": 0.05
+            }
+          }
+        },
+        "cad_reference": {
+          "type": "string",
+          "description": "Reference to CAD feature",
+          "example": "Fuselage Assembly → Reference Planes → FS0"
+        },
+        "related_identifiers": {
+          "type": "array",
+          "description": "Related datum, zone, or envelope identifiers",
+          "items": {
+            "type": "string"
+          }
+        },
+        "superseded_by": {
+          "type": "string",
+          "description": "Identifier of replacement datum (if superseded)"
+        }
+      }
+    },
+    "zone": {
+      "type": "object",
+      "description": "Definition of a spatial zone",
+      "required": [
+        "identifier",
+        "name",
+        "category",
+        "system",
+        "type",
+        "status",
+        "bounds"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^ZONE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$",
+          "description": "Unique zone identifier per ATA-06 identifier grammar",
+          "example": "ZONE-PROP-001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name",
+          "example": "Main Propulsion Module Zone"
+        },
+        "category": {
+          "type": "string",
+          "const": "ZONE",
+          "description": "Category (always ZONE for zones)"
+        },
+        "system": {
+          "type": "string",
+          "pattern": "^[A-Z]{2,6}$",
+          "description": "System code",
+          "example": "PROP"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["cuboid", "cylinder", "sphere", "annular", "complex"],
+          "description": "Zone geometry type"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deprecated", "superseded"],
+          "description": "Zone status"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the zone"
+        },
+        "bounds": {
+          "type": "object",
+          "description": "Zone boundary definition",
+          "oneOf": [
+            {"$ref": "#/definitions/cuboid_bounds"},
+            {"$ref": "#/definitions/cylindrical_bounds"},
+            {"$ref": "#/definitions/spherical_bounds"},
+            {"$ref": "#/definitions/complex_bounds"}
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Purpose of this zone",
+          "example": "Integration envelope, thermal analysis, mass properties"
+        },
+        "clearance": {
+          "type": "object",
+          "description": "Clearance requirements",
+          "properties": {
+            "minimum": {
+              "type": "number",
+              "description": "Minimum clearance to adjacent zones (in length units)",
+              "example": 50
+            },
+            "preferred": {
+              "type": "number",
+              "description": "Preferred clearance (in length units)"
+            }
+          }
+        },
+        "volume": {
+          "type": "number",
+          "description": "Zone volume (in cubic length units)",
+          "example": 13.2
+        },
+        "cad_reference": {
+          "type": "string",
+          "description": "Reference to CAD feature"
+        },
+        "related_identifiers": {
+          "type": "array",
+          "description": "Related datum, zone, or envelope identifiers",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "description": "Definition of a dimensional envelope (keep-out or maximum boundary)",
+      "required": [
+        "identifier",
+        "name",
+        "category",
+        "system",
+        "type",
+        "status",
+        "bounds"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^ENVELOPE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$",
+          "description": "Unique envelope identifier per ATA-06 identifier grammar",
+          "example": "ENVELOPE-GLOBAL-001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name",
+          "example": "Launch Configuration Envelope"
+        },
+        "category": {
+          "type": "string",
+          "const": "ENVELOPE",
+          "description": "Category (always ENVELOPE for envelopes)"
+        },
+        "system": {
+          "type": "string",
+          "pattern": "^[A-Z]{2,6}$",
+          "description": "System code",
+          "example": "GLOBAL"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["cuboid", "cylinder", "sphere", "cone", "complex", "keep_out"],
+          "description": "Envelope geometry type"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deprecated", "superseded"],
+          "description": "Envelope status"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the envelope"
+        },
+        "bounds": {
+          "type": "object",
+          "description": "Envelope boundary definition",
+          "oneOf": [
+            {"$ref": "#/definitions/cuboid_bounds"},
+            {"$ref": "#/definitions/cylindrical_bounds"},
+            {"$ref": "#/definitions/spherical_bounds"},
+            {"$ref": "#/definitions/complex_bounds"}
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Purpose of this envelope",
+          "example": "Maximum allowable spacecraft dimensions for launch configuration"
+        },
+        "mass_limit": {
+          "type": "number",
+          "description": "Maximum mass limit (kg) if applicable"
+        },
+        "cg_limits": {
+          "type": "object",
+          "description": "Center of gravity limits if applicable",
+          "properties": {
+            "x": {"type": "object", "properties": {"min": {"type": "number"}, "max": {"type": "number"}}},
+            "y": {"type": "object", "properties": {"min": {"type": "number"}, "max": {"type": "number"}}},
+            "z": {"type": "object", "properties": {"min": {"type": "number"}, "max": {"type": "number"}}}
+          }
+        },
+        "cad_reference": {
+          "type": "string",
+          "description": "Reference to CAD feature"
+        },
+        "related_identifiers": {
+          "type": "array",
+          "description": "Related datum, zone, or envelope identifiers",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "point_geometry": {
+      "type": "object",
+      "description": "Point geometry definition",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "point"
+        },
+        "coordinates": {
+          "type": "array",
+          "description": "[x, y, z] coordinates",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          },
+          "example": [0, 0, 0]
+        }
+      }
+    },
+    "line_geometry": {
+      "type": "object",
+      "description": "Line geometry definition",
+      "required": ["type", "point", "direction"],
+      "properties": {
+        "type": {
+          "const": "line"
+        },
+        "point": {
+          "type": "array",
+          "description": "Point on the line [x, y, z]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "direction": {
+          "type": "array",
+          "description": "Direction unit vector [dx, dy, dz]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          },
+          "example": [1, 0, 0]
+        }
+      }
+    },
+    "plane_geometry": {
+      "type": "object",
+      "description": "Plane geometry definition",
+      "required": ["type", "point", "normal"],
+      "properties": {
+        "type": {
+          "const": "plane"
+        },
+        "point": {
+          "type": "array",
+          "description": "Point on the plane [x, y, z]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "normal": {
+          "type": "array",
+          "description": "Plane normal unit vector [nx, ny, nz]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          },
+          "example": [1, 0, 0]
+        }
+      }
+    },
+    "cuboid_bounds": {
+      "type": "object",
+      "description": "Cuboid (rectangular box) bounds",
+      "required": ["type", "x_min", "x_max", "y_min", "y_max", "z_min", "z_max"],
+      "properties": {
+        "type": {
+          "const": "cuboid"
+        },
+        "x_min": {"type": "number", "description": "Minimum X coordinate"},
+        "x_max": {"type": "number", "description": "Maximum X coordinate"},
+        "y_min": {"type": "number", "description": "Minimum Y coordinate"},
+        "y_max": {"type": "number", "description": "Maximum Y coordinate"},
+        "z_min": {"type": "number", "description": "Minimum Z coordinate"},
+        "z_max": {"type": "number", "description": "Maximum Z coordinate"}
+      }
+    },
+    "cylindrical_bounds": {
+      "type": "object",
+      "description": "Cylindrical bounds",
+      "required": ["type", "axis", "center", "radius", "length"],
+      "properties": {
+        "type": {
+          "const": "cylinder"
+        },
+        "axis": {
+          "type": "string",
+          "enum": ["x", "y", "z"],
+          "description": "Cylinder axis"
+        },
+        "center": {
+          "type": "array",
+          "description": "Center point [x, y, z]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "radius": {
+          "type": "number",
+          "description": "Cylinder radius"
+        },
+        "length": {
+          "type": "number",
+          "description": "Cylinder length along axis"
+        }
+      }
+    },
+    "spherical_bounds": {
+      "type": "object",
+      "description": "Spherical bounds",
+      "required": ["type", "center", "radius"],
+      "properties": {
+        "type": {
+          "const": "sphere"
+        },
+        "center": {
+          "type": "array",
+          "description": "Center point [x, y, z]",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "radius": {
+          "type": "number",
+          "description": "Sphere radius"
+        }
+      }
+    },
+    "complex_bounds": {
+      "type": "object",
+      "description": "Complex bounds (defined in CAD, referenced here)",
+      "required": ["type", "cad_reference"],
+      "properties": {
+        "type": {
+          "const": "complex"
+        },
+        "cad_reference": {
+          "type": "string",
+          "description": "Reference to CAD feature defining complex geometry"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of complex bounds"
+        },
+        "approximate_volume": {
+          "type": "number",
+          "description": "Approximate volume (if calculable)"
+        }
+      }
+    }
+  }
+}

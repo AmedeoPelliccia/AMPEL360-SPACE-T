@@ -263,9 +263,9 @@ All ATA-06 identifiers follow this grammar:
 ### Schema Location
 
 All schema artifacts have been moved to PORTAL root:
-- `AMPEL360-SPACE-T-PORTAL/06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json`
-- `AMPEL360-SPACE-T-PORTAL/06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md`
-- `AMPEL360-SPACE-T-PORTAL/06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json`
+- `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json`
+- `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md`
+- `06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json`
 
 ### Schema Components
 

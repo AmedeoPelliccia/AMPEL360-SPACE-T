@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "export_timestamp": "2025-12-15T10:30:00Z",
+    "cad_source": {
+      "tool": "CATIA V6",
+      "version": "R2021x",
+      "model_file": "SpaceT_Main_Assembly_v1.0.CATPart",
+      "export_script": "export_dimensions_v1.0.py"
+    },
+    "baseline_id": "BL-0001",
+    "schema_version": "1.0",
+    "approval_status": "candidate",
+    "notes": "First baseline export for ATA-06 dimensional data. Contains global datums, propulsion zones, and launch configuration envelope."
+  },
+  "coordinate_frame": {
+    "name": "Spacecraft Body Frame",
+    "origin": {
+      "identifier": "DATUM-GLOBAL-001",
+      "description": "Spacecraft primary datum origin at launch vehicle interface center",
+      "physical_reference": "Geometric center of adapter bolt circle"
+    },
+    "axes": {
+      "x": {
+        "direction": "Forward (nose direction)",
+        "description": "Longitudinal axis aligned with spacecraft centerline, positive forward",
+        "identifier": "DATUM-GLOBAL-002"
+      },
+      "y": {
+        "direction": "Right (starboard)",
+        "description": "Lateral axis, positive to starboard when looking forward"
+      },
+      "z": {
+        "direction": "Down (nadir)",
+        "description": "Vertical axis, positive downward (toward Earth in nominal attitude)"
+      }
+    },
+    "handedness": "right-handed",
+    "units": {
+      "length": "mm",
+      "angle": "deg"
+    },
+    "convention": "Aerospace right-handed convention per ISO 1151"
+  },
+  "data": {
+    "datums": [
+      {
+        "identifier": "DATUM-GLOBAL-001",
+        "name": "Spacecraft Primary Datum Origin",
+        "category": "DATUM",
+        "system": "GLOBAL",
+        "type": "point",
+        "status": "active",
+        "description": "The primary datum origin for the entire spacecraft. All dimensional measurements reference this origin. Defined at the geometric center of the launch vehicle adapter interface.",
+        "geometry": {
+          "type": "point",
+          "coordinates": [0, 0, 0]
+        },
+        "tolerance": {
+          "positional": 0.1
+        },
+        "cad_reference": "Main Assembly → Datum Features → Primary Origin",
+        "related_identifiers": [
+          "DATUM-GLOBAL-002",
+          "DATUM-GLOBAL-003"
+        ]
+      },
+      {
+        "identifier": "DATUM-GLOBAL-002",
+        "name": "Spacecraft X-Axis Reference Line",
+        "category": "DATUM",
+        "system": "GLOBAL",
+        "type": "line",
+        "status": "active",
+        "description": "Primary X-axis defining the forward direction of the spacecraft. Aligned with the longitudinal axis through the center of mass and launch vehicle interface.",
+        "geometry": {
+          "type": "line",
+          "point": [0, 0, 0],
+          "direction": [1, 0, 0]
+        },
+        "tolerance": {
+          "angular": 0.05
+        },
+        "cad_reference": "Main Assembly → Datum Features → X-Axis",
+        "related_identifiers": [
+          "DATUM-GLOBAL-001"
+        ]
+      },
+      {
+        "identifier": "DATUM-FUS-001",
+        "name": "Fuselage Station 0 (FS0)",
+        "category": "DATUM",
+        "system": "FUS",
+        "type": "plane",
+        "status": "active",
+        "description": "Fuselage Station 0 defines the forward-most reference plane for fuselage measurements. Perpendicular to X-axis.",
+        "geometry": {
+          "type": "plane",
+          "point": [0, 0, 0],
+          "normal": [1, 0, 0]
+        },
+        "tolerance": {
+          "positional": 0.5,
+          "angular": 0.1
+        },
+        "cad_reference": "Fuselage Assembly → Reference Planes → FS0",
+        "related_identifiers": [
+          "DATUM-GLOBAL-001",
+          "DATUM-GLOBAL-002",
+          "ZONE-FUS-001"
+        ]
+      }
+    ],
+    "zones": [
+      {
+        "identifier": "ZONE-PROP-001",
+        "name": "Main Propulsion Module Zone",
+        "category": "ZONE",
+        "system": "PROP",
+        "type": "cuboid",
+        "status": "active",
+        "description": "Primary integration zone for the main propulsion module, including engines, tanks, and feed systems.",
+        "bounds": {
+          "type": "cuboid",
+          "x_min": 2000,
+          "x_max": 4500,
+          "y_min": -1200,
+          "y_max": 1200,
+          "z_min": -1500,
+          "z_max": 500
+        },
+        "purpose": "Integration envelope, thermal analysis, mass properties",
+        "clearance": {
+          "minimum": 50,
+          "preferred": 100
+        },
+        "volume": 13200000,
+        "cad_reference": "Main Assembly → Zones → Propulsion → Zone_001",
+        "related_identifiers": [
+          "ENVELOPE-PROP-001",
+          "ZONE-STRUCT-005",
+          "DATUM-FUS-020"
+        ]
+      },
+      {
+        "identifier": "ZONE-INTEG-001",
+        "name": "Launch Vehicle Interface Zone",
+        "category": "ZONE",
+        "system": "INTEG",
+        "type": "annular",
+        "status": "active",
+        "description": "Integration zone at the launch vehicle adapter interface. Defines the region where spacecraft interfaces with launch vehicle.",
+        "bounds": {
+          "type": "complex",
+          "cad_reference": "Main Assembly → Zones → Integration → LV_Interface",
+          "description": "Annular zone from X=-200 to X=0, radial from 800mm to 1500mm",
+          "approximate_volume": 500000
+        },
+        "purpose": "Launch vehicle mechanical interface, bolt pattern region",
+        "clearance": {
+          "minimum": 100
+        },
+        "cad_reference": "Main Assembly → Zones → Integration → LV_Interface",
+        "related_identifiers": [
+          "DATUM-GLOBAL-001",
+          "ENVELOPE-GLOBAL-001"
+        ]
+      }
+    ],
+    "envelopes": [
+      {
+        "identifier": "ENVELOPE-GLOBAL-001",
+        "name": "Launch Configuration Envelope",
+        "category": "ENVELOPE",
+        "system": "GLOBAL",
+        "type": "complex",
+        "status": "active",
+        "description": "Maximum allowable envelope for the spacecraft in launch configuration (stowed). Must fit within launch vehicle fairing.",
+        "bounds": {
+          "type": "complex",
+          "cad_reference": "Main Assembly → Envelopes → Launch_Config",
+          "description": "Cylindrical section (diameter 4800mm, length 6000mm) with 30° truncated cone forward section (height 1500mm)",
+          "approximate_volume": 120000000
+        },
+        "purpose": "Maximum allowable spacecraft dimensions for launch configuration",
+        "mass_limit": 5000,
+        "cg_limits": {
+          "x": {
+            "min": 2800,
+            "max": 3200
+          },
+          "y": {
+            "min": -50,
+            "max": 50
+          },
+          "z": {
+            "min": -50,
+            "max": 50
+          }
+        },
+        "cad_reference": "Main Assembly → Envelopes → Launch_Config",
+        "related_identifiers": [
+          "ZONE-PROP-001",
+          "ZONE-INTEG-001"
+        ]
+      },
+      {
+        "identifier": "ENVELOPE-PROP-001",
+        "name": "Propulsion Module Envelope",
+        "category": "ENVELOPE",
+        "system": "PROP",
+        "type": "cuboid",
+        "status": "active",
+        "description": "Maximum envelope allocated to propulsion module. No propulsion hardware may extend beyond this envelope.",
+        "bounds": {
+          "type": "cuboid",
+          "x_min": 2000,
+          "x_max": 4500,
+          "y_min": -1200,
+          "y_max": 1200,
+          "z_min": -1500,
+          "z_max": 500
+        },
+        "purpose": "Propulsion module allocation within spacecraft",
+        "mass_limit": 800,
+        "cad_reference": "Propulsion Assembly → Envelope_Max",
+        "related_identifiers": [
+          "ZONE-PROP-001",
+          "ENVELOPE-GLOBAL-001"
+        ]
+      },
+      {
+        "identifier": "ENVELOPE-STRUCT-001",
+        "name": "Primary Structure Keep-Out Envelope",
+        "category": "ENVELOPE",
+        "system": "STRUCT",
+        "type": "keep_out",
+        "status": "active",
+        "description": "Keep-out envelope defining the space occupied by primary structure. No other subsystems may intrude into this envelope without structural coordination.",
+        "bounds": {
+          "type": "complex",
+          "cad_reference": "Structure Assembly → Keep_Out_Surface",
+          "description": "Complex 3D surface following primary load paths and structural members",
+          "approximate_volume": 8000000
+        },
+        "purpose": "Primary structure protection, load path preservation",
+        "cad_reference": "Structure Assembly → Keep_Out_Surface",
+        "related_identifiers": [
+          "ZONE-STRUCT-001",
+          "ZONE-STRUCT-002",
+          "ENVELOPE-GLOBAL-001"
+        ]
+      }
+    ]
+  }
+}
