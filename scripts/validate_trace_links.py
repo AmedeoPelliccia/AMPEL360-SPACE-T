@@ -535,6 +535,11 @@ Examples:
         action='store_true',
         help='Show verbose output including valid files'
     )
+    parser.add_argument(
+        '--output-json',
+        metavar='FILE',
+        help='Write broken links to JSON file for CI issue creation'
+    )
     
     args = parser.parse_args()
     
@@ -589,6 +594,27 @@ Examples:
         
         # Print summary
         error_count, warning_count = print_summary(results)
+        
+        # Export broken links to JSON if requested (for CI issue creation)
+        if args.output_json and error_count > 0:
+            broken_links = []
+            for result in results:
+                for issue in result.issues:
+                    if issue.issue_type == 'broken':
+                        broken_links.append({
+                            'source_file': result.source_file,
+                            'target_path': issue.link.target_path,
+                            'line_number': issue.link.line_number,
+                            'message': issue.message
+                        })
+            
+            with open(args.output_json, 'w', encoding='utf-8') as f:
+                json.dump({
+                    'broken_links': broken_links,
+                    'total_broken': error_count,
+                    'total_stale': warning_count
+                }, f, indent=2)
+            print(f"\n📄 Broken links exported to: {args.output_json}")
         
         # Return appropriate exit code
         if error_count > 0:
