@@ -435,6 +435,25 @@ def print_result(result: ValidationResult, verbose: bool = False) -> None:
             print(f"    Link: {issue.link.original_text}")
 
 
+def _find_repo_root(start_path: Path) -> Path:
+    """
+    Find the git repository root by walking up the directory tree.
+    
+    Args:
+        start_path: Directory to start searching from
+        
+    Returns:
+        Repository root path, or start_path if no .git directory found
+    """
+    current = start_path.resolve()
+    while current != current.parent:
+        if (current / '.git').exists():
+            return current
+        current = current.parent
+    # Fall back to start_path if no .git found
+    return start_path.resolve()
+
+
 def print_summary(results: List[ValidationResult]) -> Tuple[int, int]:
     """Print summary of all validation results. Returns (error_count, warning_count)."""
     total_files = len(results)
@@ -527,9 +546,9 @@ Examples:
     if args.check_dir:
         repo_root = Path(args.check_dir).resolve()
     elif args.file:
-        # For single file, use the file's directory as root to avoid path resolution errors
+        # For single file, try to find the git repository root
         file_path = Path(args.file).resolve()
-        repo_root = file_path.parent
+        repo_root = _find_repo_root(file_path.parent)
     else:
         repo_root = Path('.').resolve()
     
