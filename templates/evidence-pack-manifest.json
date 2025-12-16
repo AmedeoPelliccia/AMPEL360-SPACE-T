@@ -1,0 +1,545 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "templates/evidence-pack-manifest.json",
+  "title": "AMPEL360 Space-T Evidence Pack Manifest Template",
+  "description": "Template for evidence pack manifest generation. Replace {{PLACEHOLDERS}} with actual values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest",
+    "contents"
+  ],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "project",
+        "program",
+        "variant",
+        "knot_id",
+        "ata_code",
+        "lc_or_subbucket",
+        "status",
+        "aor_owner",
+        "created_date",
+        "description",
+        "effectivity",
+        "rbac",
+        "teknia_sharing"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^v\\d{2}$",
+          "default": "v01",
+          "description": "Schema revision identifier aligned to repository naming (e.g., v01)."
+        },
+        "project": {
+          "type": "string",
+          "const": "AMPEL360",
+          "description": "Project identifier (hard constraint)."
+        },
+        "program": {
+          "type": "string",
+          "const": "SPACET",
+          "description": "Program identifier (allowlist)."
+        },
+        "variant": {
+          "type": "string",
+          "default": "{{VARIANT}}",
+          "description": "Variant for AMPEL360 Space-T (e.g., PLUS, CERT, DRAFT)."
+        },
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K\\d{2}$",
+          "default": "{{KNOT_ID}}",
+          "description": "Backlog knot identifier (e.g., K01, K06)."
+        },
+        "ata_code": {
+          "type": "string",
+          "pattern": "^(\\d{2}|\\d{3})$",
+          "default": "{{ATA_CODE}}",
+          "description": "ATA chapter code (e.g., 00, 72, 110)."
+        },
+        "ata_title": {
+          "type": "string",
+          "default": "{{ATA_TITLE}}",
+          "description": "Human-readable ATA title used for navigability."
+        },
+        "lc_or_subbucket": {
+          "type": "string",
+          "pattern": "^LC(0[1-9]|1[0-4])$",
+          "description": "Lifecycle category. For BUCKET=00, LC01–LC14 is mandatory."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "DRAFT",
+            "ACTIVE",
+            "FROZEN",
+            "RELEASED",
+            "OBSOLETE"
+          ],
+          "default": "DRAFT",
+          "description": "Pack lifecycle status."
+        },
+        "aor_owner": {
+          "type": "string",
+          "enum": [
+            "CERT",
+            "CM",
+            "PMO",
+            "SE",
+            "SAF",
+            "OPS",
+            "SPACEPORT",
+            "MRO",
+            "DATA",
+            "AI",
+            "CY",
+            "TEST",
+            "QA",
+            "ESG",
+            "LEGAL"
+          ],
+          "description": "Portal entry point with Area of Responsibility (AoR)."
+        },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["CM", "QA"],
+          "description": "List of contributing stakeholder groups."
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date when pack was created."
+        },
+        "updated_date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date when pack was last updated."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "default": "Evidence pack for {{KNOT_ID}} ATA {{ATA_CODE}} - {{ATA_TITLE}}",
+          "description": "Brief description of the evidence pack purpose."
+        },
+        "purpose": {
+          "type": "string",
+          "default": "Collect and validate evidence artifacts for {{KNOT_ID}} closure",
+          "description": "What decision/evidence this pack supports."
+        },
+        "related_acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^AC-\\d{2}-\\d{3}$"
+          },
+          "default": [],
+          "description": "List of acceptance criteria IDs this pack satisfies."
+        },
+        "related_tasks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^T\\d{3}$"
+          },
+          "default": [],
+          "description": "List of task IDs this pack supports."
+        },
+        "effectivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "portal_scopes",
+            "workspace_access_grants"
+          ],
+          "properties": {
+            "portal_scopes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              },
+              "default": ["SPACET-INT"],
+              "description": "Portal scopes (e.g., SPACET-INT, SPACET-EXT, PUBLIC-SNAPSHOT)."
+            },
+            "workspace_access_grants": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "principal",
+                  "role",
+                  "access",
+                  "paths"
+                ],
+                "properties": {
+                  "principal": {
+                    "type": "string",
+                    "description": "RBAC principal group (e.g., STK_CERT, STK_CM, STK_SE, STK_AI)."
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Role name (e.g., Owner, Maintainer, Reviewer, Contributor, Viewer)."
+                  },
+                  "access": {
+                    "type": "string",
+                    "enum": [
+                      "read",
+                      "write",
+                      "review",
+                      "admin"
+                    ]
+                  },
+                  "paths": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Repo-relative paths to which this grant applies."
+                  }
+                }
+              },
+              "default": [
+                {
+                  "principal": "STK_{{OWNER}}",
+                  "role": "Owner",
+                  "access": "admin",
+                  "paths": ["AMPEL360-SPACE-T-PORTAL/STK_{{OWNER}}-*/KNOTS/{{KNOT_ID}}_*/"]
+                }
+              ]
+            }
+          }
+        },
+        "rbac": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "classification",
+            "minimum_reviewers"
+          ],
+          "properties": {
+            "classification": {
+              "type": "string",
+              "enum": [
+                "INTERNAL",
+                "PARTNER",
+                "PUBLIC"
+              ],
+              "default": "INTERNAL",
+              "description": "Repository disclosure level for this evidence pack."
+            },
+            "minimum_reviewers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "CERT",
+                  "CM",
+                  "QA",
+                  "SAF",
+                  "SE",
+                  "CY"
+                ]
+              },
+              "default": ["CM", "QA"],
+              "description": "Minimum required reviewers for pack approval."
+            },
+            "required_approvals": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["{{OWNER}}"],
+              "description": "Required approval signatures."
+            }
+          }
+        },
+        "teknia_sharing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "share_policy",
+            "nku_reporting"
+          ],
+          "properties": {
+            "share_policy": {
+              "type": "string",
+              "enum": [
+                "EVIDENCE_FIRST",
+                "RESTRICTED",
+                "PUBLIC_SNAPSHOT"
+              ],
+              "default": "EVIDENCE_FIRST",
+              "description": "Controls how/when this pack can be shared (TEKNIA rule gate)."
+            },
+            "nku_reporting": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "nku_tracker_path",
+                "reporting_frequency"
+              ],
+              "properties": {
+                "nku_tracker_path": {
+                  "type": "string",
+                  "default": "AMPEL360-SPACE-T-PORTAL/MONITORING/{{ATA_CODE}}_00_TAB_LC01_AMPEL360_SPACET_{{VARIANT}}_{{KNOT_ID_LOWER}}-ata-{{ATA_CODE}}-nku-tracking_v01.csv",
+                  "description": "Repo-relative CSV path for NKU tracking for this ATA/Knot."
+                },
+                "reporting_frequency": {
+                  "type": "string",
+                  "enum": [
+                    "per_pr",
+                    "weekly",
+                    "monthly",
+                    "per_release"
+                  ],
+                  "default": "per_pr"
+                },
+                "nku_thresholds": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "block_release_if_open_nku_count_ge": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "default": 1
+                    },
+                    "block_release_if_critical_nku_open": {
+                      "type": "boolean",
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "signing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "signing_required": {
+              "type": "boolean",
+              "default": true
+            },
+            "signature_algorithm": {
+              "type": "string",
+              "default": "program-defined",
+              "description": "E.g., minisign, cosign, pgp, x509, or program-defined."
+            },
+            "key_id": {
+              "type": "string",
+              "default": ""
+            },
+            "signed_at": {
+              "type": "string",
+              "format": "date-time",
+              "default": ""
+            },
+            "signature": {
+              "type": "string",
+              "default": "",
+              "description": "Detached signature or signature reference."
+            }
+          }
+        }
+      }
+    },
+    "contents": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "artifact_role",
+          "nomenclature",
+          "hashes"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 5,
+            "description": "Repo-relative path to the artifact."
+          },
+          "artifact_role": {
+            "type": "string",
+            "enum": [
+              "requirement",
+              "acceptance_criteria",
+              "decision",
+              "evidence",
+              "traceability",
+              "report",
+              "schema",
+              "table",
+              "diagram",
+              "link"
+            ],
+            "description": "Role of this artifact in the evidence chain."
+          },
+          "nomenclature": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "root",
+              "bucket",
+              "type",
+              "lc_or_subbucket",
+              "project",
+              "program",
+              "variant",
+              "description",
+              "version",
+              "ext"
+            ],
+            "properties": {
+              "root": {
+                "type": "string",
+                "pattern": "^\\d{2,3}$"
+              },
+              "bucket": {
+                "type": "string",
+                "pattern": "^\\d{2}$"
+              },
+              "type": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{2,8}$"
+              },
+              "lc_or_subbucket": {
+                "type": "string",
+                "pattern": "^(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\\d))$"
+              },
+              "project": {
+                "type": "string",
+                "const": "AMPEL360"
+              },
+              "program": {
+                "type": "string",
+                "const": "SPACET"
+              },
+              "variant": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^v\\d{2}$"
+              },
+              "ext": {
+                "type": "string",
+                "pattern": "^[a-z0-9]{1,6}$"
+              }
+            }
+          },
+          "hashes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sha256"
+            ],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[A-Fa-f0-9]{64}$"
+              },
+              "sha1": {
+                "type": "string",
+                "pattern": "^[A-Fa-f0-9]{40}$"
+              }
+            }
+          },
+          "linked_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^AC-\\d{2}-\\d{3}$"
+            },
+            "default": []
+          },
+          "linked_tasks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^T\\d{3}$"
+            },
+            "default": []
+          },
+          "source_refs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "commits": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              }
+            }
+          }
+        }
+      },
+      "description": "List of evidence artifacts in this pack."
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audit_queries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "expected_output": {
+                "type": "string"
+              }
+            }
+          },
+          "default": []
+        }
+      },
+      "default": {}
+    }
+  }
+}

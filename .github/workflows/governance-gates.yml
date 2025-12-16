@@ -130,17 +130,27 @@ The CSV should include the following columns:
             
             console.log('Created issue for missing schema registry');
       
-      # GATE-003: Trace Link Integrity Check (BLOCKING - when script exists)
+      # GATE-003: Trace Link Integrity Check (BLOCKING)
       - name: GATE-003 - Trace Link Integrity Check
         id: trace_integrity
         run: |
           echo "🔍 Validating trace link integrity..."
-          if [ -f "scripts/check_trace_integrity.py" ]; then
-            python scripts/check_trace_integrity.py --registry ATA93
+          set +e
+          OUTPUT=$(python scripts/validate_trace_links.py --check-all 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          echo "$OUTPUT"
+          
+          # Check for broken links
+          if echo "$OUTPUT" | grep -q "VALIDATION FAILED"; then
+            echo "trace_failed=true" >> $GITHUB_OUTPUT
           else
-            echo "⚠️  Script not yet implemented (planned)"
+            echo "trace_failed=false" >> $GITHUB_OUTPUT
           fi
-        continue-on-error: true
+          
+          exit $EXIT_CODE
+        continue-on-error: false
       
       # GATE-004: Namespace Deduplication Check (BLOCKING - when script exists)
       - name: GATE-004 - Namespace Deduplication Check
@@ -270,7 +280,7 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
           echo "| GATE-001 | ${{ steps.nomenclature.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Nomenclature Validation |"
           echo "| GATE-005 | ⏭️ PLANNED | Identifier Grammar Check |"
           echo "| GATE-002 | ${{ steps.schema_registration.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Schema Registration Check |"
-          echo "| GATE-003 | ⏭️ PLANNED | Trace Link Integrity |"
+          echo "| GATE-003 | ${{ steps.trace_integrity.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Trace Link Integrity |"
           echo "| GATE-004 | ⏭️ PLANNED | Namespace Deduplication |"
           echo "| GATE-006 | ${{ steps.governance_changes.outputs.governance_change == 'true' && '⚠️ REVIEW' || '✅ PASS' }} | Governance Change Detection |"
           echo "| GATE-007 | ⏭️ PLANNED | Breaking Schema Detection |"
@@ -279,4 +289,5 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
           echo "✅ PASS: Gate passed"
           echo "❌ FAIL: Gate failed (blocking)"
           echo "⚠️ REVIEW: Manual review required"
+          echo "⚠️ WARNING: Issues detected (non-blocking)"
           echo "⏭️ PLANNED: Gate not yet implemented"

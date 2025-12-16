@@ -1,0 +1,261 @@
+name: Weekly Governance Audit
+
+on:
+  schedule:
+    # Run weekly on Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+    inputs:
+      run_all_audits:
+        description: 'Run all audit checks (including planned ones)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    name: Weekly Governance Audit
+    
+    permissions:
+      contents: read
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      # GATE-003: Trace Link Validation (Weekly Scan)
+      - name: GATE-003 - Trace Link Validation (Weekly Scan)
+        id: trace_links
+        run: |
+          echo "🔍 Running weekly trace link validation..."
+          set +e
+          OUTPUT=$(python scripts/validate_trace_links.py --check-all --verbose 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          echo "$OUTPUT"
+          
+          # Count broken links
+          BROKEN_COUNT=$(echo "$OUTPUT" | grep -c "BROKEN LINKS" || echo "0")
+          echo "broken_links=$BROKEN_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "trace_status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "trace_status=passed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # GATE-016: Staleness Detection (Weekly Scan)
+      - name: GATE-016 - Staleness Detection
+        id: staleness
+        run: |
+          echo "🔍 Checking for stale artifacts..."
+          if [ -f "scripts/check_staleness.py" ]; then
+            python scripts/check_staleness.py --all
+          else
+            echo "⚠️  Staleness check script not yet implemented (planned)"
+            echo "staleness_status=planned" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # GATE-017: Shadow Registry Detection (Weekly Scan)
+      - name: GATE-017 - Shadow Registry Detection
+        id: shadow_registry
+        run: |
+          echo "🔍 Detecting shadow registries..."
+          if [ -f "scripts/detect_shadow_registries.py" ]; then
+            python scripts/detect_shadow_registries.py --namespaces ATA99
+          else
+            echo "⚠️  Shadow registry detection script not yet implemented (planned)"
+            echo "shadow_status=planned" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # GATE-002: Schema Registry Validation (Weekly)
+      - name: GATE-002 - Schema Registry Audit
+        id: schema_audit
+        run: |
+          echo "🔍 Auditing schema registry..."
+          set +e
+          OUTPUT=$(python scripts/validate_schema_registry.py --check-all --verbose 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          echo "$OUTPUT"
+          
+          if echo "$OUTPUT" | grep -q "REGISTRY_MISSING"; then
+            echo "schema_status=registry_missing" >> $GITHUB_OUTPUT
+          elif [ $EXIT_CODE -ne 0 ]; then
+            echo "schema_status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "schema_status=passed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # GATE-001: Nomenclature Audit (Weekly)
+      - name: GATE-001 - Nomenclature Audit
+        id: nomenclature_audit
+        run: |
+          echo "🔍 Running weekly nomenclature audit..."
+          set +e
+          OUTPUT=$(python validate_nomenclature.py --check-all --strict --verbose 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          echo "$OUTPUT"
+          
+          # Count invalid files
+          INVALID_COUNT=$(echo "$OUTPUT" | grep -c "^✗" || echo "0")
+          echo "invalid_count=$INVALID_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "nomenclature_status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "nomenclature_status=passed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # Generate Audit Summary
+      - name: Generate Audit Report
+        id: report
+        run: |
+          REPORT_DATE=$(date -u +"%Y-%m-%d")
+          
+          cat << EOF > audit_report.md
+          # Weekly Governance Audit Report
+          
+          **Date:** ${REPORT_DATE}
+          **Run ID:** ${{ github.run_id }}
+          
+          ## Audit Summary
+          
+          | Gate | Status | Description |
+          |------|--------|-------------|
+          | GATE-001 | ${{ steps.nomenclature_audit.outputs.nomenclature_status == 'passed' && '✅ PASS' || '❌ FAIL' }} | Nomenclature Compliance |
+          | GATE-002 | ${{ steps.schema_audit.outputs.schema_status == 'passed' && '✅ PASS' || (steps.schema_audit.outputs.schema_status == 'registry_missing' && '⚠️ MISSING' || '❌ FAIL') }} | Schema Registry |
+          | GATE-003 | ${{ steps.trace_links.outputs.trace_status == 'passed' && '✅ PASS' || '❌ FAIL' }} | Trace Link Integrity |
+          | GATE-016 | ⏭️ PLANNED | Staleness Detection |
+          | GATE-017 | ⏭️ PLANNED | Shadow Registry Detection |
+          
+          ## Details
+          
+          ### Nomenclature Compliance (GATE-001)
+          - Status: ${{ steps.nomenclature_audit.outputs.nomenclature_status }}
+          - Invalid files: ${{ steps.nomenclature_audit.outputs.invalid_count }}
+          
+          ### Trace Link Integrity (GATE-003)
+          - Status: ${{ steps.trace_links.outputs.trace_status }}
+          
+          ### Schema Registry (GATE-002)
+          - Status: ${{ steps.schema_audit.outputs.schema_status }}
+          
+          ## Legend
+          - ✅ PASS: Audit check passed
+          - ❌ FAIL: Audit check failed
+          - ⚠️ MISSING: Required resource missing
+          - ⏭️ PLANNED: Audit not yet implemented
+          
+          ---
+          *Generated by Weekly Governance Audit workflow*
+          EOF
+          
+          # Store date for use in JavaScript
+          echo "report_date=${REPORT_DATE}" >> $GITHUB_OUTPUT
+          cat audit_report.md
+      
+      # Create issue if any audits failed
+      - name: Create Issue for Audit Failures
+        if: |
+          always() && (
+            steps.trace_links.outputs.trace_status == 'failed' ||
+            steps.nomenclature_audit.outputs.nomenclature_status == 'failed' ||
+            steps.schema_audit.outputs.schema_status == 'failed'
+          )
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read the audit report
+            let reportContent = '';
+            try {
+              reportContent = fs.readFileSync('audit_report.md', 'utf8');
+            } catch (e) {
+              reportContent = 'Audit report generation failed. See workflow logs for details.';
+            }
+            
+            // Use the date from the report step output for consistency
+            const date = '${{ steps.report.outputs.report_date }}' || new Date().toISOString().split('T')[0];
+            const title = `📋 Weekly Governance Audit - ${date}`;
+            
+            // Check for existing open issue with exact title match
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'weekly-audit,governance',
+              state: 'open'
+            });
+            
+            const body = `## Weekly Governance Audit Results
+            
+            ${reportContent}
+            
+            ### Required Actions
+            
+            Please review and address the audit findings:
+            
+            1. **Nomenclature violations**: Rename files to follow the nomenclature standard
+            2. **Broken trace links**: Fix or remove broken links
+            3. **Schema issues**: Register missing schemas or fix conflicts
+            
+            ### Reference
+            
+            - **Workflow**: Weekly Governance Audit
+            - **Run ID**: ${{ github.run_id }}
+            - **Gate Index**: \`00_00_IDX_LC01_AMPEL360_SPACET_PLUS_ci-governance-gates_v01.md\`
+            
+            ---
+            *This issue was automatically created by the weekly governance audit.*`;
+            
+            // Find existing issue with exact title match for this week's audit
+            const existingIssue = issues.data.find(issue => issue.title === title);
+            
+            if (existingIssue) {
+              // Update existing issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: body
+              });
+              console.log(`Updated existing audit issue #${existingIssue.number}`);
+            } else {
+              // Create new issue
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['weekly-audit', 'governance', 'K06']
+              });
+              console.log(`Created new audit issue #${issue.data.number}`);
+            }
+      
+      # Upload audit report as artifact
+      - name: Upload Audit Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-audit-report
+          path: audit_report.md
+          retention-days: 90
