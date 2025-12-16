@@ -2,9 +2,9 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 3.0
-Date: 2025-12-15
-Standard: Nomenclature Standard v3.0 (Normative)
+Version: 4.0
+Date: 2025-12-16
+Standard: Nomenclature Standard v4.0 (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
 
@@ -37,17 +37,19 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard v3.0."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v4.0."""
     
-    # Primary regex pattern (10 fields)
+    # Primary regex pattern (12 fields) - v4.0 format
     PRIMARY_PATTERN = re.compile(
         r'^(?P<root>\d{2,3})_'
-        r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
-        r'(?P<type>[A-Z0-9]{2,8})_'
-        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
+        r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
+        r'(?P<type>[A-Z0-9]{2,8})_'
+        r'(?P<lcsb>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
+        r'(?P<knot>K(00|[0-9]{2}))_'
+        r'(?P<aor>CM|CERT|AI|DATA|OPS|SE|SAF|PMO|CY|TEST|MRO|SPACEPORT)__'
         r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
         r'(?P<ver>v\d{2})'
         r'\.(?P<ext>[a-z0-9]{1,6})$'
@@ -70,6 +72,15 @@ class NomenclatureValidator:
     
     # Allowed PROGRAM values (extensible allowlist)
     ALLOWED_PROGRAMS = {'SPACET'}
+    
+    # Allowed AoR values (portal entry points) - NEW in v4.0
+    ALLOWED_AORS = {
+        'CM', 'CERT', 'AI', 'DATA', 'OPS', 'SE', 'SAF', 
+        'PMO', 'CY', 'TEST', 'MRO', 'SPACEPORT'
+    }
+    
+    # TRIGGER_KNOT pattern - NEW in v4.0
+    KNOT_PATTERN = re.compile(r'^K(00|[0-9]{2})$')
     
     # Bucket-specific subbucket ranges
     BUCKET_SUBBUCKET_RANGES = {
@@ -165,19 +176,22 @@ class NomenclatureValidator:
         
         if not match:
             errors.append(
-                "Filename does not match required pattern: "
-                "[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+                "Filename does not match required pattern (v4.0): "
+                "[ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BUCKET]_[TYPE]_[LC|SB]_[TRIGGER_KNOT]_[AoR]__[DESCRIPTION]_[VERSION].[EXT]"
             )
             return ValidationResult(filename, False, errors, warnings)
         
         # Extract components
         components = match.groupdict()
-        bucket = components['bucket']
-        type_code = components['type']
-        subject = components['subject']
+        root = components['root']
         project = components['project']
         program = components['program']
         variant = components['variant']
+        bucket = components['bucket']
+        type_code = components['type']
+        lcsb = components['lcsb']
+        knot = components['knot']
+        aor = components['aor']
         desc = components['desc']
         version = components['ver']
         
@@ -197,6 +211,18 @@ class NomenclatureValidator:
                 f"Invalid PROGRAM '{program}': must be one of {sorted(self.ALLOWED_PROGRAMS)}"
             )
         
+        # Validate TRIGGER_KNOT format (NEW in v4.0)
+        if not self.KNOT_PATTERN.match(knot):
+            errors.append(
+                f"Invalid TRIGGER_KNOT '{knot}': must be K00 or K01-K99"
+            )
+        
+        # Validate AoR allowlist (NEW in v4.0)
+        if aor not in self.ALLOWED_AORS:
+            errors.append(
+                f"Invalid AoR '{aor}': must be one of {sorted(self.ALLOWED_AORS)}"
+            )
+        
         # Validate TYPE vocabulary
         if type_code not in self.APPROVED_TYPES:
             msg = f"TYPE '{type_code}' not in approved vocabulary: {sorted(self.APPROVED_TYPES)}"
@@ -205,25 +231,25 @@ class NomenclatureValidator:
             else:
                 warnings.append(msg)
         
-        # Validate SUBJECT conditional rules
+        # Validate LC|SB conditional rules
         if bucket == '00':
             # BUCKET=00 requires LC stage
-            if not self.LC_PATTERN.match(subject):
+            if not self.LC_PATTERN.match(lcsb):
                 errors.append(
-                    f"BUCKET=00 requires SUBJECT to be LC01-LC14, got '{subject}'"
+                    f"BUCKET=00 requires LC|SB to be LC01-LC14, got '{lcsb}'"
                 )
         else:
             # BUCKET≠00 requires SB stage
-            if not self.SB_PATTERN.match(subject):
+            if not self.SB_PATTERN.match(lcsb):
                 errors.append(
-                    f"BUCKET={bucket} requires SUBJECT to be SB format, got '{subject}'"
+                    f"BUCKET={bucket} requires LC|SB to be SB format, got '{lcsb}'"
                 )
             else:
                 # Validate bucket-specific subbucket range
                 if bucket in self.BUCKET_SUBBUCKET_RANGES:
                     try:
-                        # Extract numeric part from subject (e.g., "SB15" -> 15)
-                        sb_num = int(subject[2:])
+                        # Extract numeric part from lcsb (e.g., "SB15" -> 15)
+                        sb_num = int(lcsb[2:])
                         ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
                         
                         # Check if subbucket number is in any of the allowed ranges for this bucket
@@ -234,12 +260,12 @@ class NomenclatureValidator:
                             range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
                             allowed = " or ".join(range_strs)
                             errors.append(
-                                f"BUCKET={bucket} requires SUBJECT to be {allowed}, got '{subject}'"
+                                f"BUCKET={bucket} requires LC|SB to be {allowed}, got '{lcsb}'"
                             )
                     except (ValueError, IndexError):
                         # This should not happen if SB_PATTERN matched, but handle defensively
                         errors.append(
-                            f"Invalid subbucket format '{subject}' for BUCKET={bucket}"
+                            f"Invalid subbucket format '{lcsb}' for BUCKET={bucket}"
                         )
         
         # Check for redundancy in DESCRIPTION
@@ -334,9 +360,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s 00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md
+  %(prog)s 00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_v01.md
   %(prog)s --check-all
-  %(prog)s --check-dir ./AMPEL360_SPACE-T/T-TECHNOLOGY_ONBOARD_SYSTEMS
+  %(prog)s --check-dir ./AMPEL360-SPACE-T-PORTAL
   %(prog)s --check-all --strict
         """
     )

@@ -36,10 +36,10 @@ jobs:
         if: steps.validate.outcome == 'failure'
         run: |
           echo "❌ Nomenclature validation failed!"
-          echo "Please ensure all files follow the nomenclature standard v3.0:"
-          echo "[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]"
+          echo "Please ensure all files follow the nomenclature standard v4.0:"
+          echo "[ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BUCKET]_[TYPE]_[LC|SB]_[TRIGGER_KNOT]_[AoR]__[DESCRIPTION]_[VERSION].[EXT]"
           echo ""
-          echo "See 00_00_STD_LC01_AMPEL360_SPACET_PLUS_nomenclature-standard_v03.md for details."
+          echo "See 00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v04.md for details."
           exit 1
       
       - name: Validation success
