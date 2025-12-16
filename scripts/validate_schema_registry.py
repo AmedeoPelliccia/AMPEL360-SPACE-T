@@ -108,13 +108,22 @@ class ValidationResult:
 class SchemaRegistryValidator:
     """Validates schema registry for completeness and version conflicts."""
 
+    # URN prefix for schema IDs generated from filenames
+    SCHEMA_URN_PREFIX = "urn:ampel360:spacet:schema"
+
+    # Required fields for registry entries
+    REGISTRY_REQUIRED_FIELDS = ['schema_id', 'version', 'status', 'file_path']
+
+    # Valid status values for schemas
+    VALID_SCHEMA_STATUSES = ['active', 'deprecated', 'draft', 'superseded']
+
     # Pattern for schema files following nomenclature standard v3.0
     # Example: 06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json
     SCHEMA_FILE_PATTERN = re.compile(
         r'^(?P<root>\d{2,3})_'
         r'(?P<bucket>\d{2})_'
         r'SCH_'  # TYPE must be SCH
-        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
+        r'(?P<subject>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9][0-9])))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
@@ -217,7 +226,7 @@ class SchemaRegistryValidator:
                         # Create schema ID from filename
                         desc = match.group('desc')
                         ver = match.group('ver')
-                        schema_id = f"urn:ampel360:spacet:schema:{desc}:{ver}"
+                        schema_id = f"{self.SCHEMA_URN_PREFIX}:{desc}:{ver}"
 
                 return (schema_id, str(version)) if schema_id else None
 
@@ -350,9 +359,8 @@ class SchemaRegistryValidator:
 
         for schema_id, path in self.discovered_schemas.items():
             # Extract base ID and version
-            # Pattern: ends with -vNN.json or :vNN
-            base_id = re.sub(r'[-:]v\d+\.json$', '', schema_id)
-            base_id = re.sub(r'[-:]v\d+$', '', base_id)
+            # Pattern: ends with -vNN.json or :vNN or -vNN
+            base_id = re.sub(r'[-:]v\d+(\.json)?$', '', schema_id)
 
             # Get version from schema or filename
             version = "unknown"
@@ -402,11 +410,9 @@ class SchemaRegistryValidator:
         """
         print("🔍 Validating registry entries...")
 
-        required_fields = ['schema_id', 'version', 'status', 'file_path']
-
         for schema_id, entry in self.registry.items():
             # Check required fields
-            for field_name in required_fields:
+            for field_name in self.REGISTRY_REQUIRED_FIELDS:
                 value = getattr(entry, field_name, '')
                 if not value:
                     result.add_warning(
@@ -423,11 +429,10 @@ class SchemaRegistryValidator:
                     )
 
             # Check status validity
-            valid_statuses = ['active', 'deprecated', 'draft', 'superseded']
-            if entry.status and entry.status.lower() not in valid_statuses:
+            if entry.status and entry.status.lower() not in self.VALID_SCHEMA_STATUSES:
                 result.add_warning(
                     f"Registry entry '{schema_id}' has invalid status: "
-                    f"{entry.status} (expected: {valid_statuses})"
+                    f"{entry.status} (expected: {self.VALID_SCHEMA_STATUSES})"
                 )
 
         result.add_info(f"Validated {len(self.registry)} registry entries")
