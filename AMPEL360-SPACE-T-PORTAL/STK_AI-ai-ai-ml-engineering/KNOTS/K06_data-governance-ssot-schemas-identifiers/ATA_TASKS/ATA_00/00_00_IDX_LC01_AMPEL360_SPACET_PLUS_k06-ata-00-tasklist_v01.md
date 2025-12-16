@@ -212,7 +212,7 @@ AI deliverables support CM's closure criteria:
   - governance-impact detection (PR gate requiring CM approval)
   - _Deliverable:_ GitHub Actions workflows + gate specifications
 
-- [ ] **T6-AI (AI-owned)** Implement drift detection and monitoring
+- [x] **T6-AI (AI-owned)** Implement drift detection and monitoring
   - _Deliverable:_ Weekly drift scan workflow + alerting integration
 
 ### 6.3 TEKNIA/NKU tooling

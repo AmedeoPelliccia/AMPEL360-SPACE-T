@@ -1,0 +1,314 @@
+name: Weekly Drift Detection
+
+on:
+  schedule:
+    # Run weekly on Monday at 9:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      checks:
+        description: 'Checks to run (all, nomenclature, schemas, traces, identifiers, integrity)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - nomenclature
+          - schemas
+          - traces
+          - identifiers
+          - integrity
+
+jobs:
+  drift-detection:
+    runs-on: ubuntu-latest
+    name: Detect Governance Drift
+    
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Get current branch
+        id: branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+      
+      - name: Run drift detection
+        id: drift
+        run: |
+          echo "🔍 Running drift detection scan..."
+          
+          # Determine which checks to run
+          CHECKS="${{ github.event.inputs.checks || 'all' }}"
+          
+          # Build command based on selected checks
+          CMD="python scripts/detect_drift.py"
+          CMD="$CMD --repository ${{ github.repository }}"
+          CMD="$CMD --branch ${{ steps.branch.outputs.name }}"
+          CMD="$CMD --output-json drift-report.json"
+          CMD="$CMD --output-markdown drift-report.md"
+          CMD="$CMD --verbose"
+          
+          if [ "$CHECKS" = "all" ]; then
+            CMD="$CMD --check-all"
+          else
+            CMD="$CMD --check-$CHECKS"
+          fi
+          
+          # Run drift detection
+          set +e
+          $CMD
+          EXIT_CODE=$?
+          set -e
+          
+          # Set outputs for downstream steps
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "drift_detected=false" >> $GITHUB_OUTPUT
+            echo "status=✅ No drift detected" >> $GITHUB_OUTPUT
+          elif [ $EXIT_CODE -eq 1 ]; then
+            echo "drift_detected=true" >> $GITHUB_OUTPUT
+            echo "status=⚠️ Drift detected" >> $GITHUB_OUTPUT
+          else
+            echo "drift_detected=error" >> $GITHUB_OUTPUT
+            echo "status=❌ Error during scan" >> $GITHUB_OUTPUT
+          fi
+          
+          # Count findings for summary (parse JSON once)
+          if [ -f drift-report.json ]; then
+            read ERRORS WARNINGS INFOS <<< $(python3 -c "import json; d=json.load(open('drift-report.json')); items=d.get('items',[]); print(sum(1 for i in items if i.get('severity')=='error'), sum(1 for i in items if i.get('severity')=='warning'), sum(1 for i in items if i.get('severity')=='info'))")
+            echo "error_count=$ERRORS" >> $GITHUB_OUTPUT
+            echo "warning_count=$WARNINGS" >> $GITHUB_OUTPUT
+            echo "info_count=$INFOS" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      - name: Upload drift report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report-${{ github.run_number }}
+          path: |
+            drift-report.json
+            drift-report.md
+          retention-days: 90
+      
+      - name: Generate workflow summary
+        run: |
+          echo "## 🔍 Drift Detection Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: ${{ steps.drift.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository**: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch**: ${{ steps.branch.outputs.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run**: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.drift.outputs.drift_detected }}" = "true" ]; then
+            echo "### Findings Summary" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Errors | ${{ steps.drift.outputs.error_count || 0 }} |" >> $GITHUB_STEP_SUMMARY
+            echo "| ⚠️ Warnings | ${{ steps.drift.outputs.warning_count || 0 }} |" >> $GITHUB_STEP_SUMMARY
+            echo "| ℹ️ Info | ${{ steps.drift.outputs.info_count || 0 }} |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "### Report Downloads" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download the drift reports from the workflow artifacts (drift-report-${{ github.run_number }})." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f drift-report.md ]; then
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            cat drift-report.md >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Create or update drift issue
+        if: steps.drift.outputs.drift_detected == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read the markdown report
+            let reportContent = '';
+            try {
+              reportContent = fs.readFileSync('drift-report.md', 'utf8');
+            } catch (e) {
+              reportContent = 'Drift report not available. Check workflow artifacts.';
+            }
+            
+            // Issue details
+            const title = '🔍 Weekly Drift Detection: Governance Issues Found';
+            const labels = ['drift-detection', 'governance', 'automated'];
+            const errorCount = '${{ steps.drift.outputs.error_count || 0 }}';
+            const warningCount = '${{ steps.drift.outputs.warning_count || 0 }}';
+            const infoCount = '${{ steps.drift.outputs.info_count || 0 }}';
+            
+            const body = [
+              '## Weekly Drift Detection Report',
+              '',
+              `**Scan Date**: ${new Date().toISOString()}`,
+              `**Repository**: ${context.repo.owner}/${context.repo.repo}`,
+              `**Branch**: ${process.env.GITHUB_REF_NAME || 'main'}`,
+              `**Workflow Run**: [#${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
+              '',
+              '### Summary',
+              '',
+              '| Metric | Value |',
+              '|--------|-------|',
+              `| Errors | ${errorCount} |`,
+              `| Warnings | ${warningCount} |`,
+              `| Info | ${infoCount} |`,
+              '',
+              '---',
+              '',
+              reportContent,
+              '',
+              '---',
+              '',
+              '### Next Steps',
+              '',
+              '1. Review findings in the report above',
+              '2. Prioritize errors - these indicate governance violations that should be fixed',
+              '3. Address warnings - these indicate potential issues that may need attention',
+              '4. Close this issue once all items are resolved or triaged',
+              '',
+              '### References',
+              '',
+              '- Task: T6-AI from K06 ATA 00 Tasklist',
+              '- Policy: 00_00_STD_LC01_AMPEL360_SPACET_PLUS_governance-reference-policy_v01.md',
+              '- Standard: 00_00_STD_LC01_AMPEL360_SPACET_PLUS_nomenclature-standard_v02.md',
+              '',
+              '---',
+              '_This issue was automatically created by the weekly drift detection workflow._'
+            ].join('\n');
+            
+            // Find existing open issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'drift-detection,automated'
+            });
+            
+            const existingIssue = issues.data.find(issue => 
+              issue.title.includes('Weekly Drift Detection')
+            );
+            
+            if (existingIssue) {
+              // Update existing issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: body
+              });
+              
+              // Add comment about new scan
+              const commentBody = [
+                '## 🔄 New Scan Results Available',
+                '',
+                'A new drift detection scan has completed. The issue description has been updated with the latest findings.',
+                '',
+                `**Scan Date**: ${new Date().toISOString()}`,
+                `**Errors**: ${errorCount}`,
+                `**Warnings**: ${warningCount}`,
+                `**Info**: ${infoCount}`,
+                '',
+                `[View Workflow Run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+              ].join('\n');
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: commentBody
+              });
+              
+              console.log(`Updated existing issue #${existingIssue.number}`);
+            } else {
+              // Create new issue
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: labels
+              });
+              
+              console.log(`Created new issue #${issue.data.number}`);
+            }
+      
+      - name: Close drift issue if no drift
+        if: steps.drift.outputs.drift_detected == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Find existing open drift issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'drift-detection,automated'
+            });
+            
+            const existingIssue = issues.data.find(issue => 
+              issue.title.includes('Weekly Drift Detection')
+            );
+            
+            if (existingIssue) {
+              // Add resolution comment
+              const commentBody = [
+                '## ✅ All Clear',
+                '',
+                'The weekly drift detection scan found no governance issues.',
+                '',
+                `**Scan Date**: ${new Date().toISOString()}`,
+                '**Result**: No errors or warnings detected',
+                '',
+                'This issue will be closed automatically.',
+                '',
+                `[View Workflow Run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+              ].join('\n');
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: commentBody
+              });
+              
+              // Close the issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+              
+              console.log(`Closed issue #${existingIssue.number}`);
+            }
+      
+      - name: Check for critical errors
+        if: steps.drift.outputs.error_count > 0
+        run: |
+          echo "⚠️ Critical governance errors detected!"
+          echo "Errors found: ${{ steps.drift.outputs.error_count }}"
+          echo ""
+          echo "Review the drift report for details and remediation steps."
+          # Don't fail the workflow, but log the warning
