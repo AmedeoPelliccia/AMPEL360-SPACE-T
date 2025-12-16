@@ -45,7 +45,7 @@ class LinkInfo:
     line_number: int
     link_text: str
     link_target: str
-    link_type: str  # 'markdown', 'relative', 'absolute', 'external'
+    link_type: str  # 'relative', 'absolute', 'external', 'reference', 'html'
 
 
 @dataclass
@@ -307,17 +307,15 @@ class TraceLinkValidator:
         if resolved is None:
             return False
 
-        # Check if target exists
-        if resolved.exists():
-            return True
-
         # Check if it's a directory with index file
         if resolved.is_dir():
             for index_name in ['index.md', 'README.md', 'index.html']:
                 if (resolved / index_name).exists():
                     return True
+            return False
 
-        return False
+        # Check if target file exists
+        return resolved.exists()
 
     def validate_file(self, file_path: Path, result: ValidationResult) -> None:
         """
