@@ -619,18 +619,27 @@ Exit codes:
 
         # Find registry files
         registry_path = None
+        registry_missing = False
         if args.registry:
             registry_path = Path(args.registry)
             if not registry_path.exists():
                 print(f"Warning: Registry file not found: {args.registry}",
                       file=sys.stderr)
                 registry_path = None
+                registry_missing = True
         elif args.check_all:
             # Try to auto-discover registry
             registries = find_registry_files(repo_root)
             if registries:
                 registry_path = registries[0]
                 print(f"📄 Auto-discovered registry: {registry_path}")
+            else:
+                print("⚠️  REGISTRY_MISSING: No ATA 91 schema registry found in repository")
+                registry_missing = True
+
+        # Output registry status for CI workflow consumption
+        if registry_missing:
+            print("::set-output name=registry_missing::true")
 
         # Run validation
         result = validator.validate_all(registry_path)
