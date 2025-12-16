@@ -11,11 +11,10 @@ manifest JSON + summary report following nomenclature standard v3.0.
 
 Usage:
     python scripts/generate_evidence_pack.py --knot K06 --ata 00 [OPTIONS]
-    python scripts/generate_evidence_pack.py --config evidence-pack-config.json [OPTIONS]
 
 Options:
     --knot KNOT_ID        Knot identifier (e.g., K01, K06)
-    --ata ATA_CODE        ATA code (e.g., 00, 72)
+    --ata ATA_CODE        ATA code (e.g., 00, 72, 110)
     --output-dir DIR      Output directory for generated files (default: current dir)
     --repo-root DIR       Repository root path (default: .)
     --scan-patterns FILE  JSON file with scan patterns (optional)
@@ -24,7 +23,7 @@ Options:
     --force               Overwrite existing files
 
 Consumes:
-    - Evidence pack schema (00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_v01.json)
+    - Evidence pack schema (AMPEL360-SPACE-T-PORTAL/.../00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-manifest_v01.json)
     - CM's evidence requirements (nomenclature standard, file patterns)
 
 Produces:
@@ -238,13 +237,12 @@ def scan_for_evidence(
             # Filter by knot_id in filename if present
             filename_lower = filepath.name.lower()
             if knot_id.lower() in filename_lower:
-                if components:
-                    evidence_files.append((filepath, components))
-                    if verbose:
+                # Add to evidence list - components may be None for non-nomenclature files
+                evidence_files.append((filepath, components))
+                if verbose:
+                    if components:
                         print(f"  Found: {rel_path}")
-                else:
-                    # Handle non-nomenclature files (like .yml workflows)
-                    if verbose:
+                    else:
                         print(f"  Found (non-nomenclature): {rel_path}")
     
     # Also scan for K-specific files anywhere in the repo
@@ -607,9 +605,12 @@ Examples:
         print(f"Error: Invalid knot ID '{knot_id}'. Must be K followed by 2 digits (e.g., K01, K06).")
         return 1
     
-    ata_code = args.ata.zfill(2)
+    # Handle ATA codes: 2-3 digits, zero-pad only if needed for 2-digit codes
+    ata_code = args.ata
+    if len(ata_code) == 1:
+        ata_code = ata_code.zfill(2)
     if not re.match(r'^\d{2,3}$', ata_code):
-        print(f"Error: Invalid ATA code '{args.ata}'. Must be 2-3 digits.")
+        print(f"Error: Invalid ATA code '{args.ata}'. Must be 2-3 digits (e.g., 00, 72, 110).")
         return 1
     
     repo_root = Path(args.repo_root).resolve()

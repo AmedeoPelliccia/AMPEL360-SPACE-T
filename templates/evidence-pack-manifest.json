@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "templates/evidence-pack-manifest.json",
   "title": "AMPEL360 Space-T Evidence Pack Manifest Template",
   "description": "Template for evidence pack manifest generation. Replace {{PLACEHOLDERS}} with actual values.",
