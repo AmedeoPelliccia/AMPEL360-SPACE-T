@@ -227,10 +227,10 @@ AI deliverables support CM's closure criteria:
 
 ### 6.4 Documentation and integration
 - [ ] **T10-AI (AI-owned)** Document automation architecture and integration points
-  - _Deliverable:_ `00_00_IDX_LC01_SPACET_ai-automation-architecture_v01.md`
+  - _Deliverable:_ `00_00_IDX_LC01_AMPEL360_SPACET_PLUS_ai-automation-architecture_v01.md`
 
 - [ ] **T11-AI (AI-owned)** Create runbooks for CI gate failures and remediation
-  - _Deliverable:_ `00_00_RPT_LC01_SPACET_ci-gate-runbook_v01.md`
+  - _Deliverable:_ `00_00_RPT_LC01_AMPEL360_SPACET_PLUS_ci-gate-runbook_v01.md`
 
 ---
 
