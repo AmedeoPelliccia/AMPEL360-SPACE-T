@@ -86,11 +86,9 @@ jobs:
             echo "status=❌ Error during scan" >> $GITHUB_OUTPUT
           fi
           
-          # Count findings for summary
+          # Count findings for summary (parse JSON once)
           if [ -f drift-report.json ]; then
-            ERRORS=$(cat drift-report.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(sum(1 for i in d.get('items',[]) if i.get('severity')=='error'))")
-            WARNINGS=$(cat drift-report.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(sum(1 for i in d.get('items',[]) if i.get('severity')=='warning'))")
-            INFOS=$(cat drift-report.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(sum(1 for i in d.get('items',[]) if i.get('severity')=='info'))")
+            read ERRORS WARNINGS INFOS <<< $(python3 -c "import json; d=json.load(open('drift-report.json')); items=d.get('items',[]); print(sum(1 for i in items if i.get('severity')=='error'), sum(1 for i in items if i.get('severity')=='warning'), sum(1 for i in items if i.get('severity')=='info'))")
             echo "error_count=$ERRORS" >> $GITHUB_OUTPUT
             echo "warning_count=$WARNINGS" >> $GITHUB_OUTPUT
             echo "info_count=$INFOS" >> $GITHUB_OUTPUT
@@ -129,8 +127,7 @@ jobs:
           
           echo "### Report Downloads" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- 📄 [JSON Report](./drift-report.json)" >> $GITHUB_STEP_SUMMARY
-          echo "- 📋 [Markdown Report](./drift-report.md)" >> $GITHUB_STEP_SUMMARY
+          echo "Download the drift reports from the workflow artifacts (drift-report-${{ github.run_number }})." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
           if [ -f drift-report.md ]; then

@@ -497,9 +497,18 @@ class DriftDetector:
                             continue
                         
                         if not target_path.exists():
-                            # Only report if this is a file reference (has extension) 
-                            # or explicitly references a markdown file
-                            if '.' in target_clean or target_clean.endswith('.md'):
+                            # Only report if this appears to be a file reference
+                            # Check for common file extensions to avoid flagging directories
+                            target_basename = target_clean.split('/')[-1]
+                            known_extensions = {
+                                '.md', '.json', '.yaml', '.yml', '.csv', '.txt', '.html',
+                                '.pdf', '.png', '.jpg', '.jpeg', '.svg', '.gif',
+                                '.py', '.js', '.ts', '.xml', '.rst'
+                            }
+                            has_known_extension = any(
+                                target_basename.endswith(ext) for ext in known_extensions
+                            )
+                            if has_known_extension:
                                 broken_links.append((path, link_text, link_target))
                     except (OSError, ValueError):
                         # Path resolution failed - skip
@@ -686,8 +695,8 @@ Examples:
   %(prog)s --output-markdown drift-report.md
 
 Exit codes:
-  0: No drift detected (or only info items)
-  1: Drift detected (warnings or errors)
+  0: No drift detected (only info items or no items)
+  1: Drift detected (warnings or errors present)
   2: Script error
         """
     )
