@@ -36,7 +36,7 @@ import sys
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Dict, List
 from collections import defaultdict
 
 
@@ -302,6 +302,10 @@ class DriftDetector:
 
             # Track identifier patterns for namespace detection
             # Extract base identifier (ROOT_BUCKET_TYPE_SUBJECT_PROJECT_PROGRAM)
+            # Note: VARIANT is intentionally omitted from this pattern because we want to
+            # detect files that share the same structural identity but differ in content.
+            # Files with different VARIANTs represent the same logical document type and
+            # location, so content mismatches between them indicate potential drift.
             match = re.match(
                 r'^(\d{2,3}_\d{2}_[A-Z0-9]+_[A-Z0-9-]+_AMPEL360_SPACET)_',
                 path.name
@@ -318,7 +322,7 @@ class DriftDetector:
                 message=f"Nomenclature violation: {path.name}",
                 file_path=str(path),
                 details={"errors": errors},
-                remediation="Update filename to follow nomenclature standard v3.0"
+                remediation="Update filename to follow nomenclature standard v2.0"
             ))
 
         # Detect namespace conflicts (exact filename collisions across directories)
