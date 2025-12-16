@@ -1,0 +1,284 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space/schemas/nku-ledger-schema-v01.json",
+  "title": "NKU Ledger Schema",
+  "description": "Schema for NKU (Non-Known Unknowns / Partitioned Uncertainty Resolution) tracking ledger entries in the AMPEL360 Space-T project.",
+  "version": "v01",
+  "type": "object",
+  "definitions": {
+    "NKUEntry": {
+      "type": "object",
+      "description": "A single NKU entry in the ledger",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the NKU entry. Format: NKU-{KNOT}-{ATA}-{SEQUENCE}",
+          "pattern": "^NKU-K\\d{2}-\\d{1,3}-\\d{3}$",
+          "examples": ["NKU-K06-00-001", "NKU-K01-22-042"]
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the NKU entry was created (ISO 8601 format)"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["TECHNICAL", "PROCESS", "RESOURCE", "DEPENDENCY", "GOVERNANCE"],
+          "description": "Category of the uncertainty"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "description": "Description of the uncertainty to be resolved"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "BLOCKED"],
+          "description": "Current status of the NKU entry"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Person or team responsible for resolving the uncertainty"
+        },
+        "resolution_date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "Date the uncertainty was resolved (ISO 8601 format, required if status=RESOLVED)"
+        },
+        "notes": {
+          "type": ["string", "null"],
+          "maxLength": 1000,
+          "description": "Additional notes or context"
+        }
+      },
+      "required": ["id", "date", "category", "description", "status", "owner"],
+      "additionalProperties": false
+    },
+    "PartitionScore": {
+      "type": "object",
+      "description": "Score for a single partition (Knot + ATA combination)",
+      "properties": {
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K\\d{2}$",
+          "description": "Knot identifier (e.g., K06)"
+        },
+        "ata": {
+          "type": "string",
+          "pattern": "^\\d{1,3}$",
+          "description": "ATA chapter code (e.g., 00, 22, 100)"
+        },
+        "total_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of NKU entries in this partition"
+        },
+        "resolved_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of resolved entries"
+        },
+        "in_progress_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of in-progress entries"
+        },
+        "open_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of open entries"
+        },
+        "blocked_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of blocked entries"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Calculated partition score (0.0 = not started, 0.5 = in progress, 1.0 = complete)"
+        }
+      },
+      "required": ["knot_id", "ata", "total_entries", "score"],
+      "additionalProperties": false
+    },
+    "KnotScore": {
+      "type": "object",
+      "description": "Aggregated score for a knot across all ATAs",
+      "properties": {
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K\\d{2}$",
+          "description": "Knot identifier (e.g., K06)"
+        },
+        "aggregated_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Weighted average score across all partitions"
+        },
+        "total_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total NKU entries across all partitions"
+        },
+        "partitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartitionScore"
+          },
+          "description": "Individual partition scores"
+        }
+      },
+      "required": ["knot_id", "aggregated_score", "total_entries"],
+      "additionalProperties": false
+    },
+    "NKUScoreReport": {
+      "type": "object",
+      "description": "Comprehensive NKU score report",
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the report was generated"
+        },
+        "repository": {
+          "type": "string",
+          "description": "Repository path or identifier"
+        },
+        "program_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Overall program NKU score (average of all knot scores)"
+        },
+        "total_knots": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of knots included in the report"
+        },
+        "knots": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/KnotScore"
+          },
+          "description": "Map of knot IDs to their score details"
+        }
+      },
+      "required": ["generated_at", "program_score", "total_knots", "knots"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "v01",
+      "description": "Version of the NKU ledger schema"
+    },
+    "knot_id": {
+      "type": "string",
+      "pattern": "^K\\d{2}$",
+      "description": "Knot identifier this ledger belongs to"
+    },
+    "ata": {
+      "type": "string",
+      "pattern": "^\\d{1,3}$",
+      "description": "ATA chapter code this ledger belongs to"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/NKUEntry"
+      },
+      "description": "List of NKU entries in this ledger"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["schema_version", "knot_id", "ata", "entries"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schema_version": "v01",
+      "knot_id": "K06",
+      "ata": "00",
+      "entries": [
+        {
+          "id": "NKU-K06-00-001",
+          "date": "2025-12-16",
+          "category": "GOVERNANCE",
+          "description": "Missing schema registry SSOT for ATA 91",
+          "status": "IN_PROGRESS",
+          "owner": "CM WG",
+          "resolution_date": null,
+          "notes": "Blocked on schema registry implementation"
+        },
+        {
+          "id": "NKU-K06-00-002",
+          "date": "2025-12-16",
+          "category": "TECHNICAL",
+          "description": "Trace link validation not enforced in CI",
+          "status": "OPEN",
+          "owner": "AI/ML Engineering",
+          "resolution_date": null,
+          "notes": "Depends on T3-AI completion"
+        }
+      ],
+      "metadata": {
+        "created_at": "2025-12-16T00:00:00Z",
+        "updated_at": "2025-12-16T18:00:00Z",
+        "owner": "STK_CM"
+      }
+    }
+  ],
+  "_documentation": {
+    "scoring_model": {
+      "description": "NKU scoring follows a partitioned uncertainty resolution model",
+      "score_values": {
+        "0.0": "Not started / OPEN",
+        "0.5": "In progress / IN_PROGRESS",
+        "1.0": "Complete / RESOLVED"
+      },
+      "calculation": {
+        "partition_score": "Weighted average of entry statuses: (resolved * 1.0 + in_progress * 0.5 + open * 0.0 + blocked * 0.0) / total",
+        "knot_score": "Weighted average of partition scores by entry count",
+        "program_score": "Average of all knot scores"
+      },
+      "thresholds": {
+        "closure_threshold": 0.80,
+        "warning_threshold": 0.50
+      }
+    },
+    "categories": {
+      "TECHNICAL": "Technical uncertainties (design, implementation, integration)",
+      "PROCESS": "Process-related uncertainties (procedures, workflows, approvals)",
+      "RESOURCE": "Resource-related uncertainties (personnel, equipment, funding)",
+      "DEPENDENCY": "External dependencies (third-party, cross-team, vendor)",
+      "GOVERNANCE": "Governance uncertainties (policy, standards, decision rights)"
+    },
+    "statuses": {
+      "OPEN": "Not yet addressed",
+      "IN_PROGRESS": "Being actively worked on",
+      "RESOLVED": "Uncertainty has been resolved with evidence",
+      "BLOCKED": "Cannot proceed due to external blocker"
+    }
+  }
+}
