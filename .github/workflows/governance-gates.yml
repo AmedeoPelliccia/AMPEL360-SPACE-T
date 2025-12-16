@@ -46,17 +46,89 @@ jobs:
           fi
         continue-on-error: true
       
-      # GATE-002: Schema Registration Check (BLOCKING - when script exists)
+      # GATE-002: Schema Registration Check (BLOCKING)
       - name: GATE-002 - Schema Registration Check
         id: schema_registration
         run: |
           echo "🔍 Checking schema registration..."
-          if [ -f "scripts/check_schema_registration.py" ]; then
-            python scripts/check_schema_registration.py --registry ATA91
+          set +e  # Don't exit on error, we need to capture the exit code
+          OUTPUT=$(python scripts/validate_schema_registry.py --check-all --verbose 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          # Print output
+          echo "$OUTPUT"
+          
+          # Check if registry is missing and output to GITHUB_OUTPUT
+          if echo "$OUTPUT" | grep -q "REGISTRY_MISSING"; then
+            echo "registry_missing=true" >> $GITHUB_OUTPUT
           else
-            echo "⚠️  Script not yet implemented (planned)"
+            echo "registry_missing=false" >> $GITHUB_OUTPUT
           fi
-        continue-on-error: true
+          
+          # Exit with the original exit code
+          exit $EXIT_CODE
+        continue-on-error: false
+      
+      # Create issue if ATA 91 schema registry is missing
+      - name: Create Issue for Missing Schema Registry
+        if: always() && steps.schema_registration.outputs.registry_missing == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Check if an issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'schema-registry-missing',
+              state: 'open'
+            });
+            
+            if (issues.data.length > 0) {
+              console.log('Issue already exists for missing schema registry');
+              return;
+            }
+            
+            // Create new issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '📋 Create ATA 91 Schema Registry',
+              body: `## Missing Schema Registry Detected
+
+The CI governance gate (GATE-002) detected that the **ATA 91 schema registry** is missing from this repository.
+
+### Required Action
+Create a schema registry CSV file following the ATA 91 schema governance policy.
+
+### Expected Location
+The registry should be placed in one of the following locations:
+- \`**/schema-registry*.csv\`
+- \`**/91_*_TAB_*_schema-registry_*.csv\`
+- \`**/schema_registry*.csv\`
+
+### Required Fields
+The CSV should include the following columns:
+- \`schema_id\`: Unique identifier for the schema
+- \`version\`: Schema version
+- \`namespace\`: Schema namespace
+- \`owner\`: Responsible owner/team
+- \`status\`: Current status (active, deprecated, draft, superseded)
+- \`file_path\`: Path to the schema file
+- \`description\`: Brief description of the schema
+- \`content_hash\`: SHA-256 hash of schema content (optional)
+
+### Reference
+- **Task**: T2-AI from K06 ATA 00 Tasklist
+- **Gate**: GATE-002 (Schema Registration Check)
+- **Policy**: CM's schema governance policy
+
+---
+*This issue was automatically created by the CI governance gate.*`,
+              labels: ['schema-registry-missing', 'governance', 'K06', 'ATA-91']
+            });
+            
+            console.log('Created issue for missing schema registry');
       
       # GATE-003: Trace Link Integrity Check (WARNING)
       # Validates trace link integrity: broken links and staleness detection
