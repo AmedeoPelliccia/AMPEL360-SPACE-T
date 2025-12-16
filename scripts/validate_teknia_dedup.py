@@ -28,7 +28,6 @@ Exit codes:
 import argparse
 import csv
 import hashlib
-import json
 import re
 import sys
 from dataclasses import dataclass, field
@@ -126,7 +125,7 @@ class TekniaDedupValidator:
 
     # File extensions to include in hash validation
     INCLUDE_EXTENSIONS = {
-        '.md', '.json', '.yaml', '.yml', '.csv', '.xml',
+        '.md', '.json', '.yaml', '.yml', '.csv', '.xml', '.xlsx',
         '.py', '.js', '.ts', '.txt'
     }
 
@@ -135,11 +134,11 @@ class TekniaDedupValidator:
     ALLOWLISTED_DUPLICATE_PATTERNS = [
         # Tasklist files are intentionally duplicated across stakeholder folders
         # Match patterns like: k10-ata-10-tasklist_v01.md
-        r'.*-tasklist_v\d+\.md$',
+        r'-tasklist_v\d+\.md$',
         # README files may have similar content
         r'README\.md$',
-        # Template placeholders
-        r'.*-template.*\.md$',
+        # Template placeholders: Only allowlist files in the templates/ directory
+        r'templates/[A-Z]+\.md$',
     ]
 
     # Patterns for extracting identifiers from files
@@ -148,9 +147,9 @@ class TekniaDedupValidator:
         'dimensional': re.compile(
             r'\b(DATUM|ZONE|ENVELOPE)-([A-Z]+)-(\d{3})(?:-([A-Z0-9]+))?\b'
         ),
-        # URN-style identifiers
+        # URN-style identifiers with proper segment structure
         'urn': re.compile(
-            r'urn:ampel360:spacet:[a-z0-9:-]+'
+            r'urn:ampel360:spacet:(?:[a-z0-9]+(?:-[a-z0-9]+)*:)*[a-z0-9]+(?:-[a-z0-9]+)*'
         ),
         # Schema $id fields
         'schema_id': re.compile(
@@ -166,12 +165,12 @@ class TekniaDedupValidator:
         )
     }
 
-    # Registry file patterns
+    # Registry file patterns following nomenclature standard
     REGISTRY_PATTERNS = [
         '**/identifier-registry*.md',
         '**/identifier-registry*.csv',
         '**/schema-registry*.csv',
-        '**/*_CAT_*_identifier-registry_*.md'
+        '**/[0-9][0-9]_[0-9][0-9]_CAT_*_*_identifier-registry_v[0-9][0-9].md'
     ]
 
     def __init__(self, repo_root: Path = Path('.'), verbose: bool = False,
@@ -193,9 +192,15 @@ class TekniaDedupValidator:
 
     def _is_allowlisted_duplicate(self, path: Path) -> bool:
         """Check if a file path matches any allowlisted duplicate pattern."""
-        filename = path.name
+        # Use relative path from repo root for matching (allows path-based patterns)
+        try:
+            rel_path = str(path.relative_to(self.repo_root))
+        except ValueError:
+            rel_path = path.name
+        
         for pattern in self._compiled_allowlist:
-            if pattern.match(filename):
+            # Try matching against relative path first, then filename
+            if pattern.search(rel_path):
                 return True
         return False
 
@@ -327,24 +332,34 @@ class TekniaDedupValidator:
                 if matches:
                     if id_type not in identifiers:
                         identifiers[id_type] = set()
-                    # Handle different match tuple structures
+                    # Handle different match structures based on pattern type
                     for match in matches:
-                        if isinstance(match, tuple):
-                            # Reconstruct the full identifier
-                            if id_type == 'dimensional':
-                                # (DATUM|ZONE|ENVELOPE, SYSTEM, NNN, optional variant)
-                                full_id = f"{match[0]}-{match[1]}-{match[2]}"
-                                if match[3]:  # Has variant
-                                    full_id += f"-{match[3]}"
-                                identifiers[id_type].add(full_id)
-                            elif id_type == 'requirement':
-                                identifiers[id_type].add(f"REQ-{match[0]}-{match[1]}")
-                            else:
-                                identifiers[id_type].add(str(match))
-                        else:
+                        if id_type == 'dimensional':
+                            # match is a tuple: (DATUM|ZONE|ENVELOPE, SYSTEM, NNN, optional variant)
+                            full_id = f"{match[0]}-{match[1]}-{match[2]}"
+                            if match[3]:  # Has variant
+                                full_id += f"-{match[3]}"
+                            identifiers[id_type].add(full_id)
+                        elif id_type == 'requirement':
+                            # match is a tuple: (SYSTEM, NNN)
+                            # Ensure the numeric portion is zero-padded to at least 3 digits
+                            num = match[1].zfill(3)
+                            identifiers[id_type].add(f"REQ-{match[0]}-{num}")
+                        elif id_type == 'knot':
+                            # match is a string like '05' - prepend 'K' to the matched digits
+                            identifiers[id_type].add(f"K{match}")
+                        elif id_type == 'schema_id':
+                            # match is a string: the captured $id value
                             identifiers[id_type].add(match)
+                        else:
+                            # fallback: add as string (handles 'urn' which returns strings)
+                            if isinstance(match, tuple):
+                                identifiers[id_type].add(str(match))
+                            else:
+                                identifiers[id_type].add(match)
 
         except (OSError, UnicodeDecodeError):
+            # Silently skip files that cannot be read (binary files, encoding issues)
             pass
 
         return identifiers
@@ -397,6 +412,7 @@ class TekniaDedupValidator:
                         identifiers[identifier] = (namespace, source)
 
         except (OSError, UnicodeDecodeError, csv.Error):
+            # Silently skip files that cannot be read or parsed
             pass
 
         return identifiers
@@ -405,28 +421,38 @@ class TekniaDedupValidator:
         """
         Extract namespace from file path based on folder structure.
 
+        Namespace precedence order (first match wins):
+        1. STK_* (stakeholder namespaces) - highest priority
+        2. K01-K14_* (Knot folders) - domain-specific namespaces
+        3. ATA_* (ATA chapter folders)
+        4. Top-level folder under repo root - fallback
+
+        This precedence ensures that stakeholder-scoped files are properly
+        attributed to their stakeholder namespace even if they are nested
+        within Knot or ATA subfolders.
+
         Args:
             path: Path to the file
 
         Returns:
             Namespace string
         """
-        # Look for STK_* folder names (stakeholder namespaces)
+        # Priority 1: Look for STK_* folder names (stakeholder namespaces)
         for parent in path.parents:
             if parent.name.startswith('STK_'):
                 return parent.name
 
-        # Look for KNOT folder names
+        # Priority 2: Look for KNOT folder names (K01-K14 with underscore suffix)
         for parent in path.parents:
-            if parent.name.startswith('K') and '_' in parent.name:
+            if re.match(r'^K(0[1-9]|1[0-4])_', parent.name):
                 return parent.name
 
-        # Look for ATA folder names
+        # Priority 3: Look for ATA folder names
         for parent in path.parents:
             if parent.name.startswith('ATA_'):
                 return parent.name
 
-        # Default to top-level folder under repo root
+        # Priority 4: Default to top-level folder under repo root
         try:
             relative = path.relative_to(self.repo_root)
             return str(relative.parts[0]) if relative.parts else 'root'
@@ -632,9 +658,17 @@ Exit codes:
 
     args = parser.parse_args()
 
-    # Validate arguments
+    # Validate arguments - require exactly one check mode flag
+    # Note: --check-all already provides combined functionality, so if multiple
+    # flags are specified, --check-all takes priority, then --check-hash, then --check-namespace
     if not any([args.check_all, args.check_hash, args.check_namespace]):
         parser.error('Must specify --check-all, --check-hash, or --check-namespace')
+
+    # Warn if multiple flags are specified (only one will be used)
+    check_count = sum([args.check_all, args.check_hash, args.check_namespace])
+    if check_count > 1:
+        print("Warning: Multiple check flags specified. Using priority order: "
+              "--check-all > --check-hash > --check-namespace", file=sys.stderr)
 
     repo_root = Path(args.repo_root)
     if not repo_root.is_dir():
