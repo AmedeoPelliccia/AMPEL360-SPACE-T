@@ -229,10 +229,13 @@ class TraceLinkValidator:
                 ))
             
             # Extract backtick paths `path/to/file.md`
+            # Note: We check if the path already appears in a markdown link on
+            # the same line to avoid duplicate reporting. This is a simple heuristic
+            # that works for most cases.
             for match in self.BACKTICK_PATH_PATTERN.finditer(line):
                 target_path = match.group('path')
-                # Skip if already captured as markdown link
-                if f']({target_path})' not in line:
+                # Skip if already captured as markdown link on same line
+                if f']({target_path})' not in line and f'({target_path})' not in line:
                     links.append(TraceLink(
                         source_file=str(file_path.relative_to(self.repo_root)),
                         target_path=target_path,
@@ -367,7 +370,10 @@ class TraceLinkValidator:
         result.links_found = len(links)
         
         # Validate each link
-        seen_links: Set[str] = set()  # Deduplicate links
+        # Note: Links are deduplicated by target_path and link_type to avoid
+        # reporting the same broken/stale link multiple times when it appears
+        # in the same file. This is intentional to reduce noise in reports.
+        seen_links: Set[str] = set()  # Deduplicate links by target and type
         for link in links:
             link_key = f"{link.target_path}:{link.link_type}"
             if link_key in seen_links:
@@ -444,8 +450,9 @@ def print_summary(results: List[ValidationResult]) -> Tuple[int, int]:
     total_stale = sum(r.links_stale for r in results)
     
     files_with_errors = sum(1 for r in results if not r.valid)
+    # Count files with warnings (any warning-level issues, regardless of validity)
     files_with_warnings = sum(1 for r in results 
-                               if r.valid and any(i.severity == 'warning' for i in r.issues))
+                               if any(i.severity == 'warning' for i in r.issues))
     
     print(f"\n{'='*60}")
     print("Trace Link Validation Summary")
