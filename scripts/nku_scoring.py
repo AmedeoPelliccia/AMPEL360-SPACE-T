@@ -312,12 +312,15 @@ class NKULedger:
         for entry in self.entries:
             if entry.id == entry_id:
                 if status:
-                    entry.status = status.upper()
+                    status_upper = status.upper()
+                    entry.status = status_upper
+                else:
+                    status_upper = entry.status
                 if resolution_date:
                     entry.resolution_date = resolution_date
-                elif status == NKU_STATUS_RESOLVED and not entry.resolution_date:
+                elif status_upper == NKU_STATUS_RESOLVED and not entry.resolution_date:
                     entry.resolution_date = date.today().isoformat()
-                if notes:
+                if notes is not None:
                     entry.notes = notes
                 return entry
         return None
@@ -523,8 +526,22 @@ def cmd_add_entry(args: argparse.Namespace, engine: NKUScoringEngine) -> int:
         # Use a default location in the portal
         portal_path = engine.repo_root / "AMPEL360-SPACE-T-PORTAL"
         
-        # Find an appropriate location based on knot
-        knot_dirs = list(portal_path.rglob(f"*/{knot_id}_*"))
+        # Validate ATA is numeric
+        try:
+            ata_num = int(ata)
+        except ValueError:
+            print(f"Error: ATA must be numeric, got '{ata}'", file=sys.stderr)
+            return 1
+        
+        # Find an appropriate location based on knot (limit search for efficiency)
+        # Search only in STK_*/KNOTS/ directories where knot folders are located
+        knot_dirs = []
+        for stk_dir in portal_path.glob("STK_*"):
+            knots_path = stk_dir / "KNOTS"
+            if knots_path.exists():
+                matching = list(knots_path.glob(f"{knot_id}_*"))
+                knot_dirs.extend(matching)
+        
         if knot_dirs:
             # Use first matching knot directory
             knot_dir = knot_dirs[0]
@@ -534,7 +551,7 @@ def cmd_add_entry(args: argparse.Namespace, engine: NKUScoringEngine) -> int:
             return 1
         
         # Generate filename following nomenclature
-        ata_root = ata.zfill(2) if int(ata) < 100 else "00"
+        ata_root = ata.zfill(2) if ata_num < 100 else "00"
         csv_filename = f"{ata_root}_00_LOG_LC01_AMPEL360_SPACET_PLUS_{knot_id.lower()}-ata-{ata}-nku-tracking_v01.csv"
         csv_path = ata_dir / csv_filename
         
