@@ -76,9 +76,9 @@ This tasklist is **closed only if** all conditions are true:
 
 ## 6) Tasks (minimum set)
 ### 6.1 Define SSOT and identifiers
-- [ ] **T1** Define authoritative source (CAD vs derived tables) and ownership.
-- [ ] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique).
-- [ ] **T3** Define schema: units, coordinate frame, tolerances, metadata.
+- [x] **T1** Define authoritative source (CAD vs derived tables) and ownership. ✅ **COMPLETE**
+- [x] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique). ✅ **COMPLETE**
+- [x] **T3** Define schema: units, coordinate frame, tolerances, metadata. ✅ **COMPLETE**
 
 ### 6.2 Publish and enforce
 - [ ] **T4** Publish canonical exports (CSV/JSON) + minimal diagram references.
@@ -99,3 +99,217 @@ This tasklist is **closed only if** all conditions are true:
 - Risk: multiple competing “truths” (CAD vs spreadsheets vs diagrams) without SSOT.
 - Risk: unit/frame mismatches causing downstream integration errors (K04 coupling).
 - Dependency: CM approval and registry governance (ATA 00).
+
+---
+
+## T1 Resolution: Authoritative Source and Ownership
+
+### Decision
+
+**CAD models are designated as the Single Source of Truth (SSOT) for ATA-06 dimensional data.**
+
+### Authoritative Source Definition
+
+| Attribute | Value |
+| :--- | :--- |
+| **SSOT Type** | CAD Models (CATIA V6 / NX / SolidWorks) |
+| **Authority** | Authoritative |
+| **Location** | Design Engineering CAD Repository |
+| **Rationale** | Primary design authority; engineering integration; version control; geometry accuracy; change traceability |
+
+### Derived Sources (NOT authoritative)
+
+| Source Type | Status | Usage | Update Trigger |
+| :--- | :--- | :--- | :--- |
+| Spreadsheets | Derived | Analysis, quick reference | When CAD changes |
+| Diagrams | Derived | Communication, documentation | When CAD changes |
+| Presentations | Derived | Reviews, approvals | When CAD changes |
+| Simulation Models | Derived | Analysis input | When CAD changes |
+| Manufacturing Drawings | Derived | Fabrication | When CAD changes |
+| JSON/CSV Exports | Derived | Machine-readable distribution | When CAD changes |
+
+**Conflict Resolution Rule**: If spreadsheet, diagram, or document conflicts with CAD, **CAD is correct**.
+
+### Ownership Model
+
+| Role | Team | Responsibility | Authority Level |
+| :--- | :--- | :--- | :--- |
+| **Primary Owner** | Design Engineering | CAD model maintenance, export generation | Update CAD |
+| **Data Custodian** | Configuration Management WG | Baseline approval, governance | Approve baselines |
+| **Technical Authority** | Systems Engineering | Schema definition, validation rules | Define requirements |
+| **Tooling Owner** | DevOps | CI pipeline, automation | Implement validation |
+| **Consumers** | Ops/Infra/Sim Teams | Use canonical exports, report issues | Read-only access |
+
+### Decision Authority Matrix
+
+| Decision Type | Authority | Process |
+| :--- | :--- | :--- |
+| Dimensional changes | Design Engineering + Chief Engineer | ECR/ECO process |
+| Baseline release | Configuration Management WG | CM review and approval |
+| Schema changes | Systems Engineering + CM WG | Change control board |
+| Export format | Systems Engineering | Technical review |
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| SSOT Implementation Plan | `06_00_PLAN_LC01_AMPEL360_SPACET_PLUS_ssot-implementation-plan_v01.md` | Published |
+| SSOT Decision Matrix | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_ssot-decision-matrix_v01.md` | Published |
+| Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
+
+---
+
+## T2 Resolution: Identifier Grammar for Datums/Zones/Envelopes
+
+### Decision
+
+**A canonical identifier grammar has been defined for all ATA-06 dimensional data elements (datums, zones, envelopes).**
+
+### Identifier Grammar
+
+All ATA-06 identifiers follow this grammar:
+
+```
+{CATEGORY}-{SYSTEM}-{SEQUENCE}[-{VARIANT}]
+```
+
+### Grammar Components
+
+| Component | Description | Format | Required |
+| :--- | :--- | :--- | :--- |
+| **CATEGORY** | Artifact type | `DATUM` \| `ZONE` \| `ENVELOPE` | Yes |
+| **SYSTEM** | System code | 2-5 uppercase alphanumeric | Yes |
+| **SEQUENCE** | Sequence number | 3-digit zero-padded | Yes |
+| **VARIANT** | Sub-variant | 1-8 uppercase alphanumeric | Optional |
+
+### System Codes
+
+| Code | System Name | Description |
+| :--- | :--- | :--- |
+| **GLOBAL** | Global | Spacecraft-level references |
+| **FUS** | Fuselage | Main body structure |
+| **PROP** | Propulsion | Engines, tanks, propellant systems |
+| **AVION** | Avionics | Electronics, computers, sensors |
+| **POWER** | Power | Electrical power generation |
+| **THERM** | Thermal | Thermal control systems |
+| **STRUCT** | Structure | Primary and secondary structure |
+| **MECH** | Mechanisms | Deployables, actuators |
+| **PAYLOAD** | Payload | Mission-specific equipment |
+| **GNC** | Guidance/Nav/Control | GNC sensors and actuators |
+| **COMM** | Communications | Antennas, transceivers |
+| **INTEG** | Integration | Cross-system interfaces |
+
+### Identifier Examples
+
+| Identifier | Description |
+| :--- | :--- |
+| `DATUM-GLOBAL-001` | Spacecraft Primary Datum Origin |
+| `DATUM-GLOBAL-002` | Spacecraft X-Axis Reference Line |
+| `DATUM-FUS-001` | Fuselage Station 0 (FS0) |
+| `ZONE-PROP-001` | Main Propulsion Module Zone |
+| `ZONE-INTEG-001` | Launch Vehicle Interface Zone |
+| `ENVELOPE-GLOBAL-001` | Launch Configuration Envelope |
+| `ENVELOPE-PROP-001` | Propulsion Module Envelope |
+| `ENVELOPE-STRUCT-001` | Primary Structure Keep-Out |
+
+### Stability and Uniqueness Rules
+
+| Rule | Description |
+| :--- | :--- |
+| **Permanence** | Identifiers are permanent once allocated |
+| **No Reuse** | Deprecated identifiers are never reused |
+| **Historical Record** | Superseded identifiers maintain pointer to replacement |
+| **Full ID Unique** | Each full identifier (e.g., `DATUM-GLOBAL-001`) is globally unique |
+| **Sequence Scope** | Sequence numbers are allocated within {CATEGORY}-{SYSTEM} scope (e.g., `DATUM-GLOBAL-001` and `ZONE-GLOBAL-001` both valid) |
+| **Immutable Base** | Identifiers themselves do not version; values may change |
+
+### Identifier Allocation Process
+
+1. **Check Registry**: Verify identifier doesn't already exist
+2. **Determine Category**: DATUM, ZONE, or ENVELOPE
+3. **Select System**: Use approved system code
+4. **Assign Sequence**: Next available sequence number
+5. **Document**: Create catalog entry with all required fields
+6. **Submit**: Send to Configuration Management WG for approval
+7. **Publish**: Add to registry and update statistics
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
+| Identifier Grammar Standard | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_identifier-grammar_v01.md` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
+
+---
+
+## T3 Resolution: Schema Definition (Units, Coordinate Frame, Tolerances, Metadata)
+
+### Decision
+
+**A comprehensive dimensional data schema has been defined for ATA-06 data elements.**
+
+### Schema Location
+
+All schema artifacts have been moved to PORTAL root:
+- `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json`
+- `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md`
+- `06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json`
+
+### Schema Components
+
+| Component | Definition | Standard |
+| :--- | :--- | :--- |
+| **Units** | SI units (mm for length, deg for angles) | ISO 80000 |
+| **Coordinate Frame** | Right-handed Cartesian (X forward, Y right, Z down) | Aerospace convention |
+| **Origin** | DATUM-GLOBAL-001 (launch adapter interface center) | Project-specific |
+| **Tolerances** | Positional: ±0.1mm to ±0.5mm; Angular: ±0.05° | Per feature type |
+
+### Metadata Fields
+
+| Field | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `identifier` | string | Yes | Unique ID per grammar |
+| `name` | string | Yes | Human-readable name |
+| `category` | enum | Yes | DATUM, ZONE, ENVELOPE |
+| `system` | string | Yes | System code |
+| `status` | enum | Yes | Active, Deprecated, Superseded |
+| `version` | string | Yes | CAD baseline version |
+| `owner` | string | Yes | Responsible team |
+| `cad_location` | string | Yes | Path in CAD model |
+
+### Coordinate Frame Definition
+
+```
+Origin: DATUM-GLOBAL-001 (Launch Vehicle Adapter Interface Center)
+X-axis: Forward (nose direction) - DATUM-GLOBAL-002
+Y-axis: Right (starboard)
+Z-axis: Down (nadir in launch config)
+Handedness: Right-handed
+Units: Millimeters (mm)
+```
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| Schema Definition (JSON) | `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json` | Published |
+| Schema Documentation | `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md` | Published |
+| Dimensional Exports | `06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
