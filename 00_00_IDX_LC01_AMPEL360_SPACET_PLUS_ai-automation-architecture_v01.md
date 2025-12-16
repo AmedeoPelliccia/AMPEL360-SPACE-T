@@ -116,13 +116,15 @@ This document fulfills **Task T10-AI** from the K06 ATA 00 Tasklist and serves a
 
 ### 3.3 GitHub Actions Workflows
 
-| Workflow ID | Workflow Name | File | Trigger | Gates Implemented | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **WF-001** | Nomenclature Validation | `.github/workflows/nomenclature-validation.yml` | Push/PR to any branch | GATE-001 | **Active** |
-| **WF-002** | Governance Gates (Comprehensive) | `.github/workflows/governance-gates.yml` | PR to main/develop, manual | GATE-001, GATE-002, GATE-005, GATE-006, GATE-007, GATE-008 | **Active** |
-| **WF-003** | Detect New TYPE Codes | `.github/workflows/detect-new-types.yml` | Push/PR, weekly, manual | GATE-009 | **Active** |
-| **WF-004** | Baseline Readiness Check | `.github/workflows/baseline-readiness.yml` | Manual dispatch | GATE-014, GATE-018 | Planned |
-| **WF-005** | Weekly Governance Audit | `.github/workflows/weekly-audit.yml` | Weekly schedule | GATE-015, GATE-016, GATE-017 | Planned |
+| Workflow ID | Workflow Name | File | Trigger | Gates Implemented (Active) | Gates Planned | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **WF-001** | Nomenclature Validation | `.github/workflows/nomenclature-validation.yml` | Push/PR to any branch | GATE-001 | — | **Active** |
+| **WF-002** | Governance Gates (Comprehensive) | `.github/workflows/governance-gates.yml` | PR to main/develop, manual | GATE-001, GATE-002, GATE-006 | GATE-003, GATE-004, GATE-005, GATE-007, GATE-008 | **Active** (partial) |
+| **WF-003** | Detect New TYPE Codes | `.github/workflows/detect-new-types.yml` | Push/PR, weekly, manual | GATE-009 | — | **Active** |
+| **WF-004** | Baseline Readiness Check | `.github/workflows/baseline-readiness.yml` | Manual dispatch | — | GATE-014, GATE-018 | Planned |
+| **WF-005** | Weekly Governance Audit | `.github/workflows/weekly-audit.yml` | Weekly schedule | — | GATE-015, GATE-016, GATE-017 | Planned |
+
+> **Note**: WF-002 is marked as **Active (partial)** because the workflow file exists and executes, but some gates have placeholder implementations that check for script existence and skip if not found.
 
 ### 3.4 Agent Integration
 
@@ -440,18 +442,20 @@ python scripts/scaffold.py 00 70 FHA SB70 AMPEL360 SPACET PLUS propulsion v01
 
 ### 8.1 Script to Gate Mapping
 
-| Script | Gates | Workflows |
-| :--- | :--- | :--- |
-| `validate_nomenclature.py` | GATE-001 | WF-001, WF-002 |
-| `scripts/validate_schema_registry.py` | GATE-002 | WF-002 |
-| `scripts/validate_identifiers.py` | GATE-005 | WF-002 |
-| `scripts/check_trace_integrity.py` | GATE-003 | WF-002 |
-| `scripts/check_ata99_registry.py` | GATE-004 | WF-002 |
-| `scripts/detect_new_types.py` | GATE-009 | WF-003 |
-| `scripts/validate_evidence_links.py` | GATE-008 | WF-002 |
-| `scripts/check_staleness.py` | GATE-016 | WF-005 |
-| `scripts/detect_shadow_registries.py` | GATE-017 | WF-005 |
-| `scripts/generate_trace_coverage.py` | GATE-018 | WF-004 |
+| Script | Gates | Workflows | Script Status |
+| :--- | :--- | :--- | :--- |
+| `validate_nomenclature.py` | GATE-001 | WF-001, WF-002 | **Active** |
+| `scripts/validate_schema_registry.py` | GATE-002 | WF-002 | **Active** |
+| `scripts/validate_identifiers.py` | GATE-005 | WF-002 (planned) | Planned |
+| `scripts/check_trace_integrity.py` | GATE-003 | WF-002 (planned) | Planned |
+| `scripts/check_ata99_registry.py` | GATE-004 | WF-002 (planned) | Planned |
+| `scripts/detect_new_types.py` | GATE-009 | WF-003 | **Active** |
+| `scripts/validate_evidence_links.py` | GATE-008 | WF-002 (planned) | Planned |
+| `scripts/check_staleness.py` | GATE-016 | WF-005 (planned) | Planned |
+| `scripts/detect_shadow_registries.py` | GATE-017 | WF-005 (planned) | Planned |
+| `scripts/generate_trace_coverage.py` | GATE-018 | WF-004 (planned) | Planned |
+
+> **Note**: Scripts marked "Planned" are referenced in workflows but do not yet exist. Workflows handle missing scripts gracefully by skipping those gates.
 
 ### 8.2 Gate to Policy Mapping
 
