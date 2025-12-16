@@ -78,7 +78,7 @@ This tasklist is **closed only if** all conditions are true:
 ### 6.1 Define SSOT and identifiers
 - [x] **T1** Define authoritative source (CAD vs derived tables) and ownership. ✅ **COMPLETE**
 - [x] **T2** Define identifier grammar for datums/zones/envelopes (stable, unique). ✅ **COMPLETE**
-- [ ] **T3** Define schema: units, coordinate frame, tolerances, metadata.
+- [x] **T3** Define schema: units, coordinate frame, tolerances, metadata. ✅ **COMPLETE**
 
 ### 6.2 Publish and enforce
 - [ ] **T4** Publish canonical exports (CSV/JSON) + minimal diagram references.
@@ -245,6 +245,68 @@ All ATA-06 identifiers follow this grammar:
 | :--- | :--- | :--- |
 | Identifier Registry | `06_00_CAT_LC01_AMPEL360_SPACET_PLUS_identifier-registry_v01.md` | Published |
 | Identifier Grammar Standard | `00_00_STD_LC01_AMPEL360_SPACET_PLUS_identifier-grammar_v01.md` | Published |
+
+### Approval
+
+| Role | Status | Date |
+| :--- | :--- | :--- |
+| CM WG Lead | Documented | 2025-12-16 |
+
+---
+
+## T3 Resolution: Schema Definition (Units, Coordinate Frame, Tolerances, Metadata)
+
+### Decision
+
+**A comprehensive dimensional data schema has been defined for ATA-06 data elements.**
+
+### Schema Location
+
+All schema artifacts have been moved to PORTAL root:
+- `AMPEL360-SPACE-T-PORTAL/06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json`
+- `AMPEL360-SPACE-T-PORTAL/06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md`
+- `AMPEL360-SPACE-T-PORTAL/06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json`
+
+### Schema Components
+
+| Component | Definition | Standard |
+| :--- | :--- | :--- |
+| **Units** | SI units (mm for length, deg for angles) | ISO 80000 |
+| **Coordinate Frame** | Right-handed Cartesian (X forward, Y right, Z down) | Aerospace convention |
+| **Origin** | DATUM-GLOBAL-001 (launch adapter interface center) | Project-specific |
+| **Tolerances** | Positional: ±0.1mm to ±0.5mm; Angular: ±0.05° | Per feature type |
+
+### Metadata Fields
+
+| Field | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `identifier` | string | Yes | Unique ID per grammar |
+| `name` | string | Yes | Human-readable name |
+| `category` | enum | Yes | DATUM, ZONE, ENVELOPE |
+| `system` | string | Yes | System code |
+| `status` | enum | Yes | Active, Deprecated, Superseded |
+| `version` | string | Yes | CAD baseline version |
+| `owner` | string | Yes | Responsible team |
+| `cad_location` | string | Yes | Path in CAD model |
+
+### Coordinate Frame Definition
+
+```
+Origin: DATUM-GLOBAL-001 (Launch Vehicle Adapter Interface Center)
+X-axis: Forward (nose direction) - DATUM-GLOBAL-002
+Y-axis: Right (starboard)
+Z-axis: Down (nadir in launch config)
+Handedness: Right-handed
+Units: Millimeters (mm)
+```
+
+### Evidence and References
+
+| Evidence | Document ID | Status |
+| :--- | :--- | :--- |
+| Schema Definition (JSON) | `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.json` | Published |
+| Schema Documentation | `06_90_SCH_SB90_AMPEL360_SPACET_GEN_dimensional-data-schema_v01.md` | Published |
+| Dimensional Exports | `06_90_TAB_SB90_AMPEL360_SPACET_GEN_dimensional-exports_v01.json` | Published |
 
 ### Approval
 
