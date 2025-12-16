@@ -150,7 +150,7 @@ python validate_nomenclature.py "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description
 
 ```bash
 git add .
-git commit -m "fix: rename file to comply with nomenclature standard v3.0"
+git commit -m "fix: rename file to comply with nomenclature standard"
 git push
 ```
 
@@ -166,7 +166,7 @@ git push
 | Field | Format | Examples |
 | :--- | :--- | :--- |
 | ROOT | 2-3 digits | `00`, `06`, `24`, `100` |
-| BUCKET | `00\|10\|20\|30\|40\|50\|60\|70\|80\|90` | `00`, `70`, `90` |
+| BUCKET | One of: 00, 10, 20, 30, 40, 50, 60, 70, 80, 90 | `00`, `70`, `90` |
 | TYPE | 2-8 uppercase letters | `RPT`, `FHA`, `REQ`, `STD` |
 | SUBJECT | `LC01-LC14` (BUCKET=00) or `SB15-SB99` (BUCKET≠00) | `LC01`, `SB70` |
 | PROJECT | Fixed: `AMPEL360` | `AMPEL360` |
@@ -310,7 +310,7 @@ python scripts/validate_schema_registry.py --check-all --verbose
 | `00_00_STD_*.md` | Governance standard modification |
 | `.github/workflows/*.yml` | CI/CD workflow modification |
 | `validate_*.py` | Validation script modification |
-| `scripts/(check\|validate\|detect)*.py` | Governance script modification |
+| `scripts/check*.py`, `scripts/validate*.py`, `scripts/detect*.py` | Governance script modification |
 
 #### 3.3.3 Remediation Steps
 
