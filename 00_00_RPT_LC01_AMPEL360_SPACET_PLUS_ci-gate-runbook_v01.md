@@ -167,10 +167,10 @@ git push
 | :--- | :--- | :--- |
 | ROOT | 2-3 digits | `00`, `06`, `24`, `100` |
 | BUCKET | One of: 00, 10, 20, 30, 40, 50, 60, 70, 80, 90 | `00`, `70`, `90` |
-| TYPE | 2-8 uppercase letters | `RPT`, `FHA`, `REQ`, `STD` |
+| TYPE | 2-8 uppercase alphanumeric | `RPT`, `FHA`, `REQ`, `STD` |
 | SUBJECT | `LC01-LC14` (BUCKET=00) or `SB15-SB99` (BUCKET≠00) | `LC01`, `SB70` |
 | PROJECT | Fixed: `AMPEL360` | `AMPEL360` |
-| PROGRAM | Fixed: `SPACET` | `SPACET` |
+| PROGRAM | Allowlist: `SPACET` (extensible) | `SPACET` |
 | VARIANT | Uppercase with hyphens | `PLUS`, `GEN`, `SYS` |
 | DESCRIPTION | lowercase-kebab-case | `ci-gate-runbook`, `propulsion` |
 | VERSION | `vNN` (2 digits) | `v01`, `v02` |
@@ -732,7 +732,7 @@ python scripts/detect_new_types.py --directory .
 python scripts/detect_new_types.py --auto-suggest
 
 # Scaffold new file from template
-python scripts/scaffold.py 00 00 RPT LC01 PLUS description v01
+python scripts/scaffold.py 00 00 RPT LC01 AMPEL360 SPACET PLUS description v01
 ```
 
 ### Appendix C: Contact and Escalation
