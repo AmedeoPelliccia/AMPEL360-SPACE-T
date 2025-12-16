@@ -450,7 +450,7 @@ Exit codes:
             if not file_path.exists():
                 print(f"Error: File not found: {args.check_file}", file=sys.stderr)
                 return 2
-            if not file_path.suffix.lower() == '.md':
+            if file_path.suffix.lower() != '.md':
                 print(f"Error: Not a markdown file: {args.check_file}", file=sys.stderr)
                 return 2
             validator.validate_file(file_path, result)
