@@ -18,7 +18,6 @@ Usage:
     python scripts/validate_teknia_dedup.py --check-all
     python scripts/validate_teknia_dedup.py --check-hash
     python scripts/validate_teknia_dedup.py --check-namespace
-    python scripts/validate_teknia_dedup.py --registry <registry_file>
 
 Exit codes:
     0: All validations passed
@@ -496,6 +495,7 @@ class TekniaDedupValidator:
                     sources = set(loc[1] for loc in locations)
                     if len(sources) > 1:
                         # Multiple definitions in same namespace
+                        duplicates_found += 1
                         result.add_warning(
                             f"Identifier '{identifier}' appears in multiple files "
                             f"within namespace '{list(namespaces)[0]}': "
