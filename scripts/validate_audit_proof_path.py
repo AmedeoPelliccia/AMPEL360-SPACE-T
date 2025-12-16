@@ -27,6 +27,7 @@ import json
 import os
 import re
 import sys
+import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Any
@@ -36,19 +37,32 @@ from typing import Dict, List, Optional, Set, Tuple, Any
 # Constants and Patterns
 # =============================================================================
 
-# Identifier patterns based on identifier grammar standard
-IDENTIFIER_PATTERNS = {
-    'DATUM': re.compile(r'^DATUM-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$'),
-    'ZONE': re.compile(r'^ZONE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$'),
-    'ENVELOPE': re.compile(r'^ENVELOPE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$'),
-    'REQ': re.compile(r'^REQ-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$'),
-    'HAZ': re.compile(r'^HAZ-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$'),
-    'TC': re.compile(r'^TC-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$'),
-    'SCH': re.compile(r'^SCH-[A-Z0-9]{2,5}-\d{3,6}(-V\d{2})?$'),
-    'TRC': re.compile(r'^TRC-[A-Z0-9]{2,5}-[A-Z0-9]{2,5}-\d{3,6}$'),
-    'EVD': re.compile(r'^EVD-[A-Z0-9]{2,5}-\d{3,6}$'),
-    'BL': re.compile(r'^BL-\d{4}(-\d{2})?(-\d{2})?$'),
+# Identifier pattern strings - compiled lazily for performance
+_IDENTIFIER_PATTERN_STRINGS = {
+    'DATUM': r'^DATUM-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$',
+    'ZONE': r'^ZONE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$',
+    'ENVELOPE': r'^ENVELOPE-[A-Z0-9]+-[0-9]{3}(-[A-Z0-9]+)?$',
+    'REQ': r'^REQ-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$',
+    'HAZ': r'^HAZ-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$',
+    'TC': r'^TC-[A-Z0-9]{2,5}-\d{3,6}(-[A-Z0-9]{1,8})?$',
+    'SCH': r'^SCH-[A-Z0-9]{2,5}-\d{3,6}(-V\d{2})?$',
+    'TRC': r'^TRC-[A-Z0-9]{2,5}-[A-Z0-9]{2,5}-\d{3,6}$',
+    'EVD': r'^EVD-[A-Z0-9]{2,5}-\d{3,6}$',
+    'BL': r'^BL-\d{4}(-\d{2})?(-\d{2})?$',
 }
+
+# Cache for compiled patterns
+_IDENTIFIER_PATTERNS_CACHE: Dict[str, re.Pattern] = {}
+
+
+def get_identifier_patterns() -> Dict[str, re.Pattern]:
+    """Get compiled identifier patterns, using lazy compilation."""
+    global _IDENTIFIER_PATTERNS_CACHE
+    if not _IDENTIFIER_PATTERNS_CACHE:
+        for key, pattern_str in _IDENTIFIER_PATTERN_STRINGS.items():
+            _IDENTIFIER_PATTERNS_CACHE[key] = re.compile(pattern_str)
+    return _IDENTIFIER_PATTERNS_CACHE
+
 
 # Canonical identifier grammar (comprehensive pattern)
 CANONICAL_ID_PATTERN = re.compile(
@@ -237,17 +251,41 @@ class AuditProofPathValidator:
         Returns:
             IdentifierInfo if valid, None otherwise
         """
+        patterns = get_identifier_patterns()
+        
         # Try to match against known patterns
-        for category, pattern in IDENTIFIER_PATTERNS.items():
+        for category, pattern in patterns.items():
             if pattern.match(identifier):
                 parts = identifier.split('-')
-                return IdentifierInfo(
-                    identifier=identifier,
-                    category=parts[0] if len(parts) > 0 else "",
-                    system=parts[1] if len(parts) > 1 else "",
-                    sequence=parts[2] if len(parts) > 2 else "",
-                    variant=parts[3] if len(parts) > 3 else None
-                )
+                
+                # Handle different identifier structures
+                if category == 'BL':
+                    # BL identifiers: BL-YYYY or BL-YYYY-MM or BL-YYYY-MM-DD
+                    return IdentifierInfo(
+                        identifier=identifier,
+                        category='BL',
+                        system='BASELINE',
+                        sequence=parts[1] if len(parts) > 1 else "",
+                        variant='-'.join(parts[2:]) if len(parts) > 2 else None
+                    )
+                elif category in ('DATUM', 'ZONE', 'ENVELOPE'):
+                    # Standard pattern: CATEGORY-SYSTEM-SEQUENCE[-VARIANT]
+                    return IdentifierInfo(
+                        identifier=identifier,
+                        category=parts[0] if len(parts) > 0 else "",
+                        system=parts[1] if len(parts) > 1 else "",
+                        sequence=parts[2] if len(parts) > 2 else "",
+                        variant=parts[3] if len(parts) > 3 else None
+                    )
+                else:
+                    # Generic pattern: CATEGORY-SYSTEM-SEQUENCE[-VARIANT]
+                    return IdentifierInfo(
+                        identifier=identifier,
+                        category=parts[0] if len(parts) > 0 else "",
+                        system=parts[1] if len(parts) > 1 else "",
+                        sequence=parts[2] if len(parts) > 2 else "",
+                        variant=parts[3] if len(parts) > 3 else None
+                    )
         
         # Try canonical pattern as fallback
         if CANONICAL_ID_PATTERN.match(identifier):
@@ -261,6 +299,26 @@ class AuditProofPathValidator:
             )
         
         return None
+
+    def _identifier_in_content(self, identifier: str, content: str) -> bool:
+        """
+        Check if identifier appears in content with word boundaries.
+        
+        Uses precise matching to avoid false positives like 
+        'DATUM-GLOBAL-001' matching 'DATUM-GLOBAL-0012'.
+        
+        Args:
+            identifier: The identifier to search for
+            content: The text content to search in
+            
+        Returns:
+            True if identifier found with word boundaries
+        """
+        # Escape special regex characters in identifier
+        escaped_id = re.escape(identifier)
+        # Use word boundary or non-alphanumeric boundary for precise matching
+        pattern = rf'(?<![A-Z0-9-]){escaped_id}(?![A-Z0-9-])'
+        return bool(re.search(pattern, content))
 
     def _find_identifier_in_files(self, identifier: str) -> List[Path]:
         """
@@ -280,7 +338,7 @@ class AuditProofPathValidator:
                 continue
             try:
                 content = path.read_text(encoding='utf-8')
-                if identifier in content:
+                if self._identifier_in_content(identifier, content):
                     found_files.append(path)
             except (OSError, UnicodeDecodeError):
                 continue
@@ -291,7 +349,7 @@ class AuditProofPathValidator:
                 continue
             try:
                 content = path.read_text(encoding='utf-8')
-                if identifier in content:
+                if self._identifier_in_content(identifier, content):
                     found_files.append(path)
             except (OSError, UnicodeDecodeError):
                 continue
@@ -383,7 +441,7 @@ class AuditProofPathValidator:
                 continue
             try:
                 content = path.read_text(encoding='utf-8')
-                if identifier in content:
+                if self._identifier_in_content(identifier, content):
                     data = json.loads(content)
                     exports.append((path, data))
             except (json.JSONDecodeError, OSError, UnicodeDecodeError):
@@ -408,7 +466,7 @@ class AuditProofPathValidator:
             if trace_path.exists():
                 try:
                     content = trace_path.read_text(encoding='utf-8')
-                    if identifier in content:
+                    if self._identifier_in_content(identifier, content):
                         trace_links.append({
                             'file': str(trace_path),
                             'type': 'traceability_matrix',
@@ -423,7 +481,7 @@ class AuditProofPathValidator:
                 continue
             try:
                 content = path.read_text(encoding='utf-8')
-                if identifier in content:
+                if self._identifier_in_content(identifier, content):
                     trace_links.append({
                         'file': str(path),
                         'type': 'trace_document',
@@ -798,7 +856,7 @@ class AuditProofPathValidator:
                 continue
             try:
                 content = path.read_text(encoding='utf-8')
-                if identifier in content:
+                if self._identifier_in_content(identifier, content):
                     approval_info.append({
                         "file": str(path),
                         "status": "referenced"
@@ -1055,7 +1113,6 @@ Exit codes:
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         if args.verbose:
-            import traceback
             traceback.print_exc()
         return 2
 
