@@ -201,6 +201,7 @@ patterns:
   ata_root: "^(0[0-9]|[1-9][0-9]|1[0-1][0-6])$"
   family: "^Q[0-9]{2,3}$"
   # VERSION is brand + optional 2-digit iteration (R1.0 FINAL LOCK)
+  # First capture group is the brand root for extraction
   version: "^(PLUS|PLUSULTRA)([0-9]{2})?$"
   model: "^(BB|HW|SW|PR)$"
   phase: "^(LC(0[1-9]|1[0-4])|SB[0-9]{2})$"

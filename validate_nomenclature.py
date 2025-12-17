@@ -95,9 +95,6 @@ class NomenclatureValidator:
     # VERSION format pattern (v5.0)
     VERSION_PATTERN_V5 = re.compile(r'^v\d{2}$')
     
-    # VERSION format pattern (v6.0 - allowlist based)
-    VERSION_PATTERN_V6 = re.compile(r'^[A-Z]+$')
-    
     # ISSUE-REVISION pattern (v6.0)
     ISSUE_REVISION_PATTERN = re.compile(r'^I[0-9]{2}-R[0-9]{2}$')
     
@@ -313,14 +310,24 @@ class NomenclatureValidator:
             # Validate VERSION (R1.0 FINAL LOCK: brand + optional 2-digit iteration)
             version_pattern = re.compile(self.version_pattern_str)
             if not version_pattern.match(version):
+                # Extract brand roots for error message
+                brand_list = ', '.join(sorted(self.allowed_version_brands))
                 errors.append(
-                    f"Invalid VERSION '{version}': must match pattern (PLUS|PLUSULTRA)[0-9]{{2}}? (e.g., PLUS, PLUS01, PLUSULTRA02)"
+                    f"Invalid VERSION '{version}': must be a brand root ({brand_list}) "
+                    f"optionally followed by 2 digits (e.g., PLUS, PLUS01, PLUSULTRA02)"
                 )
             else:
-                # Check brand root is in allowlist
-                brand_root = version.rstrip('0123456789')
+                # Extract brand root using regex for robust parsing
+                brand_match = version_pattern.match(version)
+                if brand_match and brand_match.lastindex and brand_match.lastindex >= 1:
+                    brand_root = brand_match.group(1)  # First capture group is the brand
+                else:
+                    # Fallback: extract brand root by removing trailing digits
+                    brand_root = re.sub(r'\d+$', '', version)
+                
                 if brand_root not in self.allowed_version_brands:
-                    msg = f"Invalid VERSION brand '{brand_root}': must be one of {sorted(self.allowed_version_brands)}"
+                    brand_list = ', '.join(sorted(self.allowed_version_brands))
+                    msg = f"Invalid VERSION brand '{brand_root}': must be one of {brand_list}"
                     if self.strict:
                         errors.append(msg)
                     else:
