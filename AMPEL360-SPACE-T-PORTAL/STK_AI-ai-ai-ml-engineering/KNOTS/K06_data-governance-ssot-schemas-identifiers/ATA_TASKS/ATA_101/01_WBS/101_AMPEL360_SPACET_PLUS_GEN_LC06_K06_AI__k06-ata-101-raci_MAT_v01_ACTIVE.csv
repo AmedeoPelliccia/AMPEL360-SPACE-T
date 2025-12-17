@@ -1,0 +1,7 @@
+Task_ID,Task_Title,AI,DATA,CM,SE,CERT,TEST,V&V,Notes
+T001,SSOT Source & Ownership,R,A,C,C,I,I,I,Declares authoritative SSOT for sim/test run catalogs and evidence sources
+T002,Identifier Grammar,R,A,C,C,I,I,I,Defines canonical IDs for runs/campaigns/cases/datasets/evidence packs
+T003,Schema Definition,R,C,C,A,I,C,I,Stabilizes semantics for run metadata and evidence relationships
+T004,Export Publication,R,A,C,C,I,C,I,Defines deterministic export packs with manifests and evidence pointers
+T005,CI Validation Gates,R,C,A,C,I,I,I,Enforces provenance and traceability rules
+T006,Baseline Evidence Set,R,C,C,C,A,C,R,Produces frozen baseline set for certification-grade claims
