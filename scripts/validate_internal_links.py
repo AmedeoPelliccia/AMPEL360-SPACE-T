@@ -34,13 +34,12 @@ Usage:
 
 import argparse
 import csv
-import json
 import os
 import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Set, Any
+from typing import Dict, List, Optional, Tuple, Any
 from collections import defaultdict
 
 
@@ -212,6 +211,7 @@ class LinkIntegrityGate:
                     if f.endswith('.md') and (self.repo_root / f).exists()
                 ]
         except Exception:
+            # Git command failed (e.g., not in a git repo or no commits), fall back to glob
             pass
         return list(self.repo_root.rglob('*.md'))
     
@@ -811,7 +811,7 @@ Examples:
             print(f"{'[DRY-RUN] ' if args.dry_run else ''}Applying fixes...")
             print(f"{'='*70}")
             
-            files_updated = gate.fix(dry_run=args.dry_run)
+            _files_updated = gate.fix(dry_run=args.dry_run)  # noqa: F841 - used for side effects
             
             if not args.dry_run:
                 # Re-scan to verify fixes
