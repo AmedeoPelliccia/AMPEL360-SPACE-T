@@ -93,7 +93,7 @@ Each stakeholder has a dedicated workspace with a single, navigable **entry poin
 | **Spaceport/Airport Ops** | SPACEPORT | [stakeholder-spaceport-entrypoint](STK_SPACEPORT-spaceport-spaceport-airport-ops/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_SPACEPORT__stakeholder-spaceport-entrypoint_v01.md) | Ground operations, turnaround, fueling/servicing interfaces |
 | **IVVQ / Testing** | TEST | [stakeholder-test-entrypoint](STK_TEST-test-ivvq-testing/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_TEST__stakeholder-test-entrypoint_v01.md) | Verification strategy, test evidence nodes, qualification |
 
-📋 **Master Index**: [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-entrypoints_v01.md)
+📋 **Master Index**: [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_v01_ACTIVE.md)
 
 ### Cross-Stakeholder Collaboration
 
@@ -114,7 +114,7 @@ A **Backlog Knot** is a structured pathway for resolving program-wide uncertaint
 
 ### Active Knots Registry
 
-📊 **Knot Register**: [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_00_TAB_LC01_K00_DATA__knot-register_v01.csv)
+📊 **Knot Register**: [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv)
 
 | Knot ID | Title | Stakeholders | Affected ATAs |
 |:--------|:------|:-------------|:--------------|
@@ -498,7 +498,7 @@ AUTHORITY_PACK_<ID>/
 ### For Program Management
 
 1. **Monitor Knot Progress**
-   - Review [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_00_TAB_LC01_K00_DATA__knot-register_v01.csv)
+   - Review [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv)
    - Track NKU reduction across knots
 
 2. **Prioritize Backlog**
@@ -586,7 +586,7 @@ All artifacts in the portal **MUST** follow the Nomenclature Standard v1.0:
 
 **Validation**: `python validate_nomenclature.py <filename>`
 
-📖 **Full Standard**: [`00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v02.md)
+📖 **Full Standard**: [`00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v02_ACTIVE.md)
 
 ### CI/CD Enforcement
 
@@ -597,7 +597,7 @@ GitHub Actions automatically validate:
 - ✅ Duplicate detection
 - ✅ Type detection (new TYPE codes trigger review)
 
-📋 **CI Gates**: [`00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md)
+📋 **CI Gates**: [`00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__ci-governance-gates_IDX_v01_ACTIVE.md)
 
 ---
 
@@ -627,11 +627,11 @@ For repository structure, CI/CD, or tooling issues:
 
 | Resource | Link |
 |:---------|:-----|
-| Master Stakeholder Index | [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-entrypoints_v01.md) |
-| Knot Register | [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_00_TAB_LC01_K00_DATA__knot-register_v01.csv) |
-| Nomenclature Standard | [`../00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v02.md) |
-| Governance Policy | [`../00_00_STD_LC01_SPACET_governance-reference-policy_v01.md`](../00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__governance-reference-policy_v01.md) |
-| CI Gates | [`../00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md) |
+| Master Stakeholder Index | [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_v01_ACTIVE.md) |
+| Knot Register | [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv) |
+| Nomenclature Standard | [`../00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v02_ACTIVE.md) |
+| Governance Policy | [`../00_00_STD_LC01_SPACET_governance-reference-policy_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__governance-reference-policy_STD_v01_ACTIVE.md) |
+| CI Gates | [`../00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__ci-governance-gates_IDX_v01_ACTIVE.md) |
 | Main Repository README | [`../README.md`](../README.md) |
 
 ### Command Reference
