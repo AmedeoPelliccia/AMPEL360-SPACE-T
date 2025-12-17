@@ -133,18 +133,29 @@ All files must strictly adhere to the **canonical format**:
 
 **v5.0 migration:** v5.0 `PLUS` → v6.0 `GEN` (or context-appropriate mapping)
 
-### 4.6 `[VERSION]` (Allowlist - Config-Driven) **NEW in v6.0**
+### 4.6 `[VERSION]` (Allowlist - Config-Driven) **REDEFINED in v6.0, R1.0 FINAL LOCK**
 
-**Definition:** Branding reinforcer indicating product version line.
+**Definition:** Branding reinforcer indicating product version line, **with optional 2-digit iteration**.
 
-**Initial allowlist:**
+**Pattern (R1.0 FINAL LOCK):** `^(PLUS|PLUSULTRA)([0-9]{2})?$`
+
+**Initial allowlist (brand roots):**
 
 * `PLUS`: AMPEL360+ standard branding
 * `PLUSULTRA`: AMPEL360+ Ultra enhanced branding
 
-**Extension rule:** New VERSION values require CM change control and config update.
+**Iteration policy (R1.0 FINAL LOCK):**
+
+* VERSION may include optional 2-digit iteration suffix (01-99)
+* Examples: `PLUS`, `PLUS01`, `PLUS99`, `PLUSULTRA`, `PLUSULTRA01`, `PLUSULTRA02`
+* No iteration means base branding (e.g., `PLUS` = `PLUS` base version)
+* Iteration does not change the canonical format (non-breaking)
+
+**Extension rule:** New VERSION brand roots require CM change control and config update.
 
 **Governance:** VERSION changes require stakeholder communication and brand alignment.
+
+**Migration default:** No iteration suffix (e.g., `PLUS`, not `PLUS01`)
 
 ### 4.7 `[MODEL]` (Allowlist - Config-Driven) **NEW in v6.0**
 
@@ -224,7 +235,7 @@ All files must strictly adhere to the **canonical format**:
 
 **Extension rule:** New AoR values require CM approval and portal alignment.
 
-### 4.12 `[SUBJECT]` (Human-Readable Label)
+### 4.12 `[SUBJECT]` (Human-Readable Label) **R1.0 FINAL LOCK: Conditional Prefix Rules**
 
 **Format:** lowercase kebab-case (e.g., `thermal-loop`, `pressure-bulkhead-trade`)
 
@@ -235,12 +246,32 @@ All files must strictly adhere to the **canonical format**:
 * Be descriptive but concise
 * Avoid redundancy with TYPE
 
+**R1.0 FINAL LOCK: Conditional Prefix Requirements**
+
+When specific `VARIANT` values are used, `SUBJECT` **MUST** start with a mandatory prefix:
+
+1. **VARIANT = `CUST` (Customer-specific)**
+   * **Mandatory prefix:** `cust-<custcode>-`
+   * **custcode pattern:** `[a-z0-9]{2,12}` (2-12 alphanumeric characters, lowercase)
+   * **Example:** `cust-airbus-thermal-loop`, `cust-nasa-propulsion-system`
+   * **Rationale:** Ensures unique identification and traceability for customer-specific variants
+
+2. **VARIANT = `MSN` (Mission-specific)**
+   * **Mandatory prefix:** `msn-<serial>-`
+   * **serial pattern:** `[0-9]{3,6}` (3-6 digits)
+   * **Example:** `msn-000123-thermal-loop`, `msn-999999-avionics-bay`
+   * **Rationale:** Ensures unique identification and traceability for mission-specific variants
+
+**Enforcement:** Validator will reject filenames with `CUST` or `MSN` variants that do not have the required `SUBJECT` prefix.
+
 **Examples:**
 
-* `thermal-loop-overview`
-* `pressure-bulkhead-trade`
-* `certification-authority-basis`
-* `model-card-template`
+* `thermal-loop-overview` (valid for non-CUST/MSN variants)
+* `pressure-bulkhead-trade` (valid for non-CUST/MSN variants)
+* `cust-boeing-thermal-analysis` (valid for VARIANT=CUST)
+* `msn-001234-flight-test-config` (valid for VARIANT=MSN)
+* `certification-authority-basis` (valid for any variant)
+* `model-card-template` (valid for any variant)
 
 ### 4.13 `[TYPE]` (Allowlist - Config-Driven)
 
@@ -302,7 +333,36 @@ All files must strictly adhere to the **canonical format**:
 
 ---
 
-## 5. TEKNIA Credential Policy (v6.0)
+## 5. Normative Length Limits (R1.0 FINAL LOCK)
+
+To prevent future pressure for breaking redesign and ensure filesystem compatibility, the following length limits are **normative** and **enforced** by the validator:
+
+### 5.1 Filename Length
+
+* **Maximum filename length:** 180 characters (excluding path)
+* **Rationale:** Ensures compatibility with most filesystems while allowing reasonable descriptiveness
+* **Enforcement:** Validator rejects filenames exceeding 180 characters
+
+### 5.2 Token Length Limits
+
+| Token   | Max Length | Rationale                                        |
+|:--------|:-----------|:-------------------------------------------------|
+| BLOCK   | 12 chars   | Sufficient for domain abbreviations              |
+| SUBJECT | 60 chars   | Allows descriptive content labels                |
+| TYPE    | 8 chars    | Sufficient for artifact type codes               |
+| AoR     | 10 chars   | Covers all portal entry points (e.g., SPACEPORT) |
+
+**Enforcement:** Validator rejects filenames where any of these tokens exceed their maximum length.
+
+**Design principle:** These limits ensure:
+1. Readability and usability
+2. Filesystem compatibility
+3. Predictable space allocation
+4. Future-proofing against uncontrolled token expansion
+
+---
+
+## 6. TEKNIA Credential Policy (v6.0)
 
 TEKNIA outputs are **separate controlled artifacts** (credentials), not embedded into ordinary filenames beyond TYPE.
 
@@ -442,11 +502,26 @@ CI must additionally enforce:
 
 ## 7. Examples
 
-### 7.1 Valid v6.0 Examples
+### 7.1 Valid v6.0 R1.0 Examples
 
 **Lifecycle artifact (thermal overview, Q10 family, general variant, PLUS version, Body Brain model):**
 ```
 27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
+```
+
+**VERSION with iteration (R1.0 FINAL LOCK feature):**
+```
+27_AMPEL360_SPACET_Q10_GEN_PLUS01_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
+```
+
+**Customer-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK):**
+```
+27_AMPEL360_SPACET_Q10_CUST_PLUS01_SW_OPS_LC03_K06_SE__cust-airbus-thermal-loop_STD_I01-R01_DRAFT.md
+```
+
+**Mission-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK):**
+```
+27_AMPEL360_SPACET_Q100_MSN_PLUSULTRA02_HW_OPS_LC03_K06_SE__msn-000123-thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 
 **Domain artifact (pressure bulkhead trade study, Q100 family, cert variant):**
@@ -469,7 +544,7 @@ CI must additionally enforce:
 00_AMPEL360_SPACET_Q100_FLIGHTTEST_PLUS_SW_SW_SB40_K02_SAF__software-safety-reqs_REQ_I03-R02_APPROVED.md
 ```
 
-### 7.2 Invalid Examples
+### 7.2 Invalid Examples (with R1.0 FINAL LOCK violations)
 
 **Missing ISSUE-REVISION field (v5.0 format):**
 ```
@@ -506,6 +581,30 @@ CI must additionally enforce:
 27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I1-R1_ACTIVE.md
 ```
 ❌ Non-compliant: ISSUE-REVISION must be I##-R## with zero-padding (I01-R01, not I1-R1)
+
+**R1.0 FINAL LOCK: Invalid VERSION pattern:**
+```
+27_AMPEL360_SPACET_Q10_GEN_PLUS1_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+```
+❌ Non-compliant: VERSION iteration must be 2 digits (PLUS01, not PLUS1)
+
+**R1.0 FINAL LOCK: CUST variant without required SUBJECT prefix:**
+```
+27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_DRAFT.md
+```
+❌ Non-compliant: VARIANT=CUST requires SUBJECT to start with `cust-<custcode>-`
+
+**R1.0 FINAL LOCK: MSN variant without required SUBJECT prefix:**
+```
+27_AMPEL360_SPACET_Q10_MSN_PLUS_HW_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+```
+❌ Non-compliant: VARIANT=MSN requires SUBJECT to start with `msn-<serial>-`
+
+**R1.0 FINAL LOCK: Filename exceeding length limit:**
+```
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__this-is-an-extremely-long-subject-name-that-goes-on-and-on-and-exceeds-the-maximum-allowed-length-for-the-subject-field-which-is-sixty-characters_STD_I01-R01_ACTIVE.md
+```
+❌ Non-compliant: Filename or token exceeds length limits
 
 ---
 
