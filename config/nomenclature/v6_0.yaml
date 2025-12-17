@@ -81,26 +81,22 @@ allowlists:
     - PR               # Process/Procedure
     # Future models added via CM approval
   
-  # BLOCK allowlist (domain classification / module)
-  # Replaces v5.0 BLOCK with v6.0 semantics
+  # BLOCK allowlist (domain partition system - OPTINS Framework aligned)
+  # B00 is universal/implicit (always applies)
+  # B10-B90 are domain-specific partitions (10-step increments)
+  # See ATA_PARTITION_MATRIX.yaml for complete ATA_ROOT to BLOCK mapping
   # Extension requires CM change control
   blocks:
-    - OPS      # Operations
-    - STR      # Structures
-    - PROP     # Propulsion
-    - AI       # AI/ML Systems
-    - DATA     # Data Governance
-    - CERT     # Certification
-    - SAF      # Safety
-    - SW       # Software
-    - HW       # Hardware
-    - SYS      # Systems Engineering
-    - TEST     # Testing/IVVQ
-    - MRO      # Maintenance/MRO
-    - CIRC     # Circularity
-    - ENRG     # Energy
-    - STOR     # Storages
-    - GEN      # General/Cross-cutting
+    - B00      # GENERAL (universal baseline, implicit)
+    - B10      # OPERATIONAL SYSTEMS (onboard/offboard/simtest)
+    - B20      # CYBERSECURITY (digital + onboard)
+    - B30      # DATA, COMMS AND REGISTRY (digital + onboard)
+    - B40      # PHYSICS (pressure/thermal/crio/...) (onboard + simtest)
+    - B50      # PHYSICAL (aerostructures + info HW) (onboard/offboard)
+    - B60      # DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) (onboard + simtest)
+    - B70      # RECIPROCITY & ALTERNATIVE ENGINES (onboard + simtest)
+    - B80      # RENEWABLE ENERGY & CIRCULARITY (onboard + offboard)
+    - B90      # CONNECTIONS & MAPPING (digital + onboard)
   
   # AoR allowlist (Area of Responsibility / Portal Entry Points)
   # Must match portal entry points exactly (no STK_ prefix)
@@ -204,6 +200,8 @@ patterns:
   # First capture group is the brand root for extraction
   version: "^(PLUS|PLUSULTRA)([0-9]{2})?$"
   model: "^(BB|HW|SW|PR)$"
+  # BLOCK is B## format (00-90 in increments of 10)
+  block: "^B([0-9]0)$"
   phase: "^(LC(0[1-9]|1[0-4])|SB[0-9]{2})$"
   knot_task: "^K(0[1-9]|1[0-4])(-T[0-9]{3})?$"
   subject: "^[a-z0-9]+(-[a-z0-9]+)*$"
@@ -220,7 +218,7 @@ patterns:
 limits:
   filename_max_len: 180               # Max total filename length (excluding path)
   token_max_len:
-    block: 12                         # Max BLOCK token length
+    block: 3                          # Max BLOCK token length (B## format)
     subject: 60                       # Max SUBJECT token length
     type: 8                           # Max TYPE token length
     aor: 10                           # Max AoR token length
@@ -429,6 +427,7 @@ migration:
   default_version: "PLUS"       # Default to PLUS branding
   default_model: "BB"           # Default to Body Brain model
   default_issue_revision: "I01-R01"  # Default issue-revision
+  default_block: "B10"          # Default BLOCK (operational systems)
   
   # v5.0 VARIANT → v6.0 VARIANT mapping
   v5_variant_to_v6_variant:
@@ -436,11 +435,46 @@ migration:
     CERT: "CERT"      # CERT stays CERT
     GEN: "GEN"        # GEN stays GEN
   
+  # Legacy BLOCK (v5.0 abbreviations) → New B## format mapping
+  # For reference only; actual migration requires manual review per ATA_PARTITION_MATRIX
+  legacy_block_to_b##:
+    OPS: "B10"       # Operations → Operational Systems
+    STR: "B50"       # Structures → Physical
+    PROP: "B60"      # Propulsion → Dynamics
+    AI: "B20"        # AI/ML → Cybersecurity
+    DATA: "B30"      # Data → Data, Comms and Registry
+    CERT: "B10"      # Certification → Operational Systems
+    SAF: "B10"       # Safety → Operational Systems
+    SW: "B20"        # Software → Cybersecurity
+    HW: "B50"        # Hardware → Physical
+    SYS: "B10"       # Systems → Operational Systems
+    TEST: "B10"      # Testing → Operational Systems
+    MRO: "B10"       # MRO → Operational Systems
+    CIRC: "B80"      # Circularity → Renewable Energy & Circularity
+    ENRG: "B80"      # Energy → Renewable Energy & Circularity
+    STOR: "B50"      # Storage → Physical
+    GEN: "B10"       # General → Operational Systems
+  
   # Default STATUS for existing files
   default_status: "ACTIVE"
   
   # K00 handling (v4.0 global artifacts)
   k00_policy: "Manual review required - map to appropriate K01-K14"
+
+# OPTINS Framework Integration
+optins_framework:
+  version: "v1.1"
+  ata_partition_matrix: "config/nomenclature/ATA_PARTITION_MATRIX.yaml"
+  description: "ATA_PARTITION_MATRIX defines which BLOCK values are valid for each ATA_ROOT"
+  solution_packs:
+    pattern: "SPK_{DESIGNATION}_ATA{ROOT}_B{BLOCK}_SV{VERSION}"
+    designations:
+      - COM         # Common baseline (AIRT + SPACET)
+      - AIRT        # AIRT-only addendum
+      - SPACET      # SPACET-only addendum
+  enforcement: 
+    validate_ata_block_mapping: true
+    description: "Validators must check that BLOCK values are valid for the given ATA_ROOT"
 
 # Change control
 change_control:
@@ -450,12 +484,14 @@ change_control:
     - "New VARIANT values"
     - "New VERSION values"
     - "New MODEL values"
-    - "New BLOCK values"
+    - "New BLOCK values (domain partitions)"
     - "New AoR values"
     - "New TYPE values"
     - "New STATUS values"
     - "New file extensions"
     - "New KNOT IDs (requires standard upgrade)"
+    - "New ATA_ROOT to BLOCK mappings"
+    - "New Solution Pack designations"
   
   process:
     - "Submit change request to CM WG"
