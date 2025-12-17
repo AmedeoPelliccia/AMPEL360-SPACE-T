@@ -2,11 +2,12 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 4.0
-Date: 2025-12-16
-Standard: Nomenclature Standard v4.0 (Normative)
+Version: 5.0
+Date: 2025-12-17
+Standard: Nomenclature Standard v5.0 (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
+Config-driven validation using config/nomenclature/v5_0.yaml
 
 Usage:
     python validate_nomenclature.py <filename>
@@ -22,8 +23,9 @@ Exit codes:
 import argparse
 import re
 import sys
+import yaml
 from pathlib import Path
-from typing import List
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 
@@ -37,117 +39,121 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard v4.0."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v5.0."""
     
-    # Primary regex pattern (12 fields) - v4.0 format
+    # Default config path
+    DEFAULT_CONFIG_PATH = "config/nomenclature/v5_0.yaml"
+    
+    # Primary regex pattern (v5.0 format)
     PRIMARY_PATTERN = re.compile(
-        r'^(?P<root>\d{2,3})_'
+        r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|1[0-1][0-6]))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
-        r'(?P<bucket>00|10|20|30|40|50|60|70|80|90)_'
-        r'(?P<type>[A-Z0-9]{2,8})_'
-        r'(?P<lcsb>(LC(0[1-9]|1[0-4])|SB(1[5-9]|[2-9]\d)))_'
-        r'(?P<knot>K(00|[0-9]{2}))_'
-        r'(?P<aor>CM|CERT|AI|DATA|OPS|SE|SAF|PMO|CY|TEST|MRO|SPACEPORT)__'
-        r'(?P<desc>[a-z0-9]+(?:-[a-z0-9]+)*)_'
-        r'(?P<ver>v\d{2})'
+        r'(?P<block>[A-Z0-9]+)_'
+        r'(?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_'
+        r'(?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_'
+        r'(?P<aor>[A-Z]+)__'
+        r'(?P<subject>[a-z0-9]+(?:-[a-z0-9]+)*)_'
+        r'(?P<type>[A-Z0-9]+)_'
+        r'(?P<version>v[0-9]{2})_'
+        r'(?P<status>[A-Z]+)'
         r'\.(?P<ext>[a-z0-9]{1,6})$'
     )
     
     # LC stage pattern (LC01-LC14)
     LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
     
-    # SB stage pattern (SB15-SB99)
-    SB_PATTERN = re.compile(r'^SB(1[5-9]|[2-9]\d)$')
+    # SB stage pattern (SB01-SB99)
+    SB_PATTERN = re.compile(r'^SB(0[1-9]|[1-9][0-9])$')
+    
+    # KNOT_TASK pattern (K01-K14 with optional -T###)
+    KNOT_TASK_PATTERN = re.compile(r'^K(0[1-9]|1[0-4])(?:-T[0-9]{3})?$')
     
     # VERSION format pattern
     VERSION_PATTERN = re.compile(r'^v\d{2}$')
     
-    # Allowed buckets
-    ALLOWED_BUCKETS = {'00', '10', '20', '30', '40', '50', '60', '70', '80', '90'}
-    
     # Allowed PROJECT values (hard constraint)
     ALLOWED_PROJECTS = {'AMPEL360'}
     
-    # Allowed PROGRAM values (extensible allowlist)
+    # Allowed PROGRAM values (fixed)
     ALLOWED_PROGRAMS = {'SPACET'}
     
-    # Allowed AoR values (portal entry points) - NEW in v4.0
-    ALLOWED_AORS = {
-        'CM', 'CERT', 'AI', 'DATA', 'OPS', 'SE', 'SAF', 
-        'PMO', 'CY', 'TEST', 'MRO', 'SPACEPORT'
-    }
-    
-    # TRIGGER_KNOT pattern - NEW in v4.0
-    KNOT_PATTERN = re.compile(r'^K(00|[0-9]{2})$')
-    
-    # Bucket-specific subbucket ranges
-    BUCKET_SUBBUCKET_RANGES = {
-        '10': [(15, 19), (80, 85)],  # Operations: SB15-SB19 + SB80-SB85
-        '20': [(20, 29)],             # Primary Subsystem: SB20-SB29
-        '30': [(30, 39)],             # Circularity: SB30-SB39
-        '40': [(40, 49)],             # Software: SB40-SB49
-        '50': [(50, 59)],             # Structures: SB50-SB59
-        '60': [(60, 69)],             # Storages: SB60-SB69
-        '70': [(70, 79)],             # Propulsion: SB70-SB79
-        '80': [(86, 89)],             # Energy: SB86-SB89
-        '90': [(90, 99)],             # Tables/Schemas/Diagrams/Reference: SB90-SB99
-    }
-    
-    # Approved TYPE vocabulary
-    APPROVED_TYPES = {
-        # Planning / Control
-        'PLAN', 'MIN', 'RPT', 'LOG', 'ACT', 'IDX',
-        # Safety Analyses
-        'FHA', 'PSSA', 'SSA', 'FTA', 'ANA',
-        # Requirements / Allocation
-        'REQ', 'DAL', 'TRC',
-        # Data / Reference
-        'CAT', 'LST', 'GLO', 'MAT', 'SCH', 'DIA', 'TAB', 'STD'
-    }
-    
-    # Files to exclude from validation
-    EXCLUDED_FILES = {
-        'README.md', 'USAGE.md', 'LICENSE', 'EXAMPLES.md', 
-        'STRUCTURE_SUMMARY.md', '.gitignore', '.gitattributes',
-        '00_INDEX_README.md', 'Dependencies.yaml', 
-        'Traceability_Matrix.csv', 'Prompt_to_Artifact_Map.csv',
-        'CAOS_Agent_Config.yaml', 'CAE_Agent_Config.yaml', 
-        'CAD_Agent_Config.yaml', 'CAM_Agent_Config.yaml',
-        'IMPLEMENTATION_SUMMARY.md', 'REVIEW_NOTES.md',
-        'NOMENCLATURE_V3_AUDIT_REPORT.md',
-        '.gitkeep'
-    }
-    
-    # File patterns to exclude from validation
-    EXCLUDED_PATTERNS = [
-        r'.*-xx_.*',  # Template files with -xx pattern
-        r'generate_.*\.py',  # Generator scripts
-        r'validate_.*\.py',  # Validation scripts
-        r'scaffold\.py',  # Scaffolding script
-        r'pre-commit',  # Git hooks
-        r'.*\.py[cod]$',  # Python bytecode
-        r'.*_Agent_Config\.(yaml|json|yml)$',  # Agent config files
-        r'.*_Config\.(yaml|json|yml)$',  # Config files
-    ]
-    
-    # Directories to exclude from validation
-    EXCLUDED_DIRS = {
-        '.git', '.github', 'node_modules', '__pycache__',
-        '.pytest_cache', '.venv', 'venv', 'dist', 'build',
-        'templates',  # Template source files for scaffolding
-        'scripts'  # Utility scripts
-    }
-    
-    def __init__(self, strict: bool = True):
+    def __init__(self, config_path: Optional[str] = None, strict: bool = True):
         """
         Initialize validator.
         
         Args:
-            strict: If True, enforce TYPE vocabulary; if False, only warn
+            config_path: Path to config YAML file (default: config/nomenclature/v5_0.yaml)
+            strict: If True, enforce all vocabulary; if False, only warn
         """
         self.strict = strict
+        self.config = self._load_config(config_path or self.DEFAULT_CONFIG_PATH)
+        
+        # Extract allowlists from config
+        allowlists = self.config.get('allowlists', {})
+        self.allowed_variants = set(allowlists.get('variants', []))
+        self.allowed_blocks = set(allowlists.get('blocks', []))
+        self.allowed_aors = set(allowlists.get('aors', []))
+        self.allowed_types = set(allowlists.get('types', []))
+        self.allowed_statuses = set(allowlists.get('statuses', []))
+        self.allowed_extensions = set(allowlists.get('extensions', []))
+        
+        # Extract exemptions from config
+        exemptions = self.config.get('exemptions', {})
+        self.excluded_files = set(exemptions.get('files', []))
+        self.excluded_dirs = set(exemptions.get('directories', []))
+        self.excluded_patterns = exemptions.get('patterns', [])
+        
+        # Extract phase-block mapping
+        self.phase_block_mapping = self.config.get('phase_block_mapping', {})
+        
+        # Extract KNOT governance
+        knot_config = self.config.get('knots', {})
+        allowed_range = knot_config.get('allowed_range', {})
+        self.knot_min = allowed_range.get('min', 1)
+        self.knot_max = allowed_range.get('max', 14)
+    
+    def _load_config(self, config_path: str) -> Dict[str, Any]:
+        """Load configuration from YAML file."""
+        try:
+            path = Path(config_path)
+            if not path.exists():
+                # Try relative to script directory
+                script_dir = Path(__file__).parent
+                path = script_dir / config_path
+            
+            if not path.exists():
+                print(f"Warning: Config file not found at {config_path}, using defaults", file=sys.stderr)
+                return self._get_default_config()
+            
+            with open(path, 'r') as f:
+                config = yaml.safe_load(f)
+                return config or {}
+        except Exception as e:
+            print(f"Warning: Failed to load config from {config_path}: {e}, using defaults", file=sys.stderr)
+            return self._get_default_config()
+    
+    def _get_default_config(self) -> Dict[str, Any]:
+        """Return default configuration if config file is not available."""
+        return {
+            'allowlists': {
+                'variants': ['PLUS'],
+                'blocks': ['OPS', 'STR', 'PROP', 'AI', 'DATA', 'CERT', 'SAF', 'SW', 'HW', 'SYS', 'TEST', 'MRO', 'CIRC', 'ENRG', 'STOR', 'GEN'],
+                'aors': ['CM', 'CERT', 'SAF', 'SE', 'OPS', 'DATA', 'AI', 'CY', 'TEST', 'MRO', 'SPACEPORT', 'PMO', 'QA', 'SEC', 'LEG', 'FIN', 'PROC'],
+                'types': ['IDX', 'STD', 'PLAN', 'MIN', 'RPT', 'LOG', 'ACT', 'FHA', 'PSSA', 'SSA', 'FTA', 'ANA', 'REQ', 'DAL', 'TRC', 'CAT', 'LST', 'GLO', 'MAT', 'SCH', 'DIA', 'TAB', 'SPEC', 'PLN', 'PROC', 'MAN', 'API', 'CFG', 'JSON', 'YAML'],
+                'statuses': ['TEMPLATE', 'DRAFT', 'ACTIVE', 'APPROVED', 'RELEASED', 'SUPERSEDED', 'ARCHIVED'],
+                'extensions': ['md', 'yml', 'yaml', 'json', 'csv', 'svg', 'png', 'jpg', 'jpeg', 'pdf', 'drawio']
+            },
+            'exemptions': {
+                'files': ['README.md', 'LICENSE', 'EXAMPLES.md', '.gitignore', '.gitattributes'],
+                'directories': ['.git', '.github', 'node_modules', '__pycache__', 'templates', 'scripts', 'tools'],
+                'patterns': ['generate_.*\\.py', 'validate_.*\\.py', '.*_Agent_Config\\.(yaml|json|yml)']
+            },
+            'knots': {
+                'allowed_range': {'min': 1, 'max': 14}
+            }
+        }
     
     def validate_filename(self, filename: str) -> ValidationResult:
         """
@@ -163,11 +169,11 @@ class NomenclatureValidator:
         warnings = []
         
         # Check if file should be excluded
-        if filename in self.EXCLUDED_FILES:
+        if filename in self.excluded_files:
             return ValidationResult(filename, True, [], [])
         
         # Check if filename matches any excluded pattern
-        for pattern in self.EXCLUDED_PATTERNS:
+        for pattern in self.excluded_patterns:
             if re.match(pattern, filename):
                 return ValidationResult(filename, True, [], [])
         
@@ -176,28 +182,33 @@ class NomenclatureValidator:
         
         if not match:
             errors.append(
-                "Filename does not match required pattern (v4.0): "
-                "[ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BUCKET]_[TYPE]_[LC|SB]_[TRIGGER_KNOT]_[AoR]__[DESCRIPTION]_[VERSION].[EXT]"
+                "Filename does not match required pattern (v5.0): "
+                "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
             )
             return ValidationResult(filename, False, errors, warnings)
         
         # Extract components
         components = match.groupdict()
-        root = components['root']
+        ata_root = components['ata_root']
         project = components['project']
         program = components['program']
         variant = components['variant']
-        bucket = components['bucket']
-        type_code = components['type']
-        lcsb = components['lcsb']
-        knot = components['knot']
+        block = components['block']
+        phase = components['phase']
+        knot_task = components['knot_task']
         aor = components['aor']
-        desc = components['desc']
-        version = components['ver']
+        subject = components['subject']
+        type_code = components['type']
+        version = components['version']
+        status = components['status']
+        ext = components['ext']
         
-        # Validate BUCKET
-        if bucket not in self.ALLOWED_BUCKETS:
-            errors.append(f"Invalid BUCKET '{bucket}': must be one of {sorted(self.ALLOWED_BUCKETS)}")
+        # Validate ATA_ROOT padding
+        ata_num = int(ata_root)
+        if ata_num < 100 and len(ata_root) != 2:
+            errors.append(f"ATA_ROOT '{ata_root}' must be 2 digits for values <100")
+        elif ata_num >= 100 and len(ata_root) != 3:
+            errors.append(f"ATA_ROOT '{ata_root}' must be 3 digits for values ≥100")
         
         # Validate PROJECT (hard constraint)
         if project not in self.ALLOWED_PROJECTS:
@@ -205,75 +216,83 @@ class NomenclatureValidator:
                 f"Invalid PROJECT '{project}': must be AMPEL360 (hard constraint)"
             )
         
-        # Validate PROGRAM (allowlist)
+        # Validate PROGRAM (fixed value)
         if program not in self.ALLOWED_PROGRAMS:
             errors.append(
-                f"Invalid PROGRAM '{program}': must be one of {sorted(self.ALLOWED_PROGRAMS)}"
+                f"Invalid PROGRAM '{program}': must be SPACET"
             )
         
-        # Validate TRIGGER_KNOT format (NEW in v4.0)
-        if not self.KNOT_PATTERN.match(knot):
-            errors.append(
-                f"Invalid TRIGGER_KNOT '{knot}': must be K00 or K01-K99"
-            )
-        
-        # Validate AoR allowlist (NEW in v4.0)
-        if aor not in self.ALLOWED_AORS:
-            errors.append(
-                f"Invalid AoR '{aor}': must be one of {sorted(self.ALLOWED_AORS)}"
-            )
-        
-        # Validate TYPE vocabulary
-        if type_code not in self.APPROVED_TYPES:
-            msg = f"TYPE '{type_code}' not in approved vocabulary: {sorted(self.APPROVED_TYPES)}"
+        # Validate VARIANT allowlist
+        if variant not in self.allowed_variants:
+            msg = f"Invalid VARIANT '{variant}': must be one of {sorted(self.allowed_variants)}"
             if self.strict:
                 errors.append(msg)
             else:
                 warnings.append(msg)
         
-        # Validate LC|SB conditional rules
-        if bucket == '00':
-            # BUCKET=00 requires LC stage
-            if not self.LC_PATTERN.match(lcsb):
-                errors.append(
-                    f"BUCKET=00 requires LC|SB to be LC01-LC14, got '{lcsb}'"
-                )
-        else:
-            # BUCKET≠00 requires SB stage
-            if not self.SB_PATTERN.match(lcsb):
-                errors.append(
-                    f"BUCKET={bucket} requires LC|SB to be SB format, got '{lcsb}'"
-                )
+        # Validate BLOCK allowlist
+        if block not in self.allowed_blocks:
+            msg = f"Invalid BLOCK '{block}': must be one of {sorted(self.allowed_blocks)}"
+            if self.strict:
+                errors.append(msg)
             else:
-                # Validate bucket-specific subbucket range
-                if bucket in self.BUCKET_SUBBUCKET_RANGES:
-                    try:
-                        # Extract numeric part from lcsb (e.g., "SB15" -> 15)
-                        sb_num = int(lcsb[2:])
-                        ranges = self.BUCKET_SUBBUCKET_RANGES[bucket]
-                        
-                        # Check if subbucket number is in any of the allowed ranges for this bucket
-                        in_range = any(start <= sb_num <= end for start, end in ranges)
-                        
-                        if not in_range:
-                            # Format ranges for error message
-                            range_strs = [f"SB{start:02d}-SB{end:02d}" for start, end in ranges]
-                            allowed = " or ".join(range_strs)
-                            errors.append(
-                                f"BUCKET={bucket} requires LC|SB to be {allowed}, got '{lcsb}'"
-                            )
-                    except (ValueError, IndexError):
-                        # This should not happen if SB_PATTERN matched, but handle defensively
-                        errors.append(
-                            f"Invalid subbucket format '{lcsb}' for BUCKET={bucket}"
-                        )
+                warnings.append(msg)
         
-        # Check for redundancy in DESCRIPTION
-        desc_lower = desc.lower()
+        # Validate PHASE format
+        if not (self.LC_PATTERN.match(phase) or self.SB_PATTERN.match(phase)):
+            errors.append(
+                f"Invalid PHASE '{phase}': must be LC01-LC14 or SB01-SB99"
+            )
+        
+        # Validate KNOT_TASK (strict K01-K14 governance)
+        if not self.KNOT_TASK_PATTERN.match(knot_task):
+            errors.append(
+                f"Invalid KNOT_TASK '{knot_task}': must be K01-K14 (optionally with -T001 to -T999)"
+            )
+        else:
+            # Extract knot number and validate range
+            knot_match = re.match(r'^K(\d{2})', knot_task)
+            if knot_match:
+                knot_num = int(knot_match.group(1))
+                if knot_num < self.knot_min or knot_num > self.knot_max:
+                    errors.append(
+                        f"Invalid KNOT number in '{knot_task}': must be K{self.knot_min:02d}-K{self.knot_max:02d} (strict governance)"
+                    )
+        
+        # Validate AoR allowlist
+        if aor not in self.allowed_aors:
+            errors.append(
+                f"Invalid AoR '{aor}': must be one of {sorted(self.allowed_aors)}"
+            )
+        
+        # Validate TYPE allowlist
+        if type_code not in self.allowed_types:
+            msg = f"Invalid TYPE '{type_code}': must be one of {sorted(self.allowed_types)}"
+            if self.strict:
+                errors.append(msg)
+            else:
+                warnings.append(msg)
+        
+        # Validate STATUS allowlist
+        if status not in self.allowed_statuses:
+            errors.append(
+                f"Invalid STATUS '{status}': must be one of {sorted(self.allowed_statuses)}"
+            )
+        
+        # Validate EXT allowlist
+        if ext not in self.allowed_extensions:
+            msg = f"Invalid EXT '{ext}': must be one of {sorted(self.allowed_extensions)}"
+            if self.strict:
+                errors.append(msg)
+            else:
+                warnings.append(msg)
+        
+        # Check for redundancy in SUBJECT
+        subject_lower = subject.lower()
         type_lower = type_code.lower()
-        if type_lower in desc_lower and type_lower != desc_lower:
+        if type_lower in subject_lower and type_lower != subject_lower:
             warnings.append(
-                f"DESCRIPTION '{desc}' may redundantly include TYPE '{type_code}'"
+                f"SUBJECT '{subject}' may redundantly include TYPE '{type_code}'"
             )
         
         # Validate VERSION format
@@ -314,7 +333,7 @@ class NomenclatureValidator:
                     results.append(self.validate_file_path(path))
         else:
             for path in directory.iterdir():
-                if path.is_file() and path.name not in self.EXCLUDED_FILES:
+                if path.is_file() and path.name not in self.excluded_files:
                     results.append(self.validate_file_path(path))
         
         return results
@@ -323,15 +342,15 @@ class NomenclatureValidator:
         """Check if path should be excluded from validation."""
         # Check if any parent directory is excluded
         for parent in path.parents:
-            if parent.name in self.EXCLUDED_DIRS:
+            if parent.name in self.excluded_dirs:
                 return True
         
         # Check if filename is excluded
-        if path.name in self.EXCLUDED_FILES:
+        if path.name in self.excluded_files:
             return True
         
         # Check if filename matches any excluded pattern
-        for pattern in self.EXCLUDED_PATTERNS:
+        for pattern in self.excluded_patterns:
             if re.match(pattern, path.name):
                 return True
         
@@ -356,13 +375,13 @@ def print_result(result: ValidationResult, verbose: bool = False) -> None:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Validate filenames against AMPEL360 Space-T nomenclature standard',
+        description='Validate filenames against AMPEL360 Space-T nomenclature standard v5.0',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s 00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_v01.md
+  %(prog)s 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
   %(prog)s --check-all
-  %(prog)s --check-dir ./AMPEL360-SPACE-T-PORTAL
+  %(prog)s --check-dir ./docs
   %(prog)s --check-all --strict
         """
     )
@@ -383,16 +402,21 @@ Examples:
         help='Check all files in specified directory'
     )
     parser.add_argument(
+        '--config',
+        metavar='CONFIG',
+        help='Path to config YAML file (default: config/nomenclature/v5_0.yaml)'
+    )
+    parser.add_argument(
         '--strict',
         action='store_true',
         default=True,
-        help='Enforce TYPE vocabulary (default: True)'
+        help='Enforce all vocabularies strictly (default: True)'
     )
     parser.add_argument(
         '--no-strict',
         dest='strict',
         action='store_false',
-        help='Do not enforce TYPE vocabulary strictly'
+        help='Do not enforce vocabularies strictly (only warn)'
     )
     parser.add_argument(
         '--verbose',
@@ -407,7 +431,7 @@ Examples:
     if not any([args.filename, args.check_all, args.check_dir]):
         parser.error('Must specify filename, --check-all, or --check-dir')
     
-    validator = NomenclatureValidator(strict=args.strict)
+    validator = NomenclatureValidator(config_path=args.config, strict=args.strict)
     results = []
     
     try:
@@ -451,6 +475,8 @@ Examples:
         
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
         return 2
 
 
