@@ -165,7 +165,6 @@ This ensures:
 | `STD` | `templates/STD.md` | Standards and specifications |
 
 ### Template Placeholders
-### Template Placeholders
 
 **v5.0 Placeholders:**
 - `{{ATA_ROOT}}` - ATA chapter code
