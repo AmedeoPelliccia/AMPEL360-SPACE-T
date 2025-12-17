@@ -14,7 +14,7 @@ generated: "2025-12-15"
 # K01 — RACI & Decision Rights (Diagram)
 
 ## Links (GitHub-navigable)
-- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md)**
+- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-assets-index_IDX_I01-R01_ACTIVE.md)**
 - Compliance workflow (MD): **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md](./00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__k01-compliance-workflow_I01-R01.md)**
 - Authority model overview (SVG): **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-authority-model-overview_I01-R01.svg](./00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__k01-authority-model-overview_I01-R01.svg)**
 

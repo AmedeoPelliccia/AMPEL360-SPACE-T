@@ -18,10 +18,10 @@ This document is the controlled **decision log** for **K01 / ATA 00 (General / P
 It records certification-basis and authority-facing decisions, including rationale, approvals, and mandatory links to evidence artifacts.
 
 ## 2. Quick Links (mandatory)
-- Evidence summary (RPT): **[00_00_RPT_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-summary_I01-R01.md](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-summary_I01-R01.md)**
-- Evidence inventory (LST): **[00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-inventory_I01-R01.md](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_I01-R01.md)**
+- Evidence summary (RPT): **[00_00_RPT_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-summary_I01-R01.md](../EVIDENCE/00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-summary_RPT_I01-R01_ACTIVE.md)**
+- Evidence inventory (LST): **[00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-inventory_I01-R01.md](../EVIDENCE/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_LST_I01-R01_ACTIVE.md)**
 - Evidence pack manifest (SCH): **[00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-manifest_I01-R01.json](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_I01-R01.json)**
-- Acceptance criteria (REQ): **[00_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-acceptance-criteria_I01-R01.md](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-acceptance-criteria_I01-R01.md)**
+- Acceptance criteria (REQ): **[00_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-acceptance-criteria_I01-R01.md](../TASKS/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-acceptance-criteria_REQ_I01-R01_ACTIVE.md)**
 - NKU tracking (TAB/CSV): **[00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv)**
 
 ## 3. Decision Governance (how to use this record)
@@ -40,7 +40,7 @@ It records certification-basis and authority-facing decisions, including rationa
 
 | DEC_ID | Date | Title | Decision Statement | Scope (In/Out) | Affected ATAs | Evidence Links | Approvals | Status | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| DEC-00-001 | TBD | Certification Basis Set (Program-Level) | TBD | TBD | 00, … | **[Inventory](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_I01-R01.md)** | CERT+CM | TBD | _TBD_ |
+| DEC-00-001 | TBD | Certification Basis Set (Program-Level) | TBD | TBD | 00, … | **[Inventory](../EVIDENCE/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_LST_I01-R01_ACTIVE.md)** | CERT+CM | TBD | _TBD_ |
 | DEC-00-002 | TBD | Authority Engagement Model | TBD | TBD | 00, … | **[Engagement Plan](../EVIDENCE/00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-authority-engagement_I01-R01.md)** | CERT+CM | TBD | _TBD_ |
 | DEC-00-003 | TBD | Means of Compliance Framework | TBD | TBD | 00, … | **[Compliance Matrix](../EVIDENCE/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-compliance-matrix_I01-R01.csv)** | CERT+CM | TBD | _TBD_ |
 | DEC-00-004 | TBD | Evidence Packaging & Audit Query Contract | TBD | TBD | 00, 93, 98, 109 | **[Manifest](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_I01-R01.json)** | CERT+CM | TBD | _TBD_ |
@@ -78,10 +78,10 @@ It records certification-basis and authority-facing decisions, including rationa
 ### 5.6 Evidence (mandatory hyperlinks)
 Provide links to the exact artifacts that support the decision.
 - **Primary evidence:**  
-  - **[Evidence inventory](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_I01-R01.md)**
+  - **[Evidence inventory](../EVIDENCE/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_LST_I01-R01_ACTIVE.md)**
 - **Supporting evidence:**  
-  - **[Evidence summary](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-summary_I01-R01.md)**  
-  - **[Acceptance criteria](../EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-acceptance-criteria_I01-R01.md)**
+  - **[Evidence summary](../EVIDENCE/00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-summary_RPT_I01-R01_ACTIVE.md)**  
+  - **[Acceptance criteria](../TASKS/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-acceptance-criteria_REQ_I01-R01_ACTIVE.md)**
 
 ### 5.7 NKU Linkage (if decision is provisional)
 - **NKU reference:** **[NKU tracker](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv)**  

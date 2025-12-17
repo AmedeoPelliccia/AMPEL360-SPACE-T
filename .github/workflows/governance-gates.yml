@@ -152,6 +152,32 @@ The CSV should include the following columns:
           exit $EXIT_CODE
         continue-on-error: false
       
+      # GATE-LINK-001: Internal Link Integrity Check (BLOCKING for PR^3-2/PR^3-3, WARN for PR^3-1)
+      - name: GATE-LINK-001 - Internal Link Integrity Check
+        id: link_integrity
+        run: |
+          echo "🔍 Validating internal links in Markdown files..."
+          # Determine PR^3 mode from branch or default to block
+          MODE="block"  # PR^3-2/PR^3-3 mode
+          if [[ "${{ github.base_ref }}" == "develop" ]]; then
+            MODE="warn"  # PR^3-1 mode
+          fi
+          
+          set +e
+          OUTPUT=$(python scripts/validate_internal_links.py --scope repo --mode $MODE 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          echo "$OUTPUT"
+          
+          # Check for broken links count
+          BROKEN_COUNT=$(echo "$OUTPUT" | grep "Broken internal links:" | awk '{print $NF}')
+          echo "broken_links=$BROKEN_COUNT" >> $GITHUB_OUTPUT
+          echo "link_mode=$MODE" >> $GITHUB_OUTPUT
+          
+          exit $EXIT_CODE
+        continue-on-error: false
+      
       # GATE-004: Namespace Deduplication Check (BLOCKING - when script exists)
       - name: GATE-004 - Namespace Deduplication Check
         id: namespace_dedup
@@ -281,6 +307,7 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
           echo "| GATE-005 | ⏭️ PLANNED | Identifier Grammar Check |"
           echo "| GATE-002 | ${{ steps.schema_registration.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Schema Registration Check |"
           echo "| GATE-003 | ${{ steps.trace_integrity.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Trace Link Integrity |"
+          echo "| GATE-LINK-001 | ${{ steps.link_integrity.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Internal Link Integrity (mode: ${{ steps.link_integrity.outputs.link_mode }}) |"
           echo "| GATE-004 | ⏭️ PLANNED | Namespace Deduplication |"
           echo "| GATE-006 | ${{ steps.governance_changes.outputs.governance_change == 'true' && '⚠️ REVIEW' || '✅ PASS' }} | Governance Change Detection |"
           echo "| GATE-007 | ⏭️ PLANNED | Breaking Schema Detection |"

@@ -18,9 +18,9 @@ This exemplar demonstrates a **minimum viable, audit-ready** certification autho
 It is designed to be **GitHub-navigable** and to illustrate **evidence-first** packaging (TEKNIA rule: reproducible trace + inventory + decision context).
 
 ## Links (GitHub-navigable)
-- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md)**
-- K01 Compliance workflow: **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__k01-compliance-workflow_I01-R01.md)**
-- K01 RACI / decision rights: **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-raci-decision-rights_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__k01-raci-decision-rights_I01-R01.md)**
+- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-assets-index_IDX_I01-R01_ACTIVE.md)**
+- K01 Compliance workflow: **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-compliance-workflow_DIA_I01-R01_ACTIVE.md)**
+- K01 RACI / decision rights: **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-raci-decision-rights_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-raci-decision-rights_DIA_I01-R01_ACTIVE.md)**
 - K01 Evidence Pack Manifest schema (contract): **[00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_I01-R01.json](../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_I01-R01.json)**
 
 ## Purpose

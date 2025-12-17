@@ -320,7 +320,7 @@ INSERT OR IGNORE INTO gate (gate_code, gate_name, description, owner_aor, defaul
 ('GATE-006', 'Governance Change Detection', 'Auto-labels PRs requiring CM review', 'CM', 'WARN', 'WARN', 'Built into governance-gates.yml', NULL, 'ACTIVE'),
 ('GATE-007', 'Breaking Schema Detection', 'Requires migration plan for breaking changes', 'DATA', 'BLOCK', 'BLOCK', 'scripts/detect_schema_breaking_changes.py', 3, 'PLANNED'),
 ('GATE-008', 'Evidence Link Validation', 'Checks evidence pack integrity', 'CERT', 'WARN', 'WARN', 'scripts/validate_evidence_links.py', 4, 'PLANNED'),
-('GATE-LINK-001', 'Link Integrity Check', 'Validates internal links in Markdown files', 'CM', 'BLOCK', 'BLOCK', 'scripts/check_and_update_links.py', 4, 'PLANNED');
+('GATE-LINK-001', 'Link Integrity Check', 'Validates internal links in Markdown files (addresses KI-PR3-001)', 'CM', 'BLOCK', 'BLOCK', 'scripts/validate_internal_links.py', 4, 'ACTIVE');
 
 -- Seed identifier grammar definitions
 INSERT OR IGNORE INTO identifier_grammar (identifier_kind, description, regex_pattern, owner_aor) VALUES
