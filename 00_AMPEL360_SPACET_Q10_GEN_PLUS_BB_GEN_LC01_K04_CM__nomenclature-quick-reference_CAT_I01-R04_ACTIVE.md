@@ -192,9 +192,9 @@ python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 00 PLAN LC01 K00 CM my-new-fi
 
 ## See Also
 
-* [Nomenclature Standard v4.0](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v04_ACTIVE.md) - Full normative specification
-* [Nomenclature Automation Guide v4.0](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-automation-guide_IDX_v04_ACTIVE.md) - Tooling documentation
-* [KNOTS Catalog](00_AMPEL360_SPACET_CERT_GEN_SB90_K01_CERT__knots-catalog_CAT_v01_ACTIVE.json) - Knot definitions
+* [Nomenclature Standard v4.0](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_STD_I01-R04_ACTIVE.md) - Full normative specification
+* [Nomenclature Automation Guide v4.0](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-automation-guide_IDX_I01-R04_ACTIVE.md) - Tooling documentation
+* [KNOTS Catalog](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__knots-catalog_CAT_I01-R01_ACTIVE.json) - Knot definitions
 
 ---
 

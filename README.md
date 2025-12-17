@@ -126,9 +126,9 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__knots-quick-reference_CAT_v01_ACTIVE.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__certification-knots-index_IDX_v01_ACTIVE.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_v01_ACTIVE.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R01_ACTIVE.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
 
 ---
 

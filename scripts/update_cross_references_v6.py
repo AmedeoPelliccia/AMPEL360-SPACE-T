@@ -123,8 +123,11 @@ def update_file_references(file_path: Path, filename_map: Dict[str, str], path_m
         # Match file references in various contexts
         # Pattern: filename at word boundary or after specific chars (/, ", ', space)
         pattern_ref = r'([\s"\'/])' + re.escape(old_filename) + r'(?=[\s"\',\)\]]|$)'
-        replacement_ref = r'\1' + new_filename
-        new_content, count = re.subn(pattern_ref, replacement_ref, content)
+        
+        def replacement_func(match):
+            return match.group(1) + new_filename
+        
+        new_content, count = re.subn(pattern_ref, replacement_func, content)
         if count > 0:
             content = new_content
             replacement_count += count

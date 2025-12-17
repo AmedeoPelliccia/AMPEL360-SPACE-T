@@ -30,12 +30,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
       
-      - name: Validate all files (v6.0 WARN mode)
+      - name: Validate all files (v6.0 BLOCK mode)
         id: validate_v6
         run: |
-          echo "Running nomenclature validation v6.0 (WARN mode)..."
-          python validate_nomenclature.py --standard v6.0 --mode warn --check-all --verbose
-        continue-on-error: true
+          echo "Running nomenclature validation v6.0 (BLOCK mode - PR blocking)..."
+          python validate_nomenclature.py --standard v6.0 --mode block --check-all --verbose
+        continue-on-error: false
       
       - name: Generate inventory report
         if: always()
@@ -54,8 +54,8 @@ jobs:
       - name: Check validation result
         if: steps.validate_v6.outcome == 'failure'
         run: |
-          echo "⚠️  Nomenclature v6.0 validation found issues (WARN mode - not blocking)"
-          echo "Please review the inventory report for details."
+          echo "❌ Nomenclature v6.0 validation FAILED (BLOCK mode - PR is blocked)"
+          echo "Please fix all violations before merging."
           echo ""
           echo "v6.0 Canonical format:"
           echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
@@ -63,7 +63,8 @@ jobs:
           echo "See docs/standards/NOMENCLATURE_v6_0_R1_0.md for details."
           echo "Quick ref: docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md"
           echo ""
-          echo "Note: This is WARN mode - PR is not blocked"
+          echo "⚠️  CRITICAL: This is BLOCK mode - PR cannot be merged until all violations are fixed"
+          exit 1
       
       - name: Validation success
         if: steps.validate_v6.outcome == 'success'
