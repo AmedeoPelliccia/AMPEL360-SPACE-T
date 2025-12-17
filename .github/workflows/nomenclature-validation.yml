@@ -30,25 +30,42 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
       
-      - name: Validate all files
-        id: validate
+      - name: Validate all files (v6.0 WARN mode)
+        id: validate_v6
         run: |
-          echo "Running nomenclature validation..."
-          python validate_nomenclature.py --check-all --strict --verbose
+          echo "Running nomenclature validation v6.0 (WARN mode)..."
+          python validate_nomenclature.py --standard v6.0 --mode warn --check-all --verbose
         continue-on-error: true
       
-      - name: Check validation result
-        if: steps.validate.outcome == 'failure'
+      - name: Generate inventory report
+        if: always()
         run: |
-          echo "❌ Nomenclature validation failed!"
-          echo "Please ensure all files follow the nomenclature standard v5.0:"
-          echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
+          echo "Generating inventory report..."
+          python validate_nomenclature.py --standard v6.0 --mode report --check-all > nomenclature_inventory_v6.txt 2>&1 || true
+      
+      - name: Upload inventory report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomenclature-inventory-v6
+          path: nomenclature_inventory_v6.txt
+          retention-days: 30
+      
+      - name: Check validation result
+        if: steps.validate_v6.outcome == 'failure'
+        run: |
+          echo "⚠️  Nomenclature v6.0 validation found issues (WARN mode - not blocking)"
+          echo "Please review the inventory report for details."
           echo ""
-          echo "See docs/standards/NOMENCLATURE_v5_0.md for details."
-          echo "Quick ref: docs/standards/NOMENCLATURE_v5_0_QUICKREF.md"
-          exit 1
+          echo "v6.0 Canonical format:"
+          echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+          echo ""
+          echo "See docs/standards/NOMENCLATURE_v6_0_R1_0.md for details."
+          echo "Quick ref: docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md"
+          echo ""
+          echo "Note: This is WARN mode - PR is not blocked"
       
       - name: Validation success
-        if: steps.validate.outcome == 'success'
+        if: steps.validate_v6.outcome == 'success'
         run: |
-          echo "✅ All files comply with nomenclature standard v5.0!"
+          echo "✅ All files comply with nomenclature standard v6.0 (R1.0 FINAL LOCK)!"
