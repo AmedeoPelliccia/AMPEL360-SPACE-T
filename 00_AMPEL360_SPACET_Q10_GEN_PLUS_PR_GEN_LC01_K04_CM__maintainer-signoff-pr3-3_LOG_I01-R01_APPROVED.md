@@ -275,7 +275,7 @@ All CI governance gates operational:
 
 **Rationale:**
 1. Core objectives achieved (v6.0 R1.0 finalized and locked)
-2. All critical validation passes (1,416 files, 0 violations)
+2. All critical validation passes (1,423 files, 0 violations)
 3. Governance framework operational
 4. Known issues are acceptable and have mitigation plans
 5. Migration tooling complete and tested
@@ -295,7 +295,7 @@ Release approval is conditional on:
 
 ### Immediate (Within 1 Week)
 
-- [ ] Fix 803 broken internal links
+- [ ] Fix 802 broken internal links
 - [ ] Update cross-references
 - [ ] Publish release announcement
 - [ ] Update stakeholder documentation
