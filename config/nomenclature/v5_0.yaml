@@ -181,6 +181,8 @@ exemptions:
     - tools
     - templates       # Template source files
     - scripts         # Utility scripts
+    - docs            # Documentation directory
+    - config          # Configuration directory
   
   # Pattern exemptions (regex)
   # Files matching these patterns are not validated
