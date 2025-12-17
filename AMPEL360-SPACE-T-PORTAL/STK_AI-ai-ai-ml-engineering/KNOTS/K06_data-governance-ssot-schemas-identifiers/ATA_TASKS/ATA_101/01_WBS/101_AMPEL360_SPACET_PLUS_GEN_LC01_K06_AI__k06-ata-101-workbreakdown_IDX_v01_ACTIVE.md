@@ -64,9 +64,9 @@ See: [RACI Matrix (CSV)](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06_AI__k06-ata-101-r
 ## 3) Dependencies & Sequencing
 
 ```
-T001 (SSOT) ─┬─> T002 (IDs) ──> T003 (Schema) ─┬─> T004 (Export) ──> T006 (Evidence)
-             │                                  │
-             └──────────────────────────────────┴─> T005 (CI Gates)
+T001 (SSOT) --+--> T002 (IDs) --> T003 (Schema) --+--> T004 (Export) --> T006 (Evidence)
+              |                                    |
+              +------------------------------------+--> T005 (CI Gates)
 ```
 
 ### Dependency Table
