@@ -1,8 +1,8 @@
 # AMPEL360-SPACE-T
 
-**Aircraft Models by Proactive Engineering Leaders – Space Transport**
+**Spacecraft CAXS (CA360º) — Computer-Aided Cross Sustainment Platform**
 
-Complete OPT-IN Framework Directory Structure Generator Suite
+Complete OPT-INS Framework Directory Structure Generator Suite
 
 ---
 
@@ -27,15 +27,16 @@ Complete OPT-IN Framework Directory Structure Generator Suite
 
 This repository contains the official directory structure generators for AMPEL360 Space-T projects, implementing:
 
-- **OPT-IN Framework Standard v1.1** (5 axes: Organization, Program, Technology, Infrastructures, Neural)
+- **OPT-INS Framework Standard v1.1** (6 axes: Organization, Program, Technology, Infrastructures, Neural, SIM/TEST)
 - **Nomenclature Standard v6.0 R1.0** (15-token canonical format with frozen allowlists)
-- **ATA-SpaceT numbering system** (116 ATA chapters covering aerospace systems)
+- **ATA-SpaceT numbering system** (131 ATA chapters covering aerospace systems, ATA 100–114 reserved for S-axis)
 - **14-folder lifecycle structure** (LC01-LC14 with subbuckets SB01-SB99)
 - **Knot-based governance** (K01-K14 with strict change control)
 - **8 CI governance gates** (3 blocking, 1 review, 4 planned)
 - **TEKNIA credential framework** (v1.0 with schema validation)
 - **P→CAD→CAE→CAM→CAOS engineering cycle** (AI-assisted workflow)
 - **ML Lifecycle** for neural systems (Architecture→Training→Validation→Deployment→Monitoring)
+- **CAOS Pillar Enablement** (indeterminacy control via KNOTs, NKU pathways for agentic execution)
 
 ### Key Features (v6.0 R1.0)
 
@@ -225,9 +226,18 @@ python generate_infrastructures.py --root ./my_project
 
 ---
 
-## OPT-IN Framework Architecture
+## OPT-INS Framework Architecture
 
-### Five Axes (Top Level)
+### Six Axes (OPT-INS = OPT-IN + S Axis)
+
+This repository implements **OPT-INS** (extended OPT-IN) to support spacecraft-scale sustainment and test:
+
+- **O — Organization** (Governance, CM, QMS, SMS)
+- **P — Program** (Planning, Cost, Risk, Reviews)
+- **T — Technology** (Onboard systems)
+- **I — Infrastructures** (Ground / launch / mission control)
+- **N — Neural** (AI/ML, DPP, Traceability)
+- **S — SIM/TEST** (new axis, ATA 100–114)
 
 ```
 AMPEL360_SPACE-T/
@@ -277,12 +287,31 @@ AMPEL360_SPACE-T/
 │   ├── ATA_115-SUPPLY_CHAIN/
 │   └── ATA_116-FACILITIES_MGMT/
 │
-└── N-NEURAL_NETWORKS_DPP_TRACEABILITY/    # AI/ML, DPP, Analytics
-    ├── ATA_95-NEURAL_OPS_AI/
-    ├── ATA_96-DPP_TRACEABILITY/
-    ├── ATA_97-DATA_ANALYTICS/
-    └── ATA_98-HUMAN_AI_INTERFACE/
+├── N-NEURAL_NETWORKS_DPP_TRACEABILITY/    # AI/ML, DPP, Analytics
+│   ├── ATA_95-NEURAL_OPS_AI/
+│   ├── ATA_96-DPP_TRACEABILITY/
+│   ├── ATA_97-DATA_ANALYTICS/
+│   └── ATA_98-HUMAN_AI_INTERFACE/
+│
+└── S-SIM_TEST/                            # Simulation, Test, Verification (OPT-INS reserved)
+    ├── ATA_100-SIM_BASELINES/             # Simulation Baselines (SIM)
+    ├── ATA_101-DIGITAL_TWIN/              # Digital Twin Configurations (DT)
+    ├── ATA_102-MODEL_BASED_TEST/          # Model-Based Test Design (MBT)
+    ├── ATA_103-SIL_ENVIRONMENTS/          # Software-in-the-Loop (SIL)
+    ├── ATA_104-HIL_BENCHES/               # Hardware-in-the-Loop (HIL)
+    ├── ATA_105-QUALIFICATION/             # Qualification & Acceptance (QUAL)
+    ├── ATA_106-INTEGRATION_TEST/          # Integration Test Campaigns (ITC)
+    ├── ATA_107-ENVIRONMENTAL_TEST/        # Environmental Test (ENV)
+    ├── ATA_108-FLIGHT_TEST/               # Flight / Mission Test (FLTTEST)
+    ├── ATA_109-OPS_READINESS/             # Ops Readiness Tests (ORT)
+    ├── ATA_110-SAFETY_VALIDATION/         # Safety Validation (SAFVAL)
+    ├── ATA_111-CERT_EVIDENCE/             # Certification Evidence Packs (EVD)
+    ├── ATA_112-GROUND_TEST/               # Ground Test & Checkout (GTC)
+    ├── ATA_113-RANGE_CORRIDOR/            # Range / Corridor / Constraints (RANGE)
+    └── ATA_114-POST_TEST_ANALYTICS/       # Post-Test Analytics (PTA)
 ```
+
+> **S Axis (SIM/TEST)**: ATA 100–114 are reserved for the S axis (simulation, test, verification, qualification, and validation). The exact chapter naming is **CM-controlled**; the range is immutable but names may evolve additively under change control.
 
 ---
 
@@ -294,6 +323,7 @@ AMPEL360_SPACE-T/
 | `generate_organization.py` | O-ORGANIZATION | 8 ATA chapters | CM, QMS, SMS, Regulatory |
 | `generate_program.py` | P-PROGRAM | 7 ATA chapters | WBS, EVM, Risk, Reviews |
 | `generate_infrastructures.py` | I-INFRASTRUCTURES | 12 ATA chapters | H₂, Launch, MCC, Terminals |
+| `generate_sim_test.py` | S-SIM_TEST | 15 ATA chapters | SIM, Digital Twin, V&V, Test (planned) |
 
 ### Common Options
 
@@ -491,6 +521,28 @@ XX-20-YY_Subsystem_Name/
 | 97 | DATA_ANALYTICS | Telemetry analytics, BI |
 | 98 | HUMAN_AI_INTERFACE | XAI, crew decision support, autonomy |
 
+### S-SIM_TEST (15 Chapters) — OPT-INS Reserved Range
+
+| Code | System | Description |
+|:-----|:-------|:------------|
+| 100 | SIM_BASELINES | Simulation Baselines (SIM) |
+| 101 | DIGITAL_TWIN | Digital Twin Configurations (DT) |
+| 102 | MODEL_BASED_TEST | Model-Based Test Design (MBT) |
+| 103 | SIL_ENVIRONMENTS | Software-in-the-Loop (SIL) |
+| 104 | HIL_BENCHES | Hardware-in-the-Loop (HIL) |
+| 105 | QUALIFICATION | Qualification & Acceptance (QUAL) |
+| 106 | INTEGRATION_TEST | Integration Test Campaigns (ITC) |
+| 107 | ENVIRONMENTAL_TEST | Environmental Test (ENV) |
+| 108 | FLIGHT_TEST | Flight / Mission Test (FLTTEST) |
+| 109 | OPS_READINESS | Ops Readiness Tests (ORT) |
+| 110 | SAFETY_VALIDATION | Safety Validation (SAFVAL) |
+| 111 | CERT_EVIDENCE | Certification Evidence Packs (EVD) |
+| 112 | GROUND_TEST | Ground Test & Checkout (GTC) |
+| 113 | RANGE_CORRIDOR | Range / Corridor / Constraints (RANGE) |
+| 114 | POST_TEST_ANALYTICS | Post-Test Analytics (PTA) |
+
+> **Note**: ATA 100–114 are CM-controlled. The range is immutable; names may evolve additively under change control.
+
 ---
 
 ## Artifact ID Convention
@@ -504,7 +556,7 @@ ST-XX-YY-C-NNNN_Name.ext
 | Component | Description | Values |
 |:----------|:------------|:-------|
 | ST | Space-T prefix | Fixed |
-| XX | ATA chapter | 00-98, 115-116 |
+| XX | ATA chapter | 00-98, 100-116 |
 | YY | Subsystem code | 10, 20, 30... |
 | C | Cycle phase | P, D, E, M, O |
 | NNNN | Sequence | 0001-9999 |
