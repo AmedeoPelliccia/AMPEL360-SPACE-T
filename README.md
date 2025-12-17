@@ -45,11 +45,11 @@ This repository contains the official directory structure generators for AMPEL36
 
 ### Examples
 
-- `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md` (Lifecycle plan)
-- `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md` (Propulsion FHA)
-- `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_v01.md` (Software requirements)
-- `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_v01.json` (Reference schema)
-- `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_v01.md` (Certification plan)
+- `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_I01-R01.md` (Lifecycle plan)
+- `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_I01-R01.md` (Propulsion FHA)
+- `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_I01-R01.md` (Software requirements)
+- `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_I01-R01.json` (Reference schema)
+- `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_I01-R01.md` (Certification plan)
 
 ### Validation
 
@@ -72,7 +72,7 @@ cp scripts/pre-commit .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
-📖 **Full standard**: [`00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`](00_00_STD_LC01-SPACET_nomenclature-standard_v01.md)
+📖 **Full standard**: [`00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`](00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md)
 
 ### Document Templates
 
@@ -103,7 +103,7 @@ python scripts/detect_new_types.py --auto-suggest
 ```
 
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
-📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md)
+📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md)
 
 ### Certification Knots System
 
@@ -111,13 +111,13 @@ Cross-cutting workflow elements for systematic certification and compliance acti
 
 ```bash
 # View active knots
-cat 00_90_CAT_SB00_CERT_knots-catalog_v01.json
+cat 00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json
 
 # Validate knot data structure
 python3 -c "
 import json, jsonschema
-schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_v01.json'))
-data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_v01.json'))
+schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json'))
+data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json'))
 jsonschema.validate(instance=data, schema=schema)
 print('✓ Knot data validated successfully')
 "
@@ -126,9 +126,9 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__knots-quick-reference_CAT_v01_ACTIVE.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__certification-knots-index_IDX_v01_ACTIVE.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`](00_AMPEL360_SPACET_CERT_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_v01_ACTIVE.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R01_ACTIVE.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
 
 ---
 

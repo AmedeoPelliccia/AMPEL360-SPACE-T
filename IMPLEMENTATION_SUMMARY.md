@@ -22,14 +22,14 @@ All tasks from the problem statement have been successfully implemented, validat
 ## Deliverables (10 total)
 
 ### Documentation (8 files)
-1. `06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md` - Task list
-2. `06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md` - SSOT plan
-3. `06_00_CAT_LC01_SPACET_identifier-registry_v01.md` - Identifier registry
-4. `06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json` - JSON Schema
-5. `06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md` - Schema docs
-6. `06_90_TAB_SB00_GEN_dimensional-exports_v01.json` - BL-0001 export
-7. `06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md` - Manifest
-8. `06_00_TRC_LC01_SPACET_ssot-traceability_v01.md` - Traceability
+1. `06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md` - Task list
+2. `06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md` - SSOT plan
+3. `06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md` - Identifier registry
+4. `06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json` - JSON Schema
+5. `06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md` - Schema docs
+6. `06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json` - BL-0001 export
+7. `06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md` - Manifest
+8. `06_00_TRC_LC01_SPACET_ssot-traceability_I01-R01.md` - Traceability
 
 ### Scripts (1 file)
 9. `scripts/validate_ata06_dimensions.py` - CI validation tool
@@ -119,14 +119,14 @@ All tasks from the problem statement have been successfully implemented, validat
 
 ```
 AMPEL360-SPACE-T/
-├── 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md
-├── 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md
-├── 06_00_CAT_LC01_SPACET_identifier-registry_v01.md
-├── 06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md
-├── 06_00_TRC_LC01_SPACET_ssot-traceability_v01.md
-├── 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json
-├── 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md
-├── 06_90_TAB_SB00_GEN_dimensional-exports_v01.json
+├── 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md
+├── 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md
+├── 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md
+├── 06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md
+├── 06_00_TRC_LC01_SPACET_ssot-traceability_I01-R01.md
+├── 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json
+├── 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md
+├── 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json
 ├── scripts/
 │   └── validate_ata06_dimensions.py
 ├── REVIEW_NOTES.md

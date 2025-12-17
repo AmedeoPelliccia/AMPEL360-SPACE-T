@@ -36,11 +36,11 @@ Technical term for this integrated digital environment combining:
 ```
 AMPEL360-SPACE-T-PORTAL/
 ├── README.md                                          # This file
-├── 00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md  # Master stakeholder index
-├── 00_00_TAB_LC01_SPACET_knot-register_v01.csv       # Active knot registry
+├── 00_00_IDX_LC01_SPACET_stakeholder-entrypoints_I01-R01.md  # Master stakeholder index
+├── 00_00_TAB_LC01_SPACET_knot-register_I01-R01.csv       # Active knot registry
 │
 ├── STK_AI-ai-ai-ml-engineering/                      # AI/ML Engineering stakeholder
-│   ├── 00_00_IDX_LC01_SPACET_stakeholder-ai-entrypoint_v01.md
+│   ├── 00_00_IDX_LC01_SPACET_stakeholder-ai-entrypoint_I01-R01.md
 │   └── KNOTS/
 │       ├── K06_data-governance-ssot-schemas-identifiers/
 │       ├── K07_ai-autonomy-assurance-monitoring/
@@ -80,20 +80,20 @@ Each stakeholder has a dedicated workspace with a single, navigable **entry poin
 
 | Stakeholder | ID | Entry Point | Primary AoR |
 |:------------|:---|:------------|:------------|
-| **AI/ML Engineering** | AI | [stakeholder-ai-entrypoint](STK_AI-ai-ai-ml-engineering/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_AI__stakeholder-ai-entrypoint_v01.md) | ML lifecycle, datasets, models, TEKNIA packaging |
-| **Certification & Authorities** | CERT | [stakeholder-cert-entrypoint](STK_CERT-cert-certification-authorities/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CERT__stakeholder-cert-entrypoint_v01.md) | Authority engagement, compliance mapping, evidence packaging |
-| **Configuration Management** | CM | [stakeholder-cm-entrypoint](STK_CM-cm-configuration-management/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-cm-entrypoint_v01.md) | Governance spine, baselines, change control, CI enforcement |
-| **Cybersecurity** | CY | [stakeholder-cy-entrypoint](STK_CY-cy-cybersecurity/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CY__stakeholder-cy-entrypoint_v01.md) | Threat models, security requirements, SBOM coupling |
-| **Data Governance** | DATA | [stakeholder-data-entrypoint](STK_DATA-data-data-governance/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__stakeholder-data-entrypoint_v01.md) | SSOT definitions, schema governance, identifier discipline |
-| **MRO / Maintenance** | MRO | [stakeholder-mro-entrypoint](STK_MRO-mro-mro-maintenance/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_MRO__stakeholder-mro-entrypoint_v01.md) | Maintainability, servicing, continued airworthiness |
-| **Operations** | OPS | [stakeholder-ops-entrypoint](STK_OPS-ops-operations/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_OPS__stakeholder-ops-entrypoint_v01.md) | Operational concepts, procedures, mission profiles |
-| **Program Management Office** | PMO | [stakeholder-pmo-entrypoint](STK_PMO-pmo-program-management-office/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_PMO__stakeholder-pmo-entrypoint_v01.md) | Program cadence, milestones, resourcing, prioritization |
-| **Safety** | SAF | [stakeholder-saf-entrypoint](STK_SAF-saf-safety/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_SAF__stakeholder-saf-entrypoint_v01.md) | Safety processes, hazard logs, safety cases |
-| **Systems Engineering** | SE | [stakeholder-se-entrypoint](STK_SE-se-systems-engineering/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_SE__stakeholder-se-entrypoint_v01.md) | System architecture, ICDs, requirements decomposition |
-| **Spaceport/Airport Ops** | SPACEPORT | [stakeholder-spaceport-entrypoint](STK_SPACEPORT-spaceport-spaceport-airport-ops/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_SPACEPORT__stakeholder-spaceport-entrypoint_v01.md) | Ground operations, turnaround, fueling/servicing interfaces |
-| **IVVQ / Testing** | TEST | [stakeholder-test-entrypoint](STK_TEST-test-ivvq-testing/00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_TEST__stakeholder-test-entrypoint_v01.md) | Verification strategy, test evidence nodes, qualification |
+| **AI/ML Engineering** | AI | [stakeholder-ai-entrypoint](STK_AI-ai-ai-ml-engineering/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__stakeholder-ai-entrypoint_I01-R01.md) | ML lifecycle, datasets, models, TEKNIA packaging |
+| **Certification & Authorities** | CERT | [stakeholder-cert-entrypoint](STK_CERT-cert-certification-authorities/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CERT__stakeholder-cert-entrypoint_I01-R01.md) | Authority engagement, compliance mapping, evidence packaging |
+| **Configuration Management** | CM | [stakeholder-cm-entrypoint](STK_CM-cm-configuration-management/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-cm-entrypoint_I01-R01.md) | Governance spine, baselines, change control, CI enforcement |
+| **Cybersecurity** | CY | [stakeholder-cy-entrypoint](STK_CY-cy-cybersecurity/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CY__stakeholder-cy-entrypoint_I01-R01.md) | Threat models, security requirements, SBOM coupling |
+| **Data Governance** | DATA | [stakeholder-data-entrypoint](STK_DATA-data-data-governance/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__stakeholder-data-entrypoint_I01-R01.md) | SSOT definitions, schema governance, identifier discipline |
+| **MRO / Maintenance** | MRO | [stakeholder-mro-entrypoint](STK_MRO-mro-mro-maintenance/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_MRO__stakeholder-mro-entrypoint_I01-R01.md) | Maintainability, servicing, continued airworthiness |
+| **Operations** | OPS | [stakeholder-ops-entrypoint](STK_OPS-ops-operations/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_OPS__stakeholder-ops-entrypoint_I01-R01.md) | Operational concepts, procedures, mission profiles |
+| **Program Management Office** | PMO | [stakeholder-pmo-entrypoint](STK_PMO-pmo-program-management-office/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_PMO__stakeholder-pmo-entrypoint_I01-R01.md) | Program cadence, milestones, resourcing, prioritization |
+| **Safety** | SAF | [stakeholder-saf-entrypoint](STK_SAF-saf-safety/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_SAF__stakeholder-saf-entrypoint_I01-R01.md) | Safety processes, hazard logs, safety cases |
+| **Systems Engineering** | SE | [stakeholder-se-entrypoint](STK_SE-se-systems-engineering/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_SE__stakeholder-se-entrypoint_I01-R01.md) | System architecture, ICDs, requirements decomposition |
+| **Spaceport/Airport Ops** | SPACEPORT | [stakeholder-spaceport-entrypoint](STK_SPACEPORT-spaceport-spaceport-airport-ops/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_SPACEPORT__stakeholder-spaceport-entrypoint_I01-R01.md) | Ground operations, turnaround, fueling/servicing interfaces |
+| **IVVQ / Testing** | TEST | [stakeholder-test-entrypoint](STK_TEST-test-ivvq-testing/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_TEST__stakeholder-test-entrypoint_I01-R01.md) | Verification strategy, test evidence nodes, qualification |
 
-📋 **Master Index**: [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_v01_ACTIVE.md)
+📋 **Master Index**: [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_I01-R01.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_I01-R01_ACTIVE.md)
 
 ### Cross-Stakeholder Collaboration
 
@@ -114,7 +114,7 @@ A **Backlog Knot** is a structured pathway for resolving program-wide uncertaint
 
 ### Active Knots Registry
 
-📊 **Knot Register**: [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv)
+📊 **Knot Register**: [`00_00_TAB_LC01_SPACET_knot-register_I01-R01.csv`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__knot-register_TAB_I01-R01_ACTIVE.csv)
 
 | Knot ID | Title | Stakeholders | Affected ATAs |
 |:--------|:------|:-------------|:--------------|
@@ -141,14 +141,14 @@ Each knot follows a standard structure within stakeholder workspaces:
 STK_<ID>/
 └── KNOTS/
     └── K##_<knot-title>/
-        ├── 00_00_IDX_LC01_SPACET_k##-<knot-title>_v01.md   # Knot master index
+        ├── 00_00_IDX_LC01_SPACET_k##-<knot-title>_I01-R01.md   # Knot master index
         └── ATA_TASKS/
             ├── ATA_00/
-            │   └── 00_00_IDX_LC01_SPACET_k##-ata-00-tasklist_v01.md
+            │   └── 00_00_IDX_LC01_SPACET_k##-ata-00-tasklist_I01-R01.md
             ├── ATA_06/
-            │   └── 06_00_IDX_LC01_SPACET_k##-ata-06-tasklist_v01.md
+            │   └── 06_00_IDX_LC01_SPACET_k##-ata-06-tasklist_I01-R01.md
             └── ATA_##/
-                └── ##_00_IDX_LC01_SPACET_k##-ata-##-tasklist_v01.md
+                └── ##_00_IDX_LC01_SPACET_k##-ata-##-tasklist_I01-R01.md
 ```
 
 ### ATA-Linked Tasklists
@@ -263,8 +263,8 @@ The portal implements **Role-Based Access Control (RBAC)** to ensure appropriate
 
 **Example Artifacts**:
 - `STK_*/KNOTS/K##_*/ATA_TASKS/**/*.md`
-- `00_00_MIN_LC01_SPACET_*_decisions_v01.md` (draft)
-- `##_90_SCH_*_v01.json` (status: draft)
+- `00_00_MIN_LC01_SPACET_*_decisions_I01-R01.md` (draft)
+- `##_90_SCH_*_I01-R01.json` (status: draft)
 
 ---
 
@@ -346,8 +346,8 @@ AUTHORITY_PACK_<ID>/
 **Digital Signing**: All authority packs signed with organizational key, includes checksum manifest
 
 **Example Artifacts**:
-- `00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md` → Evidence_Pack_K06.pdf
-- `00_00_STD_LC01_SPACET_governance-reference-policy_v01.md` → Policy_Document.pdf
+- `00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md` → Evidence_Pack_K06.pdf
+- `00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md` → Policy_Document.pdf
 - Complete safety case for specific systems
 - Full traceability from requirement to qualification
 
@@ -476,7 +476,7 @@ AUTHORITY_PACK_<ID>/
 
 1. **Navigate to Your Entry Point**
    - Go to `STK_<YOUR-ID>/`
-   - Open `00_00_IDX_LC01_SPACET_stakeholder-<id>-entrypoint_v01.md`
+   - Open `00_00_IDX_LC01_SPACET_stakeholder-<id>-entrypoint_I01-R01.md`
 
 2. **Select Active Knot**
    - Review your assigned knots
@@ -498,7 +498,7 @@ AUTHORITY_PACK_<ID>/
 ### For Program Management
 
 1. **Monitor Knot Progress**
-   - Review [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv)
+   - Review [`00_00_TAB_LC01_SPACET_knot-register_I01-R01.csv`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__knot-register_TAB_I01-R01_ACTIVE.csv)
    - Track NKU reduction across knots
 
 2. **Prioritize Backlog**
@@ -586,7 +586,7 @@ All artifacts in the portal **MUST** follow the Nomenclature Standard v1.0:
 
 **Validation**: `python validate_nomenclature.py <filename>`
 
-📖 **Full Standard**: [`00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v02_ACTIVE.md)
+📖 **Full Standard**: [`00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md`](../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_STD_I01-R02_ACTIVE.md)
 
 ### CI/CD Enforcement
 
@@ -597,7 +597,7 @@ GitHub Actions automatically validate:
 - ✅ Duplicate detection
 - ✅ Type detection (new TYPE codes trigger review)
 
-📋 **CI Gates**: [`00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__ci-governance-gates_IDX_v01_ACTIVE.md)
+📋 **CI Gates**: [`00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md`](../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__ci-governance-gates_IDX_I01-R01_ACTIVE.md)
 
 ---
 
@@ -627,11 +627,11 @@ For repository structure, CI/CD, or tooling issues:
 
 | Resource | Link |
 |:---------|:-----|
-| Master Stakeholder Index | [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_v01.md`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_v01_ACTIVE.md) |
-| Knot Register | [`00_00_TAB_LC01_SPACET_knot-register_v01.csv`](00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__knot-register_TAB_v01_ACTIVE.csv) |
-| Nomenclature Standard | [`../00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v02_ACTIVE.md) |
-| Governance Policy | [`../00_00_STD_LC01_SPACET_governance-reference-policy_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__governance-reference-policy_STD_v01_ACTIVE.md) |
-| CI Gates | [`../00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`](../00_AMPEL360_SPACET_PLUS_GEN_LC01_K05_DATA__ci-governance-gates_IDX_v01_ACTIVE.md) |
+| Master Stakeholder Index | [`00_00_IDX_LC01_SPACET_stakeholder-entrypoints_I01-R01.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_I01-R01_ACTIVE.md) |
+| Knot Register | [`00_00_TAB_LC01_SPACET_knot-register_I01-R01.csv`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__knot-register_TAB_I01-R01_ACTIVE.csv) |
+| Nomenclature Standard | [`../00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md`](../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_STD_I01-R02_ACTIVE.md) |
+| Governance Policy | [`../00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md`](../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__governance-reference-policy_STD_I01-R01_ACTIVE.md) |
+| CI Gates | [`../00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md`](../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K05_DATA__ci-governance-gates_IDX_I01-R01_ACTIVE.md) |
 | Main Repository README | [`../README.md`](../README.md) |
 
 ### Command Reference

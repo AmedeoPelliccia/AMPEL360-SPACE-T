@@ -190,8 +190,8 @@ jobs:
               '### References',
               '',
               '- Task: T6-AI from K06 ATA 00 Tasklist',
-              '- Policy: 00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__governance-reference-policy_v01.md',
-              '- Standard: 00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v02.md',
+              '- Policy: 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__governance-reference-policy_I01-R01.md',
+              '- Standard: 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_I01-R02.md',
               '',
               '---',
               '_This issue was automatically created by the weekly drift detection workflow._'
