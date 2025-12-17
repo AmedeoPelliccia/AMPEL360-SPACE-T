@@ -9,7 +9,7 @@ status: TEMPLATE
 
 ## Quick Links
 
-- [Task List](../34_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-34-tasklist_I01-R01.md)
+- [Task List](34_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-34-tasklist_IDX_I01-R01_ACTIVE.md)
 - [Tasks](./TASKS/)
 - [Decisions](./DECISIONS/)
 - [Evidence](./EVIDENCE/)
@@ -17,5 +17,5 @@ status: TEMPLATE
 
 ## Parent
 
-- [K01 Master Index](../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-authority-model-certification-basis_I01-R01.md)
+- [K01 Master Index](../../00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC01_K01_CERT__k01-authority-model-certification-basis_IDX_I01-R01_ACTIVE.md)
 - [All ATA Tasks](../)

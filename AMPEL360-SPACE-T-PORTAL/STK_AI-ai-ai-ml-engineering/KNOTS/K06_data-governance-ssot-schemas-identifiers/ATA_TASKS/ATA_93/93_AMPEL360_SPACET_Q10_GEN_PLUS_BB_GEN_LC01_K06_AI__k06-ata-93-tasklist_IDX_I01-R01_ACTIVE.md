@@ -21,13 +21,13 @@ NKU progress is credited only when each partition is closed with **evidence + ap
 
 ## 1) Global Navigation (GitHub-navigable)
 
-- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_I01-R01.md)  
+- Knot overview: [K06 overview](../../../../../STK_DATA-data-data-governance/KNOTS/K06_data-governance-ssot-schemas-identifiers/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_DATA__k06-data-governance-ssot-schemas-identifiers_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Canonical K06 scope, impacted ATAs, closure criteria, shared definitions.
 
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_I01-R01.md)  
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Global entry point; use it to navigate stakeholders and the knot portfolio.
 
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__stakeholder-ai-entrypoint_I01-R01.md)  
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K11_AI__stakeholder-ai-entrypoint_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ AI/ML execution lane; automation hooks and governance helpers.
 
 - ATA 93 home (Traceability): [AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA 93](../../../../../../AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_93-TRACEABILITY-GRAPH/)  
@@ -215,7 +215,7 @@ ATA 93 is a cross-ATA dependency. These couplings are mandatory.
 - [ATA 95 — SBOM / ModelBOM](../ATA_95/)  
   _Comment:_ Supply-chain trace links must conform to edge semantics and evidence rules.
 
-- [ATA 98 — Signed Export Packs](../ATA_98/)  
+- [ATA 98 — Signed Export Packs](../../../../../STK_DATA-data-data-governance/KNOTS/K08_dpp-sbom-provenance-scope/ATA_TASKS/ATA_98)  
   _Comment:_ Signed packs are the preferred evidence-link target for “released” states.
 
 - [ATA 99 — Master Registers](../ATA_99/)  

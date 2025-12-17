@@ -45,19 +45,19 @@ AI/ML Engineering (STK_AI) owns and/or contributes to:
 - Knot folder: [K06_data-governance-ssot-schemas-identifiers/](KNOTS/K06_data-governance-ssot-schemas-identifiers/)  
   _Comment:_ Program-wide SSOT, schema governance, identifier discipline, trace semantics, DPP/BOM export integrity.
 
-- Master index: [K06 master index](KNOTS/K06_data-governance-ssot-schemas-identifiers/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_I01-R01.md)  
+- Master index: [K06 master index](KNOTS/K06_data-governance-ssot-schemas-identifiers/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-data-governance-ssot-schemas-identifiers_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Authoritative K06 navigation hub across impacted ATAs with closure criteria and NKU controls.
 
 - ATA partitions (high-priority subset):
-  - [ATA 91 — Schemas & Canonical Models](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_91/91_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-ata-91-tasklist_I01-R01.md)  
+  - [ATA 91 — Schemas & Canonical Models](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_91/91_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-91-tasklist_IDX_I01-R01_ACTIVE.md)  
     _Comment:_ Schema registry, versioning, compatibility, canonical primitives.
-  - [ATA 93 — Traceability Graph & Evidence Links](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_93/93_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-ata-93-tasklist_I01-R01.md)  
+  - [ATA 93 — Traceability Graph & Evidence Links](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_93/93_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-93-tasklist_IDX_I01-R01_ACTIVE.md)  
     _Comment:_ Node/edge semantics, evidence freshness, audit-ready snapshots.
-  - [ATA 94 — DPP](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_94/94_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-ata-94-tasklist_I01-R01.md)  
+  - [ATA 94 — DPP](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_94/94_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-94-tasklist_IDX_I01-R01_ACTIVE.md)  
     _Comment:_ Export packs, provenance, signing coupling, redaction rules.
-  - [ATA 95 — SBOM / ModelBOM](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_95/95_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-ata-95-tasklist_I01-R01.md)  
+  - [ATA 95 — SBOM / ModelBOM](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_95/95_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-95-tasklist_IDX_I01-R01_ACTIVE.md)  
     _Comment:_ Software/ML supply chain identity, policy gates, trace alignment.
-  - [ATA 99 — Master Registers](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_99/99_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-ata-99-tasklist_I01-R01.md)  
+  - [ATA 99 — Master Registers](KNOTS/K06_data-governance-ssot-schemas-identifiers/ATA_TASKS/ATA_99/99_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-99-tasklist_IDX_I01-R01_ACTIVE.md)  
     _Comment:_ Namespace boundaries, dedup governance, drift monitoring.
 
 ---
@@ -65,7 +65,7 @@ AI/ML Engineering (STK_AI) owns and/or contributes to:
 ### K07 — AI Autonomy Assurance & Monitoring
 - Knot folder: [K07_ai-autonomy-assurance-monitoring/](KNOTS/K07_ai-autonomy-assurance-monitoring/)  
   _Comment:_ Assurance cases, runtime monitoring, autonomy constraints, safe operation envelopes (structure to be populated).
-- Entry index (to create/confirm): [K07 index](KNOTS/K07_ai-autonomy-assurance-monitoring/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K07_AI__k07-ai-autonomy-assurance-monitoring_I01-R01.md)  
+- Entry index (to create/confirm): [K07 index](KNOTS/K07_ai-autonomy-assurance-monitoring/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K07_AI__k07-ai-autonomy-assurance-monitoring_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Defines the uncertainty, closure criteria, and ATA partitions.
 
 ---
@@ -73,7 +73,7 @@ AI/ML Engineering (STK_AI) owns and/or contributes to:
 ### K13 — Cybersecurity Zones & Key Management
 - Knot folder: [K13_cybersecurity-zones-key-management/](KNOTS/K13_cybersecurity-zones-key-management/)  
   _Comment:_ Key management, zone boundaries, cryptographic identity, and CI enforcement coupling with SBOM/DPP.
-- Entry index (to create/confirm): [K13 index](KNOTS/K13_cybersecurity-zones-key-management/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K13_AI__k13-cybersecurity-zones-key-management_I01-R01.md)  
+- Entry index (to create/confirm): [K13 index](KNOTS/K13_cybersecurity-zones-key-management/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K13_AI__k13-cybersecurity-zones-key-management_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Defines the uncertainty, closure criteria, and ATA partitions.
 
 ---

@@ -20,7 +20,7 @@ git_commit: "example_commit_hash"
 ## Links (GitHub-navigable)
 - Snapshot index: **[00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-index_I01-R01.md](./00_AMPEL360_SPACET_PLUS_90_IDX_SB90_K01_CERT__k01-baseline-snapshot-example-index_I01-R01.md)**
 - Snapshot manifest (example): **[00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-manifest-example_I01-R01.json](./00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-manifest-example_I01-R01.json)**
-- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md)**
+- K01 Assets index: **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-assets-index_IDX_I01-R01_ACTIVE.md)**
 
 ---
 
@@ -41,9 +41,9 @@ git_commit: "example_commit_hash"
 | # | Artifact ID | Type | File (GitHub link) | CM Status | Comment |
 |---:|---|---|---|---|---|
 | 1 | `K01-CERT-BASIS-PLAN` | `PLAN` | **[00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-certification-authority-basis-plan_I01-R01.md](../../../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_I01-R01.md)** | Approved (Example) | Points to the program-level certification strategy/plan artefact used as the “plan anchor” for this snapshot. |
-| 2 | `K01-ASSETS-INDEX` | `IDX` | **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md)** | Approved (Example) | Canonical inventory entry point for K01 assets. |
+| 2 | `K01-ASSETS-INDEX` | `IDX` | **[00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md](../../00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-assets-index_IDX_I01-R01_ACTIVE.md)** | Approved (Example) | Canonical inventory entry point for K01 assets. |
 | 3 | `K01-AUTH-PACK-EXAMPLE` | `SCH` | **[00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-manifest_I01-R01.json](../k01-authority-pack-example/00_AMPEL360_SPACET_PLUS_90_SCH_SB90_K01_CERT__k01-authority-pack-example-manifest_I01-R01.json)** | Approved (Example) | Links the authority pack manifest used as the evidence bundle example. |
-| 4 | `K01-COMPLIANCE-WORKFLOW` | `DIA` | **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__k01-compliance-workflow_I01-R01.md)** | Approved (Example) | Reviewer-facing compliance workflow (renderable in GitHub). |
+| 4 | `K01-COMPLIANCE-WORKFLOW` | `DIA` | **[00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md](../../DIAGRAMS/00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__k01-compliance-workflow_DIA_I01-R01_ACTIVE.md)** | Approved (Example) | Reviewer-facing compliance workflow (renderable in GitHub). |
 
 ---
 
