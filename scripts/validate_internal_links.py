@@ -79,8 +79,8 @@ class LinkIntegrityGate:
         r'T-TECHNOLOGY/',
         r'T-CRAFT/',
         r'P-PROGRAM/',
-        r'\.\./+(EVIDENCE|MONITORING|SCHEMAS)/',  # Relative references to planned directories (any depth)
-        r'\.\./+ATA_TASKS/.*/EVIDENCE/',  # Relative references to ATA task evidence
+        r'\.\./(\.\./)*(EVIDENCE|MONITORING|SCHEMAS)/',  # Relative references to planned directories (any depth)
+        r'\.\./(\.\./)*ATA_TASKS/.*/EVIDENCE/',  # Relative references to ATA task evidence (any depth)
         r'\{\{[A-Z_]+\}\}',  # Mustache/template placeholders like {{DESCRIPTION}}
         r'^(filename|path)$',  # Generic placeholder words
         r'^diagrams/',  # Diagrams placeholder
@@ -323,15 +323,44 @@ class LinkIntegrityGate:
         return False, target_path, suggested_fix
     
     def _extract_subject_from_filename(self, filename: str) -> Optional[str]:
-        """Extract the SUBJECT field from a v6.0 filename (after __)."""
-        if '__' in filename:
-            # Format: ...__subject_TYPE_I01-R01_STATUS.ext
-            after_double = filename.split('__', 1)[1]
-            # Subject is before first underscore that looks like a TYPE code
-            parts = after_double.split('_')
-            if parts:
-                return parts[0]  # e.g., "stakeholder-ai-entrypoint"
-        return None
+        """
+        Extract the SUBJECT field from a v6.0 filename (after __).
+        
+        Format: ...__subject_TYPE_I##-R##_STATUS.ext
+        The subject is everything between __ and the TYPE code.
+        TYPE codes are uppercase 2-4 letter codes like STD, IDX, RPT, etc.
+        """
+        if '__' not in filename:
+            return None
+        
+        # Get the part after __
+        after_double = filename.split('__', 1)[1]
+        
+        # Remove extension
+        if '.' in after_double:
+            after_double = after_double.rsplit('.', 1)[0]
+        
+        # Split by underscore
+        parts = after_double.split('_')
+        
+        if not parts:
+            return None
+        
+        # Find where the TYPE code starts (uppercase 2-4 letter code)
+        # Common TYPE codes: STD, IDX, RPT, LOG, ACT, FHA, PSSA, SSA, FTA, etc.
+        type_pattern = re.compile(r'^[A-Z]{2,4}$')
+        
+        subject_parts = []
+        for i, part in enumerate(parts):
+            if type_pattern.match(part):
+                # Found TYPE code, everything before this is the subject
+                break
+            subject_parts.append(part)
+        
+        if subject_parts:
+            return '_'.join(subject_parts)  # Return full subject with underscores
+        
+        return parts[0] if parts else None
     
     def _find_nearest_match(
         self,
