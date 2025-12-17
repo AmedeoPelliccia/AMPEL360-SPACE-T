@@ -23,7 +23,7 @@
 | VARIANT         | Allowlist (GEN, BASELINE, etc.)      | `GEN`, `CERT`, `FLIGHTTEST`  |
 | VERSION         | Allowlist (PLUS, PLUSULTRA)          | `PLUS`, `PLUSULTRA`          |
 | MODEL           | Allowlist (BB, HW, SW, PR)           | `BB`, `HW`, `SW`, `PR`       |
-| BLOCK           | Allowlist (OPS, STR, AI, etc.)       | `OPS`, `STR`, `AI`, `DATA`   |
+| BLOCK           | B## format (B00-B90)                 | `B10`, `B50`, `B60`, `B20`   |
 | PHASE           | LC01-LC14 or SB01-SB99               | `LC03`, `SB04`, `LC10`       |
 | KNOT_TASK       | K01-K14, optional -T001 to -T999     | `K06`, `K06-T001`, `K02`     |
 | AoR             | Allowlist (portal entry points)      | `CM`, `CERT`, `SAF`, `SE`    |
@@ -95,11 +95,21 @@ SW               # Software
 PR               # Process/Procedure
 ```
 
-### BLOCK
+### BLOCK (Domain Partitions - OPTINS Framework)
 ```
-OPS, STR, PROP, AI, DATA, CERT, SAF, SW, HW, SYS,
-TEST, MRO, CIRC, ENRG, STOR, GEN
+B00      # GENERAL (universal, implicit)
+B10      # OPERATIONAL SYSTEMS (onboard/offboard/simtest)
+B20      # CYBERSECURITY (digital + onboard)
+B30      # DATA, COMMS AND REGISTRY (digital + onboard)
+B40      # PHYSICS (pressure/thermal/crio) (onboard + simtest)
+B50      # PHYSICAL (aerostructures + HW) (onboard/offboard)
+B60      # DYNAMICS (thrust/attitude/inerting) (onboard + simtest)
+B70      # RECIPROCITY & ALTERNATIVE ENGINES (onboard + simtest)
+B80      # RENEWABLE ENERGY & CIRCULARITY (onboard + offboard)
+B90      # CONNECTIONS & MAPPING (digital + onboard)
 ```
+
+**Note:** Not all BLOCK values are valid for all ATA_ROOT values. See `config/nomenclature/ATA_PARTITION_MATRIX.yaml` for complete mapping.
 
 ### AoR (Portal Entry Points)
 ```
@@ -130,43 +140,43 @@ md, yml, yaml, json, csv, svg, png, jpg, jpeg, pdf, drawio
 
 ### ✅ Valid v6.0 Examples
 
-**Thermal loop overview (Q10, GEN, PLUS, BB):**
+**Thermal loop overview (Q10, GEN, PLUS, BB, B10):**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
-```
-
-**Pressure bulkhead trade (Q100, CERT, HW):**
-```
-53_AMPEL360_SPACET_Q100_CERT_PLUS_HW_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I02-R01_DRAFT.pdf
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
 ```
 
-**Model card template (Q10, BASELINE, SW):**
+**Pressure bulkhead trade (Q100, CERT, HW, B50):**
 ```
-95_AMPEL360_SPACET_Q10_BASELINE_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md
+53_AMPEL360_SPACET_Q100_CERT_PLUS_HW_B50_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I02-R01_DRAFT.pdf
 ```
 
-**Cert authority basis (Q10, CERT, PR):**
+**Model card template (Q10, BASELINE, SW, B20):**
 ```
-00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I01-R01_ACTIVE.md
+95_AMPEL360_SPACET_Q10_BASELINE_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md
+```
+
+**Cert authority basis (Q10, CERT, PR, B00):**
+```
+00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-authority-basis_PLAN_I01-R01_ACTIVE.md
 ```
 
 ### ❌ Common Errors
 
 **Missing new fields (v5.0 format):**
 ```
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
+27_AMPEL360_SPACET_PLUS_B10_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
 ❌ Missing: FAMILY, VARIANT (redefined), VERSION, MODEL, ISSUE-REVISION
 ```
 
 **Invalid KNOT:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K99_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K99_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ❌ K99 not allowed (only K01-K14)
 ```
 
 **Single underscore before SUBJECT:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE_thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE_thermal-loop_STD_I01-R01_ACTIVE.md
 ❌ Must use double underscore (__) before SUBJECT
 ```
 
