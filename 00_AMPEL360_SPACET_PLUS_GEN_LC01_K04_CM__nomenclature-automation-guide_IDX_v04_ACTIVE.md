@@ -370,9 +370,9 @@ python validate_nomenclature.py --check-all --verbose --strict
 
 ### 10.1 Related Documents
 
-* [Nomenclature Standard v4.0](00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v04.md)
-* [Nomenclature Quick Reference v4.0](00_AMPEL360_SPACET_PLUS_00_CAT_LC01_K00_CM__nomenclature-quick-reference_v04.md)
-* [KNOTS Catalog](00_AMPEL360_SPACET_CERT_90_CAT_SB90_K00_CERT__knots-catalog_v01.json)
+* [Nomenclature Standard v4.0](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v04_ACTIVE.md)
+* [Nomenclature Quick Reference v4.0](00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-quick-reference_CAT_v04_ACTIVE.md)
+* [KNOTS Catalog](00_AMPEL360_SPACET_CERT_GEN_SB90_K01_CERT__knots-catalog_CAT_v01_ACTIVE.json)
 
 ### 10.2 Tool Locations
 

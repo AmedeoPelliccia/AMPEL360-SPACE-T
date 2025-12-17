@@ -25,6 +25,11 @@ jobs:
         with:
           python-version: '3.x'
       
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      
       - name: Validate all files
         id: validate
         run: |
@@ -36,13 +41,14 @@ jobs:
         if: steps.validate.outcome == 'failure'
         run: |
           echo "❌ Nomenclature validation failed!"
-          echo "Please ensure all files follow the nomenclature standard v4.0:"
-          echo "[ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BUCKET]_[TYPE]_[LC|SB]_[TRIGGER_KNOT]_[AoR]__[DESCRIPTION]_[VERSION].[EXT]"
+          echo "Please ensure all files follow the nomenclature standard v5.0:"
+          echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
           echo ""
-          echo "See 00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v04.md for details."
+          echo "See docs/standards/NOMENCLATURE_v5_0.md for details."
+          echo "Quick ref: docs/standards/NOMENCLATURE_v5_0_QUICKREF.md"
           exit 1
       
       - name: Validation success
         if: steps.validate.outcome == 'success'
         run: |
-          echo "✅ All files comply with nomenclature standard!"
+          echo "✅ All files comply with nomenclature standard v5.0!"

@@ -2,87 +2,115 @@
 """
 AMPEL360 Space-T File Scaffolding Tool
 =======================================
-Version: 4.0
-Date: 2025-12-16
+Version: 5.0
+Date: 2025-12-17
 
-Automates creation of files from templates with proper nomenclature v4.0.
+Automates creation of files from templates with proper nomenclature v5.0.
 
 Usage:
-    python scripts/scaffold.py <ROOT> <PROJECT> <PROGRAM> <VARIANT> <BUCKET> <TYPE> <LC|SB> <KNOT> <AOR> <DESC> <VER>
+    python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>
 
 Example:
-    python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 00 PLAN LC01 K00 CM safety-program v01
-    Creates: 00_AMPEL360_SPACET_PLUS_00_PLAN_LC01_K00_CM__safety-program_v01.md
+    python scripts/scaffold.py 27 AMPEL360 SPACET PLUS OPS LC03 K06 SE thermal-loop-overview STD v01 ACTIVE
+    Creates: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop-overview_STD_v01_ACTIVE.md
 """
 
 import sys
 import os
+import yaml
 from pathlib import Path
 from datetime import date
+from typing import Dict, Any, Optional
 
 
 # Template directory
 TEMPLATE_DIR = "templates"
 
-# Allowed AoR values (v4.0)
-ALLOWED_AORS = [
-    'CM', 'CERT', 'AI', 'DATA', 'OPS', 'SE', 'SAF', 
-    'PMO', 'CY', 'TEST', 'MRO', 'SPACEPORT'
-]
+# Default config path
+DEFAULT_CONFIG_PATH = "config/nomenclature/v5_0.yaml"
 
-# Bucket to directory mapping (simplified)
-BUCKET_DIRS = {
-    "00": ".",  # Root level for lifecycle artifacts
-    "10": ".",  # Operations - user specifies or moves later
-    "20": ".",  # Primary Subsystem
-    "30": ".",  # Circularity
-    "40": ".",  # Software
-    "50": ".",  # Structures
-    "60": ".",  # Storages
-    "70": ".",  # Propulsion
-    "80": ".",  # Energy
-    "90": ".",  # Tables/Schemas
-}
+
+def load_config(config_path: str = DEFAULT_CONFIG_PATH) -> Dict[str, Any]:
+    """Load configuration from YAML file."""
+    try:
+        path = Path(config_path)
+        if not path.exists():
+            # Try relative to script directory
+            script_dir = Path(__file__).parent.parent
+            path = script_dir / config_path
+        
+        if not path.exists():
+            print(f"Warning: Config file not found at {config_path}, using defaults")
+            return get_default_config()
+        
+        with open(path, 'r') as f:
+            config = yaml.safe_load(f)
+            return config or {}
+    except Exception as e:
+        print(f"Warning: Failed to load config from {config_path}: {e}, using defaults")
+        return get_default_config()
+
+
+def get_default_config() -> Dict[str, Any]:
+    """Return default configuration."""
+    return {
+        'allowlists': {
+            'variants': ['PLUS'],
+            'blocks': ['OPS', 'STR', 'PROP', 'AI', 'DATA', 'CERT', 'SAF', 'SW', 'HW', 'SYS', 'TEST', 'MRO', 'CIRC', 'ENRG', 'STOR', 'GEN'],
+            'aors': ['CM', 'CERT', 'SAF', 'SE', 'OPS', 'DATA', 'AI', 'CY', 'TEST', 'MRO', 'SPACEPORT', 'PMO', 'QA', 'SEC', 'LEG', 'FIN', 'PROC'],
+            'types': ['IDX', 'STD', 'PLAN', 'MIN', 'RPT', 'LOG', 'ACT', 'FHA', 'PSSA', 'SSA', 'FTA', 'ANA', 'REQ', 'DAL', 'TRC', 'CAT', 'LST', 'GLO', 'MAT', 'SCH', 'DIA', 'TAB', 'SPEC', 'PLN', 'PROC', 'MAN', 'API', 'CFG'],
+            'statuses': ['TEMPLATE', 'DRAFT', 'ACTIVE', 'APPROVED', 'RELEASED', 'SUPERSEDED', 'ARCHIVED'],
+            'extensions': ['md', 'yml', 'yaml', 'json', 'csv', 'svg', 'png', 'jpg', 'jpeg', 'pdf', 'drawio']
+        }
+    }
 
 
 def scaffold():
     """Main scaffolding function."""
-    if len(sys.argv) < 12:
-        print("Usage: python scripts/scaffold.py ROOT PROJECT PROGRAM VARIANT BUCKET TYPE LC|SB KNOT AOR DESC VER")
-        print("\nExample (Global Program Plan):")
-        print("  python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 00 PLAN LC01 K00 CM safety-program v01")
+    if len(sys.argv) < 13:
+        print("Usage: python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>")
+        print("\nExample (Thermal System Overview):")
+        print("  python scripts/scaffold.py 27 AMPEL360 SPACET PLUS OPS LC03 K06 SE thermal-loop-overview STD v01 ACTIVE")
         print("\nExample (Certification Authority Basis):")
-        print("  python scripts/scaffold.py 00 AMPEL360 SPACET CERT 00 PLAN LC10 K01 CERT certification-authority-basis v01")
+        print("  python scripts/scaffold.py 00 AMPEL360 SPACET PLUS CERT LC10 K01 CERT certification-authority-basis PLAN v01 ACTIVE")
         print("\nExample (Propulsion FHA):")
-        print("  python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 70 FHA SB70 K02 SAF propulsion v01")
-        print("\nExample (ATA Tasklist):")
-        print("  python scripts/scaffold.py 78 AMPEL360 SPACET PLUS 00 IDX LC01 K03 SPACEPORT k03-ata-78-tasklist v01")
+        print("  python scripts/scaffold.py 53 AMPEL360 SPACET PLUS STR LC07 K02 CERT pressure-bulkhead-trade RPT v02 DRAFT")
+        print("\nExample (AI Model Card):")
+        print("  python scripts/scaffold.py 95 AMPEL360 SPACET PLUS AI SB04 K11 CM model-card-template STD v01 TEMPLATE")
         print("\nField requirements:")
-        print("  ROOT: 2-3 digits (ATA chapter)")
+        print("  ATA_ROOT: 2-3 digits (00-116, e.g., 00, 27, 115)")
         print("  PROJECT: AMPEL360 (hard constraint)")
         print("  PROGRAM: SPACET (fixed)")
-        print("  VARIANT: PLUS, CERT, BB, DRAFT, PROTO, SYS, SW, HW, GEN")
-        print("  BUCKET: 00, 10, 20, 30, 40, 50, 60, 70, 80, 90")
-        print("  TYPE: PLAN, FHA, REQ, etc.")
-        print("  LC|SB: LC01-LC14 (for BUCKET=00) or SB15-SB99 (for others)")
-        print("  KNOT: K00 (global) or K01-K99 (specific knot)")
-        print("  AOR: CM, CERT, SAF, etc. (see allowlist)")
-        print("  DESC: lowercase-kebab-case")
-        print("  VER: vNN (e.g., v01)")
-        print("\nAoR Allowlist:")
-        print("  " + ", ".join(ALLOWED_AORS))
-        print("\nAvailable templates:")
-        print("  Planning/Control: PLAN, MIN, RPT, LOG, ACT, IDX")
-        print("  Safety Analysis: FHA, PSSA, SSA, FTA, ANA")
-        print("  Requirements: REQ, DAL, TRC")
-        print("  Data/Reference: CAT, LST, GLO, MAT, SCH, DIA, TAB, STD")
+        print("  VARIANT: PLUS (or other approved variants - see config)")
+        print("  BLOCK: OPS, STR, PROP, AI, DATA, etc. (see config)")
+        print("  PHASE: LC01-LC14 (lifecycle) or SB01-SB99 (subbucket)")
+        print("  KNOT_TASK: K01-K14 (optionally with -T001 to -T999)")
+        print("  AOR: CM, CERT, SAF, SE, etc. (see config)")
+        print("  SUBJECT: lowercase-kebab-case")
+        print("  TYPE: IDX, STD, REQ, RPT, etc. (see config)")
+        print("  VERSION: vNN (e.g., v01, v02)")
+        print("  STATUS: TEMPLATE, DRAFT, ACTIVE, etc. (see config)")
+        print("\nNOTE: Only K01-K14 are allowed for KNOT (strict governance)!")
         sys.exit(1)
 
-    root, project, program, variant, bucket, ftype, lcsb, knot, aor, desc, ver = sys.argv[1:12]
+    ata_root, project, program, variant, block, phase, knot_task, aor, subject, ftype, version, status = sys.argv[1:13]
+    
+    # Load config
+    config = load_config()
+    allowlists = config.get('allowlists', {})
     
     # Validate inputs
-    if not root.isdigit() or len(root) < 2 or len(root) > 3:
-        print(f"Error: ROOT must be 2-3 digits, got '{root}'")
+    if not ata_root.isdigit() or len(ata_root) < 2 or len(ata_root) > 3:
+        print(f"Error: ATA_ROOT must be 2-3 digits, got '{ata_root}'")
+        sys.exit(1)
+    
+    # Validate ATA_ROOT padding
+    ata_num = int(ata_root)
+    if ata_num < 100 and len(ata_root) != 2:
+        print(f"Error: ATA_ROOT must be 2 digits for values <100, got '{ata_root}'")
+        sys.exit(1)
+    elif ata_num >= 100 and len(ata_root) != 3:
+        print(f"Error: ATA_ROOT must be 3 digits for values ≥100, got '{ata_root}'")
         sys.exit(1)
     
     # Validate PROJECT (hard constraint)
@@ -90,56 +118,109 @@ def scaffold():
         print(f"Error: PROJECT must be AMPEL360 (hard constraint), got '{project}'")
         sys.exit(1)
     
-    # Validate PROGRAM (allowlist)
-    if program not in ["SPACET"]:
-        print(f"Error: PROGRAM must be SPACET (allowlist), got '{program}'")
+    # Validate PROGRAM (fixed)
+    if program != "SPACET":
+        print(f"Error: PROGRAM must be SPACET (fixed), got '{program}'")
         sys.exit(1)
     
-    if not variant.replace('-', '').replace('_', '').isalnum():
-        print(f"Error: VARIANT must be alphanumeric with hyphens, got '{variant}'")
+    # Validate VARIANT
+    allowed_variants = allowlists.get('variants', ['PLUS'])
+    if variant not in allowed_variants:
+        print(f"Error: VARIANT must be one of {allowed_variants}, got '{variant}'")
         sys.exit(1)
     
-    if bucket not in BUCKET_DIRS:
-        print(f"Error: BUCKET must be one of {list(BUCKET_DIRS.keys())}, got '{bucket}'")
+    # Validate BLOCK
+    allowed_blocks = allowlists.get('blocks', [])
+    if block not in allowed_blocks:
+        print(f"Error: BLOCK must be one of {allowed_blocks}, got '{block}'")
         sys.exit(1)
     
-    if not ftype.isupper():
-        print(f"Error: TYPE must be uppercase, got '{ftype}'")
+    # Validate PHASE
+    if not (phase.startswith('LC') or phase.startswith('SB')):
+        print(f"Error: PHASE must start with LC or SB, got '{phase}'")
         sys.exit(1)
     
-    # Validate LC|SB
-    if bucket == "00":
-        if not lcsb.startswith("LC") or len(lcsb) != 4 or not lcsb[2:].isdigit():
-            print(f"Error: BUCKET=00 requires LC|SB to be LC01-LC14, got '{lcsb}'")
+    if phase.startswith('LC'):
+        if len(phase) != 4 or not phase[2:].isdigit():
+            print(f"Error: LC phase must be LC01-LC14, got '{phase}'")
             sys.exit(1)
-        lc_num = int(lcsb[2:])
+        lc_num = int(phase[2:])
         if lc_num < 1 or lc_num > 14:
             print(f"Error: LC must be 01-14, got LC{lc_num:02d}")
             sys.exit(1)
-    else:
-        if not lcsb.startswith("SB") or len(lcsb) != 4 or not lcsb[2:].isdigit():
-            print(f"Error: BUCKET≠00 requires LC|SB to be SB15-SB99, got '{lcsb}'")
+    else:  # SB
+        if len(phase) != 4 or not phase[2:].isdigit():
+            print(f"Error: SB phase must be SB01-SB99, got '{phase}'")
+            sys.exit(1)
+        sb_num = int(phase[2:])
+        if sb_num < 1 or sb_num > 99:
+            print(f"Error: SB must be 01-99, got SB{sb_num:02d}")
             sys.exit(1)
     
-    # Validate TRIGGER_KNOT (NEW in v4.0)
-    if not knot.startswith("K") or len(knot) != 3 or not knot[1:].isdigit():
-        print(f"Error: TRIGGER_KNOT must be K00 or K01-K99, got '{knot}'")
+    # Validate KNOT_TASK (strict K01-K14 governance)
+    if not knot_task.startswith('K'):
+        print(f"Error: KNOT_TASK must start with K, got '{knot_task}'")
         sys.exit(1)
     
-    # Validate AoR (NEW in v4.0)
-    if aor not in ALLOWED_AORS:
-        print(f"Error: AoR must be one of {ALLOWED_AORS}, got '{aor}'")
+    # Check for task suffix
+    if '-T' in knot_task:
+        parts = knot_task.split('-T')
+        if len(parts) != 2:
+            print(f"Error: Invalid KNOT_TASK format '{knot_task}', expected K##-T### or K##")
+            sys.exit(1)
+        knot_base = parts[0]
+        task_suffix = parts[1]
+        if len(knot_base) != 3 or not knot_base[1:].isdigit():
+            print(f"Error: KNOT must be K01-K14, got '{knot_base}'")
+            sys.exit(1)
+        if len(task_suffix) != 3 or not task_suffix.isdigit():
+            print(f"Error: Task suffix must be T001-T999, got 'T{task_suffix}'")
+            sys.exit(1)
+    else:
+        knot_base = knot_task
+        if len(knot_base) != 3 or not knot_base[1:].isdigit():
+            print(f"Error: KNOT must be K01-K14, got '{knot_base}'")
+            sys.exit(1)
+    
+    knot_num = int(knot_base[1:])
+    if knot_num < 1 or knot_num > 14:
+        print(f"Error: KNOT must be K01-K14 (strict governance), got '{knot_base}'")
+        print("Note: K15+ are not allowed in v5.0. New knots require CM approval and standard upgrade.")
         sys.exit(1)
     
-    if not ver.startswith('v') or len(ver) != 3 or not ver[1:].isdigit():
-        print(f"Error: VERSION must be vNN (e.g., v01), got '{ver}'")
+    # Validate AoR
+    allowed_aors = allowlists.get('aors', [])
+    if aor not in allowed_aors:
+        print(f"Error: AoR must be one of {allowed_aors}, got '{aor}'")
         sys.exit(1)
     
-    # Construct filename (12-field format, v4.0)
-    filename = f"{root}_{project}_{program}_{variant}_{bucket}_{ftype}_{lcsb}_{knot}_{aor}__{desc}_{ver}.md"
+    # Validate SUBJECT format
+    if not subject.replace('-', '').isalnum() or not subject.islower() and not subject.isdigit():
+        print(f"Error: SUBJECT must be lowercase kebab-case, got '{subject}'")
+        sys.exit(1)
     
-    # Determine target directory
-    target_dir = BUCKET_DIRS.get(bucket, ".")
+    # Validate TYPE
+    allowed_types = allowlists.get('types', [])
+    if ftype not in allowed_types:
+        print(f"Error: TYPE must be one of {allowed_types}, got '{ftype}'")
+        sys.exit(1)
+    
+    # Validate VERSION
+    if not version.startswith('v') or len(version) != 3 or not version[1:].isdigit():
+        print(f"Error: VERSION must be vNN (e.g., v01), got '{version}'")
+        sys.exit(1)
+    
+    # Validate STATUS
+    allowed_statuses = allowlists.get('statuses', [])
+    if status not in allowed_statuses:
+        print(f"Error: STATUS must be one of {allowed_statuses}, got '{status}'")
+        sys.exit(1)
+    
+    # Construct filename (v5.0 format with STATUS field)
+    filename = f"{ata_root}_{project}_{program}_{variant}_{block}_{phase}_{knot_task}_{aor}__{subject}_{ftype}_{version}_{status}.md"
+    
+    # Determine target directory (current directory by default)
+    target_dir = "."
     full_path = os.path.join(target_dir, filename)
     
     # Check if file already exists
@@ -152,7 +233,7 @@ def scaffold():
     
     if not os.path.exists(template_path):
         print(f"Warning: No template found for {ftype}. Creating minimal file.")
-        content = f"---\ntitle: \"{desc}\"\ntype: {ftype}\nvariant: {variant}\nstatus: Draft\n---\n\n# {desc.replace('-', ' ').title()}\n\n"
+        content = f"---\ntitle: \"{subject}\"\ntype: {ftype}\nvariant: {variant}\nblock: {block}\nphase: {phase}\nknot_task: {knot_task}\naor: {aor}\nstatus: {status}\nversion: {version}\ndate: {date.today().isoformat()}\n---\n\n# {subject.replace('-', ' ').title()}\n\n"
     else:
         print(f"Using template: {template_path}")
         with open(template_path, 'r') as t:
@@ -160,22 +241,29 @@ def scaffold():
     
     # Replace placeholders
     replacements = {
-        "{{DESCRIPTION}}": desc,
-        "{{TITLE}}": desc.replace("-", " ").title(),
+        "{{ATA_ROOT}}": ata_root,
         "{{PROJECT}}": project,
         "{{PROGRAM}}": program,
         "{{VARIANT}}": variant,
-        "{{BUCKET}}": bucket,
-        "{{ROOT}}": root,
-        "{{LC_OR_SUBBUCKET}}": lcsb,  # Backward compatibility
-        "{{LCSB}}": lcsb,
-        "{{LC_PHASE}}": lcsb if lcsb.startswith("LC") else "N/A",
-        "{{SUBBUCKET}}": lcsb if lcsb.startswith("SB") else "N/A",
-        "{{TRIGGER_KNOT}}": knot,  # NEW in v4.0
-        "{{AOR}}": aor,  # NEW in v4.0
+        "{{BLOCK}}": block,
+        "{{PHASE}}": phase,
+        "{{KNOT_TASK}}": knot_task,
+        "{{AOR}}": aor,
+        "{{SUBJECT}}": subject,
+        "{{TYPE}}": ftype,
+        "{{VERSION}}": version,
+        "{{STATUS}}": status,
+        "{{TITLE}}": subject.replace("-", " ").title(),
+        "{{DESCRIPTION}}": subject,
         "{{OWNER}}": "TBD",
-        "{{SYSTEM_NAME}}": desc.replace("-", " ").title(),
+        "{{SYSTEM_NAME}}": subject.replace("-", " ").title(),
         "{{DATE}}": date.today().isoformat(),
+        # Backward compatibility placeholders
+        "{{BUCKET}}": block,  # Map BLOCK to old BUCKET
+        "{{LCSB}}": phase,    # Map PHASE to old LCSB
+        "{{LC_PHASE}}": phase if phase.startswith("LC") else "N/A",
+        "{{SUBBUCKET}}": phase if phase.startswith("SB") else "N/A",
+        "{{TRIGGER_KNOT}}": knot_task,  # Old v4.0 name
     }
     
     for placeholder, value in replacements.items():
@@ -189,12 +277,9 @@ def scaffold():
     print(f"\nNext steps:")
     print(f"  1. Edit the file to add content")
     print(f"  2. Validate: python validate_nomenclature.py {filename}")
-    print(f"  3. Commit: git add {full_path} && git commit -m 'Add {desc}'")
-
-
-def get_lc_phase(bucket, variant):
-    """Extract lifecycle phase (deprecated - kept for compatibility)."""
-    return "N/A"
+    print(f"  3. Commit: git add {full_path} && git commit -m 'Add {subject}'")
+    print(f"\nv5.0 Format:")
+    print(f"  [ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]")
 
 
 if __name__ == "__main__":

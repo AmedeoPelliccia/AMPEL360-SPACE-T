@@ -2,40 +2,83 @@
 
 ## File Naming Convention (MANDATORY)
 
-**CRITICAL**: All files created or renamed in this repository MUST follow the Nomenclature Standard v1.0.
+**CRITICAL**: All files created or renamed in this repository MUST follow the Nomenclature Standard v5.0.
 
 ### Required Pattern
 
 ```
-[ROOT]_[BUCKET]_[TYPE]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]
 ```
 
 ### Quick Reference
 
-- **ROOT**: 2 digits (e.g., `00`, `24`, `72`)
-- **BUCKET**: `00|10|20|30|40|50|60|70|80|90`
-- **TYPE**: 2-8 uppercase (e.g., `PLAN`, `FHA`, `REQ`, `STD`)
-- **VARIANT**: Uppercase with hyphens (e.g., `SPACET`, `DRAFT`, `LC02-SPACET`)
-- **DESCRIPTION**: lowercase-kebab-case (e.g., `safety-program`, `propulsion`)
+- **ATA_ROOT**: 2-3 digits (e.g., `00`, `27`, `115`) - 2 digits for <100, 3 for ≥100
+- **PROJECT**: `AMPEL360` (hard constraint)
+- **PROGRAM**: `SPACET` (fixed)
+- **VARIANT**: `PLUS` (config-driven allowlist)
+- **BLOCK**: `OPS`, `STR`, `AI`, etc. (config-driven allowlist)
+- **PHASE**: `LC01-LC14` (lifecycle) or `SB01-SB99` (subbucket)
+- **KNOT_TASK**: `K01-K14` optionally with `-T001` to `-T999` (**strict governance**)
+- **AoR**: `CM`, `CERT`, `SAF`, etc. (**no STK_ prefix!**)
+- **__**: **Double underscore separator required!**
+- **SUBJECT**: lowercase-kebab-case (e.g., `thermal-loop`, `propulsion`)
+- **TYPE**: `STD`, `RPT`, `FHA`, etc. (config-driven allowlist)
 - **VERSION**: `v` + 2 digits (e.g., `v01`, `v02`)
-- **EXT**: lowercase (e.g., `md`, `json`, `xlsx`)
+- **STATUS**: `DRAFT`, `ACTIVE`, `APPROVED`, etc. (config-driven allowlist)
+- **EXT**: lowercase (e.g., `md`, `json`, `pdf`)
 
-### Special Rules
+### Critical Rules (v5.0)
 
-1. **BUCKET=00** requires **VARIANT** to start with `LC01` through `LC14`
-   - Valid: `00_00_PLAN_LC02-SPACET_safety-program_v01.md`
-   - Invalid: `00_00_PLAN_SPACET_safety-program_v01.md`
+1. **KNOT GOVERNANCE (Breaking Change!)**
+   - **Only K01 through K14 are allowed**
+   - K15-K99 are **NOT valid** in v5.0
+   - Optional task suffix: `-T001` through `-T999`
+   - New knots require **CM approval** and **standard upgrade**
+   - Example: `K06`, `K06-T001` ✅ | `K00`, `K99` ❌
 
-2. Use `_` only between fields; use `-` only inside VARIANT and DESCRIPTION
+2. **AoR is MANDATORY**
+   - Must match portal entry points exactly
+   - **No `STK_` prefix** in filenames
+   - Valid: `CM`, `CERT`, `SAF`, `SE` ✅
+   - Invalid: `STK_CM`, `STK_CERT` ❌
 
-3. Validate all files: `python validate_nomenclature.py <filename>`
+3. **Double Underscore**
+   - Use `__` (double underscore) before SUBJECT
+   - Valid: `..._CM__thermal-loop_...` ✅
+   - Invalid: `..._CM_thermal-loop_...` ❌
+
+4. **STATUS Field**
+   - New mandatory field in v5.0
+   - Allowlist: `TEMPLATE`, `DRAFT`, `ACTIVE`, `APPROVED`, `RELEASED`, `SUPERSEDED`, `ARCHIVED`
+
+5. **Config-Driven**
+   - All allowlists defined in `config/nomenclature/v5_0.yaml`
+   - Changes require CM approval
 
 ### Examples
 
-✅ `00_00_PLAN_LC02-SPACET_safety-program_v01.md`
-✅ `00_70_FHA_SYS_propulsion_v01.md`
-✅ `00_40_REQ_SW_software-safety-reqs_v01.md`
-✅ `00_90_SCH_GEN_hazard-log-schema_v01.json`
+✅ Valid v5.0:
+```
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_v01_ACTIVE.md
+53_AMPEL360_SPACET_PLUS_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_v02_DRAFT.pdf
+95_AMPEL360_SPACET_PLUS_AI_SB04_K11_CM__model-card-template_STD_v01_TEMPLATE.md
+00_AMPEL360_SPACET_PLUS_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_v01_ACTIVE.md
+```
+
+❌ Invalid:
+```
+# Missing STATUS field
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01.md
+
+# Invalid KNOT (K99 not allowed)
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K99_SE__thermal-loop_STD_v01_ACTIVE.md
+
+# STK_ prefix not allowed
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_STK_SE__thermal-loop_STD_v01_ACTIVE.md
+
+# Single underscore (must be __)
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE_thermal-loop_STD_v01_ACTIVE.md
+```
 
 ### Excluded Files
 
@@ -52,9 +95,23 @@ python validate_nomenclature.py <filename>
 python validate_nomenclature.py --check-all
 ```
 
+### Scaffolding
+
+Create new files with proper v5.0 nomenclature:
+```bash
+python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>
+```
+
+Example:
+```bash
+python scripts/scaffold.py 27 AMPEL360 SPACET PLUS OPS LC03 K06 SE thermal-loop STD v01 ACTIVE
+```
+
 ### Documentation
 
-Full standard: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
+- **Full standard**: `docs/standards/NOMENCLATURE_v5_0.md`
+- **Quick reference**: `docs/standards/NOMENCLATURE_v5_0_QUICKREF.md`
+- **Config file**: `config/nomenclature/v5_0.yaml`
 
 ---
 
@@ -64,8 +121,21 @@ When creating a new file of a specific `TYPE`, you MUST use the appropriate temp
 
 1. **Look up** the template in `templates/[TYPE].md`
 2. **Read** the template content
-3. **Generate** the new file using the requested `BUCKET`, `VARIANT`, and `DESCRIPTION`
+3. **Use the scaffold script** to generate properly named files
 4. **Fill** the placeholders (`{{...}}`) with context from the user's prompt
+
+### Scaffolding Workflow
+
+**Always use the scaffold script:**
+```bash
+python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>
+```
+
+This ensures:
+- Correct v5.0 nomenclature
+- Proper template usage
+- All required fields present
+- Validation passes
 
 ### Available Templates
 
@@ -96,25 +166,27 @@ When creating a new file of a specific `TYPE`, you MUST use the appropriate temp
 
 ### Template Placeholders
 
-- `{{DESCRIPTION}}` - Replace with the file's description field
-- `{{TITLE}}` - Replace with human-readable title (capitalize description)
-- `{{VARIANT}}` - Replace with the variant code
-- `{{BUCKET}}` - Replace with the bucket code
-- `{{LC_PHASE}}` - Replace with lifecycle phase (for BUCKET=00)
+**v5.0 Placeholders:**
+- `{{ATA_ROOT}}` - ATA chapter code
+- `{{PROJECT}}` - Project identifier (AMPEL360)
+- `{{PROGRAM}}` - Program identifier (SPACET)
+- `{{VARIANT}}` - Configuration variant
+- `{{BLOCK}}` - Domain classification
+- `{{PHASE}}` - Lifecycle or subbucket phase
+- `{{KNOT_TASK}}` - Knot and optional task
+- `{{AOR}}` - Area of responsibility
+- `{{SUBJECT}}` - Human-readable subject
+- `{{TYPE}}` - Artifact type
+- `{{VERSION}}` - Version number
+- `{{STATUS}}` - Document status
+- `{{TITLE}}` - Replace with human-readable title
 - `{{OWNER}}` - Replace with responsible owner/team
-- `{{SYSTEM_NAME}}` - Replace with system name (for FHA)
+- `{{DATE}}` - Current date
 
-### Scaffolding Script
-
-Use the scaffolding script to automate file creation:
-```bash
-python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
-```
-
-Example:
-```bash
-python scripts/scaffold.py 00 70 FHA SYS propulsion v01
-```
+**Backward compatibility placeholders (deprecated):**
+- `{{BUCKET}}` - Maps to BLOCK
+- `{{LCSB}}` - Maps to PHASE
+- `{{DESCRIPTION}}` - Maps to SUBJECT
 
 ### New TYPE Detection
 
