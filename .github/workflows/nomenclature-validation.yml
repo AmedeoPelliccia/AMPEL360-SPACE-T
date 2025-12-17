@@ -30,25 +30,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
       
-      - name: Validate all files
+      - name: Validate all files (PR-BLOCKING)
         id: validate
         run: |
-          echo "Running nomenclature validation..."
+          echo "Running nomenclature validation (PR-BLOCKING MODE)..."
+          echo "=================================================="
           python validate_nomenclature.py --check-all --strict --verbose
-        continue-on-error: true
-      
-      - name: Check validation result
-        if: steps.validate.outcome == 'failure'
-        run: |
-          echo "❌ Nomenclature validation failed!"
-          echo "Please ensure all files follow the nomenclature standard v5.0:"
-          echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
+          EXIT_CODE=$?
+          echo "=================================================="
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo ""
+            echo "❌ NOMENCLATURE VALIDATION FAILED - PR BLOCKED"
+            echo ""
+            echo "Please ensure all files follow the nomenclature standard v5.0:"
+            echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
+            echo ""
+            echo "Documentation:"
+            echo "  - Standard: docs/standards/NOMENCLATURE_v5_0.md"
+            echo "  - Quick ref: docs/standards/NOMENCLATURE_v5_0_QUICKREF.md"
+            echo "  - Scaffold: python scripts/scaffold.py"
+            echo ""
+            echo "This check is BLOCKING and must pass before the PR can be merged."
+            exit 1
+          fi
           echo ""
-          echo "See docs/standards/NOMENCLATURE_v5_0.md for details."
-          echo "Quick ref: docs/standards/NOMENCLATURE_v5_0_QUICKREF.md"
-          exit 1
-      
-      - name: Validation success
-        if: steps.validate.outcome == 'success'
-        run: |
           echo "✅ All files comply with nomenclature standard v5.0!"
