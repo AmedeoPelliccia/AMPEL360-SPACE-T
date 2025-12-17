@@ -29,7 +29,7 @@ This repository contains the official directory structure generators for AMPEL36
 
 - **OPT-INS Framework Standard v1.1** (6 axes: Organization, Program, Technology, Infrastructures, Neural, SIM/TEST)
 - **Nomenclature Standard v6.0 R1.0** (15-token canonical format with frozen allowlists)
-- **ATA-SpaceT numbering system** (131 ATA chapters covering aerospace systems, ATA 100–114 reserved for S-axis)
+- **ATA-SpaceT numbering system** (116 ATA chapters covering aerospace systems, ATA 100–114 reserved for S-axis)
 - **14-folder lifecycle structure** (LC01-LC14 with subbuckets SB01-SB99)
 - **Knot-based governance** (K01-K14 with strict change control)
 - **8 CI governance gates** (3 blocking, 1 review, 4 planned)
