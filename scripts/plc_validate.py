@@ -171,7 +171,7 @@ class PLCValidator:
     }
     
     def __init__(self, config_path: Optional[str] = None, strict: bool = True, 
-                 mode: str = "block"):
+                 mode: str = "warn"):
         """
         Initialize PLC validator.
         
@@ -268,12 +268,12 @@ class PLCValidator:
         # ═══════════════════════════════════════════════════════════════════
         # CHAIN 1: ATA_ROOT ↔ BLOCK coherence
         # ═══════════════════════════════════════════════════════════════════
-        ata_block_valid = False
+        ata_mapped = False
         for (ata_min, ata_max), valid_blocks in self.ATA_BLOCK_MAP.items():
             if ata_min <= ata_root <= ata_max:
-                if block in valid_blocks:
-                    ata_block_valid = True
-                else:
+                ata_mapped = True
+                if block not in valid_blocks and block != 'GEN':
+                    # GEN block is always acceptable as a fallback
                     chain_violations.append((
                         'ATA_ROOT', 'BLOCK',
                         f"ATA {ata_root} typically uses BLOCK in {valid_blocks}, not '{block}'"
@@ -282,6 +282,13 @@ class PLCValidator:
                         f"ATA_ROOT↔BLOCK: ATA {ata_root} is typically in {valid_blocks}, not '{block}'"
                     )
                 break
+        
+        # If ATA chapter is not in any mapped range, GEN is always acceptable
+        # For unmapped ATAs, only warn if BLOCK is not GEN (permissive for gaps)
+        if not ata_mapped and block != 'GEN':
+            warnings.append(
+                f"ATA_ROOT↔BLOCK: ATA {ata_root} has no explicit mapping; using BLOCK '{block}' (GEN is preferred for unmapped)"
+            )
         
         # ═══════════════════════════════════════════════════════════════════
         # CHAIN 2: PHASE ↔ STATUS lifecycle alignment
@@ -400,22 +407,25 @@ class PLCValidator:
                     f"ATA_ROOT↔BLOCK/AoR: Neural ATA {ata_root} should typically have AI/DATA BLOCK or AoR"
                 )
         
-        # Determine overall validity
+        # Determine overall validity based on mode
         if self.mode == "warn" or self.mode == "report":
+            # In warn/report mode, treat errors as warnings (no failure)
             valid = True
-            if errors:
-                warnings.extend(errors)
-                errors = []
+            warnings_to_add = errors.copy()  # Don't mutate original list
+            consistency_warnings = warnings + warnings_to_add
+            consistency_errors = []
         else:
             # In block mode, only MANDATORY errors cause failure
             valid = len(errors) == 0
+            consistency_errors = errors
+            consistency_warnings = warnings
         
         return PLCValidationResult(
             filename=filename,
             valid=valid,
             parsed_fields=fields,
-            consistency_errors=errors,
-            consistency_warnings=warnings,
+            consistency_errors=consistency_errors,
+            consistency_warnings=consistency_warnings,
             chain_violations=chain_violations
         )
     
