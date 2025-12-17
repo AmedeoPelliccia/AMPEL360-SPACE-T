@@ -1,0 +1,182 @@
+---
+# AMPEL360 Space-T Release Freeze Configuration
+# PR^3-3 Predicted Release (Freeze + Final Verification)
+# =====================================================
+# This file documents the frozen state for the predicted release.
+# All configurations, allowlists, and governance rules are locked
+# and under CM change control.
+
+release:
+  version: "PR^3-3"
+  name: "Predicted Release - Freeze + Final Verification"
+  freeze_date: "2025-12-17"
+  status: "FROZEN"
+  target_date: "2025-12-20"
+  
+nomenclature_standard:
+  version: "v6.0"
+  revision: "R1.0"
+  status: "FINAL LOCK"
+  immutable: true
+  config_file: "config/nomenclature/v6_0.yaml"
+  documentation: "docs/standards/NOMENCLATURE_v6_0_R1_0.md"
+  
+  # Frozen allowlists under CM change control
+  allowlists_frozen:
+    - families          # Q10, Q100
+    - variants          # GEN, BASELINE, FLIGHTTEST, CERT, MSN, HOV, CUST
+    - versions          # PLUS, PLUSULTRA (with optional 2-digit iteration)
+    - models            # BB, HW, SW, PR
+    - blocks            # OPS, STR, AI, DATA, CERT, SAF, etc.
+    - aors              # CM, CERT, SAF, SE, OPS, DATA, AI, etc.
+    - types             # STD, PLAN, RPT, FHA, PSSA, SSA, etc.
+    - statuses          # TEMPLATE, DRAFT, ACTIVE, APPROVED, RELEASED, etc.
+    - extensions        # md, yml, yaml, json, csv, svg, png, jpg, pdf, etc.
+    
+  # Frozen governance rules
+  governance_frozen:
+    - knot_range        # K01-K14 only (strict enforcement)
+    - issue_revision    # I##-R## format mandatory
+    - double_underscore # Required before SUBJECT
+    - ata_padding       # 2 digits <100, 3 digits ≥100
+    - length_limits     # Filename max 180 chars
+    - conditional_prefixes  # CUST/MSN variant prefix rules
+    
+code_freeze:
+  enabled: true
+  freeze_date: "2025-12-17"
+  exceptions:
+    - "Bug fixes for release-blocking issues"
+    - "Documentation updates"
+    - "Link fixes and cross-reference updates"
+    - "CI/CD configuration (non-breaking)"
+  
+  no_merge_after_freeze:
+    - "New features"
+    - "Breaking changes"
+    - "New TYPE codes"
+    - "New KNOT IDs"
+    - "Allowlist expansions"
+    
+change_control:
+  authority: "Configuration Management Working Group"
+  approval_required_for:
+    - "Any change to config/nomenclature/v6_0.yaml"
+    - "New allowlist values"
+    - "New KNOT IDs (requires standard upgrade)"
+    - "Breaking changes to validation rules"
+    - "Changes to CI governance gates"
+    
+  process:
+    - "Submit change request to CM WG"
+    - "Emergency approval for critical issues only"
+    - "Document in release notes"
+    - "Update retrofit report"
+    
+validation_requirements:
+  nomenclature:
+    tool: "validate_nomenclature.py"
+    mode: "block"
+    standard: "v6.0"
+    violations_allowed: 0
+    
+  links:
+    tool: "scripts/check_and_update_links.py"
+    broken_links_allowed: 0
+    
+  schemas:
+    tool: "scripts/validate_schema_registry.py"
+    missing_registries_allowed: 0
+    
+  trace_links:
+    tool: "scripts/validate_trace_links.py"
+    broken_traces_allowed: 0
+    
+  teknia_credentials:
+    schema_version: "1.0"
+    config_file: "config/teknia/credential_schema_v1.yaml"
+    validation_required: true
+    
+ci_gates:
+  blocking_gates:
+    - GATE-001  # Nomenclature Validation
+    - GATE-002  # Schema Registration Check
+    - GATE-003  # Trace Link Integrity Check
+    
+  review_gates:
+    - GATE-006  # Governance Change Detection
+    
+  planned_gates:
+    - GATE-004  # Namespace Deduplication (planned)
+    - GATE-005  # Identifier Grammar Check (planned)
+    - GATE-007  # Breaking Schema Detection (planned)
+    - GATE-008  # Evidence Link Validation (planned)
+    
+  all_gates_must_pass: true
+  
+release_artifacts:
+  required:
+    - release_notes:
+        file: "00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md"
+        owner: "CM WG"
+        
+    - upgrade_guide:
+        file: "00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md"
+        owner: "CM WG"
+        
+    - retrofit_report:
+        file: "00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__retrofit-report-v6_RPT_I01-R01_ACTIVE.md"
+        status: "Update to RELEASED"
+        
+    - maintainer_signoff:
+        file: "00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__maintainer-signoff-pr3-3_LOG_I01-R01_APPROVED.md"
+        owner: "Maintainers"
+        
+    - known_issues:
+        file: "00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md"
+        owner: "CM WG"
+        
+verification_checklist:
+  pre_release:
+    - nomenclature_validation: true
+    - link_checking: false  # 802 broken links deferred to post-release
+    - schema_validation: true
+    - trace_link_validation: true
+    - ci_gates_passing: true
+    - documentation_complete: true
+    
+  sign_off:
+    - technical_lead: false  # Pending
+    - cm_lead: false  # Pending
+    - safety_lead: false  # Pending
+    - certification_lead: false  # Pending
+    
+deferred_items:
+  # Items not included in this release
+  - GATE-004: "Namespace Deduplication (planned for next release)"
+  - GATE-005: "Identifier Grammar Check (planned for next release)"
+  - GATE-007: "Breaking Schema Detection (planned for next release)"
+  - GATE-008: "Evidence Link Validation (planned for next release)"
+  
+communication:
+  announcement:
+    channels:
+      - GitHub Release
+      - Repository README
+      - PORTAL stakeholder pages
+    
+  stakeholders:
+    - Configuration Management WG
+    - Certification Authorities
+    - Safety Team
+    - Systems Engineering
+    - AI/ML Engineering
+    - Data Governance
+    - All contributors
+    
+metadata:
+  created: "2025-12-17"
+  owner: "Configuration Management WG"
+  authority: "CM WG"
+  change_control: true
+  review_required: true
