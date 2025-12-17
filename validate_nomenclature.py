@@ -2,16 +2,17 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 5.0
+Version: 6.0
 Date: 2025-12-17
-Standard: Nomenclature Standard v5.0 (Normative)
+Standard: Nomenclature Standard v5.0 and v6.0 (R1.0) (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
-Config-driven validation using config/nomenclature/v5_0.yaml
+Config-driven validation using config/nomenclature/v5_0.yaml or v6_0.yaml
 
 Usage:
     python validate_nomenclature.py <filename>
-    python validate_nomenclature.py --check-all
+    python validate_nomenclature.py --standard v6.0 --check-all
+    python validate_nomenclature.py --standard v6.0 --mode warn --check-all
     python validate_nomenclature.py --check-dir <directory>
 
 Exit codes:
@@ -39,13 +40,13 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard v5.0."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v5.0 or v6.0."""
     
     # Default config path
     DEFAULT_CONFIG_PATH = "config/nomenclature/v5_0.yaml"
     
     # Primary regex pattern (v5.0 format)
-    PRIMARY_PATTERN = re.compile(
+    PRIMARY_PATTERN_V5 = re.compile(
         r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
@@ -61,6 +62,27 @@ class NomenclatureValidator:
         r'\.(?P<ext>[a-z0-9]{1,6})$'
     )
     
+    # Primary regex pattern (v6.0 format)
+    # VERSION supports optional 2-digit iteration: (PLUS|PLUSULTRA)[0-9]{2}?
+    PRIMARY_PATTERN_V6 = re.compile(
+        r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
+        r'(?P<project>AMPEL360)_'
+        r'(?P<program>SPACET)_'
+        r'(?P<family>Q[0-9]{2,3})_'
+        r'(?P<variant>[A-Z0-9]+)_'
+        r'(?P<version>(?:PLUS|PLUSULTRA)(?:[0-9]{2})?)_'  # R1.0: optional 2-digit iteration
+        r'(?P<model>[A-Z]{2})_'
+        r'(?P<block>[A-Z0-9]+)_'
+        r'(?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_'
+        r'(?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_'
+        r'(?P<aor>[A-Z]+)__'
+        r'(?P<subject>[a-z0-9]+(?:-[a-z0-9]+)*)_'
+        r'(?P<type>[A-Z0-9]+)_'
+        r'(?P<issue_revision>I[0-9]{2}-R[0-9]{2})_'
+        r'(?P<status>[A-Z]+)'
+        r'\.(?P<ext>[a-z0-9]{1,6})$'
+    )
+    
     # LC stage pattern (LC01-LC14)
     LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
     
@@ -70,8 +92,17 @@ class NomenclatureValidator:
     # KNOT_TASK pattern (K01-K14 with optional -T###)
     KNOT_TASK_PATTERN = re.compile(r'^K(0[1-9]|1[0-4])(?:-T[0-9]{3})?$')
     
-    # VERSION format pattern
-    VERSION_PATTERN = re.compile(r'^v\d{2}$')
+    # VERSION format pattern (v5.0)
+    VERSION_PATTERN_V5 = re.compile(r'^v\d{2}$')
+    
+    # ISSUE-REVISION pattern (v6.0)
+    ISSUE_REVISION_PATTERN = re.compile(r'^I[0-9]{2}-R[0-9]{2}$')
+    
+    # FAMILY pattern (v6.0)
+    FAMILY_PATTERN = re.compile(r'^Q[0-9]{2,3}$')
+    
+    # MODEL pattern (v6.0)
+    MODEL_PATTERN = re.compile(r'^[A-Z]{2}$')
     
     # Allowed PROJECT values (hard constraint)
     ALLOWED_PROJECTS = {'AMPEL360'}
@@ -79,16 +110,29 @@ class NomenclatureValidator:
     # Allowed PROGRAM values (fixed)
     ALLOWED_PROGRAMS = {'SPACET'}
     
-    def __init__(self, config_path: Optional[str] = None, strict: bool = True):
+    def __init__(self, config_path: Optional[str] = None, strict: bool = True, 
+                 standard: str = "v5.0", mode: str = "block"):
         """
         Initialize validator.
         
         Args:
-            config_path: Path to config YAML file (default: config/nomenclature/v5_0.yaml)
+            config_path: Path to config YAML file (default: config/nomenclature/v5_0.yaml or v6_0.yaml)
             strict: If True, enforce all vocabulary; if False, only warn
+            standard: Standard version to validate against ("v5.0" or "v6.0")
+            mode: Validation mode ("warn", "report", "block")
         """
         self.strict = strict
-        self.config = self._load_config(config_path or self.DEFAULT_CONFIG_PATH)
+        self.standard = standard
+        self.mode = mode
+        
+        # Determine config path based on standard
+        if config_path is None:
+            if standard == "v6.0":
+                config_path = "config/nomenclature/v6_0.yaml"
+            else:
+                config_path = self.DEFAULT_CONFIG_PATH
+        
+        self.config = self._load_config(config_path)
         
         # Extract allowlists from config
         allowlists = self.config.get('allowlists', {})
@@ -98,6 +142,25 @@ class NomenclatureValidator:
         self.allowed_types = set(allowlists.get('types', []))
         self.allowed_statuses = set(allowlists.get('statuses', []))
         self.allowed_extensions = set(allowlists.get('extensions', []))
+        
+        # v6.0 specific allowlists
+        if standard == "v6.0":
+            self.allowed_families = set(allowlists.get('families', []))
+            self.allowed_version_brands = set(allowlists.get('version_brand', []))
+            self.allowed_models = set(allowlists.get('models', []))
+            
+            # Load patterns and limits from config (R1.0 FINAL LOCK)
+            patterns = self.config.get('patterns', {})
+            self.version_pattern_str = patterns.get('version', r'^(PLUS|PLUSULTRA)([0-9]{2})?$')
+            self.subject_prefix_for_variant = patterns.get('subject_prefix_for_variant', {})
+            
+            limits = self.config.get('limits', {})
+            self.filename_max_len = limits.get('filename_max_len', 180)
+            token_limits = limits.get('token_max_len', {})
+            self.block_max_len = token_limits.get('block', 12)
+            self.subject_max_len = token_limits.get('subject', 60)
+            self.type_max_len = token_limits.get('type', 8)
+            self.aor_max_len = token_limits.get('aor', 10)
         
         # Extract exemptions from config
         exemptions = self.config.get('exemptions', {})
@@ -177,13 +240,17 @@ class NomenclatureValidator:
             if re.match(pattern, filename):
                 return ValidationResult(filename, True, [], [])
         
-        # Match against primary pattern
-        match = self.PRIMARY_PATTERN.match(filename)
+        # Match against primary pattern based on standard version
+        if self.standard == "v6.0":
+            match = self.PRIMARY_PATTERN_V6.match(filename)
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+        else:
+            match = self.PRIMARY_PATTERN_V5.match(filename)
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
         
         if not match:
             errors.append(
-                "Filename does not match required pattern (v5.0): "
-                "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
+                f"Filename does not match required pattern ({self.standard}): {pattern_desc}"
             )
             return ValidationResult(filename, False, errors, warnings)
         
@@ -199,9 +266,17 @@ class NomenclatureValidator:
         aor = components['aor']
         subject = components['subject']
         type_code = components['type']
-        version = components['version']
         status = components['status']
         ext = components['ext']
+        
+        # v6.0 specific fields
+        if self.standard == "v6.0":
+            family = components.get('family')
+            version = components.get('version')
+            model = components.get('model')
+            issue_revision = components.get('issue_revision')
+        else:
+            version = components.get('version')  # vNN format in v5.0
         
         # Validate ATA_ROOT padding
         ata_num = int(ata_root)
@@ -221,6 +296,91 @@ class NomenclatureValidator:
             errors.append(
                 f"Invalid PROGRAM '{program}': must be SPACET"
             )
+        
+        # v6.0 specific validations
+        if self.standard == "v6.0":
+            # Validate FAMILY
+            if family not in self.allowed_families:
+                msg = f"Invalid FAMILY '{family}': must be one of {sorted(self.allowed_families)}"
+                if self.strict:
+                    errors.append(msg)
+                else:
+                    warnings.append(msg)
+            
+            # Validate VERSION (R1.0 FINAL LOCK: brand + optional 2-digit iteration)
+            # The regex pattern already enforces the brand roots (PLUS|PLUSULTRA) and optional 2-digit iteration
+            version_pattern = re.compile(self.version_pattern_str)
+            if not version_pattern.match(version):
+                # Extract brand roots for error message
+                brand_list = ', '.join(sorted(self.allowed_version_brands))
+                errors.append(
+                    f"Invalid VERSION '{version}': must be a brand root ({brand_list}) "
+                    f"optionally followed by 2 digits (e.g., PLUS, PLUS01, PLUSULTRA02)"
+                )
+            
+            # Validate MODEL
+            if model not in self.allowed_models:
+                msg = f"Invalid MODEL '{model}': must be one of {sorted(self.allowed_models)}"
+                if self.strict:
+                    errors.append(msg)
+                else:
+                    warnings.append(msg)
+            
+            # Validate ISSUE-REVISION format
+            if not self.ISSUE_REVISION_PATTERN.match(issue_revision):
+                errors.append(
+                    f"Invalid ISSUE-REVISION '{issue_revision}': must be I##-R## format (e.g., I01-R01)"
+                )
+            
+            # R1.0 FINAL LOCK: Conditional SUBJECT prefix validation
+            if variant in self.subject_prefix_for_variant:
+                required_prefix_pattern = self.subject_prefix_for_variant[variant]
+                if not re.match(required_prefix_pattern, subject):
+                    if variant == "CUST":
+                        errors.append(
+                            f"VARIANT '{variant}' requires SUBJECT to start with 'cust-<custcode>-' "
+                            f"where custcode is 2-12 alphanumeric chars (e.g., cust-airbus-...)"
+                        )
+                    elif variant == "MSN":
+                        errors.append(
+                            f"VARIANT '{variant}' requires SUBJECT to start with 'msn-<serial>-' "
+                            f"where serial is 3-6 digits (e.g., msn-000123-...)"
+                        )
+                    else:
+                        errors.append(
+                            f"VARIANT '{variant}' requires SUBJECT to match prefix pattern: {required_prefix_pattern}"
+                        )
+            
+            # R1.0 FINAL LOCK: Length limits validation
+            filename_len = len(filename)
+            if filename_len > self.filename_max_len:
+                errors.append(
+                    f"Filename length ({filename_len}) exceeds maximum ({self.filename_max_len} chars)"
+                )
+            
+            if len(block) > self.block_max_len:
+                errors.append(
+                    f"BLOCK '{block}' length ({len(block)}) exceeds maximum ({self.block_max_len} chars)"
+                )
+            
+            if len(subject) > self.subject_max_len:
+                errors.append(
+                    f"SUBJECT '{subject}' length ({len(subject)}) exceeds maximum ({self.subject_max_len} chars)"
+                )
+            
+            if len(type_code) > self.type_max_len:
+                errors.append(
+                    f"TYPE '{type_code}' length ({len(type_code)}) exceeds maximum ({self.type_max_len} chars)"
+                )
+            
+            if len(aor) > self.aor_max_len:
+                errors.append(
+                    f"AoR '{aor}' length ({len(aor)}) exceeds maximum ({self.aor_max_len} chars)"
+                )
+        else:
+            # v5.0 VERSION validation (vNN format)
+            if not self.VERSION_PATTERN_V5.match(version):
+                errors.append(f"VERSION '{version}' must be 'vNN' with exactly 2 digits")
         
         # Validate VARIANT allowlist
         if variant not in self.allowed_variants:
@@ -295,11 +455,17 @@ class NomenclatureValidator:
                 f"SUBJECT '{subject}' may redundantly include TYPE '{type_code}'"
             )
         
-        # Validate VERSION format
-        if not self.VERSION_PATTERN.match(version):
-            errors.append(f"VERSION '{version}' must be 'vNN' with exactly 2 digits")
+        # Determine validity based on mode
+        if self.mode == "warn" or self.mode == "report":
+            # In warn/report mode, always return valid=True but include errors as warnings
+            valid = True
+            if errors:
+                warnings.extend(errors)
+                errors = []
+        else:
+            # In block mode, fail on errors
+            valid = len(errors) == 0
         
-        valid = len(errors) == 0
         return ValidationResult(filename, valid, errors, warnings)
     
     def validate_file_path(self, filepath: Path) -> ValidationResult:
@@ -375,14 +541,22 @@ def print_result(result: ValidationResult, verbose: bool = False) -> None:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Validate filenames against AMPEL360 Space-T nomenclature standard v5.0',
+        description='Validate filenames against AMPEL360 Space-T nomenclature standard v5.0 or v6.0 (R1.0)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # v5.0 validation
   %(prog)s 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
   %(prog)s --check-all
-  %(prog)s --check-dir ./docs
-  %(prog)s --check-all --strict
+  
+  # v6.0 validation (R1.0 FINAL LOCK)
+  %(prog)s --standard v6.0 --check-all
+  %(prog)s --standard v6.0 --mode warn --check-all
+  %(prog)s --standard v6.0 --mode block --check-all
+  
+  # v6.0 examples
+  %(prog)s --standard v6.0 27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+  %(prog)s --standard v6.0 27_AMPEL360_SPACET_Q10_CUST_PLUS01_SW_OPS_LC03_K06_SE__cust-airbus-thermal_STD_I01-R01_DRAFT.md
         """
     )
     
@@ -402,9 +576,21 @@ Examples:
         help='Check all files in specified directory'
     )
     parser.add_argument(
+        '--standard',
+        choices=['v5.0', 'v6.0'],
+        default='v5.0',
+        help='Nomenclature standard version to validate against (default: v5.0)'
+    )
+    parser.add_argument(
+        '--mode',
+        choices=['warn', 'report', 'block'],
+        default='block',
+        help='Validation mode: warn (no fail), report (detailed), block (fail on error) (default: block)'
+    )
+    parser.add_argument(
         '--config',
         metavar='CONFIG',
-        help='Path to config YAML file (default: config/nomenclature/v5_0.yaml)'
+        help='Path to config YAML file (default: auto-detected based on --standard)'
     )
     parser.add_argument(
         '--strict',
@@ -431,7 +617,12 @@ Examples:
     if not any([args.filename, args.check_all, args.check_dir]):
         parser.error('Must specify filename, --check-all, or --check-dir')
     
-    validator = NomenclatureValidator(config_path=args.config, strict=args.strict)
+    validator = NomenclatureValidator(
+        config_path=args.config, 
+        strict=args.strict,
+        standard=args.standard,
+        mode=args.mode
+    )
     results = []
     
     try:

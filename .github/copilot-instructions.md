@@ -2,12 +2,12 @@
 
 ## File Naming Convention (MANDATORY)
 
-**CRITICAL**: All files created or renamed in this repository MUST follow the Nomenclature Standard v5.0.
+**CRITICAL**: All files created or renamed in this repository MUST follow the Nomenclature Standard v6.0 (R1.0 FINAL LOCK).
 
-### Required Pattern
+### Required Pattern (v6.0 R1.0)
 
 ```
-[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
 ```
 
 ### Quick Reference
@@ -15,7 +15,10 @@
 - **ATA_ROOT**: 2-3 digits (e.g., `00`, `27`, `115`) - 2 digits for <100, 3 for ≥100
 - **PROJECT**: `AMPEL360` (hard constraint)
 - **PROGRAM**: `SPACET` (fixed)
-- **VARIANT**: `PLUS` (config-driven allowlist)
+- **FAMILY**: `Q10`, `Q100` (quantum-inspired pax payload, allowlist)
+- **VARIANT**: `GEN`, `BASELINE`, `FLIGHTTEST`, `CERT`, `MSN`, `HOV`, `CUST` (governance lane, allowlist)
+- **VERSION**: `PLUS`, `PLUS01`, `PLUSULTRA`, `PLUSULTRA02` (branding + optional 2-digit iteration)
+- **MODEL**: `BB`, `HW`, `SW`, `PR` (artifact domain, allowlist)
 - **BLOCK**: `OPS`, `STR`, `AI`, etc. (config-driven allowlist)
 - **PHASE**: `LC01-LC14` (lifecycle) or `SB01-SB99` (subbucket)
 - **KNOT_TASK**: `K01-K14` optionally with `-T001` to `-T999` (**strict governance**)
@@ -23,15 +26,15 @@
 - **__**: **Double underscore separator required!**
 - **SUBJECT**: lowercase-kebab-case (e.g., `thermal-loop`, `propulsion`)
 - **TYPE**: `STD`, `RPT`, `FHA`, etc. (config-driven allowlist)
-- **VERSION**: `v` + 2 digits (e.g., `v01`, `v02`)
+- **ISSUE-REVISION**: `I##-R##` (e.g., `I01-R01`, `I12-R03`)
 - **STATUS**: `DRAFT`, `ACTIVE`, `APPROVED`, etc. (config-driven allowlist)
 - **EXT**: lowercase (e.g., `md`, `json`, `pdf`)
 
-### Critical Rules (v5.0)
+### Critical Rules (v6.0 R1.0 FINAL LOCK)
 
-1. **KNOT GOVERNANCE (Breaking Change!)**
+1. **KNOT GOVERNANCE**
    - **Only K01 through K14 are allowed**
-   - K15-K99 are **NOT valid** in v5.0
+   - K15-K99 are **NOT valid** in v6.0
    - Optional task suffix: `-T001` through `-T999`
    - New knots require **CM approval** and **standard upgrade**
    - Example: `K06`, `K06-T001` ✅ | `K00`, `K99` ❌
@@ -47,37 +50,71 @@
    - Valid: `..._CM__thermal-loop_...` ✅
    - Invalid: `..._CM_thermal-loop_...` ❌
 
-4. **STATUS Field**
-   - New mandatory field in v5.0
-   - Allowlist: `TEMPLATE`, `DRAFT`, `ACTIVE`, `APPROVED`, `RELEASED`, `SUPERSEDED`, `ARCHIVED`
+4. **VERSION Iteration (R1.0 FINAL LOCK)**
+   - Brand root: `PLUS` or `PLUSULTRA`
+   - Optional 2-digit iteration: `01` to `99`
+   - Pattern: `^(PLUS|PLUSULTRA)([0-9]{2})?$`
+   - Examples: `PLUS`, `PLUS01`, `PLUSULTRA02` ✅
+   - Invalid: `PLUS1`, `PLUSULTRA001` ❌
 
-5. **Config-Driven**
-   - All allowlists defined in `config/nomenclature/v5_0.yaml`
+5. **Conditional SUBJECT Prefixes (R1.0 FINAL LOCK)**
+   - **VARIANT=CUST** requires `SUBJECT` to start with `cust-<custcode>-`
+     - custcode: 2-12 alphanumeric characters
+     - Example: `cust-airbus-thermal-loop` ✅
+   - **VARIANT=MSN** requires `SUBJECT` to start with `msn-<serial>-`
+     - serial: 3-6 digits
+     - Example: `msn-000123-thermal-loop` ✅
+
+6. **Length Limits (R1.0 FINAL LOCK)**
+   - Filename: ≤180 characters
+   - BLOCK: ≤12 chars
+   - SUBJECT: ≤60 chars
+   - TYPE: ≤8 chars
+   - AoR: ≤10 chars
+
+7. **ISSUE-REVISION Format**
+   - Pattern: `I##-R##` with zero-padding
+   - Examples: `I01-R01`, `I12-R03` ✅
+   - Invalid: `I1-R1`, `I001-R01` ❌
+
+8. **Config-Driven**
+   - All allowlists defined in `config/nomenclature/v6_0.yaml`
    - Changes require CM approval
 
 ### Examples
 
-✅ Valid v5.0:
+✅ Valid v6.0 R1.0:
 ```
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_v01_ACTIVE.md
-53_AMPEL360_SPACET_PLUS_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_v02_DRAFT.pdf
-95_AMPEL360_SPACET_PLUS_AI_SB04_K11_CM__model-card-template_STD_v01_TEMPLATE.md
-00_AMPEL360_SPACET_PLUS_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_v01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS01_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_OPS_LC03_K06_SE__cust-airbus-thermal_STD_I01-R01_DRAFT.md
+27_AMPEL360_SPACET_Q100_MSN_PLUSULTRA02_HW_OPS_LC03_K06_SE__msn-000123-thermal_STD_I01-R01_ACTIVE.md
+95_AMPEL360_SPACET_Q10_BASELINE_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md
+00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I01-R01_ACTIVE.md
 ```
 
 ❌ Invalid:
 ```
-# Missing STATUS field
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01.md
+# Missing new v6.0 tokens (FAMILY, VERSION redefined, MODEL, ISSUE-REVISION)
+27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
 
 # Invalid KNOT (K99 not allowed)
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K99_SE__thermal-loop_STD_v01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K99_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 
 # STK_ prefix not allowed
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_STK_SE__thermal-loop_STD_v01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_STK_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 
 # Single underscore (must be __)
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE_thermal-loop_STD_v01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE_thermal-loop_STD_I01-R01_ACTIVE.md
+
+# CUST variant without required prefix
+27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_DRAFT.md
+
+# Invalid VERSION iteration (must be 2 digits)
+27_AMPEL360_SPACET_Q10_GEN_PLUS1_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+
+# Invalid ISSUE-REVISION (must be zero-padded)
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I1-R1_ACTIVE.md
 ```
 
 ### Excluded Files
@@ -91,13 +128,31 @@ These files are exempt from the nomenclature standard:
 
 Always validate your files before committing:
 ```bash
-python validate_nomenclature.py <filename>
-python validate_nomenclature.py --check-all
+python validate_nomenclature.py --standard v6.0 <filename>
+python validate_nomenclature.py --standard v6.0 --check-all
 ```
 
 ### Scaffolding
 
-Create new files with proper v5.0 nomenclature:
+Create new files with proper v6.0 nomenclature:
+```bash
+python scripts/scaffold_v6.py --standard v6.0 <ATA_ROOT> <PROJECT> <PROGRAM> <FAMILY> <VARIANT> <VERSION> <MODEL> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <ISSUE-REVISION> <STATUS>
+```
+
+Example:
+```bash
+python scripts/scaffold_v6.py --standard v6.0 27 AMPEL360 SPACET Q10 GEN PLUS BB OPS LC03 K06 SE thermal-loop STD I01-R01 ACTIVE
+```
+
+### Documentation
+
+- **Full standard**: `docs/standards/NOMENCLATURE_v6_0_R1_0.md`
+- **Quick reference**: `docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md`
+- **Config file**: `config/nomenclature/v6_0.yaml`
+
+---
+
+## Template Usage (MANDATORY)
 ```bash
 python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>
 ```
