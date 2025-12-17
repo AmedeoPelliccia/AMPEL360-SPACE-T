@@ -29,7 +29,7 @@
 This release marks a **significant milestone** in the AMPEL360 Space-T project:
 
 - ✅ **Nomenclature Standard v6.0 R1.0 finalized and frozen**
-- ✅ **1,421 files validated with 0 violations** (100% compliance)
+- ✅ **1,423 files validated with 0 violations** (100% compliance)
 - ✅ **8 CI governance gates operational** (3 blocking, 1 review, 4 planned)
 - ✅ **All allowlists locked under CM change control**
 - ✅ **TEKNIA credential framework implemented** (v1.0)
@@ -91,7 +91,7 @@ This release marks a **significant milestone** in the AMPEL360 Space-T project:
 **Migration support:**
 - Automated migration tools available
 - Comprehensive upgrade guide provided
-- Rename maps generated (1,421 files)
+- Rename maps generated (1,423 files)
 
 📖 **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)**
 
@@ -102,8 +102,8 @@ This release marks a **significant milestone** in the AMPEL360 Space-T project:
 ### Pre-Release Verification
 
 ✅ **Nomenclature Validation (GATE-001)**
-- Files checked: 1,421
-- Valid: 1,421 (100%)
+- Files checked: 1,423
+- Valid: 1,423 (100%)
 - Invalid: 0
 - Mode: Block (zero tolerance)
 
@@ -112,7 +112,7 @@ This release marks a **significant milestone** in the AMPEL360 Space-T project:
 - Release-blocking mode enabled
 
 ⚠️ **Known Issues**
-- 803 broken internal links (post-release hotfix scheduled)
+- 802 broken internal links (post-release hotfix scheduled)
 - 4 planned gates not yet implemented (next release)
 
 ---
@@ -174,7 +174,7 @@ python scripts/scaffold_v6.py --standard v6.0 \
 
 ### High Priority (Post-Release Hotfix)
 
-- **KI-PR3-001**: 803 broken internal links
+- **KI-PR3-001**: 802 broken internal links
   - **Status**: Scheduled for hotfix within 1 week
   - **Impact**: Documentation navigation
   - **Workaround**: Use repository search or GitHub file finder

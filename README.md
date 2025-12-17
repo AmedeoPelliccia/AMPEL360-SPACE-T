@@ -13,11 +13,11 @@ Complete OPT-IN Framework Directory Structure Generator Suite
 **Standard:** Nomenclature v6.0 R1.0 (FINAL LOCK)
 
 ### Key Highlights
-- ✅ **1,421 files** validated with **0 violations**
+- ✅ **1,423 files** validated with **0 violations**
 - ✅ **v6.0 R1.0** nomenclature standard **finalized and frozen**
 - ✅ **8 CI governance gates** operational (3 blocking, 1 review, 4 planned)
 - ✅ All allowlists **locked under CM change control**
-- ⚠️ 803 broken links identified (post-release hotfix planned)
+- ⚠️ 802 broken links identified (post-release hotfix planned)
 
 📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md)**
 
@@ -39,7 +39,7 @@ This repository contains the official directory structure generators for AMPEL36
 
 ### Key Features (v6.0 R1.0)
 
-- ✅ **Zero-tolerance validation** (1,421 files, 0 violations)
+- ✅ **Zero-tolerance validation** (1,423 files, 0 violations)
 - ✅ **Immutable allowlists** (frozen under CM change control)
 - ✅ **Quantum-inspired families** (Q10, Q100 pax payload numbering)
 - ✅ **Governance lane variants** (GEN, BASELINE, CERT, MSN, CUST, etc.)
@@ -85,8 +85,6 @@ This repository contains the official directory structure generators for AMPEL36
 - `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
 - `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
 - `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
-- `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_I01-R01.json` (Reference schema)
-- `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_I01-R01.md` (Certification plan)
 
 ### Validation
 

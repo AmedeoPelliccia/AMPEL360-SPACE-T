@@ -18,7 +18,7 @@ This release marks a significant milestone in the AMPEL360 Space-T project with 
 ✅ **Nomenclature Standard v6.0 R1.0 FINAL LOCK**
 - Complete implementation of 15-token canonical format
 - All allowlists frozen under CM change control
-- 1,416 files validated with 0 violations
+- 1,423 files validated with 0 violations
 - Zero tolerance validation (block mode) enabled in CI
 
 ✅ **Governance Framework Operational**
@@ -159,15 +159,15 @@ TEKNIA credential schema v1.0 implemented:
 ### Pre-Release Validation (2025-12-17)
 
 ✅ **Nomenclature Validation**
-- Files checked: 1,416
-- Valid: 1,416 (100%)
+- Files checked: 1,423
+- Valid: 1,423 (100%)
 - Invalid: 0
 - Standard: v6.0 R1.0
 - Mode: Block (zero tolerance)
 
 ⚠️ **Link Checking**
 - Markdown files: 1,290
-- Broken links found: 803
+- Broken links found: 802
 - Status: Requires fixing (in progress)
 
 ✅ **CI Governance Gates**
@@ -182,7 +182,7 @@ TEKNIA credential schema v1.0 implemented:
 
 ### Issues Deferred to Next Release
 
-1. **Link Fixing** - 803 broken internal links identified
+1. **Link Fixing** - 802 broken internal links identified
    - Status: In progress
    - Priority: High
    - Target: Post-release hotfix
@@ -206,7 +206,7 @@ TEKNIA credential schema v1.0 implemented:
 ### Issues Resolved in This Release
 
 1. ✅ v6.0 R1.0 nomenclature standard finalized and locked
-2. ✅ All files migrated to v6.0 format (1,416 files compliant)
+2. ✅ All files migrated to v6.0 format (1,423 files compliant)
 3. ✅ CI governance gates operational (3 blocking + 1 review)
 4. ✅ Validation infrastructure complete and tested
 5. ✅ TEKNIA credential framework implemented
@@ -346,9 +346,9 @@ python scripts/validate_trace_links.py --check-all
 
 - [x] Code freeze enforced
 - [x] Nomenclature standard finalized (v6.0 R1.0)
-- [x] All files validated (1,416 files, 0 violations)
+- [x] All files validated (1,423 files, 0 violations)
 - [x] CI gates operational (3 blocking + 1 review)
-- [ ] Internal links fixed (803 broken links)
+- [ ] Internal links fixed (802 broken links)
 - [x] Release documentation prepared
 - [ ] Maintainer sign-offs collected
 - [x] Allowlists frozen under CM control
@@ -357,7 +357,7 @@ python scripts/validate_trace_links.py --check-all
 
 ### C. Next Steps
 
-1. Fix remaining 803 broken internal links
+1. Fix remaining 802 broken internal links
 2. Collect maintainer sign-offs
 3. Implement planned gates (GATE-004, 005, 007, 008)
 4. Plan next release (features and enhancements)

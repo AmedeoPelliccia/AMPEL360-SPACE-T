@@ -138,18 +138,18 @@ release_artifacts:
         
 verification_checklist:
   pre_release:
-    - nomenclature_validation: false
-    - link_checking: false
-    - schema_validation: false
-    - trace_link_validation: false
-    - ci_gates_passing: false
-    - documentation_complete: false
+    - nomenclature_validation: true
+    - link_checking: false  # 802 broken links deferred to post-release
+    - schema_validation: true
+    - trace_link_validation: true
+    - ci_gates_passing: true
+    - documentation_complete: true
     
   sign_off:
-    - technical_lead: false
-    - cm_lead: false
-    - safety_lead: false
-    - certification_lead: false
+    - technical_lead: false  # Pending
+    - cm_lead: false  # Pending
+    - safety_lead: false  # Pending
+    - certification_lead: false  # Pending
     
 deferred_items:
   # Items not included in this release

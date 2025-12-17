@@ -23,7 +23,7 @@ No critical issues identified at release time.
 
 ## High Priority Issues
 
-### 1. Broken Internal Links (803 identified)
+### 1. Broken Internal Links (802 identified)
 
 **Issue ID:** KI-PR3-001  
 **Priority:** High  
@@ -32,7 +32,7 @@ No critical issues identified at release time.
 **Target Resolution:** Within 1 week post-release
 
 **Description:**
-Link checker identified 803 broken internal links in Markdown files after v6.0 migration.
+Link checker identified 802 broken internal links in Markdown files after v6.0 migration.
 
 **Impact:**
 - Documentation navigation impaired
