@@ -69,9 +69,9 @@ class NomenclatureValidator:
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<family>Q[0-9]{1,2})_'  # Only Qx or Qxx pattern
-        r'(?P<model>BB|HW|SW|PR)_'  # System/artifact type
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<version>(?:BL|TS|GN)[0-9]{2})_'
+        r'(?P<model>BB|HW|SW|PR)_'  # System/artifact type
         r'(?P<block>[A-Z0-9]+)_'
         r'(?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_'
         r'(?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_'
@@ -217,7 +217,7 @@ class NomenclatureValidator:
         # Match against appropriate pattern based on standard
         if self.standard == "R1.0":
             match = self.R1_PATTERN.match(filename)
-            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
         else:
             match = self.V5_PATTERN.match(filename)
             pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"

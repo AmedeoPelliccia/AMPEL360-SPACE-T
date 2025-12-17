@@ -26,19 +26,23 @@ This standard defines the **mandatory** file naming convention for all artifacts
 All files must strictly adhere to the **15-field format**:
 
 ```
-[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
 ```
 
 **Breaking changes from v5.0:**
 - **FAMILY field added**: Quantum aircraft families (Qx/Qxx pattern only)
-- **MODEL field added**: System/artifact type classification (BB/HW/SW/PR)
 - **VARIANT field restructured**: MSN/HOV/CUST added; SYS/HW/SW removed (use MODEL instead)
 - **VERSION field replaced**: Simple `vNN` replaced with typed `BLnn`, `TSnn`, or `GNnn`
+- **MODEL field added**: System/artifact type classification (BB/HW/SW/PR)
 - **ISSUE-REVISION field added**: New `I##-R##` format for issue tracking
 - **Total fields**: 15 (up from 12 in v5.0)
 
-**Architecture:**
-- **FAMILY** (passenger capacity) → **MODEL** (system type) → **VARIANT** (configuration) = 3-level classification
+**Field Order Logic:**
+- High-level identifiers: FAMILY, VARIANT, VERSION
+- Implementation detail: MODEL
+- Domain classification: BLOCK, PHASE, KNOT_TASK, AoR
+- Content description: SUBJECT, TYPE
+- Tracking: ISSUE-REVISION, STATUS
 
 ## 3. Field Definitions and Constraints
 
@@ -50,9 +54,9 @@ All files must strictly adhere to the **15-field format**:
 | **PROJECT**       | Project Identity                          | Fixed: AMPEL360                        | `^AMPEL360$`                         |
 | **PROGRAM**       | Program Identity                          | Fixed: SPACET                          | `^SPACET$`                           |
 | **FAMILY**        | Quantum Aircraft Family                   | Qx or Qxx pattern only                 | `^Q[0-9]{1,2}$`                      |
-| **MODEL**         | System/Artifact Type                      | BB, HW, SW, PR                         | `^(BB\|HW\|SW\|PR)$`                 |
 | **VARIANT**       | Configuration / Context                   | Allowlist (PLUS, CERT, MSN, HOV, etc.) | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$`         |
 | **VERSION**       | Version Type + Number                     | BLnn, TSnn, or GNnn                    | `^(BL\|TS\|GN)[0-9]{2}$`             |
+| **MODEL**         | System/Artifact Type                      | BB, HW, SW, PR                         | `^(BB\|HW\|SW\|PR)$`                 |
 | **BLOCK**         | Domain Classification                     | Allowlist (e.g., OPS, STR, AI)         | `^[A-Z0-9]+$`                        |
 | **PHASE**         | Lifecycle Stage or Sub-bucket             | LC01-LC14 or SB01-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB(0[1-9]\|[1-9][0-9]))$` |
 | **KNOT_TASK**     | Uncertainty Resolution Trigger            | K01-K14 (optionally with -T###)        | `^K(0[1-9]\|1[0-4])(?:-T[0-9]{3})?$` |
@@ -381,12 +385,12 @@ The ISSUE-REVISION field embeds issue tracking information in the filename.
 ### 5.1 Valid R1.0 Filenames
 
 ```
-00_AMPEL360_SPACET_Q10_SW_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
-27_AMPEL360_SPACET_Q10_HW_PLUS_BL01_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
-53_AMPEL360_SPACET_Q100_HW_CERT_BL02_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
-95_AMPEL360_SPACET_Q10_BB_PROTO_TS01_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
-00_AMPEL360_SPACET_Q10_PR_CERT_BL01_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I00-R00_ACTIVE.md
-115_AMPEL360_SPACET_Q10_SW_GEN_GN01_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
+00_AMPEL360_SPACET_Q10_PLUS_BL01_SW_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+27_AMPEL360_SPACET_Q10_PLUS_BL01_HW_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
+53_AMPEL360_SPACET_Q100_CERT_BL02_HW_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
+95_AMPEL360_SPACET_Q10_PROTO_TS01_BB_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
+00_AMPEL360_SPACET_Q10_CERT_BL01_PR_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I00-R00_ACTIVE.md
+115_AMPEL360_SPACET_Q10_GEN_GN01_SW_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
 ```
 
 ### 5.2 Invalid Filenames (with reasons)
@@ -395,20 +399,23 @@ The ISSUE-REVISION field embeds issue tracking information in the filename.
 # Missing FAMILY and MODEL fields (v5.0 format)
 00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v01_ACTIVE.md
 
+# Wrong field order (MODEL before VARIANT)
+00_AMPEL360_SPACET_Q10_SW_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+
 # Missing MODEL field (14-field format, not 15)
 00_AMPEL360_SPACET_Q10_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Wrong VERSION format (should be BL/TS/GN)
-00_AMPEL360_SPACET_Q10_SW_PLUS_v01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+00_AMPEL360_SPACET_Q10_PLUS_v01_SW_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Missing ISSUE-REVISION field
-00_AMPEL360_SPACET_Q10_SW_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_ACTIVE.md
+00_AMPEL360_SPACET_Q10_PLUS_BL01_SW_GEN_LC01_K04_CM__nomenclature-standard_STD_ACTIVE.md
 
 # Invalid FAMILY (GEN not allowed - use Qx/Qxx only)
-00_AMPEL360_SPACET_GEN_SW_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+00_AMPEL360_SPACET_GEN_PLUS_BL01_SW_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Invalid MODEL (SYS not allowed - use BB/HW/SW/PR only)
-00_AMPEL360_SPACET_Q10_SYS_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+00_AMPEL360_SPACET_Q10_PLUS_BL01_SYS_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Invalid KNOT (K99 not allowed)
 27_AMPEL360_SPACET_Q10_PLUS_BL01_OPS_LC03_K99_SE__thermal-loop_STD_I00-R00_ACTIVE.md
