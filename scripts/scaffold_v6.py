@@ -23,12 +23,10 @@ Example (v6.0):
 """
 
 import sys
-import os
 import re
 import yaml
 from pathlib import Path
-from datetime import date
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 
 # Template directory
@@ -126,25 +124,10 @@ def print_usage_v6():
 
 
 def scaffold_v5(args):
-    """Scaffold v5.0 file."""
-    if len(args) < 12:
-        print_usage_v5()
-        sys.exit(1)
-    
-    ata_root, project, program, variant, block, phase, knot_task, aor, subject, ftype, version, status = args[:12]
-    
-    # Load config
-    config = load_config(DEFAULT_CONFIG_V5)
-    allowlists = config.get('allowlists', {})
-    
-    # Validate all fields (reuse existing v5.0 validation logic)
-    # ... (validation code from original scaffold.py)
-    
-    # Generate filename
-    filename = f"{ata_root}_{project}_{program}_{variant}_{block}_{phase}_{knot_task}_{aor}__{subject}_{ftype}_{version}_{status}.md"
-    
-    print(f"Generated filename: {filename}")
-    return filename
+    """Scaffold v5.0 file (deprecated - use original scaffold.py for v5.0)."""
+    print("❌ Error: v5.0 scaffolding not supported in scaffold_v6.py")
+    print("   Use the original scripts/scaffold.py for v5.0 file generation")
+    sys.exit(1)
 
 
 def validate_v6_fields(args, config):
@@ -276,7 +259,6 @@ def scaffold_v6(args):
         sys.exit(1)
     
     # Determine extension based on TYPE
-    allowlists = config.get('allowlists', {})
     ext = "md"  # Default
     
     # Generate filename
@@ -332,9 +314,9 @@ def main():
         sys.exit(0)
     
     if standard == 'v5.0':
-        filename = scaffold_v5(args)
+        scaffold_v5(args)
     elif standard == 'v6.0':
-        filename = scaffold_v6(args)
+        scaffold_v6(args)
     else:
         print(f"Error: Unknown standard '{standard}'. Must be 'v5.0' or 'v6.0'")
         sys.exit(1)

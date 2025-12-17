@@ -308,6 +308,7 @@ class NomenclatureValidator:
                     warnings.append(msg)
             
             # Validate VERSION (R1.0 FINAL LOCK: brand + optional 2-digit iteration)
+            # The regex pattern already enforces the brand roots (PLUS|PLUSULTRA) and optional 2-digit iteration
             version_pattern = re.compile(self.version_pattern_str)
             if not version_pattern.match(version):
                 # Extract brand roots for error message
@@ -316,22 +317,6 @@ class NomenclatureValidator:
                     f"Invalid VERSION '{version}': must be a brand root ({brand_list}) "
                     f"optionally followed by 2 digits (e.g., PLUS, PLUS01, PLUSULTRA02)"
                 )
-            else:
-                # Extract brand root using regex for robust parsing
-                brand_match = version_pattern.match(version)
-                if brand_match and brand_match.lastindex and brand_match.lastindex >= 1:
-                    brand_root = brand_match.group(1)  # First capture group is the brand
-                else:
-                    # Fallback: extract brand root by removing trailing digits
-                    brand_root = re.sub(r'\d+$', '', version)
-                
-                if brand_root not in self.allowed_version_brands:
-                    brand_list = ', '.join(sorted(self.allowed_version_brands))
-                    msg = f"Invalid VERSION brand '{brand_root}': must be one of {brand_list}"
-                    if self.strict:
-                        errors.append(msg)
-                    else:
-                        warnings.append(msg)
             
             # Validate MODEL
             if model not in self.allowed_models:

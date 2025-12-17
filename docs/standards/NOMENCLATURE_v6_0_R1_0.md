@@ -366,20 +366,20 @@ To prevent future pressure for breaking redesign and ensure filesystem compatibi
 
 TEKNIA outputs are **separate controlled artifacts** (credentials), not embedded into ordinary filenames beyond TYPE.
 
-### 5.1 Allowed TEKNIA Credential TYPE
+### 6.1 Allowed TEKNIA Credential TYPE
 
 * `BADGE`
 * `CERT`
 * `LIC`
 
-### 5.2 Issuance AoR Restriction
+### 6.2 Issuance AoR Restriction
 
 **Normative rule:** Issuance AoR must be **`CM` or `CERT` only**
 
 * Other AoRs may propose credentials, but cannot issue
 * Issuance requires review and CM/CERT approval
 
-### 5.3 Binding Requirements (Credential → Subject NKU)
+### 6.3 Binding Requirements (Credential → Subject NKU)
 
 Credentials must bind to target NKUs using:
 
@@ -387,7 +387,7 @@ Credentials must bind to target NKUs using:
 * `subject_sha256`: SHA-256 hash of target content
 * `subject_commit`: Optional Git commit reference
 
-### 5.4 Credential Schema Requirements
+### 6.4 Credential Schema Requirements
 
 * Schemas must be versioned and validated (CI-enforced)
 * Credentials must be reviewable and diff-friendly (`.yml` or `.json`)
@@ -411,7 +411,7 @@ claims: {}  # structured claims
 
 ---
 
-## 6. Enforcement
+## 7. Enforcement
 
 ### 6.1 Primary Regex (Structural Validation v6.0)
 
