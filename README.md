@@ -6,59 +6,99 @@ Complete OPT-IN Framework Directory Structure Generator Suite
 
 ---
 
+## 🎉 Release Announcement: PR^3-3 (v6.0 R1.0 FINAL LOCK)
+
+**Status:** Code Freeze Active | Predicted Release Ready  
+**Date:** 2025-12-17  
+**Standard:** Nomenclature v6.0 R1.0 (FINAL LOCK)
+
+### Key Highlights
+- ✅ **1,421 files** validated with **0 violations**
+- ✅ **v6.0 R1.0** nomenclature standard **finalized and frozen**
+- ✅ **8 CI governance gates** operational (3 blocking, 1 review, 4 planned)
+- ✅ All allowlists **locked under CM change control**
+- ⚠️ 803 broken links identified (post-release hotfix planned)
+
+📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md)**
+
+---
+
 ## Overview
 
 This repository contains the official directory structure generators for AMPEL360 Space-T projects, implementing:
 
 - **OPT-IN Framework Standard v1.1** (5 axes: Organization, Program, Technology, Infrastructures, Neural)
-- **Nomenclature Standard v3.0** (Mandatory 10-field file naming with PROJECT/PROGRAM identity)
-- **ATA-SpaceT numbering system** (70+ aerospace systems across all axes)
-- **14-folder lifecycle structure** (XX-00_GENERAL canonical pattern)
-- **9 Cross-ATA root buckets** (XX-10 through XX-90)
+- **Nomenclature Standard v6.0 R1.0** (15-token canonical format with frozen allowlists)
+- **ATA-SpaceT numbering system** (116 ATA chapters covering aerospace systems)
+- **14-folder lifecycle structure** (LC01-LC14 with subbuckets SB01-SB99)
+- **Knot-based governance** (K01-K14 with strict change control)
+- **8 CI governance gates** (3 blocking, 1 review, 4 planned)
+- **TEKNIA credential framework** (v1.0 with schema validation)
 - **P→CAD→CAE→CAM→CAOS engineering cycle** (AI-assisted workflow)
 - **ML Lifecycle** for neural systems (Architecture→Training→Validation→Deployment→Monitoring)
 
+### Key Features (v6.0 R1.0)
+
+- ✅ **Zero-tolerance validation** (1,421 files, 0 violations)
+- ✅ **Immutable allowlists** (frozen under CM change control)
+- ✅ **Quantum-inspired families** (Q10, Q100 pax payload numbering)
+- ✅ **Governance lane variants** (GEN, BASELINE, CERT, MSN, CUST, etc.)
+- ✅ **Branding version system** (PLUS, PLUSULTRA with optional iteration)
+- ✅ **Conditional subject prefixes** (CUST/MSN variants)
+- ✅ **Change tracking** (I##-R## issue-revision format)
+- ✅ **Automated CI gates** (nomenclature, schemas, trace links)
+
 ---
 
-## File Naming Convention (Nomenclature Standard v3.0)
+## File Naming Convention (Nomenclature Standard v6.0 R1.0 FINAL LOCK)
 
 **All artifacts in this repository MUST follow the mandatory nomenclature standard.**
 
-### Format
+### Canonical Format (15 tokens)
 
 ```
-[ROOT]_[BUCKET]_[TYPE]_[SUBJECT]_[PROJECT]_[PROGRAM]_[VARIANT]_[DESCRIPTION]_[VERSION].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
 ```
 
 ### Field Definitions
 
-- **ROOT**: ATA code (2-3 digits, e.g., `00`, `24`, `115`)
-- **BUCKET**: Domain classification (`00|10|20|30|40|50|60|70|80|90`)
-- **TYPE**: Artifact type (2-8 uppercase, e.g., `PLAN`, `FHA`, `REQ`)
-- **SUBJECT**: Lifecycle stage (`LC01-LC14`) or Sub-bucket (`SB15-SB99`)
-- **PROJECT**: Fixed value `AMPEL360` (hard constraint)
-- **PROGRAM**: Program identity `SPACET` (allowlist, extensible)
-- **VARIANT**: Configuration variant (e.g., `PLUS`, `CERT`, `SYS`, `SW`)
-- **DESCRIPTION**: lowercase-kebab-case description
-- **VERSION**: `vNN` (e.g., `v01`, `v02`)
-- **EXT**: File extension (lowercase)
+- **ATA_ROOT**: ATA code (2-3 digits, e.g., `00`, `27`, `115`)
+- **PROJECT**: Fixed value `AMPEL360` (immutable)
+- **PROGRAM**: Fixed value `SPACET` (immutable)
+- **FAMILY**: Quantum-inspired pax payload (e.g., `Q10`, `Q100`)
+- **VARIANT**: Governance lane (e.g., `GEN`, `CERT`, `CUST`, `MSN`)
+- **VERSION**: Branding reinforcer (e.g., `PLUS`, `PLUS01`, `PLUSULTRA02`)
+- **MODEL**: Artifact domain (e.g., `BB`, `HW`, `SW`, `PR`)
+- **BLOCK**: Domain classification (e.g., `OPS`, `STR`, `AI`, `DATA`)
+- **PHASE**: Lifecycle (`LC01-LC14`) or Subbucket (`SB01-SB99`)
+- **KNOT_TASK**: Knot ID with optional task (e.g., `K06`, `K06-T001`)
+- **AoR**: Area of Responsibility (e.g., `CM`, `CERT`, `SAF`, `SE`)
+- **__**: Double underscore separator (mandatory)
+- **SUBJECT**: lowercase-kebab-case description
+- **TYPE**: Artifact type (e.g., `STD`, `PLAN`, `RPT`, `FHA`)
+- **ISSUE-REVISION**: Change tracking (e.g., `I01-R01`, `I12-R03`)
+- **STATUS**: Document status (e.g., `ACTIVE`, `APPROVED`, `RELEASED`)
+- **EXT**: File extension (lowercase, e.g., `md`, `json`, `yaml`)
 
-### Examples
+### Examples (v6.0 R1.0)
 
-- `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_I01-R01.md` (Lifecycle plan)
-- `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_I01-R01.md` (Propulsion FHA)
-- `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_I01-R01.md` (Software requirements)
+- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
+- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
+- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
 - `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_I01-R01.json` (Reference schema)
 - `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_I01-R01.md` (Certification plan)
 
 ### Validation
 
 ```bash
-# Validate a single file
-python validate_nomenclature.py <filename>
+# Validate a single file (v6.0 R1.0)
+python validate_nomenclature.py --standard v6.0 <filename>
 
-# Validate all files in repository
-python validate_nomenclature.py --check-all
+# Validate all files in repository (v6.0 R1.0)
+python validate_nomenclature.py --standard v6.0 --check-all
+
+# Run comprehensive PR^3-3 verification suite
+python scripts/pr3_3_verification.py --all
 
 # Get help
 python validate_nomenclature.py --help
@@ -72,20 +112,30 @@ cp scripts/pre-commit .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
-📖 **Full standard**: [`00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`](00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md)
+📖 **Full standard**: 
+- **v6.0 R1.0 (Current)**: `docs/standards/NOMENCLATURE_v6_0_R1_0.md`
+- **Quick Reference**: `docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md`
+- **Config**: `config/nomenclature/v6_0.yaml`
 
 ### Document Templates
 
 Use standardized templates to create compliant documentation:
 
 ```bash
-# Create a new document from template
-python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <VARIANT> <DESC> <VER>
+# Create a new document from template (v6.0 R1.0)
+python scripts/scaffold_v6.py --standard v6.0 \
+  <ATA_ROOT> <PROJECT> <PROGRAM> <FAMILY> <VARIANT> <VERSION> \
+  <MODEL> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> \
+  <ISSUE-REVISION> <STATUS>
 
 # Examples:
-python scripts/scaffold.py 00 00 PLAN LC02-SPACET safety-program v01
-python scripts/scaffold.py 00 70 FHA SYS propulsion v01
-python scripts/scaffold.py 00 40 REQ SW software-requirements v01
+python scripts/scaffold_v6.py --standard v6.0 \
+  27 AMPEL360 SPACET Q10 GEN PLUS BB OPS LC03 K06 SE \
+  thermal-loop STD I01-R01 ACTIVE
+
+python scripts/scaffold_v6.py --standard v6.0 \
+  00 AMPEL360 SPACET Q10 CERT PLUS PR GEN LC10 K01 CERT \
+  certification-plan PLAN I01-R01 DRAFT
 ```
 
 📚 **Templates**: [`templates/`](templates/) | **Available**: 22 approved TYPEs
