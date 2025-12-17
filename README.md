@@ -323,7 +323,7 @@ AMPEL360_SPACE-T/
 | `generate_organization.py` | O-ORGANIZATION | 8 ATA chapters | CM, QMS, SMS, Regulatory |
 | `generate_program.py` | P-PROGRAM | 7 ATA chapters | WBS, EVM, Risk, Reviews |
 | `generate_infrastructures.py` | I-INFRASTRUCTURES | 12 ATA chapters | H₂, Launch, MCC, Terminals |
-| `generate_sim_test.py` | S-SIM_TEST | 15 ATA chapters | SIM, Digital Twin, V&V, Test (planned) |
+| `generate_sim_test.py` *(not yet implemented)* | S-SIM_TEST | 15 ATA chapters | SIM, Digital Twin, V&V, Test |
 
 ### Common Options
 
@@ -556,7 +556,7 @@ ST-XX-YY-C-NNNN_Name.ext
 | Component | Description | Values |
 |:----------|:------------|:-------|
 | ST | Space-T prefix | Fixed |
-| XX | ATA chapter | 00-98, 100-116 |
+| XX | ATA chapter | 00-98, 100-116 (ATA 99 reserved) |
 | YY | Subsystem code | 10, 20, 30... |
 | C | Cycle phase | P, D, E, M, O |
 | NNNN | Sequence | 0001-9999 |
