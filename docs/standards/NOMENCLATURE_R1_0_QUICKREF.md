@@ -3,7 +3,7 @@
 ## Pattern (14 Fields)
 
 ```
-[ATA_ROOT]_[PROJECT]_[PROGRAM]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
 ```
 
 ## Field Constraints
@@ -13,8 +13,8 @@
 | **ATA_ROOT** | 2-3 digits (00-116) | `00`, `27`, `115` |
 | **PROJECT** | Fixed: `AMPEL360` | `AMPEL360` |
 | **PROGRAM** | Fixed: `SPACET` | `SPACET` |
-| **MODEL** | Allowlist: `Q10`, `Q100`, `GEN`, etc. | `Q10`, `Q100` |
-| **VARIANT** | Allowlist: `PLUS`, `CERT`, `GEN`, etc. | `PLUS`, `CERT` |
+| **FAMILY** | Qx or Qxx pattern only | `Q10`, `Q100` |
+| **VARIANT** | Allowlist: `PLUS`, `CERT`, `PROTO`, `SIM`, `TEST`, `GEN`, etc. | `PLUS`, `PROTO` |
 | **VERSION** | `(BL\|TS\|GN)[0-9]{2}` | `BL01`, `TS02`, `GN03` |
 | **BLOCK** | Allowlist: `OPS`, `STR`, `AI`, etc. | `OPS`, `AI` |
 | **PHASE** | `LC01-LC14` or `SB01-SB99` | `LC03`, `SB90` |
@@ -29,10 +29,11 @@
 
 ## Key Rules (R1.0)
 
-### 1. **MODEL Field (NEW)**
+### 1. **FAMILY Field (NEW)**
 - Required field after PROGRAM
-- Quantum-inspired, passenger-payload-numbered: `QNN` = Q + passenger count
-- Allowlist: `Q10` (SPACE-T, 10 pax), `Q100` (AIR-T, 100 pax), `PROTO`, `SIM`, `TEST`, `GEN`
+- Quantum-inspired, passenger-payload-numbered: Qx or Qxx pattern ONLY
+- Examples: `Q10` (SPACE-T, 10 pax), `Q100` (AIR-T, 100 pax)
+- **Restriction:** Only quantum families allowed; PROTO, SIM, TEST, GEN belong in VARIANT
 - Extensions require CM approval
 
 ### 2. **VERSION Pattern (CHANGED)**
@@ -65,15 +66,15 @@
 ```
 00_AMPEL360_SPACET_Q10_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 27_AMPEL360_SPACET_Q10_PLUS_BL01_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
-53_AMPEL360_SPACET_Q20_CERT_BL02_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
-95_AMPEL360_SPACET_GEN_PLUS_TS01_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
-115_AMPEL360_SPACET_GEN_GEN_GN01_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
+53_AMPEL360_SPACET_Q100_CERT_BL02_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
+95_AMPEL360_SPACET_Q10_PROTO_TS01_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
+115_AMPEL360_SPACET_Q10_GEN_GN01_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
 ```
 
 ### ❌ Invalid
 
 ```
-# Missing MODEL field (v5.0 format)
+# Missing FAMILY field (v5.0 format)
 00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v01_ACTIVE.md
 
 # Wrong VERSION format (should be BL/TS/GN)
@@ -81,6 +82,9 @@
 
 # Missing ISSUE-REVISION field
 00_AMPEL360_SPACET_Q10_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_ACTIVE.md
+
+# Invalid FAMILY (GEN/PROTO not allowed - use in VARIANT)
+00_AMPEL360_SPACET_GEN_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Invalid KNOT (K99 not allowed)
 27_AMPEL360_SPACET_Q10_PLUS_BL01_OPS_LC03_K99_SE__thermal-loop_STD_I00-R00_ACTIVE.md
@@ -133,7 +137,8 @@ python scripts/scaffold.py 27 AMPEL360 SPACET Q10 PLUS BL01 OPS LC03 K06 SE ther
 
 All allowlists are defined in `config/nomenclature/r1_0.yaml`:
 
-- **MODEL:** Q10 (SPACE-T, 10 pax), Q100 (AIR-T, 100 pax), PROTO, SIM, TEST, GEN
+- **FAMILY:** Q10 (SPACE-T, 10 pax), Q100 (AIR-T, 100 pax) - Qx/Qxx pattern only
+- **VARIANT:** PLUS, CERT, GEN, PROTO, SIM, TEST, SYS, SW, HW
 - **VARIANT:** PLUS, CERT, GEN, PROTO, SYS, SW, HW
 - **BLOCK:** OPS, STR, PROP, AI, DATA, CERT, SAF, SW, HW, SYS, TEST, MRO, CIRC, ENRG, STOR, GEN
 - **AoR:** CM, CERT, SAF, SE, OPS, DATA, AI, CY, TEST, MRO, SPACEPORT, PMO, QA, SEC, LEG, FIN, PROC

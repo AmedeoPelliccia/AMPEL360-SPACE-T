@@ -68,7 +68,7 @@ class NomenclatureValidator:
         r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
-        r'(?P<model>[A-Z0-9]+)_'
+        r'(?P<family>Q[0-9]{1,2})_'  # Only Qx or Qxx pattern
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
         r'(?P<version>(?:BL|TS|GN)[0-9]{2})_'
         r'(?P<block>[A-Z0-9]+)_'
@@ -126,7 +126,7 @@ class NomenclatureValidator:
         
         # Extract allowlists from config
         allowlists = self.config.get('allowlists', {})
-        self.allowed_models = set(allowlists.get('models', [])) if self.standard == "R1.0" else set()
+        self.allowed_families = set(allowlists.get('families', [])) if self.standard == "R1.0" else set()
         self.allowed_variants = set(allowlists.get('variants', []))
         self.allowed_blocks = set(allowlists.get('blocks', []))
         self.allowed_aors = set(allowlists.get('aors', []))
@@ -215,7 +215,7 @@ class NomenclatureValidator:
         # Match against appropriate pattern based on standard
         if self.standard == "R1.0":
             match = self.R1_PATTERN.match(filename)
-            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
         else:
             match = self.V5_PATTERN.match(filename)
             pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
@@ -231,7 +231,7 @@ class NomenclatureValidator:
         ata_root = components['ata_root']
         project = components['project']
         program = components['program']
-        model = components.get('model')  # R1.0 only
+        family = components.get('family')  # R1.0 only
         variant = components['variant']
         version = components['version']
         block = components['block']
@@ -263,10 +263,10 @@ class NomenclatureValidator:
                 f"Invalid PROGRAM '{program}': must be SPACET"
             )
         
-        # Validate MODEL allowlist (R1.0 only)
+        # Validate FAMILY allowlist (R1.0 only - Qx/Qxx pattern enforced by regex)
         if self.standard == "R1.0":
-            if model not in self.allowed_models:
-                msg = f"Invalid MODEL '{model}': must be one of {sorted(self.allowed_models)}"
+            if family not in self.allowed_families:
+                msg = f"Invalid FAMILY '{family}': must be one of {sorted(self.allowed_families)} (Qx/Qxx pattern only)"
                 if self.strict:
                     errors.append(msg)
                 else:

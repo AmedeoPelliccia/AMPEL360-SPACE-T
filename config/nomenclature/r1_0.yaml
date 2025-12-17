@@ -26,18 +26,15 @@ breaking_changes: "v6.0 introduces MODEL, VERSION (BL/TS/GN), and ISSUE-REVISION
 # Controlled lists (allowlists)
 allowlists:
   
-  # MODEL allowlist (controlled aircraft/system models)
+  # FAMILY allowlist (quantum aircraft families - passenger-numbered)
   # Quantum-inspired, passenger-payload-numbered naming
-  # QNN format: Q + passenger count (e.g., Q10 = 10 passengers, Q100 = 100 passengers)
+  # Qx or Qxx format: Q + passenger count (e.g., Q10 = 10 passengers, Q100 = 100 passengers)
   # Extension requires CM change control
-  models:
-    - Q10        # SPACE-T: Quantum 10-passenger model (current dev focus)
-    - Q100       # AIR-T: Quantum 100-passenger model
-    - PROTO      # Prototype variants
-    - SIM        # Simulation models
-    - TEST       # Test models
-    - GEN        # Generic/multi-model artifacts
-    # Future quantum models: Q20, Q50, Q200, etc. (via CM approval)
+  families:
+    - Q10        # SPACE-T: Quantum 10-passenger family (current dev focus)
+    - Q100       # AIR-T: Quantum 100-passenger family
+    # Future quantum families: Q20, Q50, Q200, etc. (via CM approval)
+    # Note: PROTO, SIM, TEST, GEN belong in VARIANT, not FAMILY
   
   # VARIANT allowlist
   # Default: PLUS (AMPEL360+ enhanced configuration)
@@ -47,6 +44,8 @@ allowlists:
     - CERT       # Certification variant
     - GEN        # General-purpose variant
     - PROTO      # Prototype variant
+    - SIM        # Simulation variant
+    - TEST       # Test variant
     - SYS        # System variant
     - SW         # Software variant
     - HW         # Hardware variant
@@ -375,8 +374,9 @@ validation:
 
 # Migration mappings (v5.0 → R1.0/v6.0)
 migration:
-  # Default MODEL for existing files
-  default_model: "GEN"
+  # Default FAMILY for existing files
+  # Use Q10 for SPACE-T specific artifacts, Q100 for AIR-T specific
+  default_family: "Q10"
   
   # VERSION mapping (v5.0 simple version → v6.0 typed version)
   # v01, v02, etc. → BL01, BL02 (assume baseline)
@@ -393,7 +393,7 @@ migration:
 change_control:
   authority: "Configuration Management Working Group"
   approval_required_for:
-    - "New MODEL values"
+    - "New FAMILY values (Quantum families only: Qx or Qxx pattern)"
     - "New VARIANT values"
     - "New BLOCK values"
     - "New AoR values"
@@ -417,6 +417,6 @@ history:
   - version: "6.0"
     release: "R1.0"
     date: "2025-12-17"
-    changes: "R1.0 baseline with MODEL, VERSION (BL/TS/GN), ISSUE-REVISION fields; strict KNOT governance K01-K14"
+    changes: "R1.0 baseline with FAMILY (Qx/Qxx only), VERSION (BL/TS/GN), ISSUE-REVISION fields; strict KNOT governance K01-K14; PROTO/SIM/TEST/GEN moved to VARIANT only"
     author: "CM WG"
-    breaking_changes: "14-field format replaces 12-field v5.0 format"
+    breaking_changes: "14-field format; renamed MODEL to FAMILY; FAMILY restricted to Qx/Qxx pattern only"

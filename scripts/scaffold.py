@@ -2,17 +2,24 @@
 """
 AMPEL360 Space-T File Scaffolding Tool
 =======================================
-Version: 5.0
+Version: 6.0 (supports v5.0 and R1.0)
 Date: 2025-12-17
 
-Automates creation of files from templates with proper nomenclature v5.0.
+Automates creation of files from templates with proper nomenclature.
 
 Usage:
+    # v5.0 (12 fields)
     python scripts/scaffold.py <ATA_ROOT> <PROJECT> <PROGRAM> <VARIANT> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <VERSION> <STATUS>
+    
+    # R1.0 (14 fields)
+    python scripts/scaffold.py --standard R1.0 <ATA_ROOT> <PROJECT> <PROGRAM> <MODEL> <VARIANT> <VERSION> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <ISSUE-REVISION> <STATUS>
 
-Example:
+Examples:
+    # v5.0
     python scripts/scaffold.py 27 AMPEL360 SPACET PLUS OPS LC03 K06 SE thermal-loop-overview STD v01 ACTIVE
-    Creates: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop-overview_STD_v01_ACTIVE.md
+    
+    # R1.0
+    python scripts/scaffold.py --standard R1.0 27 AMPEL360 SPACET Q10 PLUS BL01 OPS LC03 K06 SE thermal-loop-overview STD I00-R00 ACTIVE
 """
 
 import sys

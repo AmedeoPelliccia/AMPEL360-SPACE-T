@@ -26,14 +26,16 @@ This standard defines the **mandatory** file naming convention for all artifacts
 All files must strictly adhere to the **14-field format**:
 
 ```
-[ATA_ROOT]_[PROJECT]_[PROGRAM]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
+[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]
 ```
 
 **Breaking changes from v5.0:**
-- **MODEL field added**: New field after PROGRAM for model/aircraft variant
+- **FAMILY field added**: New field after PROGRAM for quantum aircraft families (Qx/Qxx pattern only)
 - **VERSION field replaced**: Simple `vNN` replaced with typed `BLnn`, `TSnn`, or `GNnn`
 - **ISSUE-REVISION field added**: New `I##-R##` format for issue tracking
 - **Total fields**: 14 (up from 12 in v5.0)
+
+**Note:** FAMILY is restricted to quantum passenger-numbered patterns (Q10, Q100, etc.). PROTO, SIM, TEST, GEN belong in VARIANT field only.
 
 ## 3. Field Definitions and Constraints
 
@@ -44,8 +46,8 @@ All files must strictly adhere to the **14-field format**:
 | **ATA_ROOT**      | ATA Chapter or Project Code               | 2-3 digits                             | `^\d{2,3}$`                          |
 | **PROJECT**       | Project Identity                          | Fixed: AMPEL360                        | `^AMPEL360$`                         |
 | **PROGRAM**       | Program Identity                          | Fixed: SPACET                          | `^SPACET$`                           |
-| **MODEL**         | Aircraft/System Model                     | Allowlist (e.g., Q10, Q20, GEN)        | `^[A-Z0-9]+$`                        |
-| **VARIANT**       | Configuration / Baseline                  | Allowlist (e.g., PLUS, CERT)           | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$`         |
+| **FAMILY**        | Quantum Aircraft Family                   | Qx or Qxx pattern only                 | `^Q[0-9]{1,2}$`                      |
+| **VARIANT**       | Configuration / Baseline                  | Allowlist (e.g., PLUS, CERT, PROTO)    | `^[A-Z0-9]+(?:-[A-Z0-9]+)*$`         |
 | **VERSION**       | Version Type + Number                     | BLnn, TSnn, or GNnn                    | `^(BL\|TS\|GN)[0-9]{2}$`             |
 | **BLOCK**         | Domain Classification                     | Allowlist (e.g., OPS, STR, AI)         | `^[A-Z0-9]+$`                        |
 | **PHASE**         | Lifecycle Stage or Sub-bucket             | LC01-LC14 or SB01-SB99                 | `^(LC(0[1-9]\|1[0-4])\|SB(0[1-9]\|[1-9][0-9]))$` |
@@ -97,28 +99,29 @@ All files must strictly adhere to the **14-field format**:
 * `PROGRAM` **must** be `SPACET` for AMPEL360-SPACE-T
 * Future programs may be added through Configuration Management WG approval
 
-### 4.4 `[MODEL]` (Aircraft/System Model) — NEW IN R1.0
+### 4.4 `[FAMILY]` (Quantum Aircraft Family) — NEW IN R1.0
 
-`MODEL` identifies the specific aircraft or system model variant using quantum-inspired, passenger-payload-numbered naming.
+`FAMILY` identifies the quantum aircraft family using passenger-payload-numbered naming.
 
 **Naming Convention:**
-* `QNN` format: Q + passenger count
-* Examples: Q10 (10 passengers), Q100 (100 passengers)
+* `Qx` or `Qxx` format: Q + passenger count (1-99)
+* Pattern: `^Q[0-9]{1,2}$`
+* Examples: Q10 (10 passengers), Q100 (100 passengers - future: Q200, Q300, etc.)
 
-**Allowlist (config-driven):**
-* `Q10`: SPACE-T Quantum 10-passenger model (current dev focus)
-* `Q100`: AIR-T Quantum 100-passenger model
-* `PROTO`: Prototype variants
-* `SIM`: Simulation models
-* `TEST`: Test models
-* `GEN`: Generic/multi-model artifacts
+**Current Allowlist:**
+* `Q10`: SPACE-T Quantum 10-passenger family (current dev focus)
+* `Q100`: AIR-T Quantum 100-passenger family
 
 **Future expansion:**
-* Additional quantum models (Q20, Q50, Q200, etc.) via CM approval
-* Passenger count directly encoded in model identifier
+* Additional quantum families (Q20, Q50, Q200, etc.) via CM approval
+* Passenger count directly encoded in family identifier
+* **Restriction:** Only Qx/Qxx pattern allowed in FAMILY field
+
+**Note:** PROTO, SIM, TEST, GEN are **NOT** allowed in FAMILY - these belong in VARIANT field.
 
 **Governance:**
-* New MODEL values require CM approval
+* New FAMILY values require CM approval
+* Only quantum passenger-numbered patterns (Qx/Qxx) permitted
 * Extensions require update to `config/nomenclature/r1_0.yaml`
 
 ### 4.5 `[VARIANT]` (Configuration / Baseline)
@@ -130,9 +133,13 @@ All files must strictly adhere to the **14-field format**:
 * `CERT`: Certification-related artifacts
 * `GEN`: General-purpose artifacts
 * `PROTO`: Prototyping artifacts
+* `SIM`: Simulation artifacts
+* `TEST`: Test artifacts
 * `SYS`: System scoped artifacts
 * `SW`: Software variant
 * `HW`: Hardware variant
+
+**Note:** PROTO, SIM, TEST, GEN belong here (not in FAMILY field).
 
 Hyphenated variants are allowed: `SYS-01`, `SW-PLAT-A`, `CERT-EASA`.
 
@@ -352,16 +359,16 @@ The ISSUE-REVISION field embeds issue tracking information in the filename.
 ```
 00_AMPEL360_SPACET_Q10_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 27_AMPEL360_SPACET_Q10_PLUS_BL01_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
-53_AMPEL360_SPACET_Q20_CERT_BL02_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
-95_AMPEL360_SPACET_GEN_PLUS_TS01_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
+53_AMPEL360_SPACET_Q100_CERT_BL02_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I03-R02_DRAFT.pdf
+95_AMPEL360_SPACET_Q10_PROTO_TS01_AI_SB04_K11_CM__model-card-template_STD_I00-R00_TEMPLATE.md
 00_AMPEL360_SPACET_Q10_CERT_BL01_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I00-R00_ACTIVE.md
-115_AMPEL360_SPACET_GEN_GEN_GN01_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
+115_AMPEL360_SPACET_Q10_GEN_GN01_DATA_SB90_K05_DATA__supply-chain-schema_SCH_I02-R01_ACTIVE.json
 ```
 
 ### 5.2 Invalid Filenames (with reasons)
 
 ```
-# Missing MODEL field (v5.0 format)
+# Missing FAMILY field (v5.0 format)
 00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CM__nomenclature-standard_STD_v01_ACTIVE.md
 
 # Wrong VERSION format (should be BL/TS/GN)
@@ -369,6 +376,12 @@ The ISSUE-REVISION field embeds issue tracking information in the filename.
 
 # Missing ISSUE-REVISION field
 00_AMPEL360_SPACET_Q10_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_ACTIVE.md
+
+# Invalid FAMILY (GEN not allowed - use in VARIANT instead)
+00_AMPEL360_SPACET_GEN_PLUS_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
+
+# Invalid FAMILY (PROTO not allowed - use in VARIANT instead)
+00_AMPEL360_SPACET_PROTO_GEN_BL01_GEN_LC01_K04_CM__nomenclature-standard_STD_I00-R00_ACTIVE.md
 
 # Invalid KNOT (K99 not allowed)
 27_AMPEL360_SPACET_Q10_PLUS_BL01_OPS_LC03_K99_SE__thermal-loop_STD_I00-R00_ACTIVE.md
