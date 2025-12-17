@@ -46,7 +46,7 @@ class NomenclatureValidator:
     
     # Primary regex pattern (v5.0 format)
     PRIMARY_PATTERN = re.compile(
-        r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|1[0-1][0-6]))_'
+        r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
         r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'

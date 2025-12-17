@@ -27,6 +27,8 @@ allowlists:
   # Extension requires CM change control
   variants:
     - PLUS
+    - CERT     # Certification variant
+    - GEN      # General-purpose variant
     # Future variants added via CM approval
   
   # BLOCK allowlist (domain classification / module)
@@ -165,6 +167,11 @@ exemptions:
     - Dependencies.yaml
     - Traceability_Matrix.csv
     - Prompt_to_Artifact_Map.csv
+    - rename_map.csv
+    - rename_map_v5.csv
+    - generate_space_t_structure.py
+    - validate_nomenclature_v4.py.bak
+    - scaffold_v4.py.bak
   
   # Directory exemptions
   # Files in these directories are not validated
