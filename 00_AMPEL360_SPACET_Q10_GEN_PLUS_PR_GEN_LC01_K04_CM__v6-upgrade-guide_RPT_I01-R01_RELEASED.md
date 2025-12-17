@@ -92,7 +92,7 @@ Additionally:
 **v6.0:** Governance lane / variant context
 - Allowlist: `GEN`, `BASELINE`, `FLIGHTTEST`, `CERT`, `MSN`, `HOV`, `CUST`
 - Old `PLUS` → New `GEN` (general purpose)
-- Old `CERT` → New `CERT` (certification)
+- Old `CERT` → New `CERT` (certification - unchanged in name, redefined semantics)
 
 #### VERSION (Redefined)
 
