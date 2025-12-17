@@ -21,7 +21,7 @@ release: "R1.0"
 date: "2025-12-17"
 status: "Normative"
 owner: "Configuration Management WG"
-breaking_changes: "v6.0 introduces MODEL, VERSION (BL/TS/GN), and ISSUE-REVISION fields"
+breaking_changes: "v6.0 introduces 15-field format with FAMILY (Qx/Qxx), MODEL (BB/HW/SW/PR), VERSION (BL/TS/GN), and ISSUE-REVISION fields"
 
 # Controlled lists (allowlists)
 allowlists:
@@ -34,9 +34,18 @@ allowlists:
     - Q10        # SPACE-T: Quantum 10-passenger family (current dev focus)
     - Q100       # AIR-T: Quantum 100-passenger family
     # Future quantum families: Q20, Q50, Q200, etc. (via CM approval)
-    # Note: PROTO, SIM, TEST, GEN belong in VARIANT, not FAMILY
+    # Note: Only Qx/Qxx pattern allowed in FAMILY
   
-  # VARIANT allowlist
+  # MODEL allowlist (system/artifact type classification)
+  # Defines what type of artifact this is (hardware, software, hybrid, process)
+  # Extension requires CM change control
+  models:
+    - BB         # Body-Brain: Hybrid protorobotics/cyberphysical systems
+    - HW         # Hardware: Physical components, structures, equipment
+    - SW         # Software: Code, algorithms, digital systems
+    - PR         # Process: Procedures, workflows, methodologies
+  
+  # VARIANT allowlist (configuration/deployment context)
   # Default: PLUS (AMPEL360+ enhanced configuration)
   # Extension requires CM change control
   variants:
@@ -46,10 +55,11 @@ allowlists:
     - PROTO      # Prototype variant
     - SIM        # Simulation variant
     - TEST       # Test variant
-    - SYS        # System variant
-    - SW         # Software variant
-    - HW         # Hardware variant
+    - MSN        # Mission-specific variant
+    - HOV        # Head of Version (release management)
+    - CUST       # Customer-specific variant
     # Future variants added via CM approval
+    # Note: SYS, HW, SW removed - use MODEL field instead
   
   # BLOCK allowlist (domain classification / module)
   # Extension requires CM change control
@@ -378,6 +388,14 @@ migration:
   # Use Q10 for SPACE-T specific artifacts, Q100 for AIR-T specific
   default_family: "Q10"
   
+  # Default MODEL for existing files
+  # Map based on artifact context:
+  # - Hardware specs/structures → HW
+  # - Software/code → SW
+  # - Procedures/processes → PR
+  # - Cyberphysical/protorobotics → BB
+  default_model: "SW"  # Conservative default for most artifacts
+  
   # VERSION mapping (v5.0 simple version → v6.0 typed version)
   # v01, v02, etc. → BL01, BL02 (assume baseline)
   version_mapping:
@@ -394,6 +412,7 @@ change_control:
   authority: "Configuration Management Working Group"
   approval_required_for:
     - "New FAMILY values (Quantum families only: Qx or Qxx pattern)"
+    - "New MODEL values (BB/HW/SW/PR system types)"
     - "New VARIANT values"
     - "New BLOCK values"
     - "New AoR values"
@@ -417,6 +436,6 @@ history:
   - version: "6.0"
     release: "R1.0"
     date: "2025-12-17"
-    changes: "R1.0 baseline with FAMILY (Qx/Qxx only), VERSION (BL/TS/GN), ISSUE-REVISION fields; strict KNOT governance K01-K14; PROTO/SIM/TEST/GEN moved to VARIANT only"
+    changes: "R1.0 baseline with 15-field format: FAMILY (Qx/Qxx), MODEL (BB/HW/SW/PR), VARIANT (PLUS/CERT/PROTO/SIM/TEST/MSN/HOV/CUST), VERSION (BL/TS/GN), ISSUE-REVISION; strict KNOT governance K01-K14"
     author: "CM WG"
-    breaking_changes: "14-field format; renamed MODEL to FAMILY; FAMILY restricted to Qx/Qxx pattern only"
+    breaking_changes: "15-field format; FAMILY (Qx/Qxx only), MODEL (BB/HW/SW/PR), VARIANT (MSN/HOV/CUST added, SYS/HW/SW removed)"
