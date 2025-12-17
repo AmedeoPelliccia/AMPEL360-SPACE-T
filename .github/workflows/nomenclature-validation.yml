@@ -30,25 +30,37 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
       
-      - name: Validate all files
-        id: validate
+      - name: Validate all files (R1.0 - Warn Mode)
+        id: validate_r1
         run: |
-          echo "Running nomenclature validation..."
-          python validate_nomenclature.py --check-all --strict --verbose
+          echo "Running nomenclature validation (R1.0 in WARN mode)..."
+          python validate_nomenclature.py --standard R1.0 --check-all --strict --verbose --mode warn
+        continue-on-error: true
+      
+      - name: Validate all files (v5.0 - Block Mode)
+        id: validate_v5
+        run: |
+          echo "Running nomenclature validation (v5.0 in BLOCK mode)..."
+          python validate_nomenclature.py --standard v5.0 --check-all --strict --verbose --mode block
         continue-on-error: true
       
       - name: Check validation result
-        if: steps.validate.outcome == 'failure'
+        if: steps.validate_v5.outcome == 'failure'
         run: |
           echo "❌ Nomenclature validation failed!"
-          echo "Please ensure all files follow the nomenclature standard v5.0:"
+          echo "Please ensure all files follow the nomenclature standard."
+          echo ""
+          echo "Current standard: v5.0 (12 fields)"
           echo "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
           echo ""
-          echo "See docs/standards/NOMENCLATURE_v5_0.md for details."
-          echo "Quick ref: docs/standards/NOMENCLATURE_v5_0_QUICKREF.md"
+          echo "See docs/standards/NOMENCLATURE_v5_0.md for v5.0 details."
+          echo ""
+          echo "Note: R1.0 (v6.0) validation is in WARN mode (14 fields)."
+          echo "See docs/standards/NOMENCLATURE_R1_0.md for R1.0 details."
           exit 1
       
       - name: Validation success
-        if: steps.validate.outcome == 'success'
+        if: steps.validate_v5.outcome == 'success'
         run: |
           echo "✅ All files comply with nomenclature standard v5.0!"
+          echo "ℹ️  R1.0 validation results shown above (warn mode - informational only)."

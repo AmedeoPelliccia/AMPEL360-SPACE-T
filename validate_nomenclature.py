@@ -2,17 +2,18 @@
 """
 AMPEL360 Space-T Nomenclature Validator
 ========================================
-Version: 5.0
+Version: 6.0 (supports v5.0 and R1.0)
 Date: 2025-12-17
-Standard: Nomenclature Standard v5.0 (Normative)
+Standard: Nomenclature Standard v5.0 / R1.0 (v6.0) (Normative)
 
 Validates filenames against the AMPEL360 Space-T nomenclature standard.
-Config-driven validation using config/nomenclature/v5_0.yaml
+Config-driven validation using config/nomenclature/v5_0.yaml or config/nomenclature/r1_0.yaml
 
 Usage:
     python validate_nomenclature.py <filename>
     python validate_nomenclature.py --check-all
     python validate_nomenclature.py --check-dir <directory>
+    python validate_nomenclature.py --standard R1.0 --check-all
 
 Exit codes:
     0: All files valid
@@ -39,13 +40,14 @@ class ValidationResult:
 
 
 class NomenclatureValidator:
-    """Validates filenames against AMPEL360 Space-T nomenclature standard v5.0."""
+    """Validates filenames against AMPEL360 Space-T nomenclature standard v5.0 or R1.0 (v6.0)."""
     
-    # Default config path
-    DEFAULT_CONFIG_PATH = "config/nomenclature/v5_0.yaml"
+    # Default config paths
+    DEFAULT_CONFIG_PATH_V5 = "config/nomenclature/v5_0.yaml"
+    DEFAULT_CONFIG_PATH_R1 = "config/nomenclature/r1_0.yaml"
     
-    # Primary regex pattern (v5.0 format)
-    PRIMARY_PATTERN = re.compile(
+    # v5.0 regex pattern (12 fields)
+    V5_PATTERN = re.compile(
         r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
         r'(?P<project>AMPEL360)_'
         r'(?P<program>SPACET)_'
@@ -61,6 +63,25 @@ class NomenclatureValidator:
         r'\.(?P<ext>[a-z0-9]{1,6})$'
     )
     
+    # R1.0 (v6.0) regex pattern (14 fields)
+    R1_PATTERN = re.compile(
+        r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
+        r'(?P<project>AMPEL360)_'
+        r'(?P<program>SPACET)_'
+        r'(?P<model>[A-Z0-9]+)_'
+        r'(?P<variant>[A-Z0-9]+(?:-[A-Z0-9]+)*)_'
+        r'(?P<version>(?:BL|TS|GN)[0-9]{2})_'
+        r'(?P<block>[A-Z0-9]+)_'
+        r'(?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_'
+        r'(?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_'
+        r'(?P<aor>[A-Z]+)__'
+        r'(?P<subject>[a-z0-9]+(?:-[a-z0-9]+)*)_'
+        r'(?P<type>[A-Z0-9]+)_'
+        r'(?P<issue_revision>I[0-9]{2}-R[0-9]{2})_'
+        r'(?P<status>[A-Z]+)'
+        r'\.(?P<ext>[a-z0-9]{1,6})$'
+    )
+    
     # LC stage pattern (LC01-LC14)
     LC_PATTERN = re.compile(r'^LC(0[1-9]|1[0-4])$')
     
@@ -70,8 +91,14 @@ class NomenclatureValidator:
     # KNOT_TASK pattern (K01-K14 with optional -T###)
     KNOT_TASK_PATTERN = re.compile(r'^K(0[1-9]|1[0-4])(?:-T[0-9]{3})?$')
     
-    # VERSION format pattern
-    VERSION_PATTERN = re.compile(r'^v\d{2}$')
+    # v5.0 VERSION format pattern
+    V5_VERSION_PATTERN = re.compile(r'^v\d{2}$')
+    
+    # R1.0 VERSION format pattern (BL/TS/GN)
+    R1_VERSION_PATTERN = re.compile(r'^(BL|TS|GN)[0-9]{2}$')
+    
+    # R1.0 ISSUE-REVISION format pattern
+    ISSUE_REVISION_PATTERN = re.compile(r'^I[0-9]{2}-R[0-9]{2}$')
     
     # Allowed PROJECT values (hard constraint)
     ALLOWED_PROJECTS = {'AMPEL360'}
@@ -79,19 +106,27 @@ class NomenclatureValidator:
     # Allowed PROGRAM values (fixed)
     ALLOWED_PROGRAMS = {'SPACET'}
     
-    def __init__(self, config_path: Optional[str] = None, strict: bool = True):
+    def __init__(self, config_path: Optional[str] = None, strict: bool = True, standard: str = "v5.0"):
         """
         Initialize validator.
         
         Args:
-            config_path: Path to config YAML file (default: config/nomenclature/v5_0.yaml)
+            config_path: Path to config YAML file (default: auto-select based on standard)
             strict: If True, enforce all vocabulary; if False, only warn
+            standard: "v5.0" or "R1.0" (default: "v5.0")
         """
         self.strict = strict
-        self.config = self._load_config(config_path or self.DEFAULT_CONFIG_PATH)
+        self.standard = standard.upper() if standard.upper() in ["V5.0", "R1.0"] else "V5.0"
+        
+        # Determine config path
+        if config_path is None:
+            config_path = self.DEFAULT_CONFIG_PATH_R1 if self.standard == "R1.0" else self.DEFAULT_CONFIG_PATH_V5
+        
+        self.config = self._load_config(config_path)
         
         # Extract allowlists from config
         allowlists = self.config.get('allowlists', {})
+        self.allowed_models = set(allowlists.get('models', [])) if self.standard == "R1.0" else set()
         self.allowed_variants = set(allowlists.get('variants', []))
         self.allowed_blocks = set(allowlists.get('blocks', []))
         self.allowed_aors = set(allowlists.get('aors', []))
@@ -177,13 +212,17 @@ class NomenclatureValidator:
             if re.match(pattern, filename):
                 return ValidationResult(filename, True, [], [])
         
-        # Match against primary pattern
-        match = self.PRIMARY_PATTERN.match(filename)
+        # Match against appropriate pattern based on standard
+        if self.standard == "R1.0":
+            match = self.R1_PATTERN.match(filename)
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[MODEL]_[VARIANT]_[VERSION]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+        else:
+            match = self.V5_PATTERN.match(filename)
+            pattern_desc = "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
         
         if not match:
             errors.append(
-                "Filename does not match required pattern (v5.0): "
-                "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[VARIANT]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[VERSION]_[STATUS].[EXT]"
+                f"Filename does not match required pattern ({self.standard}): {pattern_desc}"
             )
             return ValidationResult(filename, False, errors, warnings)
         
@@ -192,14 +231,16 @@ class NomenclatureValidator:
         ata_root = components['ata_root']
         project = components['project']
         program = components['program']
+        model = components.get('model')  # R1.0 only
         variant = components['variant']
+        version = components['version']
         block = components['block']
         phase = components['phase']
         knot_task = components['knot_task']
         aor = components['aor']
         subject = components['subject']
         type_code = components['type']
-        version = components['version']
+        issue_revision = components.get('issue_revision')  # R1.0 only
         status = components['status']
         ext = components['ext']
         
@@ -221,6 +262,15 @@ class NomenclatureValidator:
             errors.append(
                 f"Invalid PROGRAM '{program}': must be SPACET"
             )
+        
+        # Validate MODEL allowlist (R1.0 only)
+        if self.standard == "R1.0":
+            if model not in self.allowed_models:
+                msg = f"Invalid MODEL '{model}': must be one of {sorted(self.allowed_models)}"
+                if self.strict:
+                    errors.append(msg)
+                else:
+                    warnings.append(msg)
         
         # Validate VARIANT allowlist
         if variant not in self.allowed_variants:
@@ -296,8 +346,17 @@ class NomenclatureValidator:
             )
         
         # Validate VERSION format
-        if not self.VERSION_PATTERN.match(version):
-            errors.append(f"VERSION '{version}' must be 'vNN' with exactly 2 digits")
+        if self.standard == "R1.0":
+            if not self.R1_VERSION_PATTERN.match(version):
+                errors.append(f"VERSION '{version}' must match pattern (BL|TS|GN)[0-9]{{2}} (e.g., BL01, TS02, GN03)")
+        else:
+            if not self.V5_VERSION_PATTERN.match(version):
+                errors.append(f"VERSION '{version}' must be 'vNN' with exactly 2 digits")
+        
+        # Validate ISSUE-REVISION format (R1.0 only)
+        if self.standard == "R1.0":
+            if not self.ISSUE_REVISION_PATTERN.match(issue_revision):
+                errors.append(f"ISSUE-REVISION '{issue_revision}' must match pattern I[0-9]{{2}}-R[0-9]{{2}} (e.g., I00-R00, I05-R03)")
         
         valid = len(errors) == 0
         return ValidationResult(filename, valid, errors, warnings)
@@ -375,14 +434,14 @@ def print_result(result: ValidationResult, verbose: bool = False) -> None:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Validate filenames against AMPEL360 Space-T nomenclature standard v5.0',
+        description='Validate filenames against AMPEL360 Space-T nomenclature standard (v5.0 or R1.0)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   %(prog)s 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
-  %(prog)s --check-all
+  %(prog)s --standard R1.0 --check-all
   %(prog)s --check-dir ./docs
-  %(prog)s --check-all --strict
+  %(prog)s --standard R1.0 --check-all --strict --mode warn
         """
     )
     
@@ -402,9 +461,21 @@ Examples:
         help='Check all files in specified directory'
     )
     parser.add_argument(
+        '--standard',
+        choices=['v5.0', 'V5.0', 'R1.0', 'r1.0'],
+        default='v5.0',
+        help='Nomenclature standard version (default: v5.0, available: v5.0, R1.0)'
+    )
+    parser.add_argument(
+        '--mode',
+        choices=['warn', 'block', 'report'],
+        default='block',
+        help='Validation mode: warn (report only), block (fail on violations), report (detailed report)'
+    )
+    parser.add_argument(
         '--config',
         metavar='CONFIG',
-        help='Path to config YAML file (default: config/nomenclature/v5_0.yaml)'
+        help='Path to config YAML file (default: auto-select based on --standard)'
     )
     parser.add_argument(
         '--strict',
@@ -424,6 +495,11 @@ Examples:
         action='store_true',
         help='Show all results including valid files'
     )
+    parser.add_argument(
+        '--report',
+        metavar='FILE',
+        help='Write detailed report to file'
+    )
     
     args = parser.parse_args()
     
@@ -431,7 +507,11 @@ Examples:
     if not any([args.filename, args.check_all, args.check_dir]):
         parser.error('Must specify filename, --check-all, or --check-dir')
     
-    validator = NomenclatureValidator(config_path=args.config, strict=args.strict)
+    validator = NomenclatureValidator(
+        config_path=args.config,
+        strict=args.strict,
+        standard=args.standard.upper()
+    )
     results = []
     
     try:
@@ -467,11 +547,42 @@ Examples:
         total = len(results)
         if total > 1 or args.check_all or args.check_dir:
             print(f"\n{'='*60}")
+            print(f"Standard: {args.standard.upper()}")
+            print(f"Mode: {args.mode}")
             print(f"Summary: {valid_count} valid, {invalid_count} invalid (total: {total})")
             print(f"{'='*60}")
         
-        # Return appropriate exit code
-        return 0 if invalid_count == 0 else 1
+        # Write report if requested
+        if args.report:
+            with open(args.report, 'w') as f:
+                f.write(f"AMPEL360 Space-T Nomenclature Validation Report\n")
+                f.write(f"Standard: {args.standard.upper()}\n")
+                f.write(f"Mode: {args.mode}\n")
+                f.write(f"Date: {date.today()}\n\n")
+                f.write(f"Summary: {valid_count} valid, {invalid_count} invalid (total: {total})\n\n")
+                
+                if invalid_count > 0:
+                    f.write("Invalid Files:\n")
+                    f.write("="*60 + "\n")
+                    for result in results:
+                        if not result.valid:
+                            f.write(f"\n✗ {result.filename}\n")
+                            for error in result.errors:
+                                f.write(f"  - {error}\n")
+            print(f"\nReport written to: {args.report}")
+        
+        # Return appropriate exit code based on mode
+        if args.mode == 'warn':
+            # Warn mode: always return 0 (success)
+            if invalid_count > 0:
+                print(f"\n⚠ Warning: {invalid_count} violations found (warn mode - not failing)")
+            return 0
+        elif args.mode == 'report':
+            # Report mode: always return 0 (success)
+            return 0
+        else:
+            # Block mode: return 1 if any invalid
+            return 0 if invalid_count == 0 else 1
         
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
