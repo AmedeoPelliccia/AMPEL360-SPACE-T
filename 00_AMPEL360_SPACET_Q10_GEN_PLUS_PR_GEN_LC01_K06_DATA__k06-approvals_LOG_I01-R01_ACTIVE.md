@@ -90,7 +90,7 @@ Detailed description of what requires approval.
 **Date Requested:** 2025-12-14  
 **Requested By:** GitHub Copilot (Implementation Agent)  
 **Approval Authority:** CM WG  
-**Artifact:** `00_00_STD_LC01_SPACET_identifier-grammar_v01.md`
+**Artifact:** `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md`
 
 **Description:**
 Approval of canonical identifier grammar standard defining:
@@ -120,7 +120,7 @@ Approval of canonical identifier grammar standard defining:
 **Date Requested:** 2025-12-14  
 **Requested By:** GitHub Copilot (Implementation Agent)  
 **Approval Authority:** CM WG  
-**Artifact:** `00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md`
+**Artifact:** `00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md`
 
 **Description:**
 Approval of SSOT decision matrix defining:
@@ -150,7 +150,7 @@ Approval of SSOT decision matrix defining:
 **Date Requested:** 2025-12-14  
 **Requested By:** GitHub Copilot (Implementation Agent)  
 **Approval Authority:** CM WG  
-**Artifact:** `00_00_STD_LC01_SPACET_governance-reference-policy_v01.md`
+**Artifact:** `00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md`
 
 **Description:**
 Approval of governance reference policy defining:
@@ -180,7 +180,7 @@ Approval of governance reference policy defining:
 **Date Requested:** 2025-12-14  
 **Requested By:** GitHub Copilot (Implementation Agent)  
 **Approval Authority:** CM WG  
-**Artifact:** `00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`
+**Artifact:** `00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md`
 
 **Description:**
 Approval of CI governance gates index cataloging:
@@ -255,15 +255,15 @@ Approval to create baseline containing:
 - **Dependencies:** All APPR-K06-001 through APPR-K06-012 approved
 
 **Baseline Contents**:
-1. `00_00_STD_LC01_SPACET_identifier-grammar_v01.md`
-2. `00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md`
-3. `00_00_STD_LC01_SPACET_governance-reference-policy_v01.md`
-4. `00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md`
+1. `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md`
+2. `00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md`
+3. `00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md`
+4. `00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md`
 5. `.github/workflows/governance-gates.yml`
-6. `00_00_RPT_LC01_SPACET_auditability-proof-path_v01.md`
-7. `00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md`
-8. `00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md`
-9. `00_00_LOG_LC01_SPACET_k06-approvals_v01.md`
+6. `00_00_RPT_LC01_SPACET_auditability-proof-path_I01-R01.md`
+7. `00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md`
+8. `00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md`
+9. `00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md`
 
 **Prerequisites**:
 - [ ] All deliverables reviewed and approved (APPR-K06-001 through APPR-K06-009)
@@ -357,9 +357,9 @@ git log --show-signature <commit-hash>
 
 ## References
 
-- **Governance Standards**: 00_00_STD_LC01_SPACET_*_v01.md files
-- **Evidence Pack**: 00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md
-- **Decision Minutes**: 00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md
+- **Governance Standards**: 00_00_STD_LC01_SPACET_*_I01-R01.md files
+- **Evidence Pack**: 00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md
+- **Decision Minutes**: 00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md
 - **CM WG Process**: [To be defined in CM procedures]
 - **Baseline Process**: [To be defined in baseline management procedures]
 

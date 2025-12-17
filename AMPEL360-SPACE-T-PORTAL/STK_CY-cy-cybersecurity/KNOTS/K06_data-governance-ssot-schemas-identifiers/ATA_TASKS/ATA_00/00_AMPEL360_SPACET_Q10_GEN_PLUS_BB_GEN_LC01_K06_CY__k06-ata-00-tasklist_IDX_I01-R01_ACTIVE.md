@@ -57,6 +57,6 @@ python scripts/validate_audit_proof_path.py --check-all
 - `2`: Script error
 
 **References**:
-- `00_AMPEL360_SPACET_PLUS_00_RPT_LC01_K00_CM__auditability-proof-path_v01.md`
-- `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md`
-- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.json`
+- `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__auditability-proof-path_I01-R01.md`
+- `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md`
+- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.json`

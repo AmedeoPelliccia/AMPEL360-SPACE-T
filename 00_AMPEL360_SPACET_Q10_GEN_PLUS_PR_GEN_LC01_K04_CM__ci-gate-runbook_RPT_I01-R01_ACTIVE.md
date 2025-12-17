@@ -44,10 +44,10 @@ This runbook covers:
 
 | Reference | Title | Version |
 | :--- | :--- | :--- |
-| **00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md** | CI Governance Gates Index | v01 |
-| **00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v02.md** | Nomenclature Standard | v02 |
-| **00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__governance-reference-policy_v01.md** | Governance Reference Policy | v01 |
-| **00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md** | Identifier Grammar | v01 |
+| **00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ci-governance-gates_I01-R01.md** | CI Governance Gates Index | v01 |
+| **00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_I01-R02.md** | Nomenclature Standard | v02 |
+| **00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__governance-reference-policy_I01-R01.md** | Governance Reference Policy | v01 |
+| **00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md** | Identifier Grammar | v01 |
 
 ## 2. Quick Reference: Gate Failure Summary
 
@@ -102,7 +102,7 @@ python scripts/detect_new_types.py --directory .
 | Cause | Example | Frequency |
 | :--- | :--- | :--- |
 | **Incorrect field separator** | Using `-` instead of `_` between fields | High |
-| **Missing field** | `00_00_REQ_LC01_description_v01.md` (missing PROJECT/PROGRAM/VARIANT) | High |
+| **Missing field** | `00_00_REQ_LC01_description_I01-R01.md` (missing PROJECT/PROGRAM/VARIANT) | High |
 | **Invalid BUCKET** | Using `05` instead of `00`, `10`, `20`, etc. | Medium |
 | **Invalid TYPE code** | Using `DOC` instead of approved TYPE like `RPT` | Medium |
 | **Wrong SUBJECT for BUCKET** | BUCKET=70 with LC02 instead of SB70-SB79 | Medium |
@@ -133,17 +133,17 @@ Error messages specify which field is invalid. Common patterns:
 
 ```bash
 # Use git mv to preserve history
-git mv "old_filename.md" "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_v01.md"
+git mv "old_filename.md" "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_I01-R01.md"
 ```
 
 **Step 4: Verify fix**
 
 ```bash
 # Validate the renamed file
-python validate_nomenclature.py "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_v01.md"
+python validate_nomenclature.py "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_I01-R01.md"
 
 # Expected output:
-# ✓ 00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_v01.md
+# ✓ 00_00_RPT_LC01_AMPEL360_SPACET_PLUS_description_I01-R01.md
 ```
 
 **Step 5: Commit and push**
@@ -231,7 +231,7 @@ git push
 find . -name "*schema-registry*.csv" -o -name "*schema_registry*.csv"
 
 # If no registry exists, create one at expected location:
-# Create: 91_00_TAB_SB90_AMPEL360_SPACET_GEN_schema-registry_v01.csv
+# Create: 91_00_TAB_SB90_AMPEL360_SPACET_GEN_schema-registry_I01-R01.csv
 ```
 
 **Registry CSV Format:**
@@ -270,7 +270,7 @@ python scripts/validate_schema_registry.py --check-all --verbose
 python scripts/validate_schema_registry.py --check-all --verbose
 
 # Expected output:
-# ✅ Schema registry found: 91_00_TAB_SB90_AMPEL360_SPACET_GEN_schema-registry_v01.csv
+# ✅ Schema registry found: 91_00_TAB_SB90_AMPEL360_SPACET_GEN_schema-registry_I01-R01.csv
 # ✅ All referenced schemas are registered
 ```
 
@@ -390,8 +390,8 @@ python scripts/detect_new_types.py --directory . --show-vocabulary
 # REQ, DAL, TRC, CAT, LST, GLO, MAT, SCH, DIA, TAB, STD
 
 # Rename file with correct TYPE
-git mv "00_00_DOC_LC01_AMPEL360_SPACET_PLUS_readme_v01.md" \
-       "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_readme_v01.md"
+git mv "00_00_DOC_LC01_AMPEL360_SPACET_PLUS_readme_I01-R01.md" \
+       "00_00_RPT_LC01_AMPEL360_SPACET_PLUS_readme_I01-R01.md"
 ```
 
 **Scenario B: Need new TYPE code**
@@ -422,8 +422,8 @@ python scripts/detect_new_types.py --auto-suggest
 **Purpose:** Captures detailed technical specifications that don't fit REQ (requirements) or STD (standards)
 
 **Example filenames:**
-- `00_00_SPEC_LC01_AMPEL360_SPACET_SYS_power-specification_v01.md`
-- `24_00_SPEC_SB24_AMPEL360_SPACET_HW_electrical-specification_v01.md`
+- `00_00_SPEC_LC01_AMPEL360_SPACET_SYS_power-specification_I01-R01.md`
+- `24_00_SPEC_SB24_AMPEL360_SPACET_HW_electrical-specification_I01-R01.md`
 
 **Why existing TYPEs don't work:**
 - REQ: For requirements, not specifications
@@ -578,7 +578,7 @@ CM WG may request:
 1. Run: `python scripts/validate_identifiers.py --all`
 2. Review error messages for format requirements
 3. Update identifiers to match grammar specification
-4. See: `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md`
+4. See: `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md`
 
 ---
 
@@ -759,4 +759,4 @@ python scripts/scaffold.py 00 00 RPT LC01 AMPEL360 SPACET PLUS description v01
 | **Last Updated** | 2025-12-16 |
 | **Next Review** | 2026-03-16 (quarterly) |
 | **Approvals** | Pending CM WG sign-off |
-| **Cross-Reference** | 00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md |
+| **Cross-Reference** | 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ci-governance-gates_I01-R01.md |

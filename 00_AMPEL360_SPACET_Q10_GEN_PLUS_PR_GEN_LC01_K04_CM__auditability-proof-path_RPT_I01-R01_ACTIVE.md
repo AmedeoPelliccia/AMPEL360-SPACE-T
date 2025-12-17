@@ -51,10 +51,10 @@ Out of scope:
 
 | Reference | Title | Version |
 | :--- | :--- | :--- |
-| **00_00_STD_LC01_SPACET_identifier-grammar_v01.md** | Identifier Grammar | v01 |
-| **00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md** | SSOT Decision Matrix | v01 |
-| **00_00_STD_LC01_SPACET_governance-reference-policy_v01.md** | Governance Reference Policy | v01 |
-| **00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md** | CI Governance Gates Index | v01 |
+| **00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md** | Identifier Grammar | v01 |
+| **00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md** | SSOT Decision Matrix | v01 |
+| **00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md** | Governance Reference Policy | v01 |
+| **00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md** | CI Governance Gates Index | v01 |
 | **ATA 91** | Schema Registry & Versioning | TBD |
 | **ATA 93** | Trace Semantics & Evidence Links | TBD |
 | **ATA 99** | Namespace Registry | TBD |
@@ -133,7 +133,7 @@ Step 8: Approval Confirmation
 grep -r "REQ-SYS-042" --include="*.md" .
 
 # Expected output: File path containing requirement
-# Example: ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+# Example: ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
 ```
 
 **Validation**:
@@ -154,7 +154,7 @@ grep -r "REQ-SYS-042" --include="*.md" .
 **Query**:
 ```bash
 # Extract schema reference from frontmatter
-grep "schema_refs:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+grep "schema_refs:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
 
 # Expected output:
 # schema_refs:
@@ -187,7 +187,7 @@ python scripts/check_schema_registration.py --schema SCH-REQ-001-V02 --registry 
 **Query**:
 ```bash
 # Extract trace links from requirement
-grep "trace_links:" -A10 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+grep "trace_links:" -A10 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
 
 # Expected output:
 # trace_links:
@@ -219,7 +219,7 @@ python scripts/check_trace_integrity.py --link-id REQ-SYS-042 --target ATA24-DES
 **Query**:
 ```bash
 # Extract implementation trace link from design
-grep "trace_links:" -A10 ./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_v01.md
+grep "trace_links:" -A10 ./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_I01-R01.md
 
 # Expected output:
 # trace_links:
@@ -250,7 +250,7 @@ grep -r "ATA24-IMPL-042" --include="*.md" .
 **Query**:
 ```bash
 # Extract test trace link
-grep "trace_links:" -A10 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md | grep "verifies"
+grep "trace_links:" -A10 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md | grep "verifies"
 
 # Expected output:
 # - type: "verifies"
@@ -284,13 +284,13 @@ python scripts/check_trace_integrity.py --bidirectional REQ-SYS-042 TC-SYS-0042
 grep -r "TEST-RESULTS-042" --include="*_IDX_*evidence*.md" .
 
 # Expected output: Evidence pack index file
-# Example: ./00_00_IDX_LC03_SPACET_lc03-evidence-pack_v01.md
+# Example: ./00_00_IDX_LC03_SPACET_lc03-evidence-pack_I01-R01.md
 ```
 
 **Evidence Pack Query**:
 ```bash
 # Extract evidence details from pack
-grep "TEST-RESULTS-042" -A10 ./00_00_IDX_LC03_SPACET_lc03-evidence-pack_v01.md
+grep "TEST-RESULTS-042" -A10 ./00_00_IDX_LC03_SPACET_lc03-evidence-pack_I01-R01.md
 
 # Expected output:
 # | TEST-RESULTS-042 | Test Execution Log | ./evidence/test_results_042.pdf | PDF | Verified | Pass |
@@ -321,8 +321,8 @@ python scripts/validate_evidence_links.py --evidence-id TEST-RESULTS-042
 git tag -l "BL-*"
 
 # Check artifact inclusion in specific baseline
-git show BL-2025-12-01:./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
-git show BL-2025-12-01:./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_v01.md
+git show BL-2025-12-01:./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
+git show BL-2025-12-01:./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_I01-R01.md
 git show BL-2025-12-01:./evidence/test_results_042.pdf
 ```
 
@@ -356,7 +356,7 @@ python scripts/validate_baseline_completeness.py --baseline BL-2025-12-01 --chai
 gh run list --workflow="governance-gates.yml" --branch=main --limit=20
 
 # Retrieve approval log
-cat ./00_00_LOG_LC01_SPACET_k06-approvals_v01.md | grep "BL-2025-12-01"
+cat ./00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md | grep "BL-2025-12-01"
 
 # Expected output:
 # | APPR-042 | 2025-12-01 | Baseline BL-2025-12-01 | CM WG Consensus | Approved | J. Smith |
@@ -384,12 +384,12 @@ gh run view <run-id> --log
 **Step 1 - Requirement Identification**:
 ```bash
 $ grep -r "REQ-SYS-042" --include="*.md" .
-./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md:### REQ-SYS-042: Emergency Power Distribution
+./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md:### REQ-SYS-042: Emergency Power Distribution
 ```
 
 **Step 2 - Schema Validation**:
 ```bash
-$ grep "schema_refs:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+$ grep "schema_refs:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
 schema_refs:
   - schema_id: "SCH-REQ-001-V02"
     registry: "ATA 91"
@@ -401,7 +401,7 @@ $ python scripts/check_schema_registration.py --schema SCH-REQ-001-V02
 
 **Step 3 - Trace to Design**:
 ```bash
-$ grep "trace_links:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+$ grep "trace_links:" -A5 ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
 trace_links:
   - type: "satisfies"
     target: "ATA24-DESIGN-042"
@@ -409,12 +409,12 @@ trace_links:
     evidence: "REVIEW-DESIGN-001"
 
 $ grep -r "ATA24-DESIGN-042" --include="*.md" .
-./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_v01.md:## ATA24-DESIGN-042: Emergency Bus Topology
+./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_I01-R01.md:## ATA24-DESIGN-042: Emergency Bus Topology
 ```
 
 **Step 4 - Trace to Implementation**:
 ```bash
-$ grep "trace_links:" -A5 ./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_v01.md
+$ grep "trace_links:" -A5 ./ATA24/00_24_DESIGN_LC03_SYS_power-distribution-design_I01-R01.md
 trace_links:
   - type: "implements"
     target: "ATA24-IMPL-042"
@@ -426,20 +426,20 @@ $ ls -la ./ATA24/implementation/emergency_bus_042.cfg
 
 **Step 5 - Trace to Test**:
 ```bash
-$ grep "verifies" ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md
+$ grep "verifies" ./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md
   - type: "verifies"
     target: "TC-SYS-0042"
     status: "verified"
     evidence: "TEST-RESULTS-042"
 
 $ grep -r "TC-SYS-0042" --include="*.md" .
-./00_40_TC_LC04_SYS_system-test-cases_v01.md:### TC-SYS-0042: Emergency Power Failover Test
+./00_40_TC_LC04_SYS_system-test-cases_I01-R01.md:### TC-SYS-0042: Emergency Power Failover Test
 ```
 
 **Step 6 - Evidence Retrieval**:
 ```bash
 $ grep "TEST-RESULTS-042" -r --include="*evidence*.md" .
-./00_00_IDX_LC04_SPACET_lc04-evidence-pack_v01.md:| TEST-RESULTS-042 | Emergency Power Test Log | ./evidence/test_042.pdf | PDF | Verified | PASS |
+./00_00_IDX_LC04_SPACET_lc04-evidence-pack_I01-R01.md:| TEST-RESULTS-042 | Emergency Power Test Log | ./evidence/test_042.pdf | PDF | Verified | PASS |
 
 $ ls -la ./evidence/test_042.pdf
 -rw-r--r-- 1 user user 245760 2025-11-20 09:15 test_042.pdf
@@ -450,7 +450,7 @@ $ ls -la ./evidence/test_042.pdf
 $ git tag -l "BL-*"
 BL-2025-12-01
 
-$ git show BL-2025-12-01:./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_v01.md | head -5
+$ git show BL-2025-12-01:./ATA24/00_24_REQ_LC02_SYS_electrical-requirements_I01-R01.md | head -5
 ---
 title: "Electrical System Requirements"
 type: REQ
@@ -462,7 +462,7 @@ $ python scripts/validate_baseline_completeness.py --baseline BL-2025-12-01 --ch
 
 **Step 8 - Approval Confirmation**:
 ```bash
-$ cat ./00_00_LOG_LC01_SPACET_k06-approvals_v01.md | grep "BL-2025-12-01"
+$ cat ./00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md | grep "BL-2025-12-01"
 | APPR-042 | 2025-12-01 | Baseline BL-2025-12-01 approval | CM WG | Approved | J. Smith |
 
 $ git log --grep="BL-2025-12-01" --show-signature

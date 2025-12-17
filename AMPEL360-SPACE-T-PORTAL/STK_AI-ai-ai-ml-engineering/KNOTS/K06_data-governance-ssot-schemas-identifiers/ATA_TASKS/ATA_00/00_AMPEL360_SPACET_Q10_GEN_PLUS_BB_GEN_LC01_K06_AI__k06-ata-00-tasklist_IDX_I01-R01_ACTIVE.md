@@ -55,7 +55,7 @@ AI deliverables support CM's closure criteria:
 ### 6.1 Automation development
 - [ ] **T1-AI (AI-owned)** Develop nomenclature validator (identifier grammar, namespace boundaries)
   - _Deliverable:_ `validate_nomenclature.py` + CI workflow integration
-  - _Consumes:_ CM's `00_00_STD_LC01_SPACET_identifier-grammar_v01.md`
+  - _Consumes:_ CM's `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md`
 
 - [ ] **T2-AI (AI-owned)** Develop schema registry validator (completeness, version conflicts)
   - _Deliverable:_ Schema validator script + CI workflow integration
@@ -86,7 +86,7 @@ AI deliverables support CM's closure criteria:
 
 - [x] **T8-AI (AI-owned)** Implement NKU scoring automation
   - _Deliverable:_ NKU ledger updater + partition score calculator
-  - _Implementation:_ `scripts/nku_scoring.py` + `00_AMPEL360_SPACET_GEN_90_SCH_SB90_K00_DATA__nku-ledger-schema_v01.json`
+  - _Implementation:_ `scripts/nku_scoring.py` + `00_AMPEL360_SPACET_GEN_90_SCH_SB90_K04_DATA__nku-ledger-schema_I01-R01.json`
   - _Status:_ Complete (2025-12-16)
 
 - [ ] **T9-AI (AI-owned)** Implement auditability proof validator
@@ -94,10 +94,10 @@ AI deliverables support CM's closure criteria:
 
 ### 6.4 Documentation and integration
 - [ ] **T10-AI (AI-owned)** Document automation architecture and integration points
-  - _Deliverable:_ `00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_AI__ai-automation-architecture_v01.md`
+  - _Deliverable:_ `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__ai-automation-architecture_I01-R01.md`
 
 - [ ] **T11-AI (AI-owned)** Create runbooks for CI gate failures and remediation
-  - _Deliverable:_ `00_AMPEL360_SPACET_PLUS_00_RPT_LC01_K00_CM__ci-gate-runbook_v01.md`
+  - _Deliverable:_ `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__ci-gate-runbook_I01-R01.md`
 
 ---
 
@@ -170,6 +170,6 @@ python scripts/validate_audit_proof_path.py --check-all
 - `2`: Script error
 
 **References**:
-- `00_AMPEL360_SPACET_PLUS_00_RPT_LC01_K00_CM__auditability-proof-path_v01.md`
-- `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md`
-- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.json`
+- `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__auditability-proof-path_I01-R01.md`
+- `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md`
+- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.json`

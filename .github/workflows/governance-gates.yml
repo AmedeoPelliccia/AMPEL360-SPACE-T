@@ -239,9 +239,9 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
 3. **Await approval** before merging
 
 ### Reference
-- **Policy**: 00_00_STD_LC01_SPACET_governance-reference-policy_v01.md §6.3
+- **Policy**: 00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md §6.3
 - **Gate**: GATE-006 (Governance Change Detection)
-- **Index**: 00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md
+- **Index**: 00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md
               `
             });
       

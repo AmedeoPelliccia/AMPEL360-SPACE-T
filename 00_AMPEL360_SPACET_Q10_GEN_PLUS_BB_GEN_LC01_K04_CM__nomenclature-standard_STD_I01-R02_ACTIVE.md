@@ -230,39 +230,39 @@ CI shall additionally enforce:
 ### 6.1 Valid examples (v3.0 format)
 
 * Lifecycle (LC) plan for AMPEL360+ Space-T:
-  * `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md`
+  * `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_I01-R01.md`
 * Propulsion FHA (domain bucket with sub-bucket):
-  * `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md`
+  * `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_I01-R01.md`
 * Software safety requirements:
-  * `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_v01.md`
+  * `00_40_REQ_SB40_AMPEL360_SPACET_PLUS_software-safety-reqs_I01-R01.md`
 * Traceability matrix workbook:
-  * `00_20_TRC_SB20_AMPEL360_SPACET_PLUS_traceability-matrix_v01.xlsx`
+  * `00_20_TRC_SB20_AMPEL360_SPACET_PLUS_traceability-matrix_I01-R01.xlsx`
 * Reference schema:
-  * `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_v01.json`
+  * `00_90_SCH_SB90_AMPEL360_SPACET_GEN_hazard-log-schema_I01-R01.json`
 * Operations plan:
-  * `00_10_PLAN_SB15_AMPEL360_SPACET_GEN_operations-plan_v01.md`
+  * `00_10_PLAN_SB15_AMPEL360_SPACET_GEN_operations-plan_I01-R01.md`
 * Energy system FHA:
-  * `00_80_FHA_SB86_AMPEL360_SPACET_SYS_energy-system_v01.md`
+  * `00_80_FHA_SB86_AMPEL360_SPACET_SYS_energy-system_I01-R01.md`
 * Certification artifacts:
-  * `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_v01.md`
+  * `00_00_PLAN_LC10_AMPEL360_SPACET_CERT_certification-authority-basis_I01-R01.md`
 * Extended ATA code (3-digit ROOT):
-  * `115_00_PLAN_LC01_AMPEL360_SPACET_PLUS_supply-chain-plan_v01.md`
-  * `116_70_FHA_SB70_AMPEL360_SPACET_SYS_facility-systems_v01.md`
+  * `115_00_PLAN_LC01_AMPEL360_SPACET_PLUS_supply-chain-plan_I01-R01.md`
+  * `116_70_FHA_SB70_AMPEL360_SPACET_SYS_facility-systems_I01-R01.md`
 
 ### 6.2 Invalid examples
 
 * Missing PROJECT and PROGRAM fields (v2.0 format):
-  * `00_00_PLAN_LC02_SPACET_safety-program_v01.md` *(non-compliant: missing PROJECT/PROGRAM)*
+  * `00_00_PLAN_LC02_SPACET_safety-program_I01-R01.md` *(non-compliant: missing PROJECT/PROGRAM)*
 * Wrong PROJECT value:
-  * `00_70_FHA_SB70_PROJECT2_SPACET_PLUS_propulsion_v01.md` *(non-compliant: PROJECT must be AMPEL360)*
+  * `00_70_FHA_SB70_PROJECT2_SPACET_PLUS_propulsion_I01-R01.md` *(non-compliant: PROJECT must be AMPEL360)*
 * Wrong PROGRAM value:
-  * `00_70_FHA_SB70_AMPEL360_OTHER_PLUS_propulsion_v01.md` *(non-compliant: PROGRAM must be SPACET)*
+  * `00_70_FHA_SB70_AMPEL360_OTHER_PLUS_propulsion_I01-R01.md` *(non-compliant: PROGRAM must be SPACET)*
 * Wrong delimiter:
   * `00-70-FHA-SB70-AMPEL360-SPACET-PLUS-propulsion-v01.md` *(non-compliant: must use `_` between fields)*
 * Wrong version format:
   * `00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v1.md` *(non-compliant: version must be `vNN`)*
 * Invalid bucket:
-  * `00_99_LST_SB90_AMPEL360_SPACET_GEN_glossary_v01.md` *(non-compliant: bucket must be in allowlist)*
+  * `00_99_LST_SB90_AMPEL360_SPACET_GEN_glossary_I01-R01.md` *(non-compliant: bucket must be in allowlist)*
 
 ---
 

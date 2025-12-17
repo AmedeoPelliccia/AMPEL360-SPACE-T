@@ -28,10 +28,10 @@ A **knot** is a cross-cutting workflow element that represents certification/com
 - **T002**: Map Compliance Objectives to Evidence and Tests (12-16 weeks)
 
 **Key Deliverables:**
-- `00_00_PLAN_LC10_CERT_certification-basis_v01.md`
-- `00_00_TRC_LC10_CERT_compliance-matrix_v01.md`
+- `00_00_PLAN_LC10_CERT_certification-basis_I01-R01.md`
+- `00_00_TRC_LC10_CERT_compliance-matrix_I01-R01.md`
 
-**Documentation:** `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`
+**Documentation:** `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`
 
 ---
 
@@ -42,8 +42,8 @@ A **knot** is a cross-cutting workflow element that represents certification/com
 # Validate schema
 python3 -c "
 import json, jsonschema
-schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_v01.json'))
-data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_v01.json'))
+schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json'))
+data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json'))
 jsonschema.validate(instance=data, schema=schema)
 print('✓ Valid')
 "
@@ -54,7 +54,7 @@ print('✓ Valid')
 # Extract K01 details
 python3 -c "
 import json
-catalog = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_v01.json'))
+catalog = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json'))
 k01 = catalog['knots']['K01']
 print(f'Title: {k01[\"title\"]}')
 print(f'ATAs: {len(k01[\"affected_atas\"])} systems')
@@ -79,9 +79,9 @@ for task in k01['task_templates']:
 ```
 
 **Examples:**
-- `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`
-- `21_00_PLAN_LC10_CERT_certification-basis_v01.md`
-- `22_00_TRC_LC10_CERT_compliance-matrix_v01.md`
+- `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`
+- `21_00_PLAN_LC10_CERT_certification-basis_I01-R01.md`
+- `22_00_TRC_LC10_CERT_compliance-matrix_I01-R01.md`
 
 ---
 
@@ -89,10 +89,10 @@ for task in k01['task_templates']:
 
 | File | Purpose |
 | :--- | :--- |
-| `00_90_SCH_SB00_GEN_knots-data-structure_v01.json` | JSON Schema definition |
-| `00_90_CAT_SB00_CERT_knots-catalog_v01.json` | Machine-readable knot data |
-| `00_00_IDX_LC10_CERT_certification-knots-index_v01.md` | Complete knots index |
-| `00_00_PLAN_LC10_CERT_knot-k01-*_v01.md` | K01 detailed documentation |
+| `00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json` | JSON Schema definition |
+| `00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json` | Machine-readable knot data |
+| `00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md` | Complete knots index |
+| `00_00_PLAN_LC10_CERT_knot-k01-*_I01-R01.md` | K01 detailed documentation |
 
 ---
 
@@ -119,9 +119,9 @@ For each ATA system affected by K01:
 - Configuration Management: [Contact]
 
 **Resources:**
-- Full Index: `00_00_IDX_LC10_CERT_certification-knots-index_v01.md`
+- Full Index: `00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md`
 - OPT-IN Framework: `README.md`
-- Nomenclature Standard: `00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`
+- Nomenclature Standard: `00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md`
 
 ---
 

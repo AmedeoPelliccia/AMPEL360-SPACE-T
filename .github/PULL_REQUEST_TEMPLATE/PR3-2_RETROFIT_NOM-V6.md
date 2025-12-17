@@ -140,11 +140,11 @@ retrofit_report_v6.md:
 
 ```text
 # Example v5.0 → v6.0 R1.0 rename
-OLD: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
+OLD: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 NEW: 27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 
 # Example CUST variant rename (manual review required)
-OLD: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__airbus-thermal_STD_v01_ACTIVE.md
+OLD: 27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__airbus-thermal_STD_I01-R01_ACTIVE.md
 NEW: 27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_OPS_LC03_K06_SE__cust-airbus-thermal_STD_I01-R01_ACTIVE.md
      ^ Applied conditional SUBJECT prefix for CUST variant
 

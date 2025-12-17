@@ -293,7 +293,7 @@
               "properties": {
                 "nku_tracker_path": {
                   "type": "string",
-                  "default": "AMPEL360-SPACE-T-PORTAL/MONITORING/{{ATA_CODE}}_00_TAB_LC01_AMPEL360_SPACET_{{VARIANT}}_{{KNOT_ID_LOWER}}-ata-{{ATA_CODE}}-nku-tracking_v01.csv",
+                  "default": "AMPEL360-SPACE-T-PORTAL/MONITORING/{{ATA_CODE}}_00_TAB_LC01_AMPEL360_SPACET_{{VARIANT}}_{{KNOT_ID_LOWER}}-ata-{{ATA_CODE}}-nku-tracking_I01-R01.csv",
                   "description": "Repo-relative CSV path for NKU tracking for this ATA/Knot."
                 },
                 "reporting_frequency": {

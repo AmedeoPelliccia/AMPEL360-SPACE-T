@@ -70,7 +70,7 @@
             "Authority guidance materials"
           ],
           "outputs": [
-            "Certification Basis Document (00_00_PLAN_LC10_CERT_certification-basis_v01.md)",
+            "Certification Basis Document (00_00_PLAN_LC10_CERT_certification-basis_I01-R01.md)",
             "Special Conditions list",
             "Equivalent Safety Findings (ESF) justifications",
             "Certification Plan outline",
@@ -103,7 +103,7 @@
             "Verification and validation plans"
           ],
           "outputs": [
-            "Compliance Matrix (00_00_TRC_LC10_CERT_compliance-matrix_v01.md)",
+            "Compliance Matrix (00_00_TRC_LC10_CERT_compliance-matrix_I01-R01.md)",
             "Verification Cross-Reference Matrix",
             "Test procedures mapped to requirements",
             "Certification evidence plan",
@@ -201,13 +201,13 @@
       "affected_ata_pattern": "00,01-04,18,20-79,80-89,90-99,100-116",
       "canonical_dir_skeleton": [
         "KNOTS/K01_authority-model-certification-basis/",
-        "00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md",
-        "ATA_TASKS/ATA_XX/XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_v01.md",
-        "DECISIONS/00_00_STD_LC01_SPACET_k01-decision-record_v01.md",
-        "EVIDENCE/00_00_TRC_LC01_SPACET_k01-evidence-map_v01.md",
-        "EVIDENCE/00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md",
-        "MONITORING/00_00_LOG_LC01_SPACET_k01-nku-tracking_v01.csv",
-        "TEKNIA/00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_v01.md",
+        "00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_I01-R01.md",
+        "ATA_TASKS/ATA_XX/XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_I01-R01.md",
+        "DECISIONS/00_00_STD_LC01_SPACET_k01-decision-record_I01-R01.md",
+        "EVIDENCE/00_00_TRC_LC01_SPACET_k01-evidence-map_I01-R01.md",
+        "EVIDENCE/00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_I01-R01.md",
+        "MONITORING/00_00_LOG_LC01_SPACET_k01-nku-tracking_I01-R01.csv",
+        "TEKNIA/00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_I01-R01.md",
         "ASSETS/",
         "EXPORTS/",
         "ISSUES/",

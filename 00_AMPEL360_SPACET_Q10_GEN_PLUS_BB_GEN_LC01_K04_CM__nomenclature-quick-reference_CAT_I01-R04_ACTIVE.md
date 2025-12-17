@@ -129,49 +129,49 @@ owner: "Configuration Management WG"
 
 ### Global program-level plan (K00, CM-owned)
 ```
-00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM__safety-program_v01.md
+00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC02_K04_CM__safety-program_I01-R01.md
 ```
 
 ### Certification authority basis (K01, CERT-owned)
 ```
-00_AMPEL360_SPACET_CERT_00_PLAN_LC10_K01_CERT__certification-authority-basis_v01.md
+00_AMPEL360_SPACET_CERT_00_PLAN_LC10_K01_CERT__certification-authority-basis_I01-R01.md
 ```
 
 ### Propulsion FHA (K02, SAF-owned)
 ```
-00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_v01.md
+00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_I01-R01.md
 ```
 
 ### ATA tasklist index (K03, SPACEPORT-owned)
 ```
-78_AMPEL360_SPACET_PLUS_00_IDX_LC01_K03_SPACEPORT__k03-ata-78-tasklist_v01.md
+78_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K03_SPACEPORT__k03-ata-78-tasklist_I01-R01.md
 ```
 
 ### Knots data schema (K00, DATA-owned)
 ```
-00_AMPEL360_SPACET_GEN_90_SCH_SB90_K00_DATA__knots-data-structure_v01.json
+00_AMPEL360_SPACET_GEN_90_SCH_SB90_K04_DATA__knots-data-structure_I01-R01.json
 ```
 
 ---
 
 ## Common Mistakes
 
-❌ **Wrong:** `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md`
+❌ **Wrong:** `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_I01-R01.md`
 * Missing TRIGGER_KNOT and AoR fields (v3.0 format)
 
-❌ **Wrong:** `00_00_AMPEL360_SPACET_PLUS_PLAN_LC02_K00_CM__safety-program_v01.md`
+❌ **Wrong:** `00_00_AMPEL360_SPACET_PLUS_PLAN_LC02_K04_CM__safety-program_I01-R01.md`
 * Wrong field order (BUCKET before PROJECT)
 
-❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM_safety-program_v01.md`
+❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM_safety-program_I01-R01.md`
 * Single underscore before DESCRIPTION (must use `__`)
 
-❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_KNOT01_CM__safety-program_v01.md`
+❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_KNOT01_CM__safety-program_I01-R01.md`
 * Invalid TRIGGER_KNOT format (must be K00-K99)
 
-❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_STK_CM__safety-program_v01.md`
+❌ **Wrong:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_STK_CM__safety-program_I01-R01.md`
 * AoR has STK_ prefix (not allowed in filename)
 
-✅ **Correct:** `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM__safety-program_v01.md`
+✅ **Correct:** `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC02_K04_CM__safety-program_I01-R01.md`
 
 ---
 

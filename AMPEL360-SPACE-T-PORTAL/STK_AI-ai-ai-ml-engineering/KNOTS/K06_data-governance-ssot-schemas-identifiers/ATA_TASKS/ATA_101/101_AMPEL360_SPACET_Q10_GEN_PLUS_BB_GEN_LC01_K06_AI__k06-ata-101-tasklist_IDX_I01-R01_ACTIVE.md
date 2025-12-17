@@ -21,13 +21,13 @@ NKU progress is credited only when each partition is closed with **evidence + ap
 
 ## 1) Global Navigation (GitHub-navigable)
 
-- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_v01.md)  
+- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_I01-R01.md)  
   _Comment:_ Canonical K06 scope, impacted ATAs, closure criteria, and shared definitions.
 
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-entrypoints_v01.md)  
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_I01-R01.md)  
   _Comment:_ Global entry point; use it to navigate stakeholders and the knot portfolio.
 
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_AI__stakeholder-ai-entrypoint_v01.md)  
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__stakeholder-ai-entrypoint_I01-R01.md)  
   _Comment:_ AI/ML execution lane; automation hooks and governance helpers.
 
 - ATA 101 home (T-SIMTEST): [AMPEL360_SPACE-T/T-SIMTEST/ATA 101](../../../../../../AMPEL360_SPACE-T/T-SIMTEST/ATA_101-SIMTEST/)  
@@ -91,13 +91,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [02_IDS_REGISTRY/](02_IDS_REGISTRY/)  
   _Comment:_ Ensures every run/dataset/evidence item has a unique ID, owner, lifecycle state, and dedup policy.
 
-- Standard (STD): [Identifier grammar](02_IDS_REGISTRY/101_00_STD_LC03_AMPEL360_SPACET_PLUS_simtest-identifier-grammar_v01.md)  
+- Standard (STD): [Identifier grammar](02_IDS_REGISTRY/101_00_STD_LC03_AMPEL360_SPACET_PLUS_simtest-identifier-grammar_I01-R01.md)  
   _Done when:_ Grammar is approved and referenced by schema + CI gates.
 
-- Registry (TAB/CSV): [Sim/Test registry](02_IDS_REGISTRY/101_00_TAB_LC03_AMPEL360_SPACET_PLUS_simtest-registry_v01.csv)  
+- Registry (TAB/CSV): [Sim/Test registry](02_IDS_REGISTRY/101_00_TAB_LC03_AMPEL360_SPACET_PLUS_simtest-registry_I01-R01.csv)  
   _Done when:_ Registry is SSOT (no duplicates), with owners/status and required metadata.
 
-- Change log (LOG): [Registry change log](02_IDS_REGISTRY/101_00_LOG_LC03_AMPEL360_SPACET_PLUS_registry-change-log_v01.md)  
+- Change log (LOG): [Registry change log](02_IDS_REGISTRY/101_00_LOG_LC03_AMPEL360_SPACET_PLUS_registry-change-log_I01-R01.md)  
   _Done when:_ Every change references a decision/change record (P7).
 
 ---
@@ -106,13 +106,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [03_SCHEMA/](03_SCHEMA/)  
   _Comment:_ Defines stable machine-readable meaning and compatibility rules for sim/test metadata and evidence graphs.
 
-- Schema (SCH/JSON): [Sim/Test run schema](03_SCHEMA/101_00_SCH_LC03_AMPEL360_SPACET_PLUS_simtest-run-schema_v01.json)  
+- Schema (SCH/JSON): [Sim/Test run schema](03_SCHEMA/101_00_SCH_LC03_AMPEL360_SPACET_PLUS_simtest-run-schema_I01-R01.json)  
   _Done when:_ Schema validates exports and is referenced by CI.
 
-- Standard (STD): [Schema versioning policy](03_SCHEMA/101_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-versioning-policy_v01.md)  
+- Standard (STD): [Schema versioning policy](03_SCHEMA/101_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-versioning-policy_I01-R01.md)  
   _Done when:_ Compatibility/breaking-change rules exist and are enforced.
 
-- Units/Frames map (TAB/CSV): [Units/frames mapping](03_SCHEMA/101_00_TAB_LC03_AMPEL360_SPACET_PLUS_units-frames-mapping_v01.csv)  
+- Units/Frames map (TAB/CSV): [Units/frames mapping](03_SCHEMA/101_00_TAB_LC03_AMPEL360_SPACET_PLUS_units-frames-mapping_I01-R01.csv)  
   _Done when:_ Every result field declares unit/frame/tolerance rule to prevent misinterpretation.
 
 ---
@@ -121,13 +121,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [04_EXPORTS/](04_EXPORTS/)  
   _Comment:_ Provides reproducible exports/manifests for sim/test runs and evidence packs (consumable by downstream tooling and reviews).
 
-- Baseline dataset (TAB/CSV): [Baseline run/evidence set](04_EXPORTS/101_00_TAB_LC04_AMPEL360_SPACET_PLUS_baseline-simtest-evidence-set_v01.csv)  
+- Baseline dataset (TAB/CSV): [Baseline run/evidence set](04_EXPORTS/101_00_TAB_LC04_AMPEL360_SPACET_PLUS_baseline-simtest-evidence-set_I01-R01.csv)  
   _Done when:_ Export is reproducible, validated, and release-referenced.
 
-- Manifest (RPT): [Export manifest](04_EXPORTS/101_00_RPT_LC04_AMPEL360_SPACET_PLUS_export-manifest_v01.md)  
+- Manifest (RPT): [Export manifest](04_EXPORTS/101_00_RPT_LC04_AMPEL360_SPACET_PLUS_export-manifest_I01-R01.md)  
   _Done when:_ Inputs/tools/versions are recorded; rebuild is deterministic.
 
-- Diagram (DIA): [Evidence relationship map](04_EXPORTS/101_00_DIA_LC04_AMPEL360_SPACET_PLUS_evidence-graph-map_v01.md)  
+- Diagram (DIA): [Evidence relationship map](04_EXPORTS/101_00_DIA_LC04_AMPEL360_SPACET_PLUS_evidence-graph-map_I01-R01.md)  
   _Done when:_ Diagram references match registry IDs and baseline export.
 
 ---
@@ -136,13 +136,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [05_CI_GATES/](05_CI_GATES/)  
   _Comment:_ Makes governance non-optional; blocks “evidence without provenance”.
 
-- Requirements (STD): [CI validation requirements](05_CI_GATES/101_00_STD_LC05_AMPEL360_SPACET_PLUS_ci-validation-requirements_v01.md)  
+- Requirements (STD): [CI validation requirements](05_CI_GATES/101_00_STD_LC05_AMPEL360_SPACET_PLUS_ci-validation-requirements_I01-R01.md)  
   _Done when:_ Rules map to checks; failures are actionable.
 
-- Checklist (LOG): [CI checklist](05_CI_GATES/101_00_LOG_LC05_AMPEL360_SPACET_PLUS_ci-checklist_v01.md)  
+- Checklist (LOG): [CI checklist](05_CI_GATES/101_00_LOG_LC05_AMPEL360_SPACET_PLUS_ci-checklist_I01-R01.md)  
   _Done when:_ Checklist matches CI outputs and reviewer expectations.
 
-- Sample run (RPT): [CI validation sample run](05_CI_GATES/101_00_RPT_LC05_AMPEL360_SPACET_PLUS_ci-validation-sample-run_v01.md)  
+- Sample run (RPT): [CI validation sample run](05_CI_GATES/101_00_RPT_LC05_AMPEL360_SPACET_PLUS_ci-validation-sample-run_I01-R01.md)  
   _Done when:_ Demonstrates representative pass/fail cases.
 
 ---
@@ -151,13 +151,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [06_EVIDENCE/](06_EVIDENCE/)  
   _Comment:_ NKU credit requires reproducible evidence and stable links, not narrative.
 
-- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/101_00_IDX_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-evidence-pack_v01.md)  
+- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/101_00_IDX_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-evidence-pack_I01-R01.md)  
   _Done when:_ All required evidence is linked and current.
 
-- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/101_00_TRC_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-evidence-links_v01.csv)  
+- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/101_00_TRC_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-evidence-links_I01-R01.csv)  
   _Done when:_ Each claim has an evidence link and status (OK/STALE/MISSING).
 
-- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/101_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-nku-ledger_v01.csv)  
+- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/101_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-nku-ledger_I01-R01.csv)  
   _Done when:_ Partition scores are updated and backed by evidence + decision.
 
 ---
@@ -166,10 +166,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [07_DECISIONS/](07_DECISIONS/)  
   _Comment:_ Converts evidence into an approved baseline outcome.
 
-- Decision minutes (MIN): [Decision minutes](07_DECISIONS/101_00_MIN_LC07_AMPEL360_SPACET_PLUS_k06-ata-101-decision-minutes_v01.md)  
+- Decision minutes (MIN): [Decision minutes](07_DECISIONS/101_00_MIN_LC07_AMPEL360_SPACET_PLUS_k06-ata-101-decision-minutes_I01-R01.md)  
   _Done when:_ Decision, rationale, dissent/risks are recorded.
 
-- Approvals log (LOG): [Approvals log](07_DECISIONS/101_00_LOG_LC07_AMPEL360_SPACET_PLUS_k06-ata-101-approvals_v01.md)  
+- Approvals log (LOG): [Approvals log](07_DECISIONS/101_00_LOG_LC07_AMPEL360_SPACET_PLUS_k06-ata-101-approvals_I01-R01.md)  
   _Done when:_ CM approval + any required sign-offs are referenced.
 
 ---
@@ -178,10 +178,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [08_TRACEABILITY/](08_TRACEABILITY/)  
   _Comment:_ Ensures consumers adopt the SSOT; prevents “closed on paper”.
 
-- Consumers (TRC/CSV): [Consumers list](08_TRACEABILITY/101_00_TRC_LC08_AMPEL360_SPACET_PLUS_k06-ata-101-consumers_v01.csv)  
+- Consumers (TRC/CSV): [Consumers list](08_TRACEABILITY/101_00_TRC_LC08_AMPEL360_SPACET_PLUS_k06-ata-101-consumers_I01-R01.csv)  
   _Done when:_ Consumers are listed with interface/version and owner.
 
-- Adoption status (RPT): [Adoption status](08_TRACEABILITY/101_00_RPT_LC08_AMPEL360_SPACET_PLUS_k06-ata-101-adoption-status_v01.md)  
+- Adoption status (RPT): [Adoption status](08_TRACEABILITY/101_00_RPT_LC08_AMPEL360_SPACET_PLUS_k06-ata-101-adoption-status_I01-R01.md)  
   _Done when:_ Each consumer has status + remediation plan if blocked.
 
 ---
@@ -221,7 +221,7 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 
 ### 5.1 NKU Control Model
 **Primary metric:** NKU Progress Score for K06/ATA101  
-**Source of truth:** [NKU ledger](06_EVIDENCE/101_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-nku-ledger_v01.csv)
+**Source of truth:** [NKU ledger](06_EVIDENCE/101_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-101-nku-ledger_I01-R01.csv)
 
 **Scoring:**
 - `score ∈ {0, 0.5, 1.0}`

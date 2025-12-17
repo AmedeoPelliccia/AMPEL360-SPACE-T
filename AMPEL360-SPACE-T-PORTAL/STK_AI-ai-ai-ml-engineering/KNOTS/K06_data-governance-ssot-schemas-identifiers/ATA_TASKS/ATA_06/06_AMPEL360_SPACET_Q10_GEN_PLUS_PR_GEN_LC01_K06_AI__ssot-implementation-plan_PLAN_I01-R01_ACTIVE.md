@@ -6,7 +6,7 @@ lifecycle_phase: "LC01"
 owner: "Configuration Management WG"
 status: Draft
 ata_chapter: "06"
-related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md"]
+related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md"]
 ---
 
 # ATA-06 SSOT Implementation Plan
@@ -39,10 +39,10 @@ This plan defines the approach for establishing a Single Source of Truth (SSOT) 
 
 | Doc ID | Title | Reference |
 | :--- | :--- | :--- |
-| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md | ATA-06 SSOT Task List | Parent document |
-| 00_00_STD_LC01_SPACET_nomenclature-standard_v02.md | Nomenclature Standard | File naming |
-| 06_00_CAT_LC01_SPACET_identifier-registry_v01.md | Identifier Registry | Related artifact (T2) |
-| 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | Data Schema | Related artifact (T3) |
+| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md | ATA-06 SSOT Task List | Parent document |
+| 00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md | Nomenclature Standard | File naming |
+| 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md | Identifier Registry | Related artifact (T2) |
+| 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | Data Schema | Related artifact (T3) |
 
 ### 1.4 Definitions
 
@@ -331,7 +331,7 @@ All changes to CAD dimensional data must follow the ECO (Engineering Change Orde
 
 ---
 
-**Document ID**: 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md  
+**Document ID**: 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md  
 **Status**: Draft  
 **Version**: v01  
 **Date**: 2025-12-15

@@ -38,8 +38,8 @@ See subdirectories for:
 
 ## 4. References
 
-- Full spec: `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`
-- Catalog: `00_90_CAT_SB00_CERT_knots-catalog_v01.json`
+- Full spec: `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`
+- Catalog: `00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json`
 
 ---
 **Generated:** 2025-12-15 | **Version:** v01

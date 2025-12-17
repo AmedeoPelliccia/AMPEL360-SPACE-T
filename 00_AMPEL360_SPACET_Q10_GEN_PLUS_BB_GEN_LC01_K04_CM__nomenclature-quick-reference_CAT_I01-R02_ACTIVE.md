@@ -25,14 +25,14 @@
 
 **If `BUCKET=00`** → Use **LC** (Lifecycle) category:
 - `LC_OR_SUBBUCKET` **MUST** be `LC01` through `LC14`
-- Example: ✅ `00_00_PLAN_LC02_SPACET_safety-program_v01.md`
-- Invalid: ❌ `00_00_PLAN_SB15_SPACET_safety-program_v01.md`
+- Example: ✅ `00_00_PLAN_LC02_SPACET_safety-program_I01-R01.md`
+- Invalid: ❌ `00_00_PLAN_SB15_SPACET_safety-program_I01-R01.md`
 
 **If `BUCKET≠00`** → Use **SB** (Sub-bucket) category:
 - `LC_OR_SUBBUCKET` **MUST** be `SB15` through `SB99`
-- Example: ✅ `00_70_FHA_SB15_SYS_propulsion_v01.md`
-- Invalid: ❌ `00_70_FHA_SB00_SYS_propulsion_v01.md`
-- Invalid: ❌ `00_70_FHA_LC01_SYS_propulsion_v01.md`
+- Example: ✅ `00_70_FHA_SB15_SYS_propulsion_I01-R01.md`
+- Invalid: ❌ `00_70_FHA_SB00_SYS_propulsion_I01-R01.md`
+- Invalid: ❌ `00_70_FHA_LC01_SYS_propulsion_I01-R01.md`
 
 ### Delimiters
 
@@ -83,29 +83,29 @@ python validate_nomenclature.py --check-all
 ### ✅ Valid
 
 ```
-00_00_PLAN_LC02_SPACET_safety-program_v01.md
-00_70_FHA_SB70_SYS_propulsion_v01.md
-00_40_REQ_SB40_SW_software-safety-reqs_v01.md
-00_20_TRC_SB20_SPACET_traceability-matrix_v01.xlsx
-00_90_SCH_SB90_GEN_hazard-log-schema_v01.json
-24_40_REQ_SB40_SW_electrical-power-software_v01.md
-00_10_PLAN_SB15_GEN_operations-plan_v01.md
-00_80_FHA_SB86_SYS_energy-system_v01.md
+00_00_PLAN_LC02_SPACET_safety-program_I01-R01.md
+00_70_FHA_SB70_SYS_propulsion_I01-R01.md
+00_40_REQ_SB40_SW_software-safety-reqs_I01-R01.md
+00_20_TRC_SB20_SPACET_traceability-matrix_I01-R01.xlsx
+00_90_SCH_SB90_GEN_hazard-log-schema_I01-R01.json
+24_40_REQ_SB40_SW_electrical-power-software_I01-R01.md
+00_10_PLAN_SB15_GEN_operations-plan_I01-R01.md
+00_80_FHA_SB86_SYS_energy-system_I01-R01.md
 ```
 
 ### ❌ Invalid
 
 ```
-00_00_PLAN_SB15_SPACET_safety-program_v01.md  # BUCKET=00 requires LC, not SB
-00_70_FHA_SB00_SYS_propulsion_v01.md          # SB00 not allowed (reserved)
-00_70_FHA_SB40_SYS_propulsion_v01.md          # BUCKET=70 requires SB70-SB79
-00_70_FHA_LC01_SYS_propulsion_v01.md          # BUCKET≠00 requires SB, not LC
-00_40_REQ_SB70_SW_software_v01.md             # BUCKET=40 requires SB40-SB49
+00_00_PLAN_SB15_SPACET_safety-program_I01-R01.md  # BUCKET=00 requires LC, not SB
+00_70_FHA_SB00_SYS_propulsion_I01-R01.md          # SB00 not allowed (reserved)
+00_70_FHA_SB40_SYS_propulsion_I01-R01.md          # BUCKET=70 requires SB70-SB79
+00_70_FHA_LC01_SYS_propulsion_I01-R01.md          # BUCKET≠00 requires SB, not LC
+00_40_REQ_SB70_SW_software_I01-R01.md             # BUCKET=40 requires SB40-SB49
 00-70-FHA-SB70-SYS-propulsion-v01.md          # Wrong delimiter
 00_70_FHA_SB70_SYS_propulsion_v1.md           # VERSION must be vNN
-00_99_LST_SB90_GEN_glossary_v01.md            # Invalid BUCKET
-00_70_FHA_SB70_SYS_PropulsionFHA_v01.md       # Uppercase in DESCRIPTION
-00_70_fha_SB70_SYS_propulsion_v01.md          # Lowercase TYPE
+00_99_LST_SB90_GEN_glossary_I01-R01.md            # Invalid BUCKET
+00_70_FHA_SB70_SYS_PropulsionFHA_I01-R01.md       # Uppercase in DESCRIPTION
+00_70_fha_SB70_SYS_propulsion_I01-R01.md          # Lowercase TYPE
 ```
 
 ## Common Mistakes
@@ -141,8 +141,8 @@ python validate_nomenclature.py --check-all
 
 ## Reference Documents
 
-- **Full Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
-- **Automation Guide**: `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_v01.md`
+- **Full Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`
+- **Automation Guide**: `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_I01-R01.md`
 - **Agent Instructions**: `.github/NOMENCLATURE_AGENT_INSTRUCTIONS.md`
 
 ---

@@ -295,51 +295,51 @@ CI shall additionally enforce:
 ### 6.1 Valid examples (v4.0 format)
 
 * Lifecycle (LC) plan for AMPEL360+ Space-T (global, CM-owned):
-  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM__safety-program_v01.md`
+  * `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC02_K04_CM__safety-program_I01-R01.md`
 
 * Propulsion FHA (domain bucket with sub-bucket, K02 knot, SAF-owned):
-  * `00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_v01.md`
+  * `00_AMPEL360_SPACET_PLUS_70_FHA_SB70_K02_SAF__propulsion_I01-R01.md`
 
 * Software safety requirements (K02 knot, SAF-owned):
-  * `00_AMPEL360_SPACET_PLUS_40_REQ_SB40_K02_SAF__software-safety-reqs_v01.md`
+  * `00_AMPEL360_SPACET_PLUS_40_REQ_SB40_K02_SAF__software-safety-reqs_I01-R01.md`
 
 * Certification authority basis (K01 knot, CERT-owned):
-  * `00_AMPEL360_SPACET_CERT_00_PLAN_LC10_K01_CERT__certification-authority-basis_v01.md`
+  * `00_AMPEL360_SPACET_CERT_00_PLAN_LC10_K01_CERT__certification-authority-basis_I01-R01.md`
 
 * Reference schema (K00 global, DATA-owned):
-  * `00_AMPEL360_SPACET_GEN_90_SCH_SB90_K00_DATA__hazard-log-schema_v01.json`
+  * `00_AMPEL360_SPACET_GEN_90_SCH_SB90_K04_DATA__hazard-log-schema_I01-R01.json`
 
 * Nomenclature standard (K00 global, CM-owned):
-  * `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v04.md`
+  * `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_I01-R04.md`
 
 * Compliance workflow diagram (K01 knot, CERT-owned):
-  * `00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__compliance-workflow_v01.svg`
+  * `00_AMPEL360_SPACET_PLUS_90_DIA_SB90_K01_CERT__compliance-workflow_I01-R01.svg`
 
 * ATA-specific tasklist index (K03 knot, SPACEPORT-owned):
-  * `78_AMPEL360_SPACET_PLUS_00_IDX_LC01_K03_SPACEPORT__k03-ata-78-tasklist_v01.md`
+  * `78_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K03_SPACEPORT__k03-ata-78-tasklist_I01-R01.md`
 
 * Extended ATA code (3-digit ROOT, K10 knot, OPS-owned):
-  * `115_AMPEL360_SPACET_PLUS_00_PLAN_LC01_K10_OPS__supply-chain-plan_v01.md`
+  * `115_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K10_OPS__supply-chain-plan_I01-R01.md`
 
 ### 6.2 Invalid examples
 
 * Missing TRIGGER_KNOT and AoR fields (v3.0 format):
-  * `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_v01.md` *(non-compliant: v3.0 format)*
+  * `00_00_PLAN_LC02_AMPEL360_SPACET_PLUS_safety-program_I01-R01.md` *(non-compliant: v3.0 format)*
 
 * Wrong field order:
-  * `00_00_AMPEL360_SPACET_PLUS_PLAN_LC02_K00_CM__safety-program_v01.md` *(non-compliant: BUCKET before PROJECT)*
+  * `00_00_AMPEL360_SPACET_PLUS_PLAN_LC02_K04_CM__safety-program_I01-R01.md` *(non-compliant: BUCKET before PROJECT)*
 
 * Single underscore before DESCRIPTION:
-  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM_safety-program_v01.md` *(non-compliant: must use `__`)*
+  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CM_safety-program_I01-R01.md` *(non-compliant: must use `__`)*
 
 * Invalid TRIGGER_KNOT:
-  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_KNOT01_CM__safety-program_v01.md` *(non-compliant: must be K00-K99)*
+  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_KNOT01_CM__safety-program_I01-R01.md` *(non-compliant: must be K00-K99)*
 
 * Invalid AoR:
-  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_STK_CM__safety-program_v01.md` *(non-compliant: no STK_ prefix)*
+  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_STK_CM__safety-program_I01-R01.md` *(non-compliant: no STK_ prefix)*
 
 * AoR not in allowlist:
-  * `00_AMPEL360_SPACET_PLUS_00_PLAN_LC02_K00_CUSTOM__safety-program_v01.md` *(non-compliant: AoR must be in allowlist)*
+  * `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC02_K04_CUSTOM__safety-program_I01-R01.md` *(non-compliant: AoR must be in allowlist)*
 
 ---
 

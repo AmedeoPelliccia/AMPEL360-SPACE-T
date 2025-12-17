@@ -6,7 +6,7 @@ catalog_type: "Identifier Registry"
 status: Draft
 ata_chapter: "06"
 owner: "Configuration Management WG"
-related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md", "06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md"]
+related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md", "06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md"]
 ---
 
 # ATA-06 Identifier Registry - Datums, Zones, and Envelopes
@@ -135,7 +135,7 @@ The primary datum origin for the entire spacecraft. All dimensional measurements
 - All zone and envelope identifiers
 
 **References:**
-- 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md
+- 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md
 - CAD Model: SpaceT_Main_Assembly_v1.0
 
 ---
@@ -533,10 +533,10 @@ If an identifier is no longer valid:
 
 | Doc ID | Title |
 | :--- | :--- |
-| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md | ATA-06 SSOT Task List |
-| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md | SSOT Implementation Plan |
-| 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | Dimensional Data Schema (T3) |
-| 06_90_TAB_SB00_GEN_dimensional-exports_v01.csv | Dimensional Data Exports (T4) |
+| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md | ATA-06 SSOT Task List |
+| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md | SSOT Implementation Plan |
+| 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | Dimensional Data Schema (T3) |
+| 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.csv | Dimensional Data Exports (T4) |
 
 ### 9.2 Standards
 
@@ -546,7 +546,7 @@ If an identifier is no longer valid:
 
 ---
 
-**Document ID**: 06_00_CAT_LC01_SPACET_identifier-registry_v01.md  
+**Document ID**: 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md  
 **Status**: Draft  
 **Version**: v01  
 **Date**: 2025-12-15

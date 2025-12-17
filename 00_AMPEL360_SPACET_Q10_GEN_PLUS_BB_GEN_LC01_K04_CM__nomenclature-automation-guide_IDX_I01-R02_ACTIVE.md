@@ -147,17 +147,17 @@ The following files are automatically excluded from validation:
 
 1. **Create file** with compliant name:
    ```
-   00_70_FHA_SYS_propulsion_v01.md
+   00_70_FHA_SYS_propulsion_I01-R01.md
    ```
 
 2. **Validate locally**:
    ```bash
-   python validate_nomenclature.py 00_70_FHA_SYS_propulsion_v01.md
+   python validate_nomenclature.py 00_70_FHA_SYS_propulsion_I01-R01.md
    ```
 
 3. **Stage and commit**:
    ```bash
-   git add 00_70_FHA_SYS_propulsion_v01.md
+   git add 00_70_FHA_SYS_propulsion_I01-R01.md
    git commit -m "Add propulsion FHA"
    ```
    
@@ -227,14 +227,14 @@ The following files are automatically excluded from validation:
 
 3. **Rename files**:
    ```bash
-   git mv old_name.md 00_70_FHA_SYS_propulsion_v01.md
+   git mv old_name.md 00_70_FHA_SYS_propulsion_I01-R01.md
    git commit -m "Fix nomenclature compliance"
    git push
    ```
 
 ## References
 
-- **Full Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
+- **Full Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`
 - **Agent Instructions**: `.github/NOMENCLATURE_AGENT_INSTRUCTIONS.md`
 - **Copilot Instructions**: `.github/copilot-instructions.md`
 - **Validation Script**: `validate_nomenclature.py`

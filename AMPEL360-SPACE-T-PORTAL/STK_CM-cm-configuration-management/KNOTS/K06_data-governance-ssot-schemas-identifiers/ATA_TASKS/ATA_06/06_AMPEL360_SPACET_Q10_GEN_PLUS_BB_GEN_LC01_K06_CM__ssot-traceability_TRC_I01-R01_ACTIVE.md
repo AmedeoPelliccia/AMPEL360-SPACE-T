@@ -19,12 +19,12 @@ This matrix establishes traceability for ATA-06 SSOT implementation (Task T7: "L
 
 | Task | Description | Artifact(s) | Status |
 | :--- | :--- | :--- | :--- |
-| **T1** | Define SSOT and ownership | 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md | ✅ Complete |
-| **T2** | Define identifier grammar | 06_00_CAT_LC01_SPACET_identifier-registry_v01.md | ✅ Complete |
-| **T3** | Define schema | 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | ✅ Complete |
-| **T4** | Publish exports | 06_90_TAB_SB00_GEN_dimensional-exports_v01.json | ✅ Complete |
+| **T1** | Define SSOT and ownership | 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md | ✅ Complete |
+| **T2** | Define identifier grammar | 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md | ✅ Complete |
+| **T3** | Define schema | 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | ✅ Complete |
+| **T4** | Publish exports | 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json | ✅ Complete |
 | **T5** | CI validation | scripts/validate_ata06_dimensions.py | ✅ Complete |
-| **T6** | Baseline manifest | 06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md | ✅ Complete |
+| **T6** | Baseline manifest | 06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md | ✅ Complete |
 | **T7** | Traceability | This document | ✅ Complete |
 
 ## 3. Identifier-to-Consumer Traceability
@@ -93,17 +93,17 @@ All 7 tasks fully verified through document review, validation scripts, and cove
 
 ## 10. References
 
-- 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md
-- 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md
-- 06_00_CAT_LC01_SPACET_identifier-registry_v01.md
-- 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json
-- 06_90_TAB_SB00_GEN_dimensional-exports_v01.json
+- 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md
+- 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md
+- 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md
+- 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json
+- 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json
 - scripts/validate_ata06_dimensions.py
-- 06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md
+- 06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md
 
 ---
 
-**Document ID**: 06_00_TRC_LC01_SPACET_ssot-traceability_v01.md  
+**Document ID**: 06_00_TRC_LC01_SPACET_ssot-traceability_I01-R01.md  
 **Status**: Draft  
 **Version**: v01  
 **Date**: 2025-12-15

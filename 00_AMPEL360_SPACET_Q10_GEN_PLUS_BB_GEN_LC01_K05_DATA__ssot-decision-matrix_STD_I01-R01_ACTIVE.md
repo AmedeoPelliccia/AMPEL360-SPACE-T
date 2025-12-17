@@ -39,8 +39,8 @@ This standard applies to:
 
 | Reference | Title | Authority |
 | :--- | :--- | :--- |
-| **00_00_STD_LC01_SPACET_nomenclature-standard_v02.md** | Nomenclature Standard v2.0 | AMPEL360 Space-T |
-| **00_00_STD_LC01_SPACET_identifier-grammar_v01.md** | Identifier Grammar | AMPEL360 Space-T |
+| **00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md** | Nomenclature Standard v2.0 | AMPEL360 Space-T |
+| **00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md** | Identifier Grammar | AMPEL360 Space-T |
 | **ATA 91** | Schema Registry & Versioning | AMPEL360 Space-T |
 | **ATA 93** | Trace Semantics & Evidence Links | AMPEL360 Space-T |
 | **ATA 99** | Namespace Registry | AMPEL360 Space-T |
@@ -164,7 +164,7 @@ The matrix categorizes all artifact types using these attributes:
 
 **Rule 3: Derivation Chain Traceability**
 - Derived artifacts **SHALL** include metadata pointing to source(s).
-- Example: `derived_from: ["00_00_STD_LC01_SPACET_nomenclature-standard_v02.md"]`
+- Example: `derived_from: ["00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md"]`
 
 ## 6. Conflict Resolution
 
@@ -202,13 +202,13 @@ The matrix categorizes all artifact types using these attributes:
 **Pre-commit checks**:
 ```bash
 # Check for stale derived artifacts
-python scripts/check_staleness.py --matrix ssot-decision-matrix_v01.md
+python scripts/check_staleness.py --matrix ssot-decision-matrix_I01-R01.md
 
 # Validate derivation chains
 python scripts/validate_derivation_chains.py --all
 
 # Detect SSOT conflicts
-python scripts/detect_ssot_conflicts.py --matrix ssot-decision-matrix_v01.md
+python scripts/detect_ssot_conflicts.py --matrix ssot-decision-matrix_I01-R01.md
 ```
 
 ### 7.3 Non-Compliance Remediation
@@ -252,8 +252,8 @@ type: TRC
 variant: "SPACET"
 authority: Derived
 derived_from:
-  - "00_40_REQ_LC02_SW_software-requirements_v01.md"
-  - "00_40_TC_LC03_SW_test-cases_v01.md"
+  - "00_40_REQ_LC02_SW_software-requirements_I01-R01.md"
+  - "00_40_TC_LC03_SW_test-cases_I01-R01.md"
 last_derived: "2025-12-14T10:30:00Z"
 derivation_script: "scripts/generate_trc_matrix.py"
 ---

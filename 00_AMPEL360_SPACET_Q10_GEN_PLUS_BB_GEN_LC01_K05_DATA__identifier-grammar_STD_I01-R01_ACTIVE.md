@@ -39,7 +39,7 @@ This standard applies to:
 
 | Reference | Title | Authority |
 | :--- | :--- | :--- |
-| **00_00_STD_LC01_SPACET_nomenclature-standard_v02.md** | Nomenclature Standard v2.0 | AMPEL360 Space-T |
+| **00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md** | Nomenclature Standard v2.0 | AMPEL360 Space-T |
 | **ATA 99** | Namespace Registry & Deduplication | AMPEL360 Space-T |
 | **ATA 91** | Schema Registry & Versioning | AMPEL360 Space-T |
 | **ATA 93** | Trace Semantics & Evidence Links | AMPEL360 Space-T |
@@ -156,7 +156,7 @@ The optional `VARIANT` suffix is used for:
 
 | Context | Version Location | Example |
 | :--- | :--- | :--- |
-| **File identifiers** | In filename (per Nomenclature v2.0) | `00_00_STD_LC01_SPACET_identifier-grammar_v01.md` |
+| **File identifiers** | In filename (per Nomenclature v2.0) | `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md` |
 | **Internal artifact IDs** | In variant suffix (optional) | `REQ-SYS-001` (immutable base) |
 | **Schema definitions** | In variant suffix (required) | `SCH-DATA-005-V02` |
 

@@ -21,13 +21,13 @@ NKU progress is credited only when each partition is closed with **evidence + ap
 
 ## 1) Global Navigation (GitHub-navigable)
 
-- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_v01.md)  
+- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_I01-R01.md)  
   _Comment:_ Canonical K06 scope, impacted ATAs, closure criteria, and shared definitions.
 
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-entrypoints_v01.md)  
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_I01-R01.md)  
   _Comment:_ Global entry point; use it to navigate stakeholders and the knot portfolio.
 
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_AI__stakeholder-ai-entrypoint_v01.md)  
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__stakeholder-ai-entrypoint_I01-R01.md)  
   _Comment:_ AI/ML execution lane; automation hooks and governance helpers.
 
 - ATA 91 home (Schemas): [AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA 91](../../../../../../AMPEL360_SPACE-T/N-NEURAL_NETWORKS/ATA_91-SCHEMAS/)  
@@ -59,37 +59,37 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [01_WBS/](01_WBS/)  
   _Comment:_ Converts uncertainty into executable work packages (tasks, owners, inputs/outputs).
 
-- WBS index: [K06 ATA 91 Work Breakdown](01_WBS/91_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-91-workbreakdown_v01.md)  
+- WBS index: [K06 ATA 91 Work Breakdown](01_WBS/91_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-91-workbreakdown_I01-R01.md)  
   _Closes:_ “We don’t know what to do next / who owns it.”  
   _Done when:_ T001–T008 exist with owners, acceptance criteria, and artifact links.
 
-- RACI (CSV): [RACI](01_WBS/91_00_MAT_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-raci_v01.csv)  
+- RACI (CSV): [RACI](01_WBS/91_00_MAT_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-raci_I01-R01.csv)  
   _Closes:_ Responsibility ambiguity (execution vs approval).  
   _Done when:_ CM approval path is explicit and accepted.
 
 **Task stubs (minimum set — expanded for schema domain):**
-- T001: [SSOT source & ownership](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t001-ssot-source-ownership_v01.md)  
+- T001: [SSOT source & ownership](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t001-ssot-source-ownership_I01-R01.md)  
   _Comment:_ Declares SSOT locations for schema registry and canonical models; sets change control authority.
 
-- T002: [Identifier grammar](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t002-identifier-grammar_v01.md)  
+- T002: [Identifier grammar](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t002-identifier-grammar_I01-R01.md)  
   _Comment:_ Canonical ID grammar for schema IDs, versions, namespaces, and packages.
 
-- T003: [Schema registry definition](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t003-schema-registry-definition_v01.md)  
+- T003: [Schema registry definition](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t003-schema-registry-definition_I01-R01.md)  
   _Comment:_ Defines required fields, discovery metadata, and registry workflows.
 
-- T004: [Versioning & compatibility policy](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t004-versioning-compatibility-policy_v01.md)  
+- T004: [Versioning & compatibility policy](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t004-versioning-compatibility-policy_I01-R01.md)  
   _Comment:_ Defines breaking/nonbreaking rules, deprecation windows, and migration obligations.
 
-- T005: [CI validation gates](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t005-ci-validation-gates_v01.md)  
+- T005: [CI validation gates](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t005-ci-validation-gates_I01-R01.md)  
   _Comment:_ Enforces schema validity, registry completeness, and versioning compliance.
 
-- T006: [Schema pack export](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t006-schema-pack-export_v01.md)  
+- T006: [Schema pack export](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t006-schema-pack-export_I01-R01.md)  
   _Comment:_ Defines deterministic packaging and publication of schema packs (for consumption and evidence).
 
-- T007: [Canonical model alignment](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t007-canonical-model-alignment_v01.md)  
+- T007: [Canonical model alignment](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t007-canonical-model-alignment_I01-R01.md)  
   _Comment:_ Ensures shared entity definitions remain consistent across ATAs.
 
-- T008: [Schema consumer onboarding](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t008-schema-consumer-onboarding_v01.md)  
+- T008: [Schema consumer onboarding](01_WBS/91_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t008-schema-consumer-onboarding_I01-R01.md)  
   _Comment:_ Defines adoption pathway for ATAs; blocks “shadow schemas”.
 
 ---
@@ -98,16 +98,16 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [02_IDS_REGISTRY/](02_IDS_REGISTRY/)  
   _Comment:_ Ensures every schema/canonical model/package has a unique ID, owner, lifecycle state, and dedup policy.
 
-- Standard (STD): [Identifier grammar](02_IDS_REGISTRY/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-identifier-grammar_v01.md)  
+- Standard (STD): [Identifier grammar](02_IDS_REGISTRY/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-identifier-grammar_I01-R01.md)  
   _Done when:_ Grammar is approved and referenced by CI and all schema documents.
 
-- Registry (TAB/CSV): [Schema registry](02_IDS_REGISTRY/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_schema-registry_v01.csv)  
+- Registry (TAB/CSV): [Schema registry](02_IDS_REGISTRY/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_schema-registry_I01-R01.csv)  
   _Done when:_ Registry is SSOT (no duplicates), with owners/status and required metadata.
 
-- Registry (TAB/CSV): [Canonical model registry](02_IDS_REGISTRY/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_canonical-model-registry_v01.csv)  
+- Registry (TAB/CSV): [Canonical model registry](02_IDS_REGISTRY/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_canonical-model-registry_I01-R01.csv)  
   _Done when:_ All canonical entities are registered and referenced by schemas.
 
-- Change log (LOG): [Registry change log](02_IDS_REGISTRY/91_00_LOG_LC03_AMPEL360_SPACET_PLUS_registry-change-log_v01.md)  
+- Change log (LOG): [Registry change log](02_IDS_REGISTRY/91_00_LOG_LC03_AMPEL360_SPACET_PLUS_registry-change-log_I01-R01.md)  
   _Done when:_ Every change references a decision/change record (P7).
 
 ---
@@ -116,16 +116,16 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [03_SCHEMA/](03_SCHEMA/)  
   _Comment:_ Defines the authoritative schemas and the rules for their evolution.
 
-- Schema (SCH/JSON): [Schema registry schema](03_SCHEMA/91_00_SCH_LC03_AMPEL360_SPACET_PLUS_schema-registry-schema_v01.json)  
+- Schema (SCH/JSON): [Schema registry schema](03_SCHEMA/91_00_SCH_LC03_AMPEL360_SPACET_PLUS_schema-registry-schema_I01-R01.json)  
   _Done when:_ Validates registry format and is used by CI.
 
-- Standard (STD): [Schema versioning policy](03_SCHEMA/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-versioning-policy_v01.md)  
+- Standard (STD): [Schema versioning policy](03_SCHEMA/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-versioning-policy_I01-R01.md)  
   _Done when:_ Compatibility/breaking-change rules exist and are enforced.
 
-- Standard (STD): [Deprecation & migration policy](03_SCHEMA/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-migration-policy_v01.md)  
+- Standard (STD): [Deprecation & migration policy](03_SCHEMA/91_00_STD_LC03_AMPEL360_SPACET_PLUS_schema-migration-policy_I01-R01.md)  
   _Done when:_ Deprecation windows and migration artifacts are mandatory and defined.
 
-- Units/Frames/Enums map (TAB/CSV): [Common primitives mapping](03_SCHEMA/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_common-primitives-mapping_v01.csv)  
+- Units/Frames/Enums map (TAB/CSV): [Common primitives mapping](03_SCHEMA/91_00_TAB_LC03_AMPEL360_SPACET_PLUS_common-primitives-mapping_I01-R01.csv)  
   _Done when:_ Common units/frames/enums are standardized (prevents schema divergence).
 
 ---
@@ -134,13 +134,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [04_EXPORTS/](04_EXPORTS/)  
   _Comment:_ Reproducible schema packs for downstream consumption and evidence.
 
-- Baseline export (TAB/CSV): [Baseline schema registry export](04_EXPORTS/91_00_TAB_LC04_AMPEL360_SPACET_PLUS_baseline-schema-registry-export_v01.csv)  
+- Baseline export (TAB/CSV): [Baseline schema registry export](04_EXPORTS/91_00_TAB_LC04_AMPEL360_SPACET_PLUS_baseline-schema-registry-export_I01-R01.csv)  
   _Done when:_ Export is reproducible and validated.
 
-- Schema pack manifest (RPT): [Schema pack manifest](04_EXPORTS/91_00_RPT_LC04_AMPEL360_SPACET_PLUS_schema-pack-manifest_v01.md)  
+- Schema pack manifest (RPT): [Schema pack manifest](04_EXPORTS/91_00_RPT_LC04_AMPEL360_SPACET_PLUS_schema-pack-manifest_I01-R01.md)  
   _Done when:_ Tools/versions, included schemas, and checksums are listed.
 
-- Diagram (DIA): [Schema dependency map](04_EXPORTS/91_00_DIA_LC04_AMPEL360_SPACET_PLUS_schema-dependency-map_v01.md)  
+- Diagram (DIA): [Schema dependency map](04_EXPORTS/91_00_DIA_LC04_AMPEL360_SPACET_PLUS_schema-dependency-map_I01-R01.md)  
   _Done when:_ Dependencies are explicit and reference registry IDs.
 
 ---
@@ -149,13 +149,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [05_CI_GATES/](05_CI_GATES/)  
   _Comment:_ Governance enforcement: validity, uniqueness, version rules, and registry completeness.
 
-- Requirements (STD): [CI validation requirements](05_CI_GATES/91_00_STD_LC05_AMPEL360_SPACET_PLUS_ci-validation-requirements_v01.md)  
+- Requirements (STD): [CI validation requirements](05_CI_GATES/91_00_STD_LC05_AMPEL360_SPACET_PLUS_ci-validation-requirements_I01-R01.md)  
   _Done when:_ Rules map to checks; failures are actionable.
 
-- Checklist (LOG): [CI checklist](05_CI_GATES/91_00_LOG_LC05_AMPEL360_SPACET_PLUS_ci-checklist_v01.md)  
+- Checklist (LOG): [CI checklist](05_CI_GATES/91_00_LOG_LC05_AMPEL360_SPACET_PLUS_ci-checklist_I01-R01.md)  
   _Done when:_ Checklist matches CI outputs and reviewer expectations.
 
-- Sample run (RPT): [CI validation sample run](05_CI_GATES/91_00_RPT_LC05_AMPEL360_SPACET_PLUS_ci-validation-sample-run_v01.md)  
+- Sample run (RPT): [CI validation sample run](05_CI_GATES/91_00_RPT_LC05_AMPEL360_SPACET_PLUS_ci-validation-sample-run_I01-R01.md)  
   _Done when:_ Demonstrates pass/fail cases (missing registry entry, duplicate schema ID, breaking change without bump).
 
 ---
@@ -164,13 +164,13 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [06_EVIDENCE/](06_EVIDENCE/)  
   _Comment:_ NKU credit requires reproducible evidence and stable links.
 
-- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/91_00_IDX_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-evidence-pack_v01.md)  
+- Evidence pack index (IDX): [Evidence pack](06_EVIDENCE/91_00_IDX_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-evidence-pack_I01-R01.md)  
   _Done when:_ All required evidence is linked and current.
 
-- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/91_00_TRC_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-evidence-links_v01.csv)  
+- Evidence links (TRC/CSV): [Evidence links register](06_EVIDENCE/91_00_TRC_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-evidence-links_I01-R01.csv)  
   _Done when:_ Each claim has an evidence link and status (OK/STALE/MISSING).
 
-- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/91_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-nku-ledger_v01.csv)  
+- NKU ledger (TAB/CSV): [NKU ledger](06_EVIDENCE/91_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-nku-ledger_I01-R01.csv)  
   _Done when:_ Partition scores are updated and backed by evidence + decision.
 
 ---
@@ -179,10 +179,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [07_DECISIONS/](07_DECISIONS/)  
   _Comment:_ Converts evidence into approved baseline outcomes for schema governance.
 
-- Decision minutes (MIN): [Decision minutes](07_DECISIONS/91_00_MIN_LC07_AMPEL360_SPACET_PLUS_k06-ata-91-decision-minutes_v01.md)  
+- Decision minutes (MIN): [Decision minutes](07_DECISIONS/91_00_MIN_LC07_AMPEL360_SPACET_PLUS_k06-ata-91-decision-minutes_I01-R01.md)  
   _Done when:_ Decision, rationale, dissent/risks are recorded.
 
-- Approvals log (LOG): [Approvals log](07_DECISIONS/91_00_LOG_LC07_AMPEL360_SPACET_PLUS_k06-ata-91-approvals_v01.md)  
+- Approvals log (LOG): [Approvals log](07_DECISIONS/91_00_LOG_LC07_AMPEL360_SPACET_PLUS_k06-ata-91-approvals_I01-R01.md)  
   _Done when:_ CM approval + schema authority sign-offs are referenced.
 
 ---
@@ -191,10 +191,10 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [08_TRACEABILITY/](08_TRACEABILITY/)  
   _Comment:_ Ensures all consumers adopt ATA 91 schema governance; prevents “shadow schema” proliferation.
 
-- Consumers (TRC/CSV): [Consumers list](08_TRACEABILITY/91_00_TRC_LC08_AMPEL360_SPACET_PLUS_k06-ata-91-consumers_v01.csv)  
+- Consumers (TRC/CSV): [Consumers list](08_TRACEABILITY/91_00_TRC_LC08_AMPEL360_SPACET_PLUS_k06-ata-91-consumers_I01-R01.csv)  
   _Done when:_ Consumers are listed with schema/version and owner.
 
-- Adoption status (RPT): [Adoption status](08_TRACEABILITY/91_00_RPT_LC08_AMPEL360_SPACET_PLUS_k06-ata-91-adoption-status_v01.md)  
+- Adoption status (RPT): [Adoption status](08_TRACEABILITY/91_00_RPT_LC08_AMPEL360_SPACET_PLUS_k06-ata-91-adoption-status_I01-R01.md)  
   _Done when:_ Each consumer has status + remediation plan if blocked.
 
 ---
@@ -228,7 +228,7 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 
 ### 5.1 NKU Control Model
 **Primary metric:** NKU Progress Score for K06/ATA91  
-**Source of truth:** [NKU ledger](06_EVIDENCE/91_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-nku-ledger_v01.csv)
+**Source of truth:** [NKU ledger](06_EVIDENCE/91_00_TAB_LC06_AMPEL360_SPACET_PLUS_k06-ata-91-nku-ledger_I01-R01.csv)
 
 **Scoring:**
 - `score ∈ {0, 0.5, 1.0}`

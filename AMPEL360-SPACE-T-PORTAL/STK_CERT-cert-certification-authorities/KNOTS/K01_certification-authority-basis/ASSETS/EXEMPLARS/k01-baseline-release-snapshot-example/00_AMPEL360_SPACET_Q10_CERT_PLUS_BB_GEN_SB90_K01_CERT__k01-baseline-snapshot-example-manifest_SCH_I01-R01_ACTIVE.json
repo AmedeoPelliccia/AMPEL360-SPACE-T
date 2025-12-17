@@ -1,5 +1,5 @@
 {
-  "schema_ref": "../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_v01.json",
+  "schema_ref": "../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_I01-R01.json",
   "snapshot": {
     "snapshot_id": "K01-BASELINE-SNAPSHOT-EXAMPLE-001",
     "knot_id": "K01",
@@ -30,13 +30,13 @@
     ]
   },
   "links": {
-    "index": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-index_v01.md",
-    "contents_list": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-contents_v01.md",
-    "release_notes": "./00_90_RPT_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-release-notes-example_v01.md",
-    "effectivity": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-effectivity-example_v01.md",
-    "evidence_links": "./00_90_TRC_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-evidence-links-example_v01.md",
-    "decision_pointer": "./00_90_STD_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-decision-pointer-example_v01.md",
-    "audit_query": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-audit-query-example_v01.md"
+    "index": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-index_I01-R01.md",
+    "contents_list": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-example-contents_I01-R01.md",
+    "release_notes": "./00_90_RPT_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-release-notes-example_I01-R01.md",
+    "effectivity": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-effectivity-example_I01-R01.md",
+    "evidence_links": "./00_90_TRC_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-evidence-links-example_I01-R01.md",
+    "decision_pointer": "./00_90_STD_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-decision-pointer-example_I01-R01.md",
+    "audit_query": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-baseline-snapshot-audit-query-example_I01-R01.md"
   },
   "effectivity": {
     "portal_entrypoints_in_scope": [
@@ -72,7 +72,7 @@
       "artifact_id": "K01-CERT-BASIS-PLAN",
       "type": "PLAN",
       "title": "Program-level Certification Strategy / Plan Anchor",
-      "source": "../../../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_v01.md",
+      "source": "../../../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_I01-R01.md",
       "cm_status": "Approved (Example)",
       "required": true,
       "hash": { "alg": "sha256", "value": null }
@@ -81,7 +81,7 @@
       "artifact_id": "K01-ASSETS-INDEX",
       "type": "IDX",
       "title": "K01 Assets Index",
-      "source": "../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_v01.md",
+      "source": "../../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k01-assets-index_I01-R01.md",
       "cm_status": "Approved (Example)",
       "required": true,
       "hash": { "alg": "sha256", "value": null }
@@ -90,7 +90,7 @@
       "artifact_id": "K01-AUTH-PACK-EXAMPLE-MANIFEST",
       "type": "SCH",
       "title": "Authority Pack Example Manifest",
-      "source": "../k01-authority-pack-example/00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-manifest_v01.json",
+      "source": "../k01-authority-pack-example/00_90_SCH_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-manifest_I01-R01.json",
       "cm_status": "Approved (Example)",
       "required": false,
       "hash": { "alg": "sha256", "value": null }
@@ -99,7 +99,7 @@
       "artifact_id": "K01-COMPLIANCE-WORKFLOW",
       "type": "DIA",
       "title": "K01 Compliance Workflow Diagram",
-      "source": "../../DIAGRAMS/00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_v01.md",
+      "source": "../../DIAGRAMS/00_90_DIA_SB90_AMPEL360_SPACET_PLUS_k01-compliance-workflow_I01-R01.md",
       "cm_status": "Approved (Example)",
       "required": false,
       "hash": { "alg": "sha256", "value": null }

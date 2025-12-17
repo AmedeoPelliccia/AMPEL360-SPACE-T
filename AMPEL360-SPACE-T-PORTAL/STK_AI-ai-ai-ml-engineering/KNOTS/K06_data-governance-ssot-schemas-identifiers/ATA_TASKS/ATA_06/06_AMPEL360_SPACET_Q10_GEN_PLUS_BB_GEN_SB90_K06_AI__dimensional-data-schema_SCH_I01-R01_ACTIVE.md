@@ -7,7 +7,7 @@ version: "v01"
 status: Draft
 ata_chapter: "06"
 owner: "Systems Engineering"
-related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md", "06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json"]
+related_docs: ["06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md", "06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json"]
 ---
 
 # ATA-06 Dimensional Data Schema Documentation
@@ -31,7 +31,7 @@ This schema defines and validates the structure of ATA-06 dimensional data expor
 - **Format**: JSON Schema
 - **Version**: Draft-07 (http://json-schema.org/draft-07/schema#)
 - **Compliance**: JSON Schema specification
-- **Schema File**: `06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json`
+- **Schema File**: `06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json`
 
 ### 1.3 Scope
 
@@ -415,7 +415,7 @@ import json
 import jsonschema
 
 # Load schema
-with open('06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json') as f:
+with open('06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json') as f:
     schema = json.load(f)
 
 # Load data to validate
@@ -440,7 +440,7 @@ const fs = require('fs');
 
 // Load schema
 const schema = JSON.parse(fs.readFileSync(
-  '06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json', 'utf8'
+  '06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json', 'utf8'
 ));
 
 // Load data
@@ -513,10 +513,10 @@ Test JSON files should be created covering:
 
 | Doc ID | Title |
 | :--- | :--- |
-| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md | ATA-06 SSOT Task List |
-| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md | SSOT Implementation Plan (T1) |
-| 06_00_CAT_LC01_SPACET_identifier-registry_v01.md | Identifier Registry (T2) |
-| 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | JSON Schema File (this schema) |
+| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md | ATA-06 SSOT Task List |
+| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md | SSOT Implementation Plan (T1) |
+| 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md | Identifier Registry (T2) |
+| 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | JSON Schema File (this schema) |
 
 ### 8.2 Standards
 
@@ -537,8 +537,8 @@ Test JSON files should be created covering:
 
 ---
 
-**Document ID**: 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md  
-**Schema File**: 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json  
+**Document ID**: 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md  
+**Schema File**: 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json  
 **Status**: Draft  
 **Version**: v01  
 **Date**: 2025-12-15

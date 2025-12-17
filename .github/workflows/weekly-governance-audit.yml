@@ -222,7 +222,7 @@ jobs:
             
             - **Workflow**: Weekly Governance Audit
             - **Run ID**: ${{ github.run_id }}
-            - **Gate Index**: \`00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md\`
+            - **Gate Index**: \`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ci-governance-gates_I01-R01.md\`
             
             ---
             *This issue was automatically created by the weekly governance audit.*`;

@@ -142,7 +142,7 @@ task_reference: "K06"
 
 **Actions:**
 - [x] Create .github/workflows/governance-gates.yml (Copilot, 2025-12-14)
-- [x] Create 00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md (Copilot, 2025-12-14)
+- [x] Create 00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md (Copilot, 2025-12-14)
 
 ---
 
@@ -168,7 +168,7 @@ task_reference: "K06"
 - ✅ **DECISION-K06-015**: Provide worked example with realistic artifact IDs
 
 **Actions:**
-- [x] Create 00_00_RPT_LC01_SPACET_auditability-proof-path_v01.md (Copilot, 2025-12-14)
+- [x] Create 00_00_RPT_LC01_SPACET_auditability-proof-path_I01-R01.md (Copilot, 2025-12-14)
 
 ---
 
@@ -192,7 +192,7 @@ task_reference: "K06"
 - ✅ **DECISION-K06-019**: Document baseline signing requirements (GPG)
 
 **Actions:**
-- [x] Create 00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md (Copilot, 2025-12-14)
+- [x] Create 00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md (Copilot, 2025-12-14)
 
 ---
 
@@ -213,8 +213,8 @@ task_reference: "K06"
 - ✅ **DECISION-K06-023**: Use GPG signing for baseline tag
 
 **Actions:**
-- [x] Create 00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md (this file) (Copilot, 2025-12-14)
-- [ ] Create 00_00_LOG_LC01_SPACET_k06-approvals_v01.md (Copilot, 2025-12-14)
+- [x] Create 00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md (this file) (Copilot, 2025-12-14)
+- [ ] Create 00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md (Copilot, 2025-12-14)
 - [ ] Submit for CM WG review (User/CM WG, TBD)
 - [ ] Obtain CM WG approval (CM WG, TBD)
 - [ ] Create baseline tag K06-Governance-SSOT-v01 (CM WG, TBD)

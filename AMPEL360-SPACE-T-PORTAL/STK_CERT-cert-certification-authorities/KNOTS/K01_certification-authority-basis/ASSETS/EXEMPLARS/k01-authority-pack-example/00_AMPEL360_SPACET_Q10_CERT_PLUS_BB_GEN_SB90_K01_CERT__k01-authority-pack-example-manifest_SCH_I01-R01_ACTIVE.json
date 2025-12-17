@@ -1,5 +1,5 @@
 {
-  "schema_ref": "../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_v01.json",
+  "schema_ref": "../../SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_I01-R01.json",
   "pack": {
     "pack_id": "K01-AUTH-PACK-EXAMPLE-001",
     "knot_id": "K01",
@@ -24,11 +24,11 @@
     ]
   },
   "inventory": {
-    "index_file": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-index_v01.md",
-    "contents_list": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-contents_v01.md",
-    "evidence_links": "./00_90_TRC_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-evidence-links-example_v01.md",
-    "decision_context": "./00_90_STD_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-decision-context-example_v01.md",
-    "audit_query": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-audit-query-example_v01.md"
+    "index_file": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-index_I01-R01.md",
+    "contents_list": "./00_90_LST_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-example-contents_I01-R01.md",
+    "evidence_links": "./00_90_TRC_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-evidence-links-example_I01-R01.md",
+    "decision_context": "./00_90_STD_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-decision-context-example_I01-R01.md",
+    "audit_query": "./00_90_IDX_SB90_AMPEL360_SPACET_PLUS_k01-authority-pack-audit-query-example_I01-R01.md"
   },
   "evidence_items": [
     {
@@ -36,7 +36,7 @@
       "ata": "00",
       "type": "STD",
       "title": "Program-level Certification Basis (K01)",
-      "source": "../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-basis_v01.md",
+      "source": "../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-basis_I01-R01.md",
       "status": "Complete",
       "required_for_submission": true,
       "hash": {
@@ -50,7 +50,7 @@
       "ata": "00",
       "type": "TRC",
       "title": "Compliance / Means-of-Compliance Mapping (K01)",
-      "source": "../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-compliance-matrix_v01.md",
+      "source": "../../ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-compliance-matrix_I01-R01.md",
       "status": "Complete",
       "required_for_submission": true,
       "hash": {
@@ -64,7 +64,7 @@
       "ata": "21",
       "type": "REQ",
       "title": "ATA 21 Scope & Interfaces under K01",
-      "source": "../../ATA_TASKS/ATA_21_AIR-CONDITIONING-ENVIRONMENTAL-CONTROL/REQ/21_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-21-scope-interfaces_v01.md",
+      "source": "../../ATA_TASKS/ATA_21_AIR-CONDITIONING-ENVIRONMENTAL-CONTROL/REQ/21_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-21-scope-interfaces_I01-R01.md",
       "status": "Draft",
       "required_for_submission": false,
       "hash": {
@@ -77,7 +77,7 @@
       "ata": "22",
       "type": "REQ",
       "title": "ATA 22 Scope & Interfaces under K01",
-      "source": "../../ATA_TASKS/ATA_22_AUTO-FLIGHT-GNC/REQ/22_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-22-scope-interfaces_v01.md",
+      "source": "../../ATA_TASKS/ATA_22_AUTO-FLIGHT-GNC/REQ/22_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-22-scope-interfaces_I01-R01.md",
       "status": "Draft",
       "required_for_submission": false,
       "hash": {

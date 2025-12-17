@@ -16,9 +16,9 @@ This document summarizes the complete implementation of the mandatory Nomenclatu
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md` | Complete specification with regex patterns, field definitions, examples | ✅ Complete |
-| `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_v01.md` | Developer and agent guide for using automation tools | ✅ Complete |
-| `00_00_CAT_LC01-SPACET_nomenclature-quick-reference_v01.md` | Quick reference card for daily use | ✅ Complete |
+| `00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md` | Complete specification with regex patterns, field definitions, examples | ✅ Complete |
+| `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_I01-R01.md` | Developer and agent guide for using automation tools | ✅ Complete |
+| `00_00_CAT_LC01-SPACET_nomenclature-quick-reference_I01-R01.md` | Quick reference card for daily use | ✅ Complete |
 
 ### 2. Validation Tools
 
@@ -52,7 +52,7 @@ This document summarizes the complete implementation of the mandatory Nomenclatu
 
 ### Example
 ```
-00_70_FHA_SYS_propulsion_v01.md
+00_70_FHA_SYS_propulsion_I01-R01.md
 │  │   │   │   │           │   │
 │  │   │   │   │           │   └─ Extension (lowercase)
 │  │   │   │   │           └───── Version (vNN)
@@ -185,18 +185,18 @@ If `BUCKET=00`, then `VARIANT` must match:
 
 2. **Assemble filename**:
    ```
-   00_70_FHA_SYS_propulsion_v01.md
+   00_70_FHA_SYS_propulsion_I01-R01.md
    ```
 
 3. **Validate**:
    ```bash
-   python validate_nomenclature.py 00_70_FHA_SYS_propulsion_v01.md
-   # ✓ 00_70_FHA_SYS_propulsion_v01.md
+   python validate_nomenclature.py 00_70_FHA_SYS_propulsion_I01-R01.md
+   # ✓ 00_70_FHA_SYS_propulsion_I01-R01.md
    ```
 
 4. **Commit**:
    ```bash
-   git add 00_70_FHA_SYS_propulsion_v01.md
+   git add 00_70_FHA_SYS_propulsion_I01-R01.md
    git commit -m "Add propulsion FHA"
    # Pre-commit hook validates automatically
    ```
@@ -206,7 +206,7 @@ If `BUCKET=00`, then `VARIANT` must match:
 For lifecycle artifacts, include LC prefix:
 
 ```
-00_00_PLAN_LC02-SPACET_safety-program_v01.md
+00_00_PLAN_LC02-SPACET_safety-program_I01-R01.md
          └─────┘
          LC02 = Lifecycle phase 2
          SPACET = Q100 baseline
@@ -270,9 +270,9 @@ All changes to nomenclature rules require:
 
 ### Documentation
 
-- **Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
-- **Guide**: `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_v01.md`
-- **Quick Reference**: `00_00_CAT_LC01-SPACET_nomenclature-quick-reference_v01.md`
+- **Standard**: `00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`
+- **Guide**: `00_00_IDX_LC01-SPACET_nomenclature-automation-guide_I01-R01.md`
+- **Quick Reference**: `00_00_CAT_LC01-SPACET_nomenclature-quick-reference_I01-R01.md`
 
 ### Tools
 

@@ -293,7 +293,7 @@ schedule:
 
 ## References
 
-- Nomenclature Standard: `00_00_STD_LC01-SPACET_nomenclature-standard_v01.md`
+- Nomenclature Standard: `00_00_STD_LC01-SPACET_nomenclature-standard_I01-R01.md`
 - Validation Script: `validate_nomenclature.py`
 - Detection Script: `scripts/detect_new_types.py`
 - GitHub Workflow: `.github/workflows/detect-new-types.yml`
@@ -301,6 +301,6 @@ schedule:
 
 ---
 
-**Document ID**: 00_00_IDX_LC01-SPACET_automatic-type-detection_v01.md  
+**Document ID**: 00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md  
 **Version**: 1.0  
 **Status**: Active

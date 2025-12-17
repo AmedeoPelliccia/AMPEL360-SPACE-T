@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_AMPEL360_SPACET_PLUS_00_SCH_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_v01.json",
+  "$id": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_I01-R01.json",
   "title": "K01 ATA 00 Evidence Pack Manifest (Schema)",
   "type": "object",
   "additionalProperties": false,
@@ -573,7 +573,7 @@
         "teknia_sharing": {
           "share_policy": "EVIDENCE_FIRST",
           "nku_reporting": {
-            "nku_tracker_path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv",
+            "nku_tracker_path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv",
             "reporting_frequency": "per_pr",
             "nku_thresholds": {
               "block_release_if_open_nku_count_ge": 1,
@@ -591,7 +591,7 @@
       },
       "contents": [
         {
-          "path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-acceptance-criteria_v01.md",
+          "path": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_00_REQ_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-acceptance-criteria_I01-R01.md",
           "artifact_role": "acceptance_criteria",
           "nomenclature": {
             "root": "00",
@@ -625,7 +625,7 @@
         "audit_queries": [
           {
             "name": "K01 ATA00 pack completeness",
-            "path": "KNOTS/K01_authority-model-certification-basis/ASSETS/SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-audit-query-contract_v01.yaml",
+            "path": "KNOTS/K01_authority-model-certification-basis/ASSETS/SCHEMAS/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-audit-query-contract_I01-R01.yaml",
             "expected_output": "All mandatory artifacts present, hashed, and linked to criteria."
           }
         ]

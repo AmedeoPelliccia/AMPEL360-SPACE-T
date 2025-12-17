@@ -12,9 +12,9 @@ lc_or_subbucket: "LC01"
 ## ATA 06 — Tasklist (Dimensions and Areas)
 
 ## Links (GitHub-navigable)
-- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_v01.md)
-- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__stakeholder-entrypoints_v01.md)
-- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_AI__stakeholder-ai-entrypoint_v01.md)
+- Knot overview: [K06 overview](../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__k06-data-governance-ssot-schemas-identifiers_I01-R01.md)
+- Portal index: [AMPEL360-SPACE-T-PORTAL index](../../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__stakeholder-entrypoints_I01-R01.md)
+- Stakeholder entrypoint (AI): [STK_AI entrypoint](../../../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_AI__stakeholder-ai-entrypoint_I01-R01.md)
 - ATA 06 home (P-PROGRAM): [AMPEL360_SPACE-T/P-PROGRAM/ATA 06](../../../../../../AMPEL360_SPACE-T/P-PROGRAM/ATA_06-DIMENSIONS_AND_AREAS/)
   - If your folder name differs, update only this link target.
 
@@ -153,9 +153,9 @@ This tasklist is **closed only if** all conditions are true:
 
 | Evidence | Document ID | Status |
 | :--- | :--- | :--- |
-| SSOT Implementation Plan | F_AMPEL360_SPACET_PLUS_00_PLAN_LC01_K06_CM__ssot-implementation-plan_v01.md` | Published |
-| SSOT Decision Matrix | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__ssot-decision-matrix_v01.md` | Published |
-| Identifier Registry | F_AMPEL360_SPACET_PLUS_00_CAT_LC01_K06_CM__identifier-registry_v01.md` | Published |
+| SSOT Implementation Plan | F_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__ssot-implementation-plan_I01-R01.md` | Published |
+| SSOT Decision Matrix | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ssot-decision-matrix_I01-R01.md` | Published |
+| Identifier Registry | F_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__identifier-registry_I01-R01.md` | Published |
 
 ### Approval
 
@@ -243,8 +243,8 @@ All ATA-06 identifiers follow this grammar:
 
 | Evidence | Document ID | Status |
 | :--- | :--- | :--- |
-| Identifier Registry | F_AMPEL360_SPACET_PLUS_00_CAT_LC01_K06_CM__identifier-registry_v01.md` | Published |
-| Identifier Grammar Standard | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md` | Published |
+| Identifier Registry | F_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_CM__identifier-registry_I01-R01.md` | Published |
+| Identifier Grammar Standard | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md` | Published |
 
 ### Approval
 
@@ -263,9 +263,9 @@ All ATA-06 identifiers follow this grammar:
 ### Schema Location
 
 All schema artifacts have been moved to PORTAL root:
-- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.json`
-- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.md`
-- F_AMPEL360_SPACET_GEN_90_TAB_SB90_K06_CM__dimensional-exports_v01.json`
+- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.json`
+- F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.md`
+- F_AMPEL360_SPACET_GEN_90_TAB_SB90_K06_CM__dimensional-exports_I01-R01.json`
 
 ### Schema Components
 
@@ -304,9 +304,9 @@ Units: Millimeters (mm)
 
 | Evidence | Document ID | Status |
 | :--- | :--- | :--- |
-| Schema Definition (JSON) | F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.json` | Published |
-| Schema Documentation | F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_v01.md` | Published |
-| Dimensional Exports | F_AMPEL360_SPACET_GEN_90_TAB_SB90_K06_CM__dimensional-exports_v01.json` | Published |
+| Schema Definition (JSON) | F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.json` | Published |
+| Schema Documentation | F_AMPEL360_SPACET_GEN_90_SCH_SB90_K06_CM__dimensional-data-schema_I01-R01.md` | Published |
+| Dimensional Exports | F_AMPEL360_SPACET_GEN_90_TAB_SB90_K06_CM__dimensional-exports_I01-R01.json` | Published |
 
 ### Approval
 

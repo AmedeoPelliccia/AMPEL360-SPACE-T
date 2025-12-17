@@ -31,6 +31,6 @@ category: normative-references
 ## Internal References
 
 - OPT-IN Framework Standard v1.1 (repository root)
-- AMPEL360 Nomenclature Standard v1.0 (repository: `00_00_STD_LC01_SPACET_nomenclature-standard_v02.md`)
+- AMPEL360 Nomenclature Standard v1.0 (repository: `00_00_STD_LC01_SPACET_nomenclature-standard_I01-R02.md`)
 - Configuration Management Plan (to be linked when available)
 - Safety Management System Plan (to be linked when available)

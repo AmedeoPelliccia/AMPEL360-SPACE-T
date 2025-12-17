@@ -50,11 +50,11 @@ The purpose of this manifest is to:
 
 | Doc ID | Title | Version |
 | :--- | :--- | :--- |
-| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md | ATA-06 SSOT Task List | v01 |
-| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md | SSOT Implementation Plan | v01 |
-| 06_00_CAT_LC01_SPACET_identifier-registry_v01.md | Identifier Registry | v01 |
-| 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | Dimensional Data Schema | v01 |
-| 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md | Schema Documentation | v01 |
+| 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md | ATA-06 SSOT Task List | v01 |
+| 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md | SSOT Implementation Plan | v01 |
+| 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md | Identifier Registry | v01 |
+| 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | Dimensional Data Schema | v01 |
+| 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md | Schema Documentation | v01 |
 
 ## 2. Baseline Contents
 
@@ -64,7 +64,7 @@ The purpose of this manifest is to:
 
 | Artifact | File Name | Type | Size | Checksum (SHA256) |
 | :--- | :--- | :--- | :--- | :--- |
-| Dimensional Data Export | 06_90_TAB_SB00_GEN_dimensional-exports_v01.json | JSON | 8.7 KB | TBD (computed on approval) |
+| Dimensional Data Export | 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json | JSON | 8.7 KB | TBD (computed on approval) |
 
 **Contents Summary:**
 - **Metadata**: Export timestamp, CAD source, baseline ID, schema version
@@ -79,12 +79,12 @@ The purpose of this manifest is to:
 
 | Artifact | File Name | Purpose | Version |
 | :--- | :--- | :--- | :--- |
-| Task List | 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md | Task tracking | v01 |
-| SSOT Plan | 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md | Implementation approach | v01 |
-| Identifier Registry | 06_00_CAT_LC01_SPACET_identifier-registry_v01.md | Identifier definitions | v01 |
-| Schema (JSON) | 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json | Validation schema | v01 |
-| Schema (Docs) | 06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md | Schema documentation | v01 |
-| This Manifest | 06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md | Release documentation | v01 |
+| Task List | 06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md | Task tracking | v01 |
+| SSOT Plan | 06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md | Implementation approach | v01 |
+| Identifier Registry | 06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md | Identifier definitions | v01 |
+| Schema (JSON) | 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json | Validation schema | v01 |
+| Schema (Docs) | 06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md | Schema documentation | v01 |
+| This Manifest | 06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md | Release documentation | v01 |
 
 ### 2.3 Validation Scripts
 
@@ -242,15 +242,15 @@ The following downstream systems will consume this baseline:
 **Tag** (when approved): `ata06-baseline-BL-0001`
 
 **Files to Download:**
-- Primary export: `06_90_TAB_SB00_GEN_dimensional-exports_v01.json`
-- Schema: `06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json`
-- Identifier registry: `06_00_CAT_LC01_SPACET_identifier-registry_v01.md`
+- Primary export: `06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json`
+- Schema: `06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json`
+- Identifier registry: `06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md`
 
 ### 7.2 Validating the Baseline
 
 ```bash
 # Validate the export file
-python scripts/validate_ata06_dimensions.py 06_90_TAB_SB00_GEN_dimensional-exports_v01.json
+python scripts/validate_ata06_dimensions.py 06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json
 
 # Expected output: ✅ VALIDATION PASSED
 ```
@@ -262,7 +262,7 @@ python scripts/validate_ata06_dimensions.py 06_90_TAB_SB00_GEN_dimensional-expor
 import json
 
 # Load dimensional data
-with open('06_90_TAB_SB00_GEN_dimensional-exports_v01.json') as f:
+with open('06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json') as f:
     dim_data = json.load(f)
 
 # Access coordinate frame
@@ -335,13 +335,13 @@ None at this time.
 Complete list of files in baseline BL-0001:
 
 ```
-06_00_CAT_LC01_SPACET_identifier-registry_v01.md
-06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_v01.md
-06_00_PLAN_LC01_SPACET_ssot-implementation-plan_v01.md
-06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md
-06_90_SCH_SB00_GEN_dimensional-data-schema_v01.json
-06_90_SCH_SB00_GEN_dimensional-data-schema_v01.md
-06_90_TAB_SB00_GEN_dimensional-exports_v01.json
+06_00_CAT_LC01_SPACET_identifier-registry_I01-R01.md
+06_00_IDX_LC01_SPACET_k06-ata-06-tasklist_I01-R01.md
+06_00_PLAN_LC01_SPACET_ssot-implementation-plan_I01-R01.md
+06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md
+06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.json
+06_90_SCH_SB00_GEN_dimensional-data-schema_I01-R01.md
+06_90_TAB_SB00_GEN_dimensional-exports_I01-R01.json
 scripts/validate_ata06_dimensions.py
 ```
 
@@ -355,7 +355,7 @@ SHA256 checksums to be computed and added upon approval.
 
 ---
 
-**Document ID**: 06_00_RPT_LC01_SPACET_baseline-release-manifest_v01.md  
+**Document ID**: 06_00_RPT_LC01_SPACET_baseline-release-manifest_I01-R01.md  
 **Baseline ID**: BL-0001  
 **Status**: Candidate  
 **Version**: v01  

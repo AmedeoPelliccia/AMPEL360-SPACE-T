@@ -308,7 +308,7 @@ This document fulfills **Task T10-AI** from the K06 ATA 00 Tasklist and serves a
 **Usage**:
 ```bash
 # Validate single file
-python validate_nomenclature.py 00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_v01.md
+python validate_nomenclature.py 00_70_FHA_SB70_AMPEL360_SPACET_PLUS_propulsion_I01-R01.md
 
 # Validate all files
 python validate_nomenclature.py --check-all
@@ -548,13 +548,13 @@ python scripts/scaffold.py 00 70 FHA SB70 AMPEL360 SPACET PLUS propulsion v01
 
 | Document | Location | Relationship |
 | :--- | :--- | :--- |
-| K06 ATA 00 Tasklist | `AMPEL360-SPACE-T-PORTAL/.../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-00-tasklist_v01.md` | Source task (T10-AI) |
-| CI Governance Gates Index | `00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_DATA__ci-governance-gates_v01.md` | Gate catalog |
-| Nomenclature Automation Guide | `00_AMPEL360_SPACET_PLUS_00_IDX_LC01_K00_CM__nomenclature-automation-guide_v02.md` | Usage guide |
-| Nomenclature Standard v3.0 | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_CM__nomenclature-standard_v02.md` | Normative standard |
-| Identifier Grammar | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__identifier-grammar_v01.md` | ID format rules |
-| SSOT Decision Matrix | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__ssot-decision-matrix_v01.md` | Ownership rules |
-| Governance Reference Policy | `00_AMPEL360_SPACET_PLUS_00_STD_LC01_K00_DATA__governance-reference-policy_v01.md` | Policy framework |
+| K06 ATA 00 Tasklist | `AMPEL360-SPACE-T-PORTAL/.../00_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-00-tasklist_I01-R01.md` | Source task (T10-AI) |
+| CI Governance Gates Index | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ci-governance-gates_I01-R01.md` | Gate catalog |
+| Nomenclature Automation Guide | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-automation-guide_I01-R02.md` | Usage guide |
+| Nomenclature Standard v3.0 | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__nomenclature-standard_I01-R02.md` | Normative standard |
+| Identifier Grammar | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md` | ID format rules |
+| SSOT Decision Matrix | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ssot-decision-matrix_I01-R01.md` | Ownership rules |
+| Governance Reference Policy | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__governance-reference-policy_I01-R01.md` | Policy framework |
 | GitHub Copilot Instructions | `.github/copilot-instructions.md` | Agent integration |
 
 ---

@@ -138,19 +138,19 @@ The following directory skeleton defines the standard organization for K01 artif
 
 ```
 KNOTS/K01_authority-model-certification-basis/
-├── 00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md
+├── 00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_I01-R01.md
 ├── ATA_TASKS/
 │   └── ATA_XX/
-│       └── XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_v01.md
+│       └── XX_00_IDX_LC01_SPACET_k01-ata-xx-tasklist_I01-R01.md
 ├── DECISIONS/
-│   └── 00_00_STD_LC01_SPACET_k01-decision-record_v01.md
+│   └── 00_00_STD_LC01_SPACET_k01-decision-record_I01-R01.md
 ├── EVIDENCE/
-│   ├── 00_00_TRC_LC01_SPACET_k01-evidence-map_v01.md
-│   └── 00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_v01.md
+│   ├── 00_00_TRC_LC01_SPACET_k01-evidence-map_I01-R01.md
+│   └── 00_00_RPT_LC01_SPACET_k01-evidence-pack-summary_I01-R01.md
 ├── MONITORING/
-│   └── 00_00_LOG_LC01_SPACET_k01-nku-tracking_v01.csv
+│   └── 00_00_LOG_LC01_SPACET_k01-nku-tracking_I01-R01.csv
 ├── TEKNIA/
-│   └── 00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_v01.md
+│   └── 00_00_STD_LC01_SPACET_k01-teknia-sharing-rules_I01-R01.md
 ├── ASSETS/
 ├── EXPORTS/
 ├── ISSUES/
@@ -226,7 +226,7 @@ Define the complete certification basis for the Space-T vehicle including applic
 
 #### 3.1.3 Outputs
 1. **Certification Basis Document**
-   - File: `00_00_PLAN_LC10_CERT_certification-basis_v01.md`
+   - File: `00_00_PLAN_LC10_CERT_certification-basis_I01-R01.md`
    - Contents:
      * Applicable regulations with specific sections
      * Special conditions required for novel technologies
@@ -311,7 +311,7 @@ Create detailed compliance matrices mapping each certification requirement to sp
 
 #### 3.2.2 Outputs
 1. **Compliance Matrix**
-   - File: `00_00_TRC_LC10_CERT_compliance-matrix_v01.md`
+   - File: `00_00_TRC_LC10_CERT_compliance-matrix_I01-R01.md`
    - Contents:
      * Requirement ID → Verification Method mapping
      * Test case → Requirement traceability
@@ -449,8 +449,8 @@ All certification artifacts are under strict configuration management:
 ## 6. References and Related Documents
 
 ### 6.1 Schema and Data Files
-- Schema Definition: `00_90_SCH_SB00_GEN_knots-data-structure_v01.json`
-- Knots Catalog: `00_90_CAT_SB00_CERT_knots-catalog_v01.json`
+- Schema Definition: `00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json`
+- Knots Catalog: `00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json`
 
 ### 6.2 Templates for Deliverables
 - Certification Basis: Use template `templates/PLAN.md`

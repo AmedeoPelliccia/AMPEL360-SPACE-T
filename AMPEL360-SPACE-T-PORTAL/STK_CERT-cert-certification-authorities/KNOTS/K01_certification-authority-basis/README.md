@@ -4,7 +4,7 @@ This directory contains the K01 knot workspace for certification authority basis
 
 ## Quick Start
 
-1. Read the master index: `00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_v01.md`
+1. Read the master index: `00_00_IDX_LC01_SPACET_k01-authority-model-certification-basis_I01-R01.md`
 2. Review task templates in the main K01 plan document
 3. Check `MONITORING/` for current status
 

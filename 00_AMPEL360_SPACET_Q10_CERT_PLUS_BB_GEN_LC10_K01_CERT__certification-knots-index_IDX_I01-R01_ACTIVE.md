@@ -74,8 +74,8 @@ Establishes the certification basis and decision criteria for the Space-T vehicl
   - Responsible: Certification Manager, System Engineer, Verification Engineer
 
 **Documentation:**
-- Detailed Plan: `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_v01.md`
-- Data Definition: `00_90_CAT_SB00_CERT_knots-catalog_v01.json`
+- Detailed Plan: `00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`
+- Data Definition: `00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json`
 
 **Dependencies:** None (foundational knot)
 
@@ -141,13 +141,13 @@ Follow the AMPEL360 Nomenclature Standard v1.0:
 **Examples:**
 ```
 # Certification Basis for ATA 21 (ECLSS)
-21_00_PLAN_LC10_CERT_certification-basis_v01.md
+21_00_PLAN_LC10_CERT_certification-basis_I01-R01.md
 
 # Compliance Matrix for ATA 22 (GNC)
-22_00_TRC_LC10_CERT_compliance-matrix_v01.md
+22_00_TRC_LC10_CERT_compliance-matrix_I01-R01.md
 
 # Safety Assessment for ATA 28 (Propulsion)
-28_70_FHA_SB00_SYS_propulsion-fha_v01.md
+28_70_FHA_SB00_SYS_propulsion-fha_I01-R01.md
 ```
 
 ### 3.4 Traceability and Reporting
@@ -166,11 +166,11 @@ Follow the AMPEL360 Nomenclature Standard v1.0:
 
 ### 4.1 Schema Definition
 The complete JSON schema for knots is defined in:
-- `00_90_SCH_SB00_GEN_knots-data-structure_v01.json`
+- `00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json`
 
 ### 4.2 Knots Catalog Data
 All active knots are documented in machine-readable format:
-- `00_90_CAT_SB00_CERT_knots-catalog_v01.json`
+- `00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json`
 
 This catalog can be used for:
 - Automated workflow generation
@@ -187,9 +187,9 @@ python -c "
 import json
 import jsonschema
 
-with open('00_90_SCH_SB00_GEN_knots-data-structure_v01.json') as f:
+with open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json') as f:
     schema = json.load(f)
-with open('00_90_CAT_SB00_CERT_knots-catalog_v01.json') as f:
+with open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json') as f:
     data = json.load(f)
     
 jsonschema.validate(instance=data, schema=schema)

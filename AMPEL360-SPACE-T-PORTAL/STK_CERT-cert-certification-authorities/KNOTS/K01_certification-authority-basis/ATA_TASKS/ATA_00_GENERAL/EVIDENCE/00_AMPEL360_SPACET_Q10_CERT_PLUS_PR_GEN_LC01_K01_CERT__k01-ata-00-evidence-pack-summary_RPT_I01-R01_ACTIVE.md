@@ -17,10 +17,10 @@ generated: "2025-12-15"
 This report summarizes the **K01 Certification Authority Basis** evidence pack for **ATA 00 (General / Program Governance)** and provides **mandatory GitHub-navigable hyperlinks** to all pack components.
 
 ## 2. Quick Links (mandatory)
-- Evidence inventory (human index): **[00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-inventory_v01.md](./00_AMPEL360_SPACET_PLUS_00_LST_LC01_K01_CERT__k01-ata-00-evidence-inventory_v01.md)**
-- Evidence pack manifest (contract): **[00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-manifest_v01.json](./00_AMPEL360_SPACET_PLUS_00_SCH_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_v01.json)**
-- NKU tracking (monitoring): **[00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv)**
-- Action register (monitoring): **[00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-action-register_v01.csv](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-action-register_v01.csv)**
+- Evidence inventory (human index): **[00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-inventory_I01-R01.md](./00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-inventory_I01-R01.md)**
+- Evidence pack manifest (contract): **[00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-pack-manifest_I01-R01.json](./00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_I01-R01.json)**
+- NKU tracking (monitoring): **[00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv)**
+- Action register (monitoring): **[00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-action-register_I01-R01.csv](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-action-register_I01-R01.csv)**
 
 ## 3. Pack Status Snapshot (populate)
 | Area | Status | Owner | Notes |
@@ -36,19 +36,19 @@ This report summarizes the **K01 Certification Authority Basis** evidence pack f
 
 | ID | Evidence Item | Status | Link | Reviewer Comment |
 |---|---:|---:|---|---|
-| EV-00-001 | Acceptance criteria | TBD | **[Open](./00_AMPEL360_SPACET_PLUS_00_REQ_LC01_K01_CERT__k01-ata-00-acceptance-criteria_v01.md)** | _TBD_ |
-| EV-00-002 | Applicable standards list | TBD | **[Open](./00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-applicable-standards_v01.md)** | _TBD_ |
-| EV-00-003 | Special conditions list | TBD | **[Open](./00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-special-conditions_v01.md)** | _TBD_ |
-| EV-00-004 | Authority engagement plan | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-authority-engagement_v01.md)** | _TBD_ |
-| EV-00-005 | Certification strategy | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_v01.md)** | _TBD_ |
-| EV-00-006 | Evidence plan | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-plan_v01.md)** | _TBD_ |
-| EV-00-007 | Compliance matrix | TBD | **[Open](./00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-compliance-matrix_v01.csv)** | _TBD_ |
-| EV-00-008 | Requirements mapping | TBD | **[Open](./00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-requirements-mapping_v01.md)** | _TBD_ |
-| EV-00-009 | Cross-ATA traceability | TBD | **[Open](./00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-ata-traceability_v01.md)** | _TBD_ |
-| EV-00-010 | Config management standard | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-config-management_v01.md)** | _TBD_ |
-| EV-00-011 | Change control standard | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-change-control_v01.md)** | _TBD_ |
-| EV-00-012 | Authority comms protocol | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-authority-comms-protocol_v01.md)** | _TBD_ |
-| EV-00-013 | Nomenclature audit report | TBD | **[Open](./00_00_RPT_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nomenclature-audit_v01.md)** | _TBD_ |
+| EV-00-001 | Acceptance criteria | TBD | **[Open](./00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-acceptance-criteria_I01-R01.md)** | _TBD_ |
+| EV-00-002 | Applicable standards list | TBD | **[Open](./00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-applicable-standards_I01-R01.md)** | _TBD_ |
+| EV-00-003 | Special conditions list | TBD | **[Open](./00_00_LST_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-special-conditions_I01-R01.md)** | _TBD_ |
+| EV-00-004 | Authority engagement plan | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-authority-engagement_I01-R01.md)** | _TBD_ |
+| EV-00-005 | Certification strategy | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-certification-strategy_I01-R01.md)** | _TBD_ |
+| EV-00-006 | Evidence plan | TBD | **[Open](./00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-evidence-plan_I01-R01.md)** | _TBD_ |
+| EV-00-007 | Compliance matrix | TBD | **[Open](./00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-compliance-matrix_I01-R01.csv)** | _TBD_ |
+| EV-00-008 | Requirements mapping | TBD | **[Open](./00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-requirements-mapping_I01-R01.md)** | _TBD_ |
+| EV-00-009 | Cross-ATA traceability | TBD | **[Open](./00_00_TRC_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-ata-traceability_I01-R01.md)** | _TBD_ |
+| EV-00-010 | Config management standard | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-config-management_I01-R01.md)** | _TBD_ |
+| EV-00-011 | Change control standard | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-change-control_I01-R01.md)** | _TBD_ |
+| EV-00-012 | Authority comms protocol | TBD | **[Open](./00_00_STD_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-authority-comms-protocol_I01-R01.md)** | _TBD_ |
+| EV-00-013 | Nomenclature audit report | TBD | **[Open](./00_00_RPT_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nomenclature-audit_I01-R01.md)** | _TBD_ |
 
 ## 5. Cross-ATA Dependencies (K01 propagation)
 | Dependent ATA | Reason | Link |
@@ -59,7 +59,7 @@ This report summarizes the **K01 Certification Authority Basis** evidence pack f
 | ATA 109 | VV evidence packs linkage to trace graph | _TBD_ |
 
 ## 6. NKU Control and Monitoring (NKU → closure gating)
-- **NKU tracker:** **[Open](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv)**
+- **NKU tracker:** **[Open](../MONITORING/00_00_TAB_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv)**
 - **Gating rule (release block):** any **CRITICAL** NKU **OPEN** blocks K01 ATA 00 closure.
 - **Weekly reporting:** % NKU closed, newly opened, aging > 30 days, and top 5 blockers.
 

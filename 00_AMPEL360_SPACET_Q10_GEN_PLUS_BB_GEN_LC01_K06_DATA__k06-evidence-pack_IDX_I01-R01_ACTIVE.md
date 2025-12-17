@@ -31,25 +31,25 @@ This index catalogs all **evidence artifacts** produced for **Task K06: Governan
 
 | Evidence ID | Deliverable | File Location | Type | Status | Verification |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **EVD-K06-001** | T1: Identifier Grammar Standard | `00_00_STD_LC01_SPACET_identifier-grammar_v01.md` | STD | Complete | Nomenclature validated ✅ |
-| **EVD-K06-002** | T2: SSOT Decision Matrix | `00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md` | STD | Complete | Nomenclature validated ✅ |
-| **EVD-K06-003** | T3: Governance Reference Policy | `00_00_STD_LC01_SPACET_governance-reference-policy_v01.md` | STD | Complete | Nomenclature validated ✅ |
+| **EVD-K06-001** | T1: Identifier Grammar Standard | `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md` | STD | Complete | Nomenclature validated ✅ |
+| **EVD-K06-002** | T2: SSOT Decision Matrix | `00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md` | STD | Complete | Nomenclature validated ✅ |
+| **EVD-K06-003** | T3: Governance Reference Policy | `00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md` | STD | Complete | Nomenclature validated ✅ |
 
 ### Category B: CI Enforcement (T4-T5)
 
 | Evidence ID | Deliverable | File Location | Type | Status | Verification |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **EVD-K06-004** | T4: CI Governance Gates Index | `00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md` | IDX | Complete | Nomenclature validated ✅ |
+| **EVD-K06-004** | T4: CI Governance Gates Index | `00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md` | IDX | Complete | Nomenclature validated ✅ |
 | **EVD-K06-005** | T4: Governance Gates Workflow | `.github/workflows/governance-gates.yml` | YAML | Complete | CI workflow active ✅ |
-| **EVD-K06-006** | T5: Auditability Proof Path | `00_00_RPT_LC01_SPACET_auditability-proof-path_v01.md` | RPT | Complete | Nomenclature validated ✅ |
+| **EVD-K06-006** | T5: Auditability Proof Path | `00_00_RPT_LC01_SPACET_auditability-proof-path_I01-R01.md` | RPT | Complete | Nomenclature validated ✅ |
 
 ### Category C: Evidence and Baseline (T6-T7)
 
 | Evidence ID | Deliverable | File Location | Type | Status | Verification |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **EVD-K06-007** | T6: Evidence Pack Index (this file) | `00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md` | IDX | Complete | Self-referential ✅ |
-| **EVD-K06-008** | T7: Decision Minutes | `00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md` | MIN | Pending | To be created |
-| **EVD-K06-009** | T7: Approvals Log | `00_00_LOG_LC01_SPACET_k06-approvals_v01.md` | LOG | Pending | To be created |
+| **EVD-K06-007** | T6: Evidence Pack Index (this file) | `00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md` | IDX | Complete | Self-referential ✅ |
+| **EVD-K06-008** | T7: Decision Minutes | `00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md` | MIN | Pending | To be created |
+| **EVD-K06-009** | T7: Approvals Log | `00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md` | LOG | Pending | To be created |
 
 ### Category D: Supporting Evidence
 
@@ -68,7 +68,7 @@ This index catalogs all **evidence artifacts** produced for **Task K06: Governan
 **Requirement**: Define canonical identifier grammar and namespace boundaries (coordinate with ATA 99).
 
 **Evidence**:
-- **Primary**: `00_00_STD_LC01_SPACET_identifier-grammar_v01.md` (EVD-K06-001)
+- **Primary**: `00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md` (EVD-K06-001)
 - **Content Verification**:
   - ✅ Canonical ID grammar defined: `[NAMESPACE]-[CATEGORY]-[SEQUENCE][-VARIANT]`
   - ✅ Namespace boundaries documented (ATA00-99, REQ, HAZ, TC, etc.)
@@ -78,7 +78,7 @@ This index catalogs all **evidence artifacts** produced for **Task K06: Governan
 
 **Verification Method**:
 ```bash
-python validate_nomenclature.py 00_00_STD_LC01_SPACET_identifier-grammar_v01.md
+python validate_nomenclature.py 00_00_STD_LC01_SPACET_identifier-grammar_I01-R01.md
 # Output: ✅ Valid (8-field format)
 ```
 
@@ -89,7 +89,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_identifier-grammar_v01.md
 **Requirement**: Define SSOT decision matrix (authoritative vs derived artifacts; ownership + location).
 
 **Evidence**:
-- **Primary**: `00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md` (EVD-K06-002)
+- **Primary**: `00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md` (EVD-K06-002)
 - **Content Verification**:
   - ✅ Authoritative artifacts matrix defined (16 artifact types)
   - ✅ Derived artifacts matrix defined (9 artifact types)
@@ -100,7 +100,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_identifier-grammar_v01.md
 
 **Verification Method**:
 ```bash
-python validate_nomenclature.py 00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.md
+python validate_nomenclature.py 00_00_STD_LC01_SPACET_ssot-decision-matrix_I01-R01.md
 # Output: ✅ Valid (8-field format)
 ```
 
@@ -111,7 +111,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.m
 **Requirement**: Publish governance reference policy: how ATAs must reference schemas (ATA 91) and trace (ATA 93).
 
 **Evidence**:
-- **Primary**: `00_00_STD_LC01_SPACET_governance-reference-policy_v01.md` (EVD-K06-003)
+- **Primary**: `00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md` (EVD-K06-003)
 - **Content Verification**:
   - ✅ Schema referencing policy defined (ATA 91 coupling)
   - ✅ Trace link policy defined (ATA 93 coupling)
@@ -121,7 +121,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_ssot-decision-matrix_v01.m
 
 **Verification Method**:
 ```bash
-python validate_nomenclature.py 00_00_STD_LC01_SPACET_governance-reference-policy_v01.md
+python validate_nomenclature.py 00_00_STD_LC01_SPACET_governance-reference-policy_I01-R01.md
 # Output: ✅ Valid (8-field format)
 ```
 
@@ -132,7 +132,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_governance-reference-polic
 **Requirement**: Confirm CI gates for: nomenclature + namespace checks, schema registration checks, trace/evidence link integrity checks, approvals required for governance-impacting diffs.
 
 **Evidence**:
-- **Primary**: `00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md` (EVD-K06-004)
+- **Primary**: `00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md` (EVD-K06-004)
 - **Supporting**: `.github/workflows/governance-gates.yml` (EVD-K06-005)
 - **Content Verification**:
   - ✅ 18 governance gates cataloged (GATE-001 through GATE-018)
@@ -144,7 +144,7 @@ python validate_nomenclature.py 00_00_STD_LC01_SPACET_governance-reference-polic
 **Verification Method**:
 ```bash
 # Validate index
-python validate_nomenclature.py 00_00_IDX_LC01_SPACET_ci-governance-gates_v01.md
+python validate_nomenclature.py 00_00_IDX_LC01_SPACET_ci-governance-gates_I01-R01.md
 # Output: ✅ Valid (8-field format)
 
 # Verify workflow exists and is valid YAML
@@ -159,7 +159,7 @@ yamllint .github/workflows/governance-gates.yml
 **Requirement**: Define the minimal audit query path (how an auditor reproduces the chain).
 
 **Evidence**:
-- **Primary**: `00_00_RPT_LC01_SPACET_auditability-proof-path_v01.md` (EVD-K06-006)
+- **Primary**: `00_00_RPT_LC01_SPACET_auditability-proof-path_I01-R01.md` (EVD-K06-006)
 - **Content Verification**:
   - ✅ 8-step audit query path defined
   - ✅ Tool commands provided for each step
@@ -169,7 +169,7 @@ yamllint .github/workflows/governance-gates.yml
 
 **Verification Method**:
 ```bash
-python validate_nomenclature.py 00_00_RPT_LC01_SPACET_auditability-proof-path_v01.md
+python validate_nomenclature.py 00_00_RPT_LC01_SPACET_auditability-proof-path_I01-R01.md
 # Output: ✅ Valid (8-field format)
 ```
 
@@ -180,7 +180,7 @@ python validate_nomenclature.py 00_00_RPT_LC01_SPACET_auditability-proof-path_v0
 **Requirement**: Produce minimal evidence pack showing: IDs → Schema → Trace → Export (signed when required)
 
 **Evidence**:
-- **Primary**: `00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md` (EVD-K06-007) - this file
+- **Primary**: `00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md` (EVD-K06-007) - this file
 - **Content Verification**:
   - ✅ All deliverables indexed (9 evidence items)
   - ✅ Traceability chains documented for each task
@@ -190,7 +190,7 @@ python validate_nomenclature.py 00_00_RPT_LC01_SPACET_auditability-proof-path_v0
 
 **Verification Method**:
 ```bash
-python validate_nomenclature.py 00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md
+python validate_nomenclature.py 00_00_IDX_LC01_SPACET_k06-evidence-pack_I01-R01.md
 # Output: ✅ Valid (8-field format)
 ```
 
@@ -201,8 +201,8 @@ python validate_nomenclature.py 00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md
 **Requirement**: Record decision minutes, approvals, and baseline update entry.
 
 **Evidence**:
-- **Primary**: `00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md` (EVD-K06-008) - pending
-- **Supporting**: `00_00_LOG_LC01_SPACET_k06-approvals_v01.md` (EVD-K06-009) - pending
+- **Primary**: `00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md` (EVD-K06-008) - pending
+- **Supporting**: `00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md` (EVD-K06-009) - pending
 - **Content Verification** (to be completed):
   - ⏳ Decision minutes recorded
   - ⏳ CM WG approvals logged
@@ -211,8 +211,8 @@ python validate_nomenclature.py 00_00_IDX_LC01_SPACET_k06-evidence-pack_v01.md
 
 **Verification Method** (when complete):
 ```bash
-python validate_nomenclature.py 00_00_MIN_LC01_SPACET_k06-governance-decisions_v01.md
-python validate_nomenclature.py 00_00_LOG_LC01_SPACET_k06-approvals_v01.md
+python validate_nomenclature.py 00_00_MIN_LC01_SPACET_k06-governance-decisions_I01-R01.md
+python validate_nomenclature.py 00_00_LOG_LC01_SPACET_k06-approvals_I01-R01.md
 ```
 
 ---

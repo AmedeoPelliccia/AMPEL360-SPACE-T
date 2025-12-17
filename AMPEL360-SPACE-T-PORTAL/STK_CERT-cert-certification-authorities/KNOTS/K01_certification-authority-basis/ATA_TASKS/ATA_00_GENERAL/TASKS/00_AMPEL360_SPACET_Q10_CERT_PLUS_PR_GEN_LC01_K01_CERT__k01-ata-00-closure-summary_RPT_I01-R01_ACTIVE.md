@@ -72,8 +72,8 @@ Complete this table at closure. Link to the evidence artifact **and** (if applic
 ## 4. Evidence Pack Summary (K01 / ATA 00)
 
 ### 4.1 Evidence manifests
-- Evidence manifest: `../EVIDENCE/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_v01.json` (or equivalent)
-- Audit query contract: `../EVIDENCE/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-audit-query-contract_v01.yaml`
+- Evidence manifest: `../EVIDENCE/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-evidence-pack-manifest_I01-R01.json` (or equivalent)
+- Audit query contract: `../EVIDENCE/00_00_SCH_LC01_AMPEL360_SPACET_PLUS_k01-audit-query-contract_I01-R01.yaml`
 
 ### 4.2 Reproducible audit query (required)
 Provide at least one reproducible audit path proving:
@@ -87,7 +87,7 @@ Provide at least one reproducible audit path proving:
 ## 5. NKU & TEKNIA Controls (closure gate)
 
 ### 5.1 NKU closure declaration
-- NKU tracking artifact: `../MONITORING/00_00_LOG_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_v01.csv`
+- NKU tracking artifact: `../MONITORING/00_00_LOG_LC01_AMPEL360_SPACET_PLUS_k01-ata-00-nku-tracking_I01-R01.csv`
 - NKU status at closure: ☐ ACCEPTABLE ☐ NOT ACCEPTABLE  
 - Open uncertainties remaining (if any): `TBD`
 
