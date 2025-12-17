@@ -19,13 +19,19 @@
 
 version: "6.0"
 revision: "R1.0"
+standard: "NOMENCLATURE_V6_R1_0_FINAL"
 date: "2025-12-17"
-status: "Normative"
+status: "Normative - LOCKED"
 owner: "Configuration Management WG"
 supersedes: "v5.0"
 
-# Canonical format (v6.0)
+# Canonical format (v6.0 R1.0 FINAL LOCK - immutable)
 canonical_format: "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+
+# Fixed values (immutable)
+fixed:
+  project: "AMPEL360"
+  program: "SPACET"
 
 # Controlled lists (allowlists)
 allowlists:
@@ -54,12 +60,16 @@ allowlists:
     # Future variants added via CM approval
   
   # VERSION allowlist (NEW in v6.0)
-  # Branding reinforcer (controlled list)
+  # Branding reinforcer (controlled list) + optional 2-digit iteration
+  # Pattern: (PLUS|PLUSULTRA)[0-9]{2}?
   # Extension requires CM change control
-  versions:
-    - PLUS             # AMPEL360+ standard
-    - PLUSULTRA        # AMPEL360+ Ultra enhanced
+  version_brand:
+    - PLUS             # AMPEL360+ standard (may append 01-99)
+    - PLUSULTRA        # AMPEL360+ Ultra enhanced (may append 01-99)
     # Future versions added via CM approval
+  
+  # VERSION includes brand roots above, with optional iteration
+  # Valid: PLUS, PLUS01, PLUS99, PLUSULTRA, PLUSULTRA01, etc.
   
   # MODEL allowlist (NEW in v6.0)
   # Artifact domain (controlled list)
@@ -185,6 +195,34 @@ allowlists:
     - jpeg         # JPEG images (alternative)
     - pdf          # PDF documents
     - drawio       # Draw.io diagrams
+
+# Pattern definitions (normative regex patterns)
+patterns:
+  ata_root: "^(0[0-9]|[1-9][0-9]|1[0-1][0-6])$"
+  family: "^Q[0-9]{2,3}$"
+  # VERSION is brand + optional 2-digit iteration (R1.0 FINAL LOCK)
+  version: "^(PLUS|PLUSULTRA)([0-9]{2})?$"
+  model: "^(BB|HW|SW|PR)$"
+  phase: "^(LC(0[1-9]|1[0-4])|SB[0-9]{2})$"
+  knot_task: "^K(0[1-9]|1[0-4])(-T[0-9]{3})?$"
+  subject: "^[a-z0-9]+(-[a-z0-9]+)*$"
+  issue_revision: "^I[0-9]{2}-R[0-9]{2}$"
+  
+  # Conditional subject prefixes (R1.0 FINAL LOCK)
+  # These prefixes are MANDATORY when the corresponding VARIANT is used
+  subject_prefix_for_variant:
+    CUST: "^cust-[a-z0-9]{2,12}-"    # Customer-specific: cust-<custcode>-
+    MSN: "^msn-[0-9]{3,6}-"           # Mission-specific: msn-<serial>-
+
+# Normative length limits (R1.0 FINAL LOCK)
+# Prevents future pressure for breaking redesign
+limits:
+  filename_max_len: 180               # Max total filename length (excluding path)
+  token_max_len:
+    block: 12                         # Max BLOCK token length
+    subject: 60                       # Max SUBJECT token length
+    type: 8                           # Max TYPE token length
+    aor: 10                           # Max AoR token length
 
 # Exemptions (files/directories/patterns excluded from validation)
 exemptions:
@@ -352,7 +390,7 @@ ata_root:
     min: 0
     max: 116
 
-# Validation rules
+# Validation rules (R1.0 FINAL LOCK)
 validation:
   strict_mode: true
   enforce_type_vocabulary: true
@@ -363,8 +401,12 @@ validation:
   enforce_issue_revision: true
   enforce_family_allowlist: true
   enforce_variant_allowlist: true
-  enforce_version_allowlist: true
+  enforce_version_pattern: true          # VERSION must match pattern (brand + optional 2-digit)
   enforce_model_allowlist: true
+  enforce_conditional_subject_prefix: true  # CUST/MSN variants require specific SUBJECT prefixes
+  enforce_length_limits: true             # Enforce normative max lengths
+  ata_padding_rule: "2digits_lt_100__3digits_ge_100"
+  require_double_underscore: true
   
   # Validation modes
   modes:
@@ -427,10 +469,19 @@ history:
   - version: "6.0"
     revision: "R1.0"
     date: "2025-12-17"
-    changes: "v6.0 introduces FAMILY/VARIANT/VERSION/MODEL tokens, ISSUE-REVISION format, updated canonical structure"
+    status: "FINAL LOCK"
+    changes: "v6.0 R1.0 introduces FAMILY/VARIANT/VERSION/MODEL tokens, ISSUE-REVISION format, VERSION iteration support, conditional SUBJECT prefixes, normative length limits"
     author: "CM WG"
     breaking_changes:
       - "New canonical format with 4 additional tokens"
       - "ISSUE-REVISION format now mandatory"
       - "VARIANT semantics changed (governance lane)"
-      - "VERSION becomes branding reinforcer"
+      - "VERSION becomes branding reinforcer with optional 2-digit iteration"
+      - "Conditional SUBJECT prefix rules for CUST and MSN variants"
+      - "Normative length limits enforced"
+    immutable_semantics:
+      - "VARIANT is lane/governance context (GEN/BASELINE/FLIGHTTEST/CERT/MSN/HOV/CUST)"
+      - "VERSION is branding reinforcer (PLUS/PLUSULTRA) with optional iteration"
+      - "CUST variant requires cust-<custcode>- prefix in SUBJECT"
+      - "MSN variant requires msn-<serial>- prefix in SUBJECT"
+      - "Max filename length: 180 characters"
