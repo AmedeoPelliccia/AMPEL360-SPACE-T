@@ -7,7 +7,7 @@ Date: 2025-12-17
 Standard: Nomenclature v6.0 R1.0
 
 Implements GATE-008 (Evidence Link Validation) to check
-evidence pack integrity and ensure broken evidence trails.
+evidence pack integrity and prevent broken evidence trails.
 
 This addresses Known Issue KI-PR3-005.
 
