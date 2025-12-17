@@ -2,17 +2,17 @@
 """
 AMPEL360 Space-T File Scaffolding Tool
 =======================================
-Version: 3.0
-Date: 2025-12-15
+Version: 4.0
+Date: 2025-12-16
 
-Automates creation of files from templates with proper nomenclature v3.0.
+Automates creation of files from templates with proper nomenclature v4.0.
 
 Usage:
-    python scripts/scaffold.py <ROOT> <BUCKET> <TYPE> <SUBJECT> <PROJECT> <PROGRAM> <VARIANT> <DESC> <VER>
+    python scripts/scaffold.py <ROOT> <PROJECT> <PROGRAM> <VARIANT> <BUCKET> <TYPE> <LC|SB> <KNOT> <AOR> <DESC> <VER>
 
 Example:
-    python scripts/scaffold.py 00 00 PLAN LC01 AMPEL360 SPACET PLUS safety-program v01
-    Creates: 00_00_PLAN_LC01_AMPEL360_SPACET_PLUS_safety-program_v01.md
+    python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 00 PLAN LC01 K00 CM safety-program v01
+    Creates: 00_AMPEL360_SPACET_PLUS_00_PLAN_LC01_K00_CM__safety-program_v01.md
 """
 
 import sys
@@ -23,6 +23,12 @@ from datetime import date
 
 # Template directory
 TEMPLATE_DIR = "templates"
+
+# Allowed AoR values (v4.0)
+ALLOWED_AORS = [
+    'CM', 'CERT', 'AI', 'DATA', 'OPS', 'SE', 'SAF', 
+    'PMO', 'CY', 'TEST', 'MRO', 'SPACEPORT'
+]
 
 # Bucket to directory mapping (simplified)
 BUCKET_DIRS = {
@@ -41,23 +47,30 @@ BUCKET_DIRS = {
 
 def scaffold():
     """Main scaffolding function."""
-    if len(sys.argv) < 10:
-        print("Usage: python scripts/scaffold.py ROOT BUCKET TYPE SUBJECT PROJECT PROGRAM VARIANT DESC VER")
-        print("\nExample (Lifecycle):")
-        print("  python scripts/scaffold.py 00 00 PLAN LC01 AMPEL360 SPACET PLUS safety-program v01")
-        print("\nExample (Non-Lifecycle):")
-        print("  python scripts/scaffold.py 00 70 FHA SB70 AMPEL360 SPACET PLUS propulsion v01")
-        print("\nSUBJECT field:")
-        print("  - For BUCKET=00: LC01-LC14 (lifecycle stage)")
-        print("  - For BUCKET≠00: SB15-SB99 (sub-bucket)")
-        print("\nPROJECT field:")
-        print("  - Must be: AMPEL360 (hard constraint)")
-        print("\nPROGRAM field:")
-        print("  - Allowlist: SPACET (extensible)")
-        print("\nVARIANT field:")
-        print("  - PLUS: AMPEL360+ variant")
-        print("  - CERT: Certification artifacts")
-        print("  - DRAFT, PROTO, SYS, SW, HW, GEN")
+    if len(sys.argv) < 12:
+        print("Usage: python scripts/scaffold.py ROOT PROJECT PROGRAM VARIANT BUCKET TYPE LC|SB KNOT AOR DESC VER")
+        print("\nExample (Global Program Plan):")
+        print("  python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 00 PLAN LC01 K00 CM safety-program v01")
+        print("\nExample (Certification Authority Basis):")
+        print("  python scripts/scaffold.py 00 AMPEL360 SPACET CERT 00 PLAN LC10 K01 CERT certification-authority-basis v01")
+        print("\nExample (Propulsion FHA):")
+        print("  python scripts/scaffold.py 00 AMPEL360 SPACET PLUS 70 FHA SB70 K02 SAF propulsion v01")
+        print("\nExample (ATA Tasklist):")
+        print("  python scripts/scaffold.py 78 AMPEL360 SPACET PLUS 00 IDX LC01 K03 SPACEPORT k03-ata-78-tasklist v01")
+        print("\nField requirements:")
+        print("  ROOT: 2-3 digits (ATA chapter)")
+        print("  PROJECT: AMPEL360 (hard constraint)")
+        print("  PROGRAM: SPACET (fixed)")
+        print("  VARIANT: PLUS, CERT, BB, DRAFT, PROTO, SYS, SW, HW, GEN")
+        print("  BUCKET: 00, 10, 20, 30, 40, 50, 60, 70, 80, 90")
+        print("  TYPE: PLAN, FHA, REQ, etc.")
+        print("  LC|SB: LC01-LC14 (for BUCKET=00) or SB15-SB99 (for others)")
+        print("  KNOT: K00 (global) or K01-K99 (specific knot)")
+        print("  AOR: CM, CERT, SAF, etc. (see allowlist)")
+        print("  DESC: lowercase-kebab-case")
+        print("  VER: vNN (e.g., v01)")
+        print("\nAoR Allowlist:")
+        print("  " + ", ".join(ALLOWED_AORS))
         print("\nAvailable templates:")
         print("  Planning/Control: PLAN, MIN, RPT, LOG, ACT, IDX")
         print("  Safety Analysis: FHA, PSSA, SSA, FTA, ANA")
@@ -65,34 +78,12 @@ def scaffold():
         print("  Data/Reference: CAT, LST, GLO, MAT, SCH, DIA, TAB, STD")
         sys.exit(1)
 
-    root, bucket, ftype, subject, project, program, variant, desc, ver = sys.argv[1:10]
+    root, project, program, variant, bucket, ftype, lcsb, knot, aor, desc, ver = sys.argv[1:12]
     
     # Validate inputs
     if not root.isdigit() or len(root) < 2 or len(root) > 3:
         print(f"Error: ROOT must be 2-3 digits, got '{root}'")
         sys.exit(1)
-    
-    if bucket not in BUCKET_DIRS:
-        print(f"Error: BUCKET must be one of {list(BUCKET_DIRS.keys())}, got '{bucket}'")
-        sys.exit(1)
-    
-    if not ftype.isupper():
-        print(f"Error: TYPE must be uppercase, got '{ftype}'")
-        sys.exit(1)
-    
-    # Validate SUBJECT
-    if bucket == "00":
-        if not subject.startswith("LC") or len(subject) != 4 or not subject[2:].isdigit():
-            print(f"Error: BUCKET=00 requires SUBJECT to be LC01-LC14, got '{subject}'")
-            sys.exit(1)
-        lc_num = int(subject[2:])
-        if lc_num < 1 or lc_num > 14:
-            print(f"Error: LC must be 01-14, got LC{lc_num:02d}")
-            sys.exit(1)
-    else:
-        if not subject.startswith("SB") or len(subject) != 4 or not subject[2:].isdigit():
-            print(f"Error: BUCKET≠00 requires SUBJECT to be SB15-SB99, got '{subject}'")
-            sys.exit(1)
     
     # Validate PROJECT (hard constraint)
     if project != "AMPEL360":
@@ -108,12 +99,44 @@ def scaffold():
         print(f"Error: VARIANT must be alphanumeric with hyphens, got '{variant}'")
         sys.exit(1)
     
+    if bucket not in BUCKET_DIRS:
+        print(f"Error: BUCKET must be one of {list(BUCKET_DIRS.keys())}, got '{bucket}'")
+        sys.exit(1)
+    
+    if not ftype.isupper():
+        print(f"Error: TYPE must be uppercase, got '{ftype}'")
+        sys.exit(1)
+    
+    # Validate LC|SB
+    if bucket == "00":
+        if not lcsb.startswith("LC") or len(lcsb) != 4 or not lcsb[2:].isdigit():
+            print(f"Error: BUCKET=00 requires LC|SB to be LC01-LC14, got '{lcsb}'")
+            sys.exit(1)
+        lc_num = int(lcsb[2:])
+        if lc_num < 1 or lc_num > 14:
+            print(f"Error: LC must be 01-14, got LC{lc_num:02d}")
+            sys.exit(1)
+    else:
+        if not lcsb.startswith("SB") or len(lcsb) != 4 or not lcsb[2:].isdigit():
+            print(f"Error: BUCKET≠00 requires LC|SB to be SB15-SB99, got '{lcsb}'")
+            sys.exit(1)
+    
+    # Validate TRIGGER_KNOT (NEW in v4.0)
+    if not knot.startswith("K") or len(knot) != 3 or not knot[1:].isdigit():
+        print(f"Error: TRIGGER_KNOT must be K00 or K01-K99, got '{knot}'")
+        sys.exit(1)
+    
+    # Validate AoR (NEW in v4.0)
+    if aor not in ALLOWED_AORS:
+        print(f"Error: AoR must be one of {ALLOWED_AORS}, got '{aor}'")
+        sys.exit(1)
+    
     if not ver.startswith('v') or len(ver) != 3 or not ver[1:].isdigit():
         print(f"Error: VERSION must be vNN (e.g., v01), got '{ver}'")
         sys.exit(1)
     
-    # Construct filename (10-field format)
-    filename = f"{root}_{bucket}_{ftype}_{subject}_{project}_{program}_{variant}_{desc}_{ver}.md"
+    # Construct filename (12-field format, v4.0)
+    filename = f"{root}_{project}_{program}_{variant}_{bucket}_{ftype}_{lcsb}_{knot}_{aor}__{desc}_{ver}.md"
     
     # Determine target directory
     target_dir = BUCKET_DIRS.get(bucket, ".")
@@ -144,10 +167,12 @@ def scaffold():
         "{{VARIANT}}": variant,
         "{{BUCKET}}": bucket,
         "{{ROOT}}": root,
-        "{{SUBJECT}}": subject,
-        "{{LC_OR_SUBBUCKET}}": subject,  # Backward compatibility
-        "{{LC_PHASE}}": subject if subject.startswith("LC") else "N/A",
-        "{{SUBBUCKET}}": subject if subject.startswith("SB") else "N/A",
+        "{{LC_OR_SUBBUCKET}}": lcsb,  # Backward compatibility
+        "{{LCSB}}": lcsb,
+        "{{LC_PHASE}}": lcsb if lcsb.startswith("LC") else "N/A",
+        "{{SUBBUCKET}}": lcsb if lcsb.startswith("SB") else "N/A",
+        "{{TRIGGER_KNOT}}": knot,  # NEW in v4.0
+        "{{AOR}}": aor,  # NEW in v4.0
         "{{OWNER}}": "TBD",
         "{{SYSTEM_NAME}}": desc.replace("-", " ").title(),
         "{{DATE}}": date.today().isoformat(),
