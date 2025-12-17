@@ -1,0 +1,436 @@
+---
+# AMPEL360 Space-T Nomenclature Standard v6.0 (R1.0)
+# Configuration file with controlled lists (allowlists)
+# 
+# This file is the single source of truth for:
+# - Allowed FAMILY values (quantum-inspired + pax payload numbering)
+# - Allowed VARIANT values (governance lane tokens)
+# - Allowed VERSION values (branding reinforcers)
+# - Allowed MODEL values (artifact domains)
+# - Allowed AoR values (portal entry points)
+# - Allowed TYPE values
+# - Allowed STATUS values
+# - Allowed file extensions
+# - Exemptions (files, directories, patterns)
+# - Bucket-to-subbucket mappings
+# - ISSUE-REVISION format rules
+# 
+# Changes to this file require Configuration Management WG approval.
+
+version: "6.0"
+revision: "R1.0"
+date: "2025-12-17"
+status: "Normative"
+owner: "Configuration Management WG"
+supersedes: "v5.0"
+
+# Canonical format (v6.0)
+canonical_format: "[ATA_ROOT]_[PROJECT]_[PROGRAM]_[FAMILY]_[VARIANT]_[VERSION]_[MODEL]_[BLOCK]_[PHASE]_[KNOT_TASK]_[AoR]__[SUBJECT]_[TYPE]_[ISSUE-REVISION]_[STATUS].[EXT]"
+
+# Controlled lists (allowlists)
+allowlists:
+  
+  # FAMILY allowlist (NEW in v6.0)
+  # Quantum-inspired + pax payload numbered families
+  # Pattern: Q[0-9]{2,3} (Q10, Q100, etc.)
+  # Extension requires CM change control
+  families:
+    - Q10      # 10-passenger quantum family
+    - Q100     # 100-passenger quantum family
+    # Future families added via CM approval
+  
+  # VARIANT allowlist (NEW in v6.0)
+  # Governance/lane token (controlled list)
+  # Must normalize spaces (no spaces allowed in filename)
+  # Extension requires CM change control
+  variants:
+    - GEN              # General purpose
+    - BASELINE         # Baseline configuration
+    - FLIGHTTEST       # Flight test variant
+    - CERT             # Certification variant
+    - MSN              # Mission-specific (with MSN number)
+    - HOV              # High-occupancy vehicle
+    - CUST             # Customer-specific
+    # Future variants added via CM approval
+  
+  # VERSION allowlist (NEW in v6.0)
+  # Branding reinforcer (controlled list)
+  # Extension requires CM change control
+  versions:
+    - PLUS             # AMPEL360+ standard
+    - PLUSULTRA        # AMPEL360+ Ultra enhanced
+    # Future versions added via CM approval
+  
+  # MODEL allowlist (NEW in v6.0)
+  # Artifact domain (controlled list)
+  # Extension requires CM change control
+  models:
+    - BB               # Body Brain / PR-O-RO model
+    - HW               # Hardware
+    - SW               # Software
+    - PR               # Process/Procedure
+    # Future models added via CM approval
+  
+  # BLOCK allowlist (domain classification / module)
+  # Replaces v5.0 BLOCK with v6.0 semantics
+  # Extension requires CM change control
+  blocks:
+    - OPS      # Operations
+    - STR      # Structures
+    - PROP     # Propulsion
+    - AI       # AI/ML Systems
+    - DATA     # Data Governance
+    - CERT     # Certification
+    - SAF      # Safety
+    - SW       # Software
+    - HW       # Hardware
+    - SYS      # Systems Engineering
+    - TEST     # Testing/IVVQ
+    - MRO      # Maintenance/MRO
+    - CIRC     # Circularity
+    - ENRG     # Energy
+    - STOR     # Storages
+    - GEN      # General/Cross-cutting
+  
+  # AoR allowlist (Area of Responsibility / Portal Entry Points)
+  # Must match portal entry points exactly (no STK_ prefix)
+  # Extension requires CM change control
+  aors:
+    - CM           # Configuration Management
+    - CERT         # Certification & Authorities
+    - SAF          # Safety
+    - SE           # Systems Engineering
+    - OPS          # Operations
+    - DATA         # Data Governance
+    - AI           # AI/ML Engineering
+    - CY           # Cybersecurity
+    - TEST         # IVVQ / Testing
+    - MRO          # MRO / Maintenance
+    - SPACEPORT    # Spaceport/Airport Operations
+    - PMO          # Program Management Office
+    - QA           # Quality Assurance
+    - SEC          # Security
+    - LEG          # Legal
+    - FIN          # Finance
+    - PROC         # Procurement
+  
+  # TYPE allowlist (artifact type)
+  # Controlled vocabulary for document/artifact types
+  # Extension requires CM change control
+  types:
+    # Planning / Control
+    - IDX          # Indexes and catalogs
+    - STD          # Standards and specifications
+    - PLAN         # Plans (project, safety, management)
+    - MIN          # Meeting minutes
+    - RPT          # Reports and assessments
+    - LOG          # Logs (issue, event, hazard)
+    - ACT          # Action item registers
+    
+    # Safety Analyses
+    - FHA          # Functional Hazard Assessment
+    - PSSA         # Preliminary System Safety Assessment
+    - SSA          # System Safety Assessment
+    - FTA          # Fault Tree Analysis
+    - ANA          # Engineering analysis and trade studies
+    
+    # Requirements / Allocation
+    - REQ          # Requirements specifications
+    - DAL          # Development Assurance Level assignments
+    - TRC          # Traceability matrices
+    
+    # Data / Reference
+    - CAT          # Catalogs
+    - LST          # Lists and inventories
+    - GLO          # Glossaries and terminology
+    - MAT          # Material specifications
+    - SCH          # Data schemas (JSON, XML)
+    - DIA          # Diagrams and flowcharts
+    - TAB          # Data tables
+    
+    # Technical Artifacts
+    - SPEC         # Technical specifications
+    - PLN          # Technical plans
+    - PROC         # Procedures
+    - MAN          # Manuals
+    - API          # API documentation
+    - CFG          # Configuration files
+    
+    # Data Formats (special case)
+    - JSON         # JSON data files
+    - YAML         # YAML data files
+  
+  # STATUS allowlist (document status)
+  statuses:
+    - TEMPLATE     # Template file for scaffolding
+    - DRAFT        # Work in progress
+    - ACTIVE       # Current working version
+    - APPROVED     # Reviewed and approved
+    - RELEASED     # Formally released baseline
+    - SUPERSEDED   # Replaced by newer version
+    - ARCHIVED     # Retained for historical record
+  
+  # EXT allowlist (file extensions)
+  # GitHub-first policy: only extensions that render well in GitHub
+  # Extension requires CM approval and portal renderer alignment
+  extensions:
+    - md           # Markdown
+    - yml          # YAML
+    - yaml         # YAML (alternative)
+    - json         # JSON
+    - csv          # CSV
+    - svg          # SVG graphics
+    - png          # PNG images
+    - jpg          # JPEG images
+    - jpeg         # JPEG images (alternative)
+    - pdf          # PDF documents
+    - drawio       # Draw.io diagrams
+
+# Exemptions (files/directories/patterns excluded from validation)
+exemptions:
+  
+  # Explicit file exemptions
+  # These files do not need to follow nomenclature standard
+  files:
+    - README.md
+    - LICENSE
+    - EXAMPLES.md
+    - STRUCTURE_SUMMARY.md
+    - IMPLEMENTATION_SUMMARY.md
+    - REVIEW_NOTES.md
+    - NOMENCLATURE_V3_AUDIT_REPORT.md
+    - .gitignore
+    - .gitattributes
+    - .gitkeep
+    - .editorconfig
+    - Dependencies.yaml
+    - Traceability_Matrix.csv
+    - Prompt_to_Artifact_Map.csv
+    - rename_map.csv
+    - rename_map_v5.csv
+    - rename_map_v6.csv
+    - generate_space_t_structure.py
+    - validate_nomenclature.py
+    - validate_nomenclature_v4.py.bak
+    - scaffold_v4.py.bak
+  
+  # Directory exemptions
+  # Files in these directories are not validated
+  directories:
+    - .git
+    - .github
+    - node_modules
+    - __pycache__
+    - .pytest_cache
+    - .venv
+    - venv
+    - dist
+    - build
+    - tools
+    - templates       # Template source files
+    - scripts         # Utility scripts
+    - docs            # Documentation directory
+    - config          # Configuration directory
+  
+  # Pattern exemptions (regex)
+  # Files matching these patterns are not validated
+  patterns:
+    - "generate_.*\\.py"
+    - "validate_.*\\.py"
+    - ".*_Agent_Config\\.(yaml|json|yml)"
+    - ".*_Config\\.(yaml|json|yml)"
+    - ".*\\.py[cod]$"
+    - ".*-xx_.*"      # Template files with -xx pattern
+
+# KNOT governance (strict enforcement)
+knots:
+  # Only K01-K14 are allowed in v6.0
+  # Any new knot requires Nomenclature Standard upgrade and CM approval
+  allowed_range:
+    min: 1
+    max: 14
+  
+  # Task suffix format
+  task_suffix:
+    pattern: "T[0-9]{3}"
+    min: 1
+    max: 999
+  
+  # Governance policy
+  governance:
+    expansion_policy: "Requires Nomenclature Standard upgrade and CM approval"
+    change_control: "CM Change Control Board"
+    rationale: "Prevents uncontrolled knot proliferation"
+
+# ISSUE-REVISION format (NEW in v6.0)
+issue_revision:
+  # Format: I##-R## (e.g., I01-R01, I12-R03)
+  pattern: "I[0-9]{2}-R[0-9]{2}"
+  issue_range:
+    min: 1
+    max: 99
+  revision_range:
+    min: 1
+    max: 99
+  
+  # Usage policy
+  usage:
+    description: "Issue number and revision number for change tracking"
+    mandatory: true
+    change_control: "CM tracks issue-revision mappings"
+
+# TEKNIA credential governance
+teknia:
+  # Credential types
+  credential_types:
+    - BADGE
+    - CERT
+    - LIC
+  
+  # Issuance AoR restriction
+  issuance_aors:
+    - CM
+    - CERT
+  
+  # Schema version
+  schema_version: "1.0"
+  schema_path: "config/teknia/credential_schema_v1.yaml"
+  
+  # Binding requirements
+  binding:
+    required_fields:
+      - subject_path
+      - subject_sha256
+    optional_fields:
+      - subject_commit
+
+# Bucket-to-subbucket mapping (phase-vs-block rules)
+# Defines which subbucket ranges are valid for each block
+# Used for semantic validation
+phase_block_mapping:
+  
+  # Lifecycle phases (LC01-LC14)
+  # Available for all blocks when lifecycle scope is appropriate
+  lifecycle:
+    pattern: "LC(0[1-9]|1[0-4])"
+    range: [1, 14]
+  
+  # Subbuckets (SB01-SB99)
+  # Block-specific subbucket ranges (optional constraint)
+  # If not specified, any SB01-SB99 is valid for the block
+  subbuckets:
+    OPS:
+      ranges: [[1, 19], [80, 85]]
+    STR:
+      ranges: [[20, 29]]
+    CIRC:
+      ranges: [[30, 39]]
+    SW:
+      ranges: [[40, 49]]
+    HW:
+      ranges: [[50, 59]]
+    STOR:
+      ranges: [[60, 69]]
+    PROP:
+      ranges: [[70, 79]]
+    ENRG:
+      ranges: [[86, 89]]
+    GEN:
+      ranges: [[90, 99]]
+    # Other blocks: any SB01-SB99 allowed (no constraint)
+
+# ATA_ROOT padding policy
+ata_root:
+  # 2 digits for values < 100
+  # 3 digits for values >= 100
+  padding:
+    under_100: 2
+    hundred_and_above: 3
+  
+  # Valid range
+  range:
+    min: 0
+    max: 116
+
+# Validation rules
+validation:
+  strict_mode: true
+  enforce_type_vocabulary: true
+  enforce_aor_allowlist: true
+  enforce_knot_governance: true
+  enforce_double_underscore: true
+  enforce_status_field: true
+  enforce_issue_revision: true
+  enforce_family_allowlist: true
+  enforce_variant_allowlist: true
+  enforce_version_allowlist: true
+  enforce_model_allowlist: true
+  
+  # Validation modes
+  modes:
+    warn: "Report violations without failing"
+    report: "Generate detailed violation reports"
+    block: "Fail on any violation (PR-blocking)"
+  
+  # Confidence thresholds for automated processing
+  confidence_thresholds:
+    auto_process: 0.95
+    manual_review: 0.80
+    reject: 0.50
+
+# Migration mappings (v5.0 → v6.0)
+migration:
+  # Default values for new fields
+  default_family: "Q10"         # Default to 10-passenger family
+  default_variant: "GEN"        # Default to general purpose
+  default_version: "PLUS"       # Default to PLUS branding
+  default_model: "BB"           # Default to Body Brain model
+  default_issue_revision: "I01-R01"  # Default issue-revision
+  
+  # v5.0 VARIANT → v6.0 VARIANT mapping
+  v5_variant_to_v6_variant:
+    PLUS: "GEN"       # PLUS variant becomes GEN variant
+    CERT: "CERT"      # CERT stays CERT
+    GEN: "GEN"        # GEN stays GEN
+  
+  # Default STATUS for existing files
+  default_status: "ACTIVE"
+  
+  # K00 handling (v4.0 global artifacts)
+  k00_policy: "Manual review required - map to appropriate K01-K14"
+
+# Change control
+change_control:
+  authority: "Configuration Management Working Group"
+  approval_required_for:
+    - "New FAMILY values"
+    - "New VARIANT values"
+    - "New VERSION values"
+    - "New MODEL values"
+    - "New BLOCK values"
+    - "New AoR values"
+    - "New TYPE values"
+    - "New STATUS values"
+    - "New file extensions"
+    - "New KNOT IDs (requires standard upgrade)"
+  
+  process:
+    - "Submit change request to CM WG"
+    - "Review and approval"
+    - "Update this config file"
+    - "Update tooling (validators, scaffolding)"
+    - "Update documentation"
+    - "Announce to stakeholders"
+
+# Version history
+history:
+  - version: "6.0"
+    revision: "R1.0"
+    date: "2025-12-17"
+    changes: "v6.0 introduces FAMILY/VARIANT/VERSION/MODEL tokens, ISSUE-REVISION format, updated canonical structure"
+    author: "CM WG"
+    breaking_changes:
+      - "New canonical format with 4 additional tokens"
+      - "ISSUE-REVISION format now mandatory"
+      - "VARIANT semantics changed (governance lane)"
+      - "VERSION becomes branding reinforcer"
