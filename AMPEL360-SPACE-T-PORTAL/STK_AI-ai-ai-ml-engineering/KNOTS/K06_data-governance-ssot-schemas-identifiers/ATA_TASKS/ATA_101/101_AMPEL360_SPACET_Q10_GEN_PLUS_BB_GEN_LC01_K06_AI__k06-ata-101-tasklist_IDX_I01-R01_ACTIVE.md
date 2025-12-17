@@ -58,31 +58,31 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [01_WBS/](01_WBS/)  
   _Comment:_ Converts uncertainty into executable work packages (tasks, owners, inputs/outputs).
 
-- WBS index: [K06 ATA 101 Work Breakdown](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC01_K06_AI__k06-ata-101-workbreakdown_IDX_v01_ACTIVE.md)  
+- WBS index: [K06 ATA 101 Work Breakdown](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-101-workbreakdown_IDX_I01-R01_ACTIVE.md)  
   _Closes:_ “We don’t know what to do next / who owns it.”  
   _Done when:_ T001–T006 exist with owners, acceptance criteria, and artifact links.
 
-- RACI (CSV): [RACI](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06_AI__k06-ata-101-raci_MAT_v01_ACTIVE.csv)  
+- RACI (CSV): [RACI](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC06_K06_AI__k06-ata-101-raci_MAT_I01-R01_ACTIVE.csv)  
   _Closes:_ Responsibility ambiguity (execution vs approval).  
   _Done when:_ CM approval path is explicit and accepted.
 
 **Task stubs (minimum set):**
-- T001: [SSOT source & ownership](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T001_AI__k06-t001-ssot-source-ownership_ACT_v01_ACTIVE.md)  
+- T001: [SSOT source & ownership](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T001_AI__k06-t001-ssot-source-ownership_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Declares authoritative SSOT for sim/test run catalogs and evidence sources; sets change control.
 
-- T002: [Identifier grammar](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T002_AI__k06-t002-identifier-grammar_ACT_v01_ACTIVE.md)  
+- T002: [Identifier grammar](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T002_AI__k06-t002-identifier-grammar_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Defines canonical IDs for runs/campaigns/cases/datasets/evidence packs; prevents duplicates.
 
-- T003: [Schema definition](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T003_AI__k06-t003-schema-definition_ACT_v01_ACTIVE.md)  
+- T003: [Schema definition](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T003_AI__k06-t003-schema-definition_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Stabilizes semantics for run metadata, configuration, results, and evidence relationships.
 
-- T004: [Export publication](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T004_AI__k06-t004-export-publication_ACT_v01_ACTIVE.md)  
+- T004: [Export publication](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T004_AI__k06-t004-export-publication_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Defines deterministic export packs (manifests + datasets + evidence pointers).
 
-- T005: [CI validation gates](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T005_AI__k06-t005-ci-validation-gates_ACT_v01_ACTIVE.md)  
+- T005: [CI validation gates](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T005_AI__k06-t005-ci-validation-gates_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Enforces provenance and traceability rules; blocks irreproducible outputs.
 
-- T006: [Baseline evidence set](01_WBS/101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T006_AI__k06-t006-baseline-evidence-set_ACT_v01_ACTIVE.md)  
+- T006: [Baseline evidence set](01_WBS/101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T006_AI__k06-t006-baseline-evidence-set_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Produces a frozen baseline set of runs/evidence for certification-grade claims.
 
 ---

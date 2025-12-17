@@ -10,7 +10,7 @@ assignees: ''
 
 **AoR:** CY  
 **Portal Directory:** `STK_CY-cy-cybersecurity`  
-**Report:** `STK_CY-cy-cybersecurity/00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_CY__v5-retrofit-report_RPT_v01_ACTIVE.md`
+**Report:** `STK_CY-cy-cybersecurity/00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CY__v5-retrofit-report_RPT_I01-R01_ACTIVE.md`
 
 ## Context
 

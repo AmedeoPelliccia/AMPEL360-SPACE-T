@@ -118,7 +118,7 @@ All cleanup is **non-blocking** - v5.0 retrofit is complete and all portals are 
 
 - **Issue Templates:** `.github/ISSUE_TEMPLATES/portal-retrofit/`
 - **Link Checker:** `scripts/check_and_update_links.py`
-- **Portal Reports:** `AMPEL360-SPACE-T-PORTAL/STK_*/00_AMPEL360_SPACET_PLUS_GEN_LC01_K04_*__v5-retrofit-report_RPT_v01_ACTIVE.md`
+- **Portal Reports:** `AMPEL360-SPACE-T-PORTAL/STK_*/00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_*__v5-retrofit-report_RPT_I01-R01_ACTIVE.md`
 - **v5.0 Standard:** `docs/standards/NOMENCLATURE_v5_0.md`
 
 ## Progress Milestones

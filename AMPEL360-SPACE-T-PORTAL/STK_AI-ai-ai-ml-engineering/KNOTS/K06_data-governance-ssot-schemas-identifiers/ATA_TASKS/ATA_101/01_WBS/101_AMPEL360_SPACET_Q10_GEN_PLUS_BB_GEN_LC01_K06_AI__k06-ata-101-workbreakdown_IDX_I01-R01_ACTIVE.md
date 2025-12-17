@@ -29,18 +29,18 @@ This index provides the Work Breakdown Structure for closing **K06** (Data Gover
 
 | Task ID | Title | Owner | Status | Artifact Link |
 | :--- | :--- | :--- | :--- | :--- |
-| T001 | SSOT Source & Ownership | AI + DATA | Open | [T001 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T001_AI__k06-t001-ssot-source-ownership_ACT_v01_ACTIVE.md) |
-| T002 | Identifier Grammar | AI + DATA | Open | [T002 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T002_AI__k06-t002-identifier-grammar_ACT_v01_ACTIVE.md) |
-| T003 | Schema Definition | AI + SE | Open | [T003 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T003_AI__k06-t003-schema-definition_ACT_v01_ACTIVE.md) |
-| T004 | Export Publication | AI + DATA | Open | [T004 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T004_AI__k06-t004-export-publication_ACT_v01_ACTIVE.md) |
-| T005 | CI Validation Gates | AI + CM | Open | [T005 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T005_AI__k06-t005-ci-validation-gates_ACT_v01_ACTIVE.md) |
-| T006 | Baseline Evidence Set | AI + CERT | Open | [T006 Details](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06-T006_AI__k06-t006-baseline-evidence-set_ACT_v01_ACTIVE.md) |
+| T001 | SSOT Source & Ownership | AI + DATA | Open | [T001 Details](101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T001_AI__k06-t001-ssot-source-ownership_ACT_I01-R01_ACTIVE.md) |
+| T002 | Identifier Grammar | AI + DATA | Open | [T002 Details](101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T002_AI__k06-t002-identifier-grammar_ACT_I01-R01_ACTIVE.md) |
+| T003 | Schema Definition | AI + SE | Open | [T003 Details](101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T003_AI__k06-t003-schema-definition_ACT_I01-R01_ACTIVE.md) |
+| T004 | Export Publication | AI + DATA | Open | [T004 Details](101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T004_AI__k06-t004-export-publication_ACT_I01-R01_ACTIVE.md) |
+| T005 | CI Validation Gates | AI + CM | Open | [T005 Details](101_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T005_AI__k06-t005-ci-validation-gates_ACT_I01-R01_ACTIVE.md) |
+| T006 | Baseline Evidence Set | AI + CERT | Open | [T006 Details](101_AMPEL360_SPACET_Q10_BASELINE_PLUS_PR_GEN_LC06_K06-T006_AI__k06-t006-baseline-evidence-set_ACT_I01-R01_ACTIVE.md) |
 
 ---
 
 ## 2) RACI Matrix
 
-See: [RACI Matrix (CSV)](101_AMPEL360_SPACET_PLUS_GEN_LC06_K06_AI__k06-ata-101-raci_MAT_v01_ACTIVE.csv)
+See: [RACI Matrix (CSV)](101_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC06_K06_AI__k06-ata-101-raci_MAT_I01-R01_ACTIVE.csv)
 
 ### RACI Summary
 
@@ -97,7 +97,7 @@ This WBS index is **closed** when:
 ## 5) Cross-Reference Links
 
 ### Parent Index
-- [K06 ATA 101 Tasklist](../101_AMPEL360_SPACET_PLUS_GEN_LC01_K06_AI__k06-ata-101-tasklist_IDX_v01_ACTIVE.md)
+- [K06 ATA 101 Tasklist](../101_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-101-tasklist_IDX_I01-R01_ACTIVE.md)
 
 ### Related K06 WBS (Other ATAs)
 - [ATA 06 WBS](../../ATA_06/)
