@@ -9,7 +9,7 @@ status: Active
 
 ## KNOTS — Knowledge Nets and Ontology as Tasking Strategy
 
-**KNOTS (Knowledge Nets and Ontology as Tasking Strategy)** is the AMPEL360 **CAXS** method for turning **design thinking** into **certifiable, repeatable agentic work**, expressed as **SysML-consumable task structures** and enforced by **governance gates**.
+**KNOTS (Knowledge Nets and Ontology as Tasking Strategy)** is the AMPEL360 **Computer-Aided Cross Sustainment (CAXS)** method for turning **design thinking** into **certifiable, repeatable agentic work**, expressed as **SysML-consumable task structures** and enforced by **governance gates**.
 
 A **KNOT** is a **controlled process node** that:
 
@@ -86,8 +86,9 @@ This ensures:
 Each KNOT is defined by a controlled contract:
 
 * **Inputs**: required artifacts + schemas + effectivity context
-* **Transforms**: allowed agent actions (generate/validate/link/package)
-* **Outputs**: NKUs (implicit) + evidence bundles + trace edges
+* **Transformations**: allowed agent actions (generate/validate/link/package)
+* **Outputs**: NKUs (Non-Known Unknowns—explicit, cataloged uncertainty items) + evidence bundles + trace edges  
+  NKUs are partitioned uncertainty units tracked via NKU ledgers and gated by evidence.
 * **Guards**: CI/PLC gates that must pass (PR-blocking)
 * **Trace edges**: relations recorded into the traceability graph / ontology DB
 
@@ -105,8 +106,9 @@ A KNOT is **closed** only when:
 
 To remove ambiguity:
 
-* **AoR** is the **enforced ownership code** (used in filenames, portals, and RBAC). Examples: `CM`, `CERT`, `SAF`, `SE`, `OPS`, `DATA`, `AI`, `CY`, `TEST`, `MRO`, `SPACEPORT`, `PMO`.
-* “STK” (stakeholder domain) can remain as a **directory navigation concept**, but **does not add value in filenames** and may be omitted there.
+* **AoR** is the **enforced ownership code** (used in filenames, portals, and Role-Based Access Control (RBAC)). Examples: `CM`, `CERT`, `SAF`, `SE`, `OPS`, `DATA`, `AI`, `CY`, `TEST`, `MRO`, `SPACEPORT`, `PMO`.
+  These codes are the allowlisted tokens for naming and gate enforcement (e.g., `CERT` for certification/authority ownership).
+* “STK” (stakeholder domain) can remain as a **directory navigation concept**, but **does not add value in filenames** and may be omitted there. Existing `STK_*` folders remain for portal navigation; filenames/CI gates should use AoR tokens. New artifacts should prefer AoR tokens in filenames while legacy STK-prefixed names are migrated.
 
 #### Stakeholder split (SE vs SPE)
 
@@ -122,6 +124,8 @@ KNOTS is the contract between them:
 ---
 
 ### 5) Minimal KNOT Metadata
+
+All metadata keys are expressed in `snake_case` to align with the machine-validated schema.
 
 Each KNOT definition shall include (schema-ready):
 
@@ -141,14 +145,14 @@ Each KNOT definition shall include (schema-ready):
 
 ### 6) One-sentence definition for README / Portal
 
-**KNOTS operationalizes design thinking as SysML-governed, agent-executable task networks, validated by ontology-backed rules and closed through CM-controlled evidence and traceability.**
+**KNOTS operationalizes design thinking as SysML (Systems Modeling Language)–governed, agent-executable task networks. These networks are validated by ontology-backed rules (single-source-of-truth schemas/constraints) and closed through CM-controlled evidence and traceability.**
 
 ---
 
 ## Operational shortcut: K01 snapshot
 
 **Status:** Active | **Slug:** authority-model-certification-basis  
-**Owner:** Regulatory Affairs | **AoR:** CERT
+**Owner:** Regulatory Affairs | **AoR:** CERT (AoR token; directory path may still include `STK_CERT` for navigation)
 
 **Directory:** `KNOTS/K01_authority-model-certification-basis/`  
 **Portal:** SPACET-INT | SPACET-AUTH
