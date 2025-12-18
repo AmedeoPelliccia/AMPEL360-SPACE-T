@@ -31,14 +31,13 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 | **STK_CM** | Configuration Management | Naming standard, change control, baselines, registers, release governance |
 | **STK_PMO** | Program Management Office | Planning, schedule, cost, risk, gates, stakeholder/program governance |
 | **STK_SE** | Systems Engineering (Architecture & MBSE Governance) | Architecture, SysML/MBSE, ICD governance, requirements structure, integration governance |
-| **STK_SPE** | Software & Prompting Engineering | Software engineering, agent prompting/specs, automation pipelines, toolchains, CLIs, scripts |
+| **STK_DAB** | Digital Applications and Blockchains | Software engineering, agent prompting/specs, automation pipelines, toolchains, CLIs, scripts, data governance, schemas, SSOT, traceability graph, DPP, SBOM/BOM exports, blockchain anchoring |
 | **STK_PHM** | Physical & Mechanical Engineering | Aerostructures, mechanisms, hydraulics, pneumatics, actuation, landing gear, physical integration |
 | **STK_SAF** | Safety | FHA/PSSA/SSA logic, hazard controls, safety constraints, operational limits safety evidence |
 | **STK_CERT** | Certification / Compliance | Compliance evidence, certification packs, authority-facing deliverables |
 | **STK_TEST** | Test / Verification & Validation | Test planning/execution, benches, results, anomalies, VV evidence generation |
 | **STK_OPS** | Operations | ConOps, procedures, readiness, operational baselines and operational evidence |
 | **STK_MRO** | Maintenance, Repair & Overhaul | Maintenance plans, servicing, facilities/tooling, maintainability evidence |
-| **STK_DATA** | Data / Digital / Traceability | Data governance, schemas, SSOT, traceability graph, DPP, SBOM/BOM exports |
 | **STK_AI** | AI / ML Engineering & Assurance | Model registry, AI validation, monitoring, AI governance and assurance |
 | **STK_CY** | Cybersecurity | IAM, ZTA, secure networks, hardening, cyber evidence and security controls |
 | **STK_SPACEPORT** | Spaceport / Ground Segment | Spaceport interfaces, off-board infrastructure, range constraints, emergency response |
@@ -98,11 +97,12 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 
 | Token | Meaning | Used for |
 |---|---|---|
+| **CAXS** | Computer-Aided Cross Sustainment | Platform designation for AMPEL360 spacecraft deliverable automation (also: CA360º) |
 | **AIRT** | Advanced (Manned) Air Transport | Program token for aircraft environment |
 | **SPACET** | Advanced Space Transport | Program token for spacecraft environment |
 | **FAMILY** | Family identifier | Quantum-inspired + pax payload numbering (e.g., Q10, Q100) |
-| **VARIANT** | Operating / certification context | GEN, BASELINE, FLIGHT_TEST, CERT, MSN, CUST, etc. |
-| **VERSION** | Branding / product line | PLUS, PLUSULTRA (branding reinforcer) |
+| **VARIANT** | Operating / certification context | GEN, BASELINE, FLIGHTTEST, CERT, MSN, CUST, etc. |
+| **VERSION** | Branding identifier with optional 2-digit iteration (01–99) | PLUS, PLUS01, PLUSULTRA02 (pattern: ^(PLUS\|PLUSULTRA)([0-9]{2})?$) |
 | **MODEL** | Artifact model class | BB (Body-Brain PR-O-RO), HW, SW, PR (Process) |
 
 ---
@@ -116,6 +116,7 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 | ATA | Air Transport Association |
 | BOM | Bill of Materials |
 | CAT | Catalog |
+| CAXS | Computer-Aided Cross Sustainment |
 | CI (Process) | Continuous Integration |
 | CI (Artifact) | Configuration Item |
 | CM | Configuration Management |
