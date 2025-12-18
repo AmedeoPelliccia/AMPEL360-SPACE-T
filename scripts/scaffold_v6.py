@@ -58,6 +58,67 @@ def load_config(config_path: str) -> Dict[str, Any]:
         return get_default_config()
 
 
+def load_ata_partition_matrix(matrix_path: str) -> Dict[str, Any]:
+    """Load ATA_PARTITION_MATRIX from YAML file."""
+    try:
+        path = Path(matrix_path)
+        if not path.exists():
+            # Try relative to script directory
+            script_dir = Path(__file__).parent.parent
+            path = script_dir / matrix_path
+        
+        if not path.exists():
+            print(f"Warning: ATA_PARTITION_MATRIX not found at {matrix_path}")
+            return {}
+        
+        with open(path, 'r') as f:
+            matrix = yaml.safe_load(f)
+            return matrix or {}
+    except Exception as e:
+        print(f"Warning: Failed to load ATA_PARTITION_MATRIX from {matrix_path}: {e}")
+        return {}
+
+
+def get_valid_blocks_for_ata(ata_root: str, matrix: Dict[str, Any]) -> list:
+    """
+    Get valid BLOCK values for the given ATA_ROOT from ATA_PARTITION_MATRIX.
+    
+    Business Rule: B00 (GENERAL) is universally valid for all ATA roots as it
+    represents the universal baseline that applies to all systems. This is
+    explicitly defined in the ATA_PARTITION_MATRIX as implicit/universal.
+    
+    Args:
+        ata_root: ATA chapter code (e.g., "00", "27", "115")
+        matrix: ATA_PARTITION_MATRIX dictionary
+        
+    Returns:
+        List of valid BLOCK codes (e.g., ["B00", "B10", "B20", "B30"]).
+        B00 is always included as it is universally valid per OPTINS Framework.
+        Returns empty list if ATA not found in matrix.
+    """
+    if not matrix:
+        return []
+    
+    # Construct ATA key (e.g., "ATA_00", "ATA_27", "ATA_115")
+    ata_key = f"ATA_{ata_root}"
+    
+    # Search across all axes (o_axis, i_axis, t_axis, n_axis, s_axis)
+    for axis_name in ['o_axis', 'i_axis', 't_axis', 'n_axis', 's_axis']:
+        axis = matrix.get(axis_name, {})
+        if ata_key in axis:
+            ata_config = axis[ata_key]
+            blocks = ata_config.get('blocks', [])
+            # Work on a copy to avoid mutating or exposing the underlying config list
+            merged_blocks = list(blocks)
+            # B00 is always implicit/valid per OPTINS Framework (universal baseline)
+            if 'B00' not in merged_blocks:
+                merged_blocks.insert(0, 'B00')
+            return merged_blocks
+    
+    # If ATA not found in matrix, return empty list
+    return []
+
+
 def get_default_config() -> Dict[str, Any]:
     """Return default configuration."""
     return {
@@ -99,9 +160,9 @@ def print_usage_v6():
     """Print v6.0 usage instructions."""
     print("Usage (v6.0): python scripts/scaffold.py --standard v6.0 <ATA_ROOT> <PROJECT> <PROGRAM> <FAMILY> <VARIANT> <VERSION> <MODEL> <BLOCK> <PHASE> <KNOT_TASK> <AOR> <SUBJECT> <TYPE> <ISSUE-REVISION> <STATUS>")
     print("\nExample (Thermal System Overview):")
-    print("  python scripts/scaffold.py --standard v6.0 27 AMPEL360 SPACET Q10 GEN PLUS BB OPS LC03 K06 SE thermal-loop STD I01-R01 ACTIVE")
+    print("  python scripts/scaffold.py --standard v6.0 27 AMPEL360 SPACET Q10 GEN PLUS BB B10 LC03 K06 SE thermal-loop STD I01-R01 ACTIVE")
     print("\nExample (Customer-specific):")
-    print("  python scripts/scaffold.py --standard v6.0 27 AMPEL360 SPACET Q10 CUST PLUS01 SW OPS LC03 K06 SE cust-airbus-thermal STD I01-R01 DRAFT")
+    print("  python scripts/scaffold.py --standard v6.0 27 AMPEL360 SPACET Q10 CUST PLUS01 SW B20 LC03 K06 SE cust-airbus-thermal STD I01-R01 DRAFT")
     print("\nField requirements:")
     print("  ATA_ROOT: 2-3 digits (00-116, e.g., 00, 27, 115)")
     print("  PROJECT: AMPEL360 (hard constraint)")
@@ -110,7 +171,8 @@ def print_usage_v6():
     print("  VARIANT: GEN, BASELINE, CERT, CUST, MSN, etc. (governance lane)")
     print("  VERSION: PLUS, PLUS01, PLUSULTRA, PLUSULTRA02 (branding + optional iteration)")
     print("  MODEL: BB, HW, SW, PR (artifact domain)")
-    print("  BLOCK: OPS, STR, PROP, AI, DATA, etc. (see config)")
+    print("  BLOCK: B## format (B00, B10, B20, ..., B90) - domain partition system")
+    print("    NOTE: Valid BLOCK values depend on ATA_ROOT (see ATA_PARTITION_MATRIX)")
     print("  PHASE: LC01-LC14 (lifecycle) or SB01-SB99 (subbucket)")
     print("  KNOT_TASK: K01-K14 (optionally with -T001 to -T999)")
     print("  AOR: CM, CERT, SAF, SE, etc. (see config)")
@@ -121,6 +183,7 @@ def print_usage_v6():
     print("  ISSUE-REVISION: I##-R## (e.g., I01-R01, I12-R03)")
     print("  STATUS: TEMPLATE, DRAFT, ACTIVE, etc. (see config)")
     print("\nNOTE: Only K01-K14 are allowed for KNOT (strict governance)!")
+    print("NOTE: B## format required - valid blocks depend on ATA_ROOT per ATA_PARTITION_MATRIX")
 
 
 def scaffold_v5(args):
@@ -130,7 +193,7 @@ def scaffold_v5(args):
     sys.exit(1)
 
 
-def validate_v6_fields(args, config):
+def validate_v6_fields(args, config, ata_matrix=None):
     """Validate v6.0 fields."""
     ata_root, project, program, family, variant, version, model, block, phase, knot_task, aor, subject, ftype, issue_revision, status = args[:15]
     
@@ -179,10 +242,24 @@ def validate_v6_fields(args, config):
     if model not in allowed_models:
         errors.append(f"MODEL must be one of {allowed_models}, got '{model}'")
     
-    # Validate BLOCK
+    # Validate BLOCK allowlist
     allowed_blocks = allowlists.get('blocks', [])
     if block not in allowed_blocks:
         errors.append(f"BLOCK must be one of {allowed_blocks}, got '{block}'")
+    
+    # Validate B## pattern format (Phase 2)
+    block_pattern = patterns.get('block', r'^B([0-9]0)$')
+    if not re.match(block_pattern, block):
+        errors.append(f"BLOCK must be in B## format (B00, B10, B20, ..., B90), got '{block}'")
+    
+    # Validate ATA_ROOT + BLOCK combination (Phase 2)
+    if ata_matrix:
+        valid_blocks = get_valid_blocks_for_ata(ata_root, ata_matrix)
+        if valid_blocks and block not in valid_blocks:
+            errors.append(
+                f"Invalid BLOCK '{block}' for ATA_ROOT '{ata_root}': "
+                f"must be one of {sorted(valid_blocks)} (per ATA_PARTITION_MATRIX)"
+            )
     
     # Validate PHASE
     if not re.match(r'^(LC(0[1-9]|1[0-4])|SB(0[1-9]|[1-9][0-9]))$', phase):
@@ -250,8 +327,13 @@ def scaffold_v6(args):
     # Load config
     config = load_config(DEFAULT_CONFIG_V6)
     
+    # Load ATA_PARTITION_MATRIX (Phase 2)
+    optins_config = config.get('optins_framework', {})
+    matrix_path = optins_config.get('ata_partition_matrix', 'config/nomenclature/ATA_PARTITION_MATRIX.yaml')
+    ata_matrix = load_ata_partition_matrix(matrix_path)
+    
     # Validate all fields
-    errors = validate_v6_fields(args, config)
+    errors = validate_v6_fields(args, config, ata_matrix)
     if errors:
         print("❌ Validation errors:")
         for error in errors:
