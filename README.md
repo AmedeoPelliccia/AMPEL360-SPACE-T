@@ -198,6 +198,33 @@ print('✓ Knot data validated successfully')
 📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
 📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
 
+### ATA Master Relations Table
+
+Complete mapping of all 117 ATA chapters with domain assignments, stakeholder interfaces, and knot applicability:
+
+```bash
+# View structured YAML data
+cat config/database/ata_master_relations_table.yaml
+
+# View comprehensive catalog documentation
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md
+
+# View quick reference table
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md
+```
+
+**Key Features:**
+- **117 ATA chapters** (00-116) with complete relations
+- **Domain mappings** to OPTINS Framework axes (P/O/I/T/N/S)
+- **AoR assignments** (primary Area of Responsibility for each ATA)
+- **STK cross-dependencies** (stakeholder interfaces)
+- **Agency/context mappings** (regulatory and operational contexts)
+- **Knot applicability** (K01-K14 for each ATA chapter)
+
+📊 **Master Data**: [`config/database/ata_master_relations_table.yaml`](config/database/ata_master_relations_table.yaml)  
+📖 **Catalog Documentation**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md)  
+📋 **Quick Reference Table**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md)
+
 ---
 
 ## Quick Start
