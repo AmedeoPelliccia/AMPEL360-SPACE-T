@@ -64,6 +64,7 @@ class NomenclatureValidator:
     
     # Primary regex pattern (v6.0 format)
     # VERSION supports optional 2-digit iteration: (PLUS|PLUSULTRA)[0-9]{2}?
+    # BLOCK must be B## format where ## is 00, 10, 20, ..., 90
     PRIMARY_PATTERN_V6 = re.compile(
         r'^(?P<ata_root>(?:0[0-9]|[1-9][0-9]|10[0-9]|11[0-6]))_'
         r'(?P<project>AMPEL360)_'
@@ -72,7 +73,7 @@ class NomenclatureValidator:
         r'(?P<variant>[A-Z0-9]+)_'
         r'(?P<version>(?:PLUS|PLUSULTRA)(?:[0-9]{2})?)_'  # R1.0: optional 2-digit iteration
         r'(?P<model>[A-Z]{2})_'
-        r'(?P<block>[A-Z0-9]+)_'
+        r'(?P<block>B[0-9]0)_'  # B## format: B00, B10, B20, ..., B90
         r'(?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_'
         r'(?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_'
         r'(?P<aor>[A-Z]+)__'
@@ -104,6 +105,8 @@ class NomenclatureValidator:
     # MODEL pattern (v6.0)
     MODEL_PATTERN = re.compile(r'^[A-Z]{2}$')
     
+    # BLOCK pattern (v6.0) - B## format where ## is 00, 10, 20, ..., 90
+    BLOCK_PATTERN_V6 = re.compile(r'^B([0-9]0)$')
     # BLOCK pattern (v6.0 - B## format: B00, B10, B20, ..., B90)
     BLOCK_PATTERN = re.compile(r'^B[0-9]0$')
     
@@ -419,7 +422,15 @@ class NomenclatureValidator:
             else:
                 warnings.append(msg)
         
-        # Validate BLOCK allowlist
+        # Validate BLOCK allowlist and pattern (v6.0)
+        if self.standard == "v6.0":
+            # First check pattern compliance (B## format)
+            if not self.BLOCK_PATTERN_V6.match(block):
+                errors.append(
+                    f"Invalid BLOCK '{block}': must match B## pattern where ## is 00, 10, 20, ..., 90"
+                )
+        
+        # Check against allowlist
         if block not in self.allowed_blocks:
             msg = f"Invalid BLOCK '{block}': must be one of {sorted(self.allowed_blocks)}"
             if self.strict:
