@@ -134,6 +134,7 @@ chmod +x .git/hooks/pre-commit
 - **v6.0 R1.0 (Current)**: `docs/standards/NOMENCLATURE_v6_0_R1_0.md`
 - **Quick Reference**: `docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md`
 - **Config**: `config/nomenclature/v6_0.yaml`
+- **Glossary**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_B00_LC01_K04_CM__glossary-acronyms-codes_GLO_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_B00_LC01_K04_CM__glossary-acronyms-codes_GLO_I01-R01_ACTIVE.md)
 
 ### Document Templates
 
