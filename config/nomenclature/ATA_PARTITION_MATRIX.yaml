@@ -1,0 +1,1285 @@
+---
+# AMPEL360 Space-T ATA Partition Matrix
+# SSOT for OPTINS Framework domain partitions and Solution Packs
+# 
+# This file defines:
+# - Domain partition semantics (BLOCK B00-B90)
+# - ATA_ROOT to BLOCK applicability
+# - Solution Pack designations (COMMON, AIRT-only, SPACET-only)
+#
+# Version: 1.0
+# Date: 2025-12-17
+# Status: Normative
+# Owner: Configuration Management WG
+
+version: "1.0"
+standard: "OPTINS_FRAMEWORK_V1_1"
+date: "2025-12-17"
+status: "Normative"
+
+# ============================================================================
+# SECTION 0: DOMAIN PARTITION DEFINITIONS (BLOCK = B00-B90)
+# ============================================================================
+# 
+# B00 is universal (implicit for all ATA roots)
+# B10-B90 are domain-specific partitions
+
+domain_partitions:
+  B00:
+    name: "GENERAL"
+    description: "Universal baseline - applies to all ATA roots"
+    environment: "all"
+    implicit: true
+
+  B10:
+    name: "OPERATIONAL SYSTEMS"
+    description: "Operational systems and procedures"
+    environment: "onboard/offboard/simtest"
+
+  B20:
+    name: "CYBERSECURITY"
+    description: "Cybersecurity and information assurance"
+    environment: "digital + onboard"
+
+  B30:
+    name: "DATA, COMMS AND REGISTRY"
+    description: "Data management, communications, and registry systems"
+    environment: "digital + onboard"
+
+  B40:
+    name: "PHYSICS (pressure/thermal/cryo/...)"
+    description: "Physical phenomena: pressure, thermal, cryogenic systems"
+    environment: "onboard + simtest"
+
+  B50:
+    name: "PHYSICAL (aerostructures + info HW)"
+    description: "Physical structures and hardware"
+    environment: "onboard/offboard"
+
+  B60:
+    name: "DYNAMICS (thrust/drag-lift/balancing/attitude/inerting)"
+    description: "Dynamic systems: propulsion, aerodynamics, attitude control"
+    environment: "onboard + simtest"
+
+  B70:
+    name: "RECIPROCITY & ALTERNATIVE ENGINES"
+    description: "Alternative propulsion and reciprocating systems"
+    environment: "onboard + simtest"
+
+  B80:
+    name: "RENEWABLE ENERGY & CIRCULARITY"
+    description: "Renewable energy systems and circular economy"
+    environment: "onboard + offboard"
+
+  B90:
+    name: "CONNECTIONS & MAPPING"
+    description: "Connectivity, mapping, and integration systems"
+    environment: "digital + onboard"
+
+# ============================================================================
+# SECTION 1: SOLUTION PACK SCHEMA
+# ============================================================================
+# 
+# Solution Packs are versioned collections of artifacts for specific
+# ATA_ROOT + BLOCK combinations, designated as:
+# - COMMON (COM): Shared baseline for both AIRT and SPACET
+# - AIRT-only: AIRT-specific addendum
+# - SPACET-only: SPACET-specific addendum
+#
+# Naming convention: SPK_{DESIGNATION}_ATA{XX}_B{YY}_SV{NN}
+# Examples:
+#   - SPK_COM_ATA27_B10_SV01
+#   - SPK_AIRT_ATA27_B60_SV01
+#   - SPK_SPACET_ATA27_B40_SV01
+
+solution_pack_schema:
+  pattern: "SPK_{DESIGNATION}_ATA{ROOT}_B{BLOCK}_SV{VERSION}"
+  designations:
+    - COM         # Common baseline (AIRT + SPACET)
+    - AIRT        # AIRT-only addendum
+    - SPACET      # SPACET-only addendum
+  version_format: "SV[0-9]{2}"  # SV01, SV02, etc.
+
+# ============================================================================
+# SECTION 2: OPT-INS ROOT-FIRST MATRIX
+# ============================================================================
+# 
+# Defines which BLOCK values are applicable for each ATA_ROOT,
+# and which solution packs exist (COM, AIRT-only, SPACET-only)
+
+# O AXIS: GOVERNANCE / RESERVED
+o_axis:
+  ATA_00:
+    chapter: "GENERAL"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+    notes: "Universal governance and general provisions"
+
+  ATA_01:
+    chapter: "RESERVED policy/org/support/limits (01-04)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_02:
+    chapter: "RESERVED policy/org/support/limits (01-04)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_03:
+    chapter: "RESERVED policy/org/support/limits (01-04)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_04:
+    chapter: "RESERVED policy/org/support/limits (01-04)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_18:
+    chapter: "NOISE & VIBRATION MGMT"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B40, B50, B60, B90]
+      airt_only: [B10, B60]  # airport/community focus
+      spacet_only: [B40, B60]  # launch/reentry vibro-acoustics
+    notes: "Different emphasis for AIRT (community noise) vs SPACET (vibro-acoustics)"
+
+# I AXIS: SUPPORT + INFRASTRUCTURES (05-19, 80-89)
+i_axis:
+  ATA_05:
+    chapter: "TIME LIMITS / CHECKS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B90]
+    solution_packs:
+      common: [B10, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_06:
+    chapter: "DIMENSIONS / AREAS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B50, B90]
+    solution_packs:
+      common: [B10, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_07:
+    chapter: "LIFTING / SHORING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B50, B60, B90]
+    solution_packs:
+      common: [B10, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_08:
+    chapter: "LEVELING / WEIGHING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B50, B60, B90]
+    solution_packs:
+      common: [B10, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_09:
+    chapter: "TOWING / TAXIING"
+    program_applicability: "AIRT primary"
+    blocks: [B10, B60, B90]
+    solution_packs:
+      common: [B10, B60, B90]
+      airt_only: [B10, B60]
+      spacet_only: []
+    notes: "Primarily AIRT; SPACET typically N/A"
+
+  ATA_10:
+    chapter: "PARKING / MOORING / STORAGE / RTS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B50, B60, B90]
+    solution_packs:
+      common: [B10, B50, B60, B90]
+      airt_only: []
+      spacet_only: [B10, B60]  # range/spaceport constraints
+    notes: "SPACET addenda for spaceport constraints"
+
+  ATA_11:
+    chapter: "PLACARDS / MARKINGS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B90]
+    solution_packs:
+      common: [B10, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_12:
+    chapter: "SERVICING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B50, B80, B90]
+    solution_packs:
+      common: [B10, B30, B40, B50, B80, B90]
+      airt_only: []
+      spacet_only: [B40, B80]  # cryo + space servicing profiles
+
+  ATA_13:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+    notes: "Reserved for future use"
+
+  ATA_14:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+
+  ATA_15:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+
+  ATA_16:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+
+  ATA_17:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+
+  ATA_19:
+    chapter: "NOT ASSIGNED / RESERVED"
+    program_applicability: "AIRT+SPACET"
+    blocks: []
+    solution_packs:
+      common: []
+      airt_only: []
+      spacet_only: []
+
+  ATA_80:
+    chapter: "OFFBOARD INFRA MASTER"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B80, B90]
+      airt_only: [B10, B50]  # airport profiles
+      spacet_only: [B10, B40]  # spaceport + mission ops profiles
+
+  ATA_81:
+    chapter: "OFFBOARD ENERGY / CRYO"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B80, B90]
+    solution_packs:
+      common: [B10, B30, B40, B80, B90]
+      airt_only: []
+      spacet_only: [B40, B80]  # cryo, closed loops
+
+  ATA_82:
+    chapter: "OFFBOARD MRO / TOOLING / LOGISTICS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B50, B80, B90]
+    solution_packs:
+      common: [B10, B30, B50, B80, B90]
+      airt_only: [B10, B50]  # airline MRO
+      spacet_only: [B10, B50]  # spaceport maintenance/safety
+
+  ATA_83:
+    chapter: "GROUND COMMS / DATA EXCHANGE"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: [B30]  # ATM/airport integration
+      spacet_only: [B30]  # TT&C ground segment integration
+
+  ATA_84:
+    chapter: "SPACEPORT SAFETY / EMERGENCY"
+    program_applicability: "SPACET primary"
+    blocks: [B10, B20, B40, B90]
+    solution_packs:
+      common: [B10, B20, B40, B90]
+      airt_only: []  # airport mapping if used
+      spacet_only: [B10, B20, B40]  # launch/reentry hazards
+
+  ATA_85:
+    chapter: "CIRCULARITY INFRA"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B80, B90]
+    solution_packs:
+      common: [B10, B30, B40, B80, B90]
+      airt_only: []
+      spacet_only: [B80]  # return flows + cryo loops emphasis
+
+  ATA_86:
+    chapter: "OFFBOARD DIGITAL SERVICES PLATFORM"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: [B30]  # customer services
+      spacet_only: [B30]  # mission orchestration / windows
+
+  ATA_87:
+    chapter: "IDENTITY / ACCESS / CYBER INFRA"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: [B20]  # airport IAM
+      spacet_only: [B20]  # mission network IAM constraints
+
+  ATA_88:
+    chapter: "GSE CONFIG / ASSET MGMT"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B50, B90]
+    solution_packs:
+      common: [B10, B30, B50, B90]
+      airt_only: []
+      spacet_only: [B50]  # ground assets for spaceport
+
+  ATA_89:
+    chapter: "TEST RIGS / INSTRUMENTATION INFRA"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B30, B40, B50, B60, B90]
+      airt_only: []
+      spacet_only: [B30, B60]  # telemetry + mission rigs
+
+# T AXIS: ONBOARD SYSTEMS (20-79)
+t_axis:
+  ATA_20:
+    chapter: "STD PRACTICES AIRFRAME"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B30, B40, B50, B60, B90]
+      airt_only: [B50, B60]  # aero practices
+      spacet_only: [B50, B60]  # spacecraft structural practices
+
+  ATA_21:
+    chapter: "ENV CONTROL"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B40]  # cabin comfort profiles
+      spacet_only: [B40, B60]  # thermal/radiation/long-duration coupling
+
+  ATA_22:
+    chapter: "AUTOFLIGHT / GNC"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: [B60]  # aero-control laws
+      spacet_only: [B60]  # ADCS/orbit/reentry coupling
+
+  ATA_23:
+    chapter: "COMMS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: [B30]  # VHF/ACARS patterns
+      spacet_only: [B30]  # TT&C / optical/RF constraints
+
+  ATA_24:
+    chapter: "ELECTRICAL POWER"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B80]  # aircraft power quality
+      spacet_only: [B40, B50, B80]  # radiation/power-mode profiles + solar bus
+
+  ATA_25:
+    chapter: "EQUIPMENT/FURNISHINGS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B80, B90]
+      airt_only: [B50]  # cabin equipment
+      spacet_only: [B50]  # habitat equipment constraints
+
+  ATA_26:
+    chapter: "FIRE PROTECTION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B40, B50, B90]
+    solution_packs:
+      common: [B10, B20, B40, B50, B90]
+      airt_only: []
+      spacet_only: [B40]  # additional environments
+
+  ATA_27:
+    chapter: "FLIGHT CONTROLS"
+    program_applicability: "AIRT primary"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: [B60]  # aerodynamic surfaces
+      spacet_only: [B60]  # if used for actuators, addendum
+
+  ATA_28:
+    chapter: "FUEL / PROPELLANT"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B60]  # fuel mgmt
+      spacet_only: [B40, B60, B70]  # prop feed + RCS duty cycles + cryo
+
+  ATA_29:
+    chapter: "HYDRAULIC POWER"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B40, B50, B60, B90]
+      airt_only: []
+      spacet_only: [B60]  # mission actuation profiles
+
+  ATA_30:
+    chapter: "ATMOSPHERIC/PROTECTION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B40, B50, B60, B90]
+      airt_only: [B40, B50]  # icing/rain
+      spacet_only: [B40, B50]  # thermal/radiation/MMOD mapping
+
+  ATA_31:
+    chapter: "INDICATING/RECORDING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: [B30]  # cockpit-style
+      spacet_only: [B30]  # telemetry-centric
+
+  ATA_32:
+    chapter: "LANDING GEAR"
+    program_applicability: "AIRT primary / SPACET conditional"
+    blocks: [B10, B20, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B40, B50, B60, B90]
+      airt_only: [B50, B60]  # runway landing
+      spacet_only: [B50, B60]  # landing/recovery concept (family-dependent)
+
+  ATA_33:
+    chapter: "LIGHTS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_34:
+    chapter: "NAVIGATION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: [B30, B60]  # GNSS/air nav
+      spacet_only: [B30, B60]  # star/sensor fusion, mission nav
+
+  ATA_35:
+    chapter: "OXYGEN / LIFE SUPPORT GAS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B90]
+      airt_only: [B40]  # cabin O2
+      spacet_only: [B40]  # closed-loop gas mgmt
+
+  ATA_36:
+    chapter: "PNEUMATIC / GAS DISTRO"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B90]
+      airt_only: []
+      spacet_only: [B40]  # ECLSS coupling
+
+  ATA_37:
+    chapter: "VACUUM (IF APPLICABLE)"
+    program_applicability: "conditional"
+    blocks: [B10, B20, B30, B40, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B90]
+      airt_only: []  # rare
+      spacet_only: [B40]  # potentially more relevant
+
+  ATA_38:
+    chapter: "WATER / WASTE"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B80, B90]
+      airt_only: []
+      spacet_only: [B40, B80]  # stronger closed loops
+
+  ATA_39:
+    chapter: "PANELS / MULTIPURPOSE"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_40:
+    chapter: "MULTI-SYSTEM SERVICES"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_41:
+    chapter: "BALLAST / MASS TRIM"
+    program_applicability: "conditional"
+    blocks: [B10, B20, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B40, B50, B60, B90]
+      airt_only: [B60]  # aircraft trim
+      spacet_only: [B60]  # spacecraft mass properties
+
+  ATA_42:
+    chapter: "IMA / COMPUTE PLATFORM"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: [B20]  # avionics partitioning
+      spacet_only: [B20]  # autonomy fault model
+
+  ATA_43:
+    chapter: "RESERVED / PLATFORM INTEGRATION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_44:
+    chapter: "CABIN SYSTEMS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B80, B90]
+      airt_only: [B50]  # pax cabin
+      spacet_only: [B50]  # habitat systems
+
+  ATA_45:
+    chapter: "CMS / HEALTH MONITORING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: [B30]  # airline maintenance
+      spacet_only: [B30]  # mission health correlation
+
+  ATA_46:
+    chapter: "INFO SYSTEMS / DATA NETWORKS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B90]
+      airt_only: []
+      spacet_only: [B30]  # TT&C path constraints
+
+  ATA_47:
+    chapter: "INERT GAS / INERTING"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B90]
+      airt_only: [B40]  # tank inerting
+      spacet_only: [B40, B60]  # mission safety coupling
+
+  ATA_48:
+    chapter: "IN-FLIGHT FUEL DISPENSING (RES)"
+    program_applicability: "conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B90]
+      airt_only: []  # likely N/A
+      spacet_only: []  # likely N/A
+
+  ATA_49:
+    chapter: "APU / AUX POWER"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B80]  # aircraft APU
+      spacet_only: [B50, B80]  # auxiliary power module profiles
+
+  ATA_50:
+    chapter: "CARGO / COMPARTMENTS"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B80, B90]
+      airt_only: []
+      spacet_only: [B50]  # payload bay constraints
+
+  # ATA 51-57: STRUCTURES family
+  ATA_51:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]  # wings/aeroelastic
+      spacet_only: [B40, B50, B60]  # pressure vessel + MMOD/reentry loads
+
+  ATA_52:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  ATA_53:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  ATA_54:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  ATA_55:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  ATA_56:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  ATA_57:
+    chapter: "STRUCTURES (family 51-57)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B80, B90]
+      airt_only: [B50, B60]
+      spacet_only: [B40, B50, B60]
+
+  # ATA 58-59: RESERVED / EXTENSION
+  ATA_58:
+    chapter: "RESERVED / EXTENSION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: []  # used if needed
+      spacet_only: []  # used if needed
+
+  ATA_59:
+    chapter: "RESERVED / EXTENSION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: []
+      spacet_only: []
+
+  # ATA 60-67: PROP/ROTOR family
+  ATA_60:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]  # if rotor/propulsor
+      spacet_only: []  # typically N/A
+
+  ATA_61:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_62:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_63:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_64:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_65:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_66:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  ATA_67:
+    chapter: "PROP/ROTOR (family 60-67)"
+    program_applicability: "AIRT conditional"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B90]
+      airt_only: [B60, B70]
+      spacet_only: []
+
+  # ATA 68-69: RESERVED / EXTENSION
+  ATA_68:
+    chapter: "RESERVED / EXTENSION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_69:
+    chapter: "RESERVED / EXTENSION"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: []
+      spacet_only: []
+
+  # ATA 70-79: PROPULSION family
+  ATA_70:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]  # intake/atm profiles
+      spacet_only: [B40, B60, B70]  # vacuum/plume profiles
+
+  ATA_71:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_72:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_73:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_74:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_75:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]  # intake/atm profiles
+      spacet_only: [B40, B60, B70]
+
+  ATA_76:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_77:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+  ATA_78:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]  # vacuum/plume profiles
+
+  ATA_79:
+    chapter: "PROPULSION (family 70-79)"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B70, B80, B90]
+      airt_only: [B40, B60, B70]
+      spacet_only: [B40, B60, B70]
+
+# N AXIS: REGISTRIES/SSOT/LEDGERS (90-99)
+n_axis:
+  ATA_90:
+    chapter: "Model registry"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B20, B30, B90]
+    solution_packs:
+      common: [B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_91:
+    chapter: "Ontologies / semantic SSOT"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B90]
+    solution_packs:
+      common: [B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_92:
+    chapter: "Wiring/connectivity graphs"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B50, B90]
+    solution_packs:
+      common: [B30, B50, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_93:
+    chapter: "Traceability graph / ledgers"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B90]
+    solution_packs:
+      common: [B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_94:
+    chapter: "DPP core / provenance"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B80, B90]
+    solution_packs:
+      common: [B30, B80, B90]
+      airt_only: []
+      spacet_only: [B80]  # SPACET stronger coupling to mission/spaceport loops
+
+  ATA_95:
+    chapter: "SBOM/BOM exports"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B80, B90]
+    solution_packs:
+      common: [B30, B80, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_96:
+    chapter: "AI governance"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B20, B30, B90]
+    solution_packs:
+      common: [B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_97:
+    chapter: "Change impact analytics"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B90]
+    solution_packs:
+      common: [B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_98:
+    chapter: "Signed release packs"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B20, B30, B90]
+    solution_packs:
+      common: [B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_99:
+    chapter: "Master registers / golden records"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B30, B90]
+    solution_packs:
+      common: [B30, B90]
+      airt_only: []
+      spacet_only: []
+
+# S AXIS: SIM/TEST RANGE (100-116)
+s_axis:
+  ATA_100:
+    chapter: "SIM/TEST governance"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_101:
+    chapter: "Digital twin catalog"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B30, B40, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_102:
+    chapter: "Scenario libraries"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B30, B60, B90]
+    solution_packs:
+      common: [B10, B30, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_103:
+    chapter: "SIL automation"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_104:
+    chapter: "HIL benches"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_105:
+    chapter: "PIL / target execution"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_106:
+    chapter: "Test procedures/cases"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_107:
+    chapter: "Test data/stimuli"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_108:
+    chapter: "Test results/anomaly"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_109:
+    chapter: "VV evidence packs"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_110:
+    chapter: "Qualification/env testing (Space-T)"
+    program_applicability: "SPACET primary"
+    blocks: [B10, B20, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B90]
+      airt_only: []  # if used
+      spacet_only: [B40, B60]  # space env focus
+
+  ATA_111:
+    chapter: "System integration testing"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_112:
+    chapter: "Mission/flight testing"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B50, B60, B90]
+      airt_only: [B60]  # flight-test ops
+      spacet_only: [B60]  # mission-demo ops
+
+  ATA_113:
+    chapter: "UQ / Monte Carlo"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_114:
+    chapter: "AI/ML validation suites"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B60, B90]
+      airt_only: []
+      spacet_only: []
+
+  ATA_115:
+    chapter: "Certification tests / compliance"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B40, B50, B60, B90]
+    solution_packs:
+      common: [B10, B20, B30, B40, B50, B60, B90]
+      airt_only: [B20, B30, B60]  # aviation compliance profiles
+      spacet_only: [B20, B30, B60]  # ECSS/space compliance profiles
+
+  ATA_116:
+    chapter: "Archives & frozen baselines"
+    program_applicability: "AIRT+SPACET"
+    blocks: [B10, B20, B30, B90]
+    solution_packs:
+      common: [B10, B20, B30, B90]
+      airt_only: []
+      spacet_only: []
+
+# ============================================================================
+# SECTION 3: VALIDATION RULES
+# ============================================================================
+
+validation_rules:
+  # B00 is always implicit and valid
+  b00_implicit: true
+  
+  # For any ATA_ROOT, only the blocks listed in the matrix are valid
+  enforce_ata_block_mapping: true
+  
+  # Solution packs must reference valid ATA_ROOT + BLOCK combinations
+  enforce_solution_pack_validity: true
+  
+  # CI/PLC should validate against this matrix
+  ci_integration: true
+
+# ============================================================================
+# SECTION 4: MIGRATION AND TOOLING
+# ============================================================================
+
+migration:
+  # Old BLOCK abbreviations → New B## format
+  # This mapping is for reference only; actual migration requires manual review
+  legacy_block_mapping:
+    OPS: "B10"      # Operational systems
+    STR: "B50"      # Structures
+    PROP: "B60"     # Propulsion/dynamics
+    AI: "B20"       # AI falls under cybersecurity/digital
+    DATA: "B30"     # Data/comms/registry
+    CERT: "B10"     # Certification is operational governance
+    SAF: "B10"      # Safety is operational governance
+    SW: "B20"       # Software systems
+    HW: "B50"       # Hardware/physical
+    SYS: "B10"      # Systems engineering is operational
+    TEST: "B10"     # Testing is operational
+    MRO: "B10"      # MRO is operational
+    CIRC: "B80"     # Circularity
+    ENRG: "B80"     # Energy
+    STOR: "B50"     # Storage is physical
+    GEN: "B10"      # General/cross-cutting is operational
+  
+  notes: "Legacy BLOCK values are deprecated. Use B## format only."
+
+tooling:
+  scaffolder_integration:
+    description: "Scaffolding tools should use this matrix to validate ATA_ROOT + BLOCK combinations"
+    script: "scripts/scaffold_v6.py"
+  
+  validator_integration:
+    description: "Validation tools should enforce ATA_ROOT + BLOCK constraints"
+    script: "validate_nomenclature.py"
+  
+  plc_integration:
+    description: "PLC gate should validate against this matrix"
+    script: "scripts/plc_validate.py"
+
+# ============================================================================
+# SECTION 5: CHANGE CONTROL
+# ============================================================================
+
+change_control:
+  authority: "Configuration Management Working Group"
+  approval_required_for:
+    - "New domain partition definitions (B##)"
+    - "New ATA_ROOT to BLOCK mappings"
+    - "New solution pack designations"
+    - "Changes to existing mappings"
+  
+  process:
+    - "Submit change request to CM WG with technical justification"
+    - "Review and approval by CM WG"
+    - "Update this ATA_PARTITION_MATRIX.yaml file"
+    - "Update tooling (validators, scaffolding, PLC)"
+    - "Update documentation"
+    - "Communicate to stakeholders"
+    - "Execute migration plan if breaking change"
+
+# ============================================================================
+# SECTION 6: DOCUMENTATION REFERENCES
+# ============================================================================
+
+documentation:
+  standard: "docs/standards/NOMENCLATURE_v6_0_R1_0.md"
+  quick_reference: "docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md"
+  config: "config/nomenclature/v6_0.yaml"
+  optins_framework: "OPTINS Framework v1.1"
+
+# ============================================================================
+# VERSION HISTORY
+# ============================================================================
+
+version_history:
+  - version: "1.0"
+    date: "2025-12-17"
+    status: "Initial Release"
+    changes:
+      - "Initial ATA partition matrix with OPTINS framework alignment"
+      - "Domain partition definitions (B00-B90)"
+      - "Complete ATA_ROOT to BLOCK mapping for all axes (O, I, T, N, S)"
+      - "Solution pack schema and designations (COM, AIRT, SPACET)"
+      - "Validation rules and tooling integration"
+    author: "CM WG"

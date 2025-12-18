@@ -70,7 +70,7 @@ This repository contains the official directory structure generators for AMPEL36
 - **VARIANT**: Governance lane (e.g., `GEN`, `CERT`, `CUST`, `MSN`)
 - **VERSION**: Branding reinforcer (e.g., `PLUS`, `PLUS01`, `PLUSULTRA02`)
 - **MODEL**: Artifact domain (e.g., `BB`, `HW`, `SW`, `PR`)
-- **BLOCK**: Domain classification (e.g., `OPS`, `STR`, `AI`, `DATA`)
+- **BLOCK**: Domain partition B## format (e.g., `B10`, `B50`, `B60`) - OPTINS Framework aligned
 - **PHASE**: Lifecycle (`LC01-LC14`) or Subbucket (`SB01-SB99`)
 - **KNOT_TASK**: Knot ID with optional task (e.g., `K06`, `K06-T001`)
 - **AoR**: Area of Responsibility (e.g., `CM`, `CERT`, `SAF`, `SE`)
@@ -83,9 +83,28 @@ This repository contains the official directory structure generators for AMPEL36
 
 ### Examples (v6.0 R1.0)
 
-- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
-- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
-- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
+- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
+- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
+- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
+
+### BLOCK Field: Domain Partitions (OPTINS Framework)
+
+The **BLOCK** field uses domain partition identifiers (B00-B90) aligned with the OPTINS Framework v1.1:
+
+| BLOCK | Domain-Subsystem                                        | Environment              |
+|------:|:--------------------------------------------------------|:-------------------------|
+|   B00 | GENERAL (universal, implicit)                           | all                      |
+|   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest |
+|   B20 | CYBERSECURITY                                           | digital + onboard        |
+|   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard        |
+|   B40 | PHYSICS (pressure/thermal/cryo)                         | onboard + simtest        |
+|   B50 | PHYSICAL (aerostructures + HW)                          | onboard/offboard         |
+|   B60 | DYNAMICS (thrust/attitude/inerting)                     | onboard + simtest        |
+|   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest        |
+|   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard       |
+|   B90 | CONNECTIONS & MAPPING                                   | digital + onboard        |
+
+**Note:** Not all BLOCK values are valid for all ATA_ROOT values. See `config/nomenclature/ATA_PARTITION_MATRIX.yaml` for the complete ATA_ROOT to BLOCK mapping.
 
 ### Validation
 

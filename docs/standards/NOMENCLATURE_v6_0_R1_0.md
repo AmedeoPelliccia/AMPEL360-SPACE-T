@@ -56,7 +56,7 @@ All files must strictly adhere to the **canonical format**:
 | **VARIANT**        | Governance Lane Token                      | Allowlist (GEN, BASELINE, etc.)               | `GEN`, `CERT`            |
 | **VERSION**        | Branding Reinforcer                        | Allowlist (PLUS, PLUSULTRA)                   | `PLUS`, `PLUSULTRA`      |
 | **MODEL**          | Artifact Domain                            | Allowlist (BB, HW, SW, PR)                    | `BB`, `HW`, `SW`         |
-| **BLOCK**          | Domain Classification / Module             | Controlled vocabulary (config)                | `OPS`, `STR`, `AI`       |
+| **BLOCK**          | Domain Partition (OPTINS)                  | B## format (B00-B90), ATA-specific            | `B10`, `B50`, `B60`      |
 | **PHASE**          | Lifecycle Stage or Sub-bucket              | LC01-LC14 or SB01-SB99                        | `LC03`, `SB04`           |
 | **KNOT_TASK**      | Uncertainty Resolution Trigger             | K01-K14 optionally with -T001 to -T999        | `K06`, `K06-T001`        |
 | **AoR**            | Area of Responsibility                     | Allowlist (portal entry points)               | `CM`, `CERT`, `SAF`      |
@@ -172,15 +172,43 @@ All files must strictly adhere to the **canonical format**:
 
 **Usage guidance:** Select MODEL based on primary artifact domain (may be multi-disciplinary in practice).
 
-### 4.8 `[BLOCK]` (Allowlist - Config-Driven)
+### 4.8 `[BLOCK]` (Domain Partition - OPTINS Framework Aligned) **UPDATED**
 
-**Definition:** Domain classification or subsystem module.
+**Definition:** Domain partition identifier using the OPTINS Framework domain segmentation system.
 
-**Allowlist (from v6_0.yaml):**
+**Format:** `B##` where `##` is a two-digit number (00-90 in increments of 10)
 
-`OPS`, `STR`, `PROP`, `AI`, `DATA`, `CERT`, `SAF`, `SW`, `HW`, `SYS`, `TEST`, `MRO`, `CIRC`, `ENRG`, `STOR`, `GEN`
+**Domain Partition System (B00-B90):**
 
-**Extension rule:** New BLOCK values require CM change control and config update.
+| BLOCK | Domain-Subsystem                                        | Environment Typical          |
+|------:|:--------------------------------------------------------|:-----------------------------|
+|   B00 | GENERAL                                                 | all (universal, implicit)    |
+|   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest     |
+|   B20 | CYBERSECURITY                                           | digital + onboard            |
+|   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard            |
+|   B40 | PHYSICS (pressure/thermal/cryo/…)                       | onboard + simtest            |
+|   B50 | PHYSICAL (aerostructures + info HW)                     | onboard/offboard             |
+|   B60 | DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) | onboard + simtest            |
+|   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest            |
+|   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard           |
+|   B90 | CONNECTIONS & MAPPING                                   | digital + onboard            |
+
+**Pattern:** `^B[0-9]0$` (matches B00, B10, B20, ..., B90)
+
+**B00 is universal:** Always implicit and applicable to all ATA_ROOT values.
+
+**ATA_ROOT to BLOCK mapping:** Not all BLOCK values are valid for all ATA_ROOT values. See `config/nomenclature/ATA_PARTITION_MATRIX.yaml` for the complete matrix defining which BLOCK values are applicable for each ATA_ROOT.
+
+**Solution Packs:** The OPTINS framework introduces Solution Pack versioning:
+* **SPK_COM_ATA{XX}_B{YY}_SV{NN}** - Common baseline (AIRT + SPACET)
+* **SPK_AIRT_ATA{XX}_B{YY}_SV{NN}** - AIRT-only addendum
+* **SPK_SPACET_ATA{XX}_B{YY}_SV{NN}** - SPACET-only addendum
+
+**Extension rule:** New BLOCK values (domain partitions) require CM change control, ATA_PARTITION_MATRIX update, and nomenclature standard revision.
+
+**Migration from legacy:** v5.0 used abbreviations (OPS, STR, AI, etc.). See migration table in `config/nomenclature/v6_0.yaml` for suggested mappings. **Note:** Actual migration requires manual review per ATA_ROOT using ATA_PARTITION_MATRIX.
+
+**Validation:** CI must validate that the BLOCK value used is valid for the given ATA_ROOT according to the ATA_PARTITION_MATRIX.
 
 ### 4.9 `[PHASE]` (Lifecycle or Subbucket)
 
@@ -421,9 +449,9 @@ claims: {}  # structured claims
 (?P<program>SPACET)_
 (?P<family>Q[0-9]{2,3})_
 (?P<variant>[A-Z0-9]+)_
-(?P<version>[A-Z]+)_
+(?P<version>[A-Z]+(?:[0-9]{2})?)_
 (?P<model>[A-Z]{2})_
-(?P<block>[A-Z0-9]+)_
+(?P<block>B[0-9]0)_
 (?P<phase>(?:LC(?:0[1-9]|1[0-4])|SB(?:0[1-9]|[1-9][0-9])))_
 (?P<knot_task>K(?:0[1-9]|1[0-4])(?:-T[0-9]{3})?)_
 (?P<aor>[A-Z]+)__
@@ -446,11 +474,14 @@ CI must additionally enforce:
 
 3. **VARIANT allowlist** (from v6_0.yaml)
 
-4. **VERSION allowlist** (from v6_0.yaml)
+4. **VERSION allowlist and pattern** (from v6_0.yaml)
+   * Must match `^(PLUS|PLUSULTRA)([0-9]{2})?$`
 
 5. **MODEL allowlist** (from v6_0.yaml)
 
-6. **BLOCK allowlist** (from v6_0.yaml)
+6. **BLOCK allowlist and ATA_ROOT validation** (from v6_0.yaml and ATA_PARTITION_MATRIX.yaml)
+   * Must be B00, B10, B20, B30, B40, B50, B60, B70, B80, or B90
+   * Must be valid for the given ATA_ROOT per ATA_PARTITION_MATRIX
 
 7. **KNOT_TASK governance**
    * Must be K01-K14 (no other values)
@@ -504,107 +535,119 @@ CI must additionally enforce:
 
 ### 7.1 Valid v6.0 R1.0 Examples
 
-**Lifecycle artifact (thermal overview, Q10 family, general variant, PLUS version, Body Brain model):**
+**Lifecycle artifact (thermal overview, Q10 family, general variant, PLUS version, Body Brain model, Operational Systems domain):**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
-```
-
-**VERSION with iteration (R1.0 FINAL LOCK feature):**
-```
-27_AMPEL360_SPACET_Q10_GEN_PLUS01_BB_OPS_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
 ```
 
-**Customer-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK):**
+**VERSION with iteration (R1.0 FINAL LOCK feature, Operational Systems domain):**
 ```
-27_AMPEL360_SPACET_Q10_CUST_PLUS01_SW_OPS_LC03_K06_SE__cust-airbus-thermal-loop_STD_I01-R01_DRAFT.md
-```
-
-**Mission-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK):**
-```
-27_AMPEL360_SPACET_Q100_MSN_PLUSULTRA02_HW_OPS_LC03_K06_SE__msn-000123-thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS01_BB_B10_LC03_K06-T001_SE__thermal-loop-overview_STD_I01-R01_ACTIVE.md
 ```
 
-**Domain artifact (pressure bulkhead trade study, Q100 family, cert variant):**
+**Customer-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK, Operational Systems domain):**
 ```
-53_AMPEL360_SPACET_Q100_CERT_PLUS_HW_STR_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I02-R01_DRAFT.pdf
-```
-
-**AI model card template (Q10, baseline variant, software model):**
-```
-95_AMPEL360_SPACET_Q10_BASELINE_PLUS_SW_AI_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md
+27_AMPEL360_SPACET_Q10_CUST_PLUS01_SW_B10_LC03_K06_SE__cust-airbus-thermal-loop_STD_I01-R01_DRAFT.md
 ```
 
-**Certification authority basis (Q10, certification variant, process model):**
+**Mission-specific variant with mandatory SUBJECT prefix (R1.0 FINAL LOCK, Operational Systems domain):**
 ```
-00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_CERT_LC10_K01_CERT__certification-authority-basis_PLAN_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q100_MSN_PLUSULTRA02_HW_B10_LC03_K06_SE__msn-000123-thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 
-**Software safety requirements (Q100, flight test variant):**
+**Domain artifact (pressure bulkhead trade study, Q100 family, cert variant, Physical domain):**
 ```
-00_AMPEL360_SPACET_Q100_FLIGHTTEST_PLUS_SW_SW_SB40_K02_SAF__software-safety-reqs_REQ_I03-R02_APPROVED.md
+53_AMPEL360_SPACET_Q100_CERT_PLUS_HW_B50_LC07_K02_CERT__pressure-bulkhead-trade_RPT_I02-R01_DRAFT.pdf
+```
+
+**AI model card template (Q10, baseline variant, software model, Cybersecurity domain):**
+```
+95_AMPEL360_SPACET_Q10_BASELINE_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md
+```
+
+**Certification authority basis (Q10, certification variant, process model, General domain):**
+```
+00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-authority-basis_PLAN_I01-R01_ACTIVE.md
+```
+
+**Software safety requirements (Q100, flight test variant, Cybersecurity domain):**
+```
+00_AMPEL360_SPACET_Q100_FLIGHTTEST_PLUS_SW_B20_SB40_K02_SAF__software-safety-reqs_REQ_I03-R02_APPROVED.md
 ```
 
 ### 7.2 Invalid Examples (with R1.0 FINAL LOCK violations)
 
 **Missing ISSUE-REVISION field (v5.0 format):**
 ```
-27_AMPEL360_SPACET_PLUS_OPS_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
+27_AMPEL360_SPACET_PLUS_B10_LC03_K06_SE__thermal-loop_STD_v01_ACTIVE.md
 ```
 ❌ Non-compliant: v5.0 format, missing FAMILY/VARIANT/VERSION/MODEL/ISSUE-REVISION
 
 **Invalid KNOT (outside K01-K14 range):**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K99_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K99_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: K99 not allowed (only K01-K14)
 
 **Invalid AoR (STK_ prefix):**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_STK_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_STK_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: AoR must not have STK_ prefix
 
 **Single underscore instead of double:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE_thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE_thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: Must use double underscore (__) before SUBJECT
 
 **Invalid FAMILY (not in allowlist):**
 ```
-27_AMPEL360_SPACET_Q50_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q50_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: Q50 not in FAMILY allowlist (only Q10, Q100 initially)
 
 **Invalid ISSUE-REVISION format:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__thermal-loop_STD_I1-R1_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I1-R1_ACTIVE.md
 ```
 ❌ Non-compliant: ISSUE-REVISION must be I##-R## with zero-padding (I01-R01, not I1-R1)
 
 **R1.0 FINAL LOCK: Invalid VERSION pattern:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS1_BB_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS1_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: VERSION iteration must be 2 digits (PLUS01, not PLUS1)
 
 **R1.0 FINAL LOCK: CUST variant without required SUBJECT prefix:**
 ```
-27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_DRAFT.md
+27_AMPEL360_SPACET_Q10_CUST_PLUS_SW_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_DRAFT.md
 ```
 ❌ Non-compliant: VARIANT=CUST requires SUBJECT to start with `cust-<custcode>-`
 
 **R1.0 FINAL LOCK: MSN variant without required SUBJECT prefix:**
 ```
-27_AMPEL360_SPACET_Q10_MSN_PLUS_HW_OPS_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_MSN_PLUS_HW_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: VARIANT=MSN requires SUBJECT to start with `msn-<serial>-`
 
 **R1.0 FINAL LOCK: Filename exceeding length limit:**
 ```
-27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_OPS_LC03_K06_SE__this-is-an-extremely-long-subject-name-that-goes-on-and-on-and-exceeds-the-maximum-allowed-length-for-the-subject-field-which-is-sixty-characters_STD_I01-R01_ACTIVE.md
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__this-is-an-extremely-long-subject-name-that-goes-on-and-on-and-exceeds-the-maximum-allowed-length-for-the-subject-field-which-is-sixty-characters_STD_I01-R01_ACTIVE.md
 ```
 ❌ Non-compliant: Filename or token exceeds length limits
+
+**Invalid BLOCK (not in allowlist or not valid for ATA_ROOT):**
+```
+27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B95_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md
+```
+❌ Non-compliant: B95 not in BLOCK allowlist (only B00-B90 in increments of 10)
+
+**Invalid BLOCK for ATA_ROOT (not in ATA_PARTITION_MATRIX):**
+```
+00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B70_LC03_K06_SE__general-overview_STD_I01-R01_ACTIVE.md
+```
+❌ Non-compliant: B70 (Reciprocity & Alternative Engines) not applicable for ATA_ROOT 00 (General)
 
 ---
 
