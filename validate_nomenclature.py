@@ -571,11 +571,16 @@ class NomenclatureValidator:
         """
         Get valid BLOCK values for the given ATA_ROOT from ATA_PARTITION_MATRIX.
         
+        Business Rule: B00 (GENERAL) is universally valid for all ATA roots as it
+        represents the universal baseline that applies to all systems. This is
+        explicitly defined in the ATA_PARTITION_MATRIX as implicit/universal.
+        
         Args:
             ata_root: ATA chapter code (e.g., "00", "27", "115")
             
         Returns:
-            List of valid BLOCK codes (e.g., ["B10", "B20", "B30"]) or None if not found
+            List of valid BLOCK codes (e.g., ["B00", "B10", "B20", "B30"]) or None if not found.
+            B00 is always included as it is universally valid per OPTINS Framework.
         """
         if not self.ata_partition_matrix:
             return None
@@ -589,7 +594,7 @@ class NomenclatureValidator:
             if ata_key in axis:
                 ata_config = axis[ata_key]
                 blocks = ata_config.get('blocks', [])
-                # B00 is always implicit/valid
+                # B00 is always implicit/valid per OPTINS Framework (universal baseline)
                 if 'B00' not in blocks:
                     blocks = ['B00'] + blocks
                 return blocks
