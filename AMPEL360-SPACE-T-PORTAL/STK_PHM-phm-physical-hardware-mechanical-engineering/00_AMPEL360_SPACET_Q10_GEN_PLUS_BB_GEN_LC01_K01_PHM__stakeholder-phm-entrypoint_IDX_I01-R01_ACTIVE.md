@@ -9,7 +9,7 @@ version: "PLUS"
 model: "BB"
 block: "GEN"
 phase: "LC01"
-knot_task: "K04"
+knot_task: "K01"
 aor: "PHM"
 status: Active
 date: "2025-12-18"

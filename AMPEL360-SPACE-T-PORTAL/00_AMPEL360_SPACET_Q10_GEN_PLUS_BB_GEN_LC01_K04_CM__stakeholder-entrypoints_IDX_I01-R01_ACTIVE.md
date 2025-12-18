@@ -95,7 +95,7 @@ Conventions:
   _Comment:_ Test campaigns, evidence packs, and trace closure routines.
 
 ### PHM — Physical Hardware & Mechanical Engineering
-- Entry point: [PHM — Physical Hardware & Mechanical Engineering](STK_PHM-phm-physical-hardware-mechanical-engineering/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_PHM__stakeholder-phm-entrypoint_IDX_I01-R01_ACTIVE.md)  
+- Entry point: [PHM — Physical Hardware & Mechanical Engineering](STK_PHM-phm-physical-hardware-mechanical-engineering/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_PHM__stakeholder-phm-entrypoint_IDX_I01-R01_ACTIVE.md)  
   _Comment:_ Physical hardware domains including aerostructures, landing gear, pneumatics, flight control, hydraulics, and materials.
 - Workspace: [STK_PHM-phm-physical-hardware-mechanical-engineering/](STK_PHM-phm-physical-hardware-mechanical-engineering/)  
   _Comment:_ Hardware-centric knots, structural integrity, actuation, and maintainability evidence.
