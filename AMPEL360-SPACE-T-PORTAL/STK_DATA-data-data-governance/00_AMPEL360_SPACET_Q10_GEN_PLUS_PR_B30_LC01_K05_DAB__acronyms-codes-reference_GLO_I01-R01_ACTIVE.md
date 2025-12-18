@@ -181,5 +181,3 @@ This glossary is maintained under Data Governance and aligned with:
 - OPT-INS Framework v1.1
 - K05 Data Governance knot
 - ATA 00 (GENERAL) program governance baseline
-
-> If you want, I can append this glossary directly under the table as a single consolidated Markdown section (table + glossary in one file-ready block).
