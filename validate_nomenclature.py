@@ -105,7 +105,7 @@ class NomenclatureValidator:
     MODEL_PATTERN = re.compile(r'^[A-Z]{2}$')
     
     # BLOCK pattern (v6.0 - B## format: B00, B10, B20, ..., B90)
-    BLOCK_PATTERN = re.compile(r'^B([0-9]0)$')
+    BLOCK_PATTERN = re.compile(r'^B[0-9]0$')
     
     # Allowed PROJECT values (hard constraint)
     ALLOWED_PROJECTS = {'AMPEL360'}
@@ -594,10 +594,12 @@ class NomenclatureValidator:
             if ata_key in axis:
                 ata_config = axis[ata_key]
                 blocks = ata_config.get('blocks', [])
+                # Work on a copy to avoid mutating or exposing the underlying config list
+                merged_blocks = list(blocks)
                 # B00 is always implicit/valid per OPTINS Framework (universal baseline)
-                if 'B00' not in blocks:
-                    blocks = ['B00'] + blocks
-                return blocks
+                if 'B00' not in merged_blocks:
+                    merged_blocks.insert(0, 'B00')
+                return merged_blocks
         
         # If ATA not found in matrix, return None (no validation)
         return None

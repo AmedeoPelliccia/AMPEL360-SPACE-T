@@ -108,10 +108,12 @@ def get_valid_blocks_for_ata(ata_root: str, matrix: Dict[str, Any]) -> list:
         if ata_key in axis:
             ata_config = axis[ata_key]
             blocks = ata_config.get('blocks', [])
+            # Work on a copy to avoid mutating or exposing the underlying config list
+            merged_blocks = list(blocks)
             # B00 is always implicit/valid per OPTINS Framework (universal baseline)
-            if 'B00' not in blocks:
-                blocks = ['B00'] + blocks
-            return blocks
+            if 'B00' not in merged_blocks:
+                merged_blocks.insert(0, 'B00')
+            return merged_blocks
     
     # If ATA not found in matrix, return empty list
     return []
