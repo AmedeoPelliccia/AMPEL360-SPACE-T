@@ -193,7 +193,7 @@ All files must strictly adhere to the **canonical format**:
 |   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard           |
 |   B90 | CONNECTIONS & MAPPING                                   | digital + onboard            |
 
-**Pattern:** `^B([0-9]0)$` (matches B00, B10, B20, ..., B90)
+**Pattern:** `^B[0-9]0$` (matches B00, B10, B20, ..., B90)
 
 **B00 is universal:** Always implicit and applicable to all ATA_ROOT values.
 
