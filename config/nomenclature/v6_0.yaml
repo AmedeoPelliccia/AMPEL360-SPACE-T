@@ -105,9 +105,9 @@ allowlists:
     - CM           # Configuration Management
     - CERT         # Certification & Authorities
     - SAF          # Safety
-    - SE           # Systems Engineering
+    - SE           # Systems Engineering (Architecture, SysML, Governance)
     - OPS          # Operations
-    - DAB          # Digital Applications and Blockchains (unified DATA+SPE)
+    - DAB          # Digital Applications and Blockchains (Data Networks, Control SW)
     - AI           # AI/ML Engineering
     - CY           # Cybersecurity
     - TEST         # IVVQ / Testing
@@ -119,7 +119,7 @@ allowlists:
     - LEG          # Legal
     - FIN          # Finance
     - PROC         # Procurement
-    - PHM          # Physical Hardware & Materials (for backward compatibility)
+    - PHM          # Physical Hardware & Mechanical Engineering (aerostructures, landing gear, pneumatics, flight control, hydraulics, materials)
   
   # TYPE allowlist (artifact type)
   # Controlled vocabulary for document/artifact types

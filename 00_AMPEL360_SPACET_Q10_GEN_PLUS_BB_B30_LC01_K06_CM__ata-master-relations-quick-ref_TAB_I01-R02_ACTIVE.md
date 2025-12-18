@@ -67,10 +67,29 @@ On change basis, managed through Configuration Management WG approval process.
 | **ATA** | ATA chapter number | 00-116 (numeric, zero-padded) |
 | **DESCR** | Chapter description | Short descriptive name |
 | **DOMAIN** | OPTINS axis classification | P-PROGRAM, O-OPS/ORG, I-INFRASTRUCTURES, T-TECHNOLOGY, N-NEURAL_NETWORKS, T-SIMTEST |
-| **AoR** | Primary Area of Responsibility (portal entry point, main owner) | CM, DAB, AI, CY, TEST, CERT, SAF, OPS, MRO, SPACEPORT, SE, PHM, DAB, PMO |
+| **AoR** | Primary Area of Responsibility (portal entry point, main owner) | CM, DAB, AI, CY, TEST, CERT, SAF, OPS, MRO, SPACEPORT, SE, PHM, PMO |
 | **STKs** | Cross-dependent stakeholders (AoR cross-dependencies) | Comma-separated stakeholder codes |
 | **AGENCY/CONTEXT** | Regulatory/operational context tags | Comma-separated agency/context identifiers |
 | **Note** | Additional guidance and knot applicability | Free text with Knots: K##,K##,... |
+
+### 3.1.1 Stakeholder Responsibility Clarification
+
+**SE (Systems Engineering)** vs **DAB (Digital Applications and Blockchains)**:
+
+| Stakeholder | Focus Area | Responsibilities |
+| :--- | :--- | :--- |
+| **SE** | Architecture, SysML, Governance | System architecture, SysML modeling, requirements decomposition, ICDs, integration boundaries, architecture governance |
+| **DAB** | Digital Applications, Blockchains | Data networks, control software, digital twins, blockchain/ledger implementations, SSOT governance, onboard data services |
+
+**PHM (Physical Hardware & Mechanical Engineering)**:
+
+PHM absorbs all physical/mechanical hardware domains:
+- Aerostructures (fuselage, wings, stabilizers, doors, nacelles)
+- Landing gear systems
+- Pneumatics (gas distribution, valves)
+- Flight and attitude control (actuation, servos, control surfaces)
+- Hydraulics (generation, distribution)
+- Materials (specifications, structural practices, allowables)
 
 ### 3.2 Quick Reference Table
 

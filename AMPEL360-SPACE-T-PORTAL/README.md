@@ -72,9 +72,12 @@ Use AoR codes as your primary navigation key (governance-first):
 - **CM** configuration management and baselines
 - **CERT** certification, compliance mapping, evidence
 - **SAF** hazard analysis, safety cases, risk controls
-- **SE** systems engineering, architecture, ICDs
+- **SE** systems engineering, architecture, SysML, ICDs, governance
 - **OPS** operations, procedures, sustainment planning
-- **DATA / AI / CY** data governance, ML governance, cybersecurity
+- **DAB** digital applications and blockchains, data networks, control software
+- **AI** AI/ML engineering, model governance
+- **CY** cybersecurity
+- **PHM** physical hardware & mechanical engineering (aerostructures, landing gear, pneumatics, flight control, hydraulics, materials)
 - **TEST** verification, validation, simulation and test campaigns
 - **MRO / SPACEPORT / PMO** sustainment operations, ground/launch sites, programme governance
 
