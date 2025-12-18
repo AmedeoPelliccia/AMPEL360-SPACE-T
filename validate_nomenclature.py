@@ -104,6 +104,9 @@ class NomenclatureValidator:
     # MODEL pattern (v6.0)
     MODEL_PATTERN = re.compile(r'^[A-Z]{2}$')
     
+    # BLOCK pattern (v6.0 - B## format: B00, B10, B20, ..., B90)
+    BLOCK_PATTERN = re.compile(r'^B[0-9]0$')
+    
     # Allowed PROJECT values (hard constraint)
     ALLOWED_PROJECTS = {'AMPEL360'}
     
@@ -157,10 +160,16 @@ class NomenclatureValidator:
             limits = self.config.get('limits', {})
             self.filename_max_len = limits.get('filename_max_len', 180)
             token_limits = limits.get('token_max_len', {})
-            self.block_max_len = token_limits.get('block', 12)
+            self.block_max_len = token_limits.get('block', 3)
             self.subject_max_len = token_limits.get('subject', 60)
             self.type_max_len = token_limits.get('type', 8)
             self.aor_max_len = token_limits.get('aor', 10)
+            
+            # Load ATA_PARTITION_MATRIX for v6.0 (Phase 2)
+            optins_config = self.config.get('optins_framework', {})
+            matrix_path = optins_config.get('ata_partition_matrix', 'config/nomenclature/ATA_PARTITION_MATRIX.yaml')
+            self.ata_partition_matrix = self._load_ata_partition_matrix(matrix_path)
+            self.enforce_ata_block_mapping = optins_config.get('enforcement', {}).get('validate_ata_block_mapping', True)
         
         # Extract exemptions from config
         exemptions = self.config.get('exemptions', {})
@@ -196,6 +205,26 @@ class NomenclatureValidator:
         except Exception as e:
             print(f"Warning: Failed to load config from {config_path}: {e}, using defaults", file=sys.stderr)
             return self._get_default_config()
+    
+    def _load_ata_partition_matrix(self, matrix_path: str) -> Dict[str, Any]:
+        """Load ATA_PARTITION_MATRIX from YAML file."""
+        try:
+            path = Path(matrix_path)
+            if not path.exists():
+                # Try relative to script directory
+                script_dir = Path(__file__).parent
+                path = script_dir / matrix_path
+            
+            if not path.exists():
+                print(f"Warning: ATA_PARTITION_MATRIX not found at {matrix_path}, ATA+BLOCK validation disabled", file=sys.stderr)
+                return {}
+            
+            with open(path, 'r') as f:
+                matrix = yaml.safe_load(f)
+                return matrix or {}
+        except Exception as e:
+            print(f"Warning: Failed to load ATA_PARTITION_MATRIX from {matrix_path}: {e}, ATA+BLOCK validation disabled", file=sys.stderr)
+            return {}
     
     def _get_default_config(self) -> Dict[str, Any]:
         """Return default configuration if config file is not available."""
@@ -398,6 +427,22 @@ class NomenclatureValidator:
             else:
                 warnings.append(msg)
         
+        # v6.0: Validate B## pattern format (Phase 2)
+        if self.standard == "v6.0":
+            if not self.BLOCK_PATTERN.match(block):
+                errors.append(
+                    f"Invalid BLOCK format '{block}': must be B## format (B00, B10, B20, ..., B90)"
+                )
+            
+            # Validate ATA_ROOT + BLOCK combination against ATA_PARTITION_MATRIX (Phase 2)
+            if self.enforce_ata_block_mapping and self.ata_partition_matrix:
+                ata_blocks = self._get_valid_blocks_for_ata(ata_root)
+                if ata_blocks is not None and block not in ata_blocks:
+                    errors.append(
+                        f"Invalid BLOCK '{block}' for ATA_ROOT '{ata_root}': "
+                        f"must be one of {sorted(ata_blocks)} (per ATA_PARTITION_MATRIX)"
+                    )
+        
         # Validate PHASE format
         if not (self.LC_PATTERN.match(phase) or self.SB_PATTERN.match(phase)):
             errors.append(
@@ -521,6 +566,43 @@ class NomenclatureValidator:
                 return True
         
         return False
+    
+    def _get_valid_blocks_for_ata(self, ata_root: str) -> Optional[List[str]]:
+        """
+        Get valid BLOCK values for the given ATA_ROOT from ATA_PARTITION_MATRIX.
+        
+        Business Rule: B00 (GENERAL) is universally valid for all ATA roots as it
+        represents the universal baseline that applies to all systems. This is
+        explicitly defined in the ATA_PARTITION_MATRIX as implicit/universal.
+        
+        Args:
+            ata_root: ATA chapter code (e.g., "00", "27", "115")
+            
+        Returns:
+            List of valid BLOCK codes (e.g., ["B00", "B10", "B20", "B30"]) or None if not found.
+            B00 is always included as it is universally valid per OPTINS Framework.
+        """
+        if not self.ata_partition_matrix:
+            return None
+        
+        # Construct ATA key (e.g., "ATA_00", "ATA_27", "ATA_115")
+        ata_key = f"ATA_{ata_root}"
+        
+        # Search across all axes (o_axis, i_axis, t_axis, n_axis, s_axis)
+        for axis_name in ['o_axis', 'i_axis', 't_axis', 'n_axis', 's_axis']:
+            axis = self.ata_partition_matrix.get(axis_name, {})
+            if ata_key in axis:
+                ata_config = axis[ata_key]
+                blocks = ata_config.get('blocks', [])
+                # Work on a copy to avoid mutating or exposing the underlying config list
+                merged_blocks = list(blocks)
+                # B00 is always implicit/valid per OPTINS Framework (universal baseline)
+                if 'B00' not in merged_blocks:
+                    merged_blocks.insert(0, 'B00')
+                return merged_blocks
+        
+        # If ATA not found in matrix, return None (no validation)
+        return None
 
 
 def print_result(result: ValidationResult, verbose: bool = False) -> None:
