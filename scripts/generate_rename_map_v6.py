@@ -52,6 +52,52 @@ def load_v6_config(config_path: str = "config/nomenclature/v6_0.yaml") -> Dict:
         return yaml.safe_load(f)
 
 
+def infer_block_v6(block_v5: str, config: Dict, root: str, aor: str) -> Tuple[str, float, str]:
+    """
+    Map v5.0 BLOCK to v6.0 B## format.
+    
+    Uses legacy_block_to_b## mapping from config for default mapping,
+    but may need ATA-specific adjustment from ATA_PARTITION_MATRIX.
+    
+    Returns: (block_v6, confidence, reason)
+    """
+    # Get legacy mapping from config
+    migration = config.get('migration', {})
+    legacy_mapping = migration.get('legacy_block_to_b##', {})
+    
+    # Check if block is already in B## format
+    if re.match(r'^B[0-9]0$', block_v5):
+        return (block_v5, 1.0, "Already in B## format")
+    
+    # Check if we have a direct mapping
+    if block_v5 in legacy_mapping:
+        block_v6 = legacy_mapping[block_v5]
+        return (block_v6, 0.85, f"Legacy mapping: {block_v5} → {block_v6}")
+    
+    # If no mapping found, use default based on AoR hint
+    # This is a fallback - ideally should check ATA_PARTITION_MATRIX
+    aor_block_hints = {
+        'CM': 'B10',     # Configuration Management → Operational Systems
+        'CERT': 'B10',   # Certification → Operational Systems
+        'SAF': 'B10',    # Safety → Operational Systems
+        'SE': 'B10',     # Systems Engineering → Operational Systems
+        'OPS': 'B10',    # Operations → Operational Systems
+        'DATA': 'B30',   # Data → Data, Comms and Registry
+        'AI': 'B20',     # AI/ML → Cybersecurity
+        'CY': 'B20',     # Cybersecurity → Cybersecurity
+        'TEST': 'B10',   # Testing → Operational Systems
+        'MRO': 'B10',    # MRO → Operational Systems
+    }
+    
+    if aor in aor_block_hints:
+        block_v6 = aor_block_hints[aor]
+        return (block_v6, 0.70, f"AoR-based inference: {aor} → {block_v6} (manual review recommended)")
+    
+    # Default to B10 (Operational Systems)
+    default_block = migration.get('default_block', 'B10')
+    return (default_block, 0.60, f"Default BLOCK {default_block} (manual review required)")
+
+
 def infer_family(root: str, block: str, desc: str, aor: str) -> Tuple[str, float, str]:
     """
     Infer FAMILY token from context.
@@ -270,16 +316,17 @@ def generate_rename_map(directory: Path, output_csv: str = "rename_map_v6.csv"):
         variant_v6, variant_conf, variant_reason = infer_variant_v6(variant_v5, subject, aor, type_code)
         version, version_conf, version_reason = infer_version(variant_v5, subject)
         model, model_conf, model_reason = infer_model(block, type_code, subject, aor)
+        block_v6, block_conf, block_reason = infer_block_v6(block, config, root, aor)
         issue_revision, issue_conf, issue_reason = generate_issue_revision(version_v5, subject)
         
         # Apply R1.0 FINAL LOCK rules
         subject_modified, r1_conf, r1_warnings = apply_r1_0_rules(variant_v6, subject)
         
         # Calculate overall confidence
-        confidence = min(family_conf, variant_conf, version_conf, model_conf, issue_conf, r1_conf)
+        confidence = min(family_conf, variant_conf, version_conf, model_conf, block_conf, issue_conf, r1_conf)
         
         # Build new filename (v6.0 R1.0 format)
-        new_filename = f"{root}_{project}_{program}_{family}_{variant_v6}_{version}_{model}_{block}_{phase}_{knot}_{aor}__{subject_modified}_{type_code}_{issue_revision}_{status}.{ext}"
+        new_filename = f"{root}_{project}_{program}_{family}_{variant_v6}_{version}_{model}_{block_v6}_{phase}_{knot}_{aor}__{subject_modified}_{type_code}_{issue_revision}_{status}.{ext}"
         
         # Validate filename length
         length_valid, length_warnings = validate_filename_length(new_filename)
@@ -296,6 +343,7 @@ def generate_rename_map(directory: Path, output_csv: str = "rename_map_v6.csv"):
         notes.append(f"VARIANT: {variant_v5} → {variant_v6} ({variant_reason})")
         notes.append(f"VERSION: {version} ({version_reason})")
         notes.append(f"MODEL: {model} ({model_reason})")
+        notes.append(f"BLOCK: {block} → {block_v6} ({block_reason})")
         notes.append(f"ISSUE-REVISION: {issue_revision} ({issue_reason})")
         
         if r1_warnings:
