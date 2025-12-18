@@ -9,1314 +9,2287 @@
 # - Agency/context mapping
 # - Knot applicability
 #
-# Version: 1.0
+# Version: 1.1
 # Date: 2025-12-18
 # Status: Normative
 # Owner: Configuration Management WG
-
-version: "1.0"
-standard: "ATA_MASTER_RELATIONS_V1_0"
-date: "2025-12-18"
-status: "Normative"
-owner: "Configuration Management WG"
-
-# ============================================================================
-# ATA MASTER RELATIONS TABLE
-# ============================================================================
 # 
-# Each ATA_ROOT entry contains:
-# - ata: ATA chapter number (00-116)
-# - description: Human-readable chapter description
-# - domain: OPTINS axis classification (P/O/I/T/N/S)
-# - aor: Primary Area of Responsibility (portal entry point, main owner)
-# - stks: Cross-dependencies with other stakeholders
-# - agencies: Context tags (TECH_PROP, ESG, QA, etc.)
-# - knots: Applicable knot numbers (K01-K14)
-# - notes: Additional guidance
+# CHANGELOG:
+# - v1.1 (2025-12-18): Unified STK_DATA and STK_SPE into STK_DAB
+#   - Replaced all occurrences of DATA and SPE with DAB
+#   - Deduplication applied where both were present
 
+version: '1.0'
+standard: ATA_MASTER_RELATIONS_V1_0
+date: '2025-12-18'
+status: Normative
+owner: Configuration Management WG
 ata_chapters:
-
-  # O AXIS: GOVERNANCE / RESERVED (00-19)
-  
   ATA_00:
-    ata: "00"
-    description: "GENERAL"
-    domain: "P-PROGRAM"
-    aor: "CM"
-    stks: ["PMO", "SE", "SAF", "CERT", "DATA"]
-    agencies: ["PROG_GOV", "CM", "PMO", "DATA_GOV", "AUDIT"]
-    knots: ["K01", "K04", "K06", "K10"]
-    notes: "Program governance baseline (nomenclature, CC, registers). Foundation for all other ATAs."
-
+    ata: '00'
+    description: GENERAL
+    domain: P-PROGRAM
+    aor: CM
+    stks:
+    - PMO
+    - SE
+    - SAF
+    - CERT
+    - DAB
+    agencies:
+    - PROG_GOV
+    - CM
+    - PMO
+    - DATA_GOV
+    - AUDIT
+    knots:
+    - K01
+    - K04
+    - K06
+    - K10
+    notes: Program governance baseline (nomenclature, CC, registers). Foundation for
+      all other ATAs.
   ATA_01:
-    ata: "01"
-    description: "OPERATIONS/ORGANIZATION POLICY (RESERVED)"
-    domain: "O-OPS/ORG"
-    aor: "OPS"
-    stks: ["SAF", "CERT", "CM", "SPACEPORT"]
-    agencies: ["OPS_GOV", "CONOPS", "TRAINING", "READINESS"]
-    knots: ["K01", "K02", "K11"]
-    notes: "Ops policy/governance. Reserved for future expansion."
-
+    ata: '01'
+    description: OPERATIONS/ORGANIZATION POLICY (RESERVED)
+    domain: O-OPS/ORG
+    aor: OPS
+    stks:
+    - SAF
+    - CERT
+    - CM
+    - SPACEPORT
+    agencies:
+    - OPS_GOV
+    - CONOPS
+    - TRAINING
+    - READINESS
+    knots:
+    - K01
+    - K02
+    - K11
+    notes: Ops policy/governance. Reserved for future expansion.
   ATA_02:
-    ata: "02"
-    description: "OPERATIONS/ORGANIZATION (RESERVED)"
-    domain: "O-OPS/ORG"
-    aor: "OPS"
-    stks: ["SAF", "CERT", "CM", "SPACEPORT"]
-    agencies: ["OPS_GOV", "CONOPS", "READINESS"]
-    knots: ["K01", "K02", "K11"]
-    notes: "Ops organization + readiness. Reserved for future expansion."
-
+    ata: '02'
+    description: OPERATIONS/ORGANIZATION (RESERVED)
+    domain: O-OPS/ORG
+    aor: OPS
+    stks:
+    - SAF
+    - CERT
+    - CM
+    - SPACEPORT
+    agencies:
+    - OPS_GOV
+    - CONOPS
+    - READINESS
+    knots:
+    - K01
+    - K02
+    - K11
+    notes: Ops organization + readiness. Reserved for future expansion.
   ATA_03:
-    ata: "03"
-    description: "SUPPORT INFORMATION (RESERVED)"
-    domain: "O-OPS/ORG"
-    aor: "OPS"
-    stks: ["SAF", "CERT", "CM", "SPACEPORT"]
-    agencies: ["TECHPUBS", "OPS_SUPPORT"]
-    knots: ["K01", "K02", "K11"]
-    notes: "Support info (procedures/reporting). Reserved for future expansion."
-
+    ata: '03'
+    description: SUPPORT INFORMATION (RESERVED)
+    domain: O-OPS/ORG
+    aor: OPS
+    stks:
+    - SAF
+    - CERT
+    - CM
+    - SPACEPORT
+    agencies:
+    - TECHPUBS
+    - OPS_SUPPORT
+    knots:
+    - K01
+    - K02
+    - K11
+    notes: Support info (procedures/reporting). Reserved for future expansion.
   ATA_04:
-    ata: "04"
-    description: "AIRWORTHINESS LIMITATIONS / OPERATIONAL LIMITS (RESERVED)"
-    domain: "O-OPS/ORG"
-    aor: "OPS"
-    stks: ["SAF", "CERT", "CM", "SPACEPORT"]
-    agencies: ["OPS_LIMITS", "SAFETY_LIMITS"]
-    knots: ["K01", "K02", "K11"]
-    notes: "Operational limits baseline. Reserved for future expansion."
-
+    ata: '04'
+    description: AIRWORTHINESS LIMITATIONS / OPERATIONAL LIMITS (RESERVED)
+    domain: O-OPS/ORG
+    aor: OPS
+    stks:
+    - SAF
+    - CERT
+    - CM
+    - SPACEPORT
+    agencies:
+    - OPS_LIMITS
+    - SAFETY_LIMITS
+    knots:
+    - K01
+    - K02
+    - K11
+    notes: Operational limits baseline. Reserved for future expansion.
   ATA_05:
-    ata: "05"
-    description: "TIME LIMITS / MAINTENANCE CHECKS"
-    domain: "O-OPS/ORG"
-    aor: "MRO"
-    stks: ["CM", "OPS", "SAF", "CERT", "DATA"]
-    agencies: ["MRO_PLANS", "MSG3_LIKE"]
-    knots: ["K01", "K04", "K05", "K11"]
-    notes: "Time limits, checks, intervals, escalations. Critical for safety and availability."
-
+    ata: '05'
+    description: TIME LIMITS / MAINTENANCE CHECKS
+    domain: O-OPS/ORG
+    aor: MRO
+    stks:
+    - CM
+    - OPS
+    - SAF
+    - CERT
+    - DAB
+    agencies:
+    - MRO_PLANS
+    - MSG3_LIKE
+    knots:
+    - K01
+    - K04
+    - K05
+    - K11
+    notes: Time limits, checks, intervals, escalations. Critical for safety and availability.
   ATA_06:
-    ata: "06"
-    description: "DIMENSIONS AND AREAS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST", "DATA"]
-    agencies: ["GEOMETRY", "AREAS", "MASS_PROP"]
-    knots: ["K01", "K05", "K06"]
-    notes: "Reference geometry, areas, envelopes for downstream validation."
-
+    ata: '06'
+    description: DIMENSIONS AND AREAS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - GEOMETRY
+    - AREAS
+    - MASS_PROP
+    knots:
+    - K01
+    - K05
+    - K06
+    notes: Reference geometry, areas, envelopes for downstream validation.
   ATA_07:
-    ata: "07"
-    description: "LIFTING AND SHORING"
-    domain: "I-INFRASTRUCTURES"
-    aor: "MRO"
-    stks: ["PHM", "SAF", "OPS", "CERT"]
-    agencies: ["GSE", "LIFTING", "SAFETY"]
-    knots: ["K02", "K03", "K05", "K11"]
-    notes: "Ground lifting/jacking/shoring requirements & procedures."
-
+    ata: '07'
+    description: LIFTING AND SHORING
+    domain: I-INFRASTRUCTURES
+    aor: MRO
+    stks:
+    - PHM
+    - SAF
+    - OPS
+    - CERT
+    agencies:
+    - GSE
+    - LIFTING
+    - SAFETY
+    knots:
+    - K02
+    - K03
+    - K05
+    - K11
+    notes: Ground lifting/jacking/shoring requirements & procedures.
   ATA_08:
-    ata: "08"
-    description: "LEVELING AND WEIGHING"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["OPS", "MRO", "TEST", "DATA"]
-    agencies: ["WEIGHING", "CENTER_OF_GRAVITY"]
-    knots: ["K01", "K05", "K06", "K11"]
-    notes: "Mass properties measurement + leveling methods."
-
+    ata: 08
+    description: LEVELING AND WEIGHING
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - OPS
+    - MRO
+    - TEST
+    - DAB
+    agencies:
+    - WEIGHING
+    - CENTER_OF_GRAVITY
+    knots:
+    - K01
+    - K05
+    - K06
+    - K11
+    notes: Mass properties measurement + leveling methods.
   ATA_09:
-    ata: "09"
-    description: "TOWING AND TAXIING"
-    domain: "I-INFRASTRUCTURES"
-    aor: "OPS"
-    stks: ["MRO", "SAF", "SPACEPORT"]
-    agencies: ["GROUND_OPS", "TOWING"]
-    knots: ["K02", "K03", "K11"]
-    notes: "Tow/taxi ground ops constraints + procedures."
-
+    ata: 09
+    description: TOWING AND TAXIING
+    domain: I-INFRASTRUCTURES
+    aor: OPS
+    stks:
+    - MRO
+    - SAF
+    - SPACEPORT
+    agencies:
+    - GROUND_OPS
+    - TOWING
+    knots:
+    - K02
+    - K03
+    - K11
+    notes: Tow/taxi ground ops constraints + procedures.
   ATA_10:
-    ata: "10"
-    description: "PARKING / MOORING / STORAGE / RETURN TO SERVICE"
-    domain: "I-INFRASTRUCTURES"
-    aor: "OPS"
-    stks: ["MRO", "SAF", "SPACEPORT", "CM"]
-    agencies: ["STORAGE", "RTS_PROCEDURES"]
-    knots: ["K02", "K04", "K11"]
-    notes: "Parking/mooring/storage + RTS checks."
-
+    ata: '10'
+    description: PARKING / MOORING / STORAGE / RETURN TO SERVICE
+    domain: I-INFRASTRUCTURES
+    aor: OPS
+    stks:
+    - MRO
+    - SAF
+    - SPACEPORT
+    - CM
+    agencies:
+    - STORAGE
+    - RTS_PROCEDURES
+    knots:
+    - K02
+    - K04
+    - K11
+    notes: Parking/mooring/storage + RTS checks.
   ATA_11:
-    ata: "11"
-    description: "PLACARDS AND MARKINGS"
-    domain: "P-PROGRAM"
-    aor: "OPS"
-    stks: ["MRO", "SAF", "CERT", "CM"]
-    agencies: ["OPS_LABELS", "HFE", "TECHPUBS"]
-    knots: ["K01", "K11"]
-    notes: "Labels/markings governance."
-
+    ata: '11'
+    description: PLACARDS AND MARKINGS
+    domain: P-PROGRAM
+    aor: OPS
+    stks:
+    - MRO
+    - SAF
+    - CERT
+    - CM
+    agencies:
+    - OPS_LABELS
+    - HFE
+    - TECHPUBS
+    knots:
+    - K01
+    - K11
+    notes: Labels/markings governance.
   ATA_12:
-    ata: "12"
-    description: "SERVICING"
-    domain: "I-INFRASTRUCTURES"
-    aor: "MRO"
-    stks: ["OPS", "SAF", "SPACEPORT", "CERT"]
-    agencies: ["SERVICING", "FLUIDS", "CRYO"]
-    knots: ["K02", "K03", "K09", "K11"]
-    notes: "Servicing procedures (fluids/consumables/cryo/prop)."
-
+    ata: '12'
+    description: SERVICING
+    domain: I-INFRASTRUCTURES
+    aor: MRO
+    stks:
+    - OPS
+    - SAF
+    - SPACEPORT
+    - CERT
+    agencies:
+    - SERVICING
+    - FLUIDS
+    - CRYO
+    knots:
+    - K02
+    - K03
+    - K09
+    - K11
+    notes: Servicing procedures (fluids/consumables/cryo/prop).
   ATA_13:
-    ata: "13"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
+    ata: '13'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_14:
-    ata: "14"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
+    ata: '14'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_15:
-    ata: "15"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
+    ata: '15'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_16:
-    ata: "16"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
+    ata: '16'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_17:
-    ata: "17"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
+    ata: '17'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_18:
-    ata: "18"
-    description: "NOISE & VIBRATION MANAGEMENT"
-    domain: "O-OPS/ORG"
-    aor: "SAF"
-    stks: ["OPS", "CERT", "TEST", "SE", "PHM", "SPACEPORT"]
-    agencies: ["NVH", "ENV", "MONITORING"]
-    knots: ["K01", "K05", "K12"]
-    notes: "NVH constraints/monitoring/mitigation."
-
+    ata: '18'
+    description: NOISE & VIBRATION MANAGEMENT
+    domain: O-OPS/ORG
+    aor: SAF
+    stks:
+    - OPS
+    - CERT
+    - TEST
+    - SE
+    - PHM
+    - SPACEPORT
+    agencies:
+    - NVH
+    - ENV
+    - MONITORING
+    knots:
+    - K01
+    - K05
+    - K12
+    notes: NVH constraints/monitoring/mitigation.
   ATA_19:
-    ata: "19"
-    description: "NOT ASSIGNED / RESERVED"
-    domain: "Not Assigned"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY", "CM"]
-    knots: ["K01", "K04"]
-    notes: "Reserved (Space-T tailoring)."
-
-  # T AXIS: TECHNOLOGY / ONBOARD SYSTEMS (20-79)
-
+    ata: '19'
+    description: NOT ASSIGNED / RESERVED
+    domain: Not Assigned
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    - CM
+    knots:
+    - K01
+    - K04
+    notes: Reserved (Space-T tailoring).
   ATA_20:
-    ata: "20"
-    description: "STANDARD PRACTICES - AIRFRAME"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA"]
-    agencies: ["PRACTICES", "FASTENERS", "REPAIRS"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Airframe standard practices, materials, repair methods."
-
+    ata: '20'
+    description: STANDARD PRACTICES - AIRFRAME
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - PRACTICES
+    - FASTENERS
+    - REPAIRS
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Airframe standard practices, materials, repair methods.
   ATA_21:
-    ata: "21"
-    description: "AIR CONDITIONING / ENVIRONMENTAL CONTROL"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA", "SPE"]
-    agencies: ["ECLSS", "ECS", "THERMAL"]
-    knots: ["K01", "K03", "K05", "K06"]
-    notes: "ECLSS/ECS physical plant + controls."
-
+    ata: '21'
+    description: AIR CONDITIONING / ENVIRONMENTAL CONTROL
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - ECLSS
+    - ECS
+    - THERMAL
+    knots:
+    - K01
+    - K03
+    - K05
+    - K06
+    notes: ECLSS/ECS physical plant + controls.
   ATA_22:
-    ata: "22"
-    description: "AUTO FLIGHT / GUIDANCE-NAVIGATION-CONTROL"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["SE", "AI", "SAF", "CERT", "TEST", "OPS", "CY", "DATA", "PHM"]
-    agencies: ["GNC", "AUTONOMY", "FDIR"]
-    knots: ["K01", "K05", "K07", "K13"]
-    notes: "GNC SW/control-law implementation; SE governs architecture."
-
+    ata: '22'
+    description: AUTO FLIGHT / GUIDANCE-NAVIGATION-CONTROL
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - SE
+    - AI
+    - SAF
+    - CERT
+    - TEST
+    - OPS
+    - CY
+    - DAB
+    - PHM
+    agencies:
+    - GNC
+    - AUTONOMY
+    - FDIR
+    knots:
+    - K01
+    - K05
+    - K07
+    - K13
+    notes: GNC SW/control-law implementation; SE governs architecture.
   ATA_23:
-    ata: "23"
-    description: "COMMUNICATIONS"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["SE", "CY", "OPS", "CERT", "TEST", "DATA", "SPACEPORT"]
-    agencies: ["COMMS", "TT&C", "LINK_BUDGET"]
-    knots: ["K01", "K05", "K09", "K13"]
-    notes: "Comms/TT&C stacks + ICDs + link security."
-
+    ata: '23'
+    description: COMMUNICATIONS
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - SE
+    - CY
+    - OPS
+    - CERT
+    - TEST
+    - DAB
+    - SPACEPORT
+    agencies:
+    - COMMS
+    - TT&C
+    - LINK_BUDGET
+    knots:
+    - K01
+    - K05
+    - K09
+    - K13
+    notes: Comms/TT&C stacks + ICDs + link security.
   ATA_24:
-    ata: "24"
-    description: "ELECTRICAL POWER"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO", "DATA", "SPE"]
-    agencies: ["EPOWER", "HVDC", "EMC"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Power generation/distribution/protection + monitoring SW."
-
+    ata: '24'
+    description: ELECTRICAL POWER
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - EPOWER
+    - HVDC
+    - EMC
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Power generation/distribution/protection + monitoring SW.
   ATA_25:
-    ata: "25"
-    description: "EQUIPMENT / FURNISHINGS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["OPS", "SAF", "CERT", "MRO", "SE"]
-    agencies: ["HFE", "CABIN", "SAFETY_EQUIP"]
-    knots: ["K01", "K10", "K11"]
-    notes: "Interiors/equipment/ergonomics + maintainability."
-
+    ata: '25'
+    description: EQUIPMENT / FURNISHINGS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - OPS
+    - SAF
+    - CERT
+    - MRO
+    - SE
+    agencies:
+    - HFE
+    - CABIN
+    - SAFETY_EQUIP
+    knots:
+    - K01
+    - K10
+    - K11
+    notes: Interiors/equipment/ergonomics + maintainability.
   ATA_26:
-    ata: "26"
-    description: "FIRE PROTECTION"
-    domain: "T-TECHNOLOGY"
-    aor: "SAF"
-    stks: ["PHM", "SE", "SPE", "CERT", "OPS", "TEST"]
-    agencies: ["FIRE_SAFETY", "HAZARDS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Detection/suppression, hazard zoning, flammability."
-
+    ata: '26'
+    description: FIRE PROTECTION
+    domain: T-TECHNOLOGY
+    aor: SAF
+    stks:
+    - PHM
+    - SE
+    - DAB
+    - CERT
+    - OPS
+    - TEST
+    agencies:
+    - FIRE_SAFETY
+    - HAZARDS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Detection/suppression, hazard zoning, flammability.
   ATA_27:
-    ata: "27"
-    description: "FLIGHT CONTROLS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SPE", "SAF", "CERT", "TEST", "DATA", "CY"]
-    agencies: ["ACTUATION", "REDUNDANCY"]
-    knots: ["K01", "K05", "K07"]
-    notes: "Actuation/servos/surfaces; SW control under SPE."
-
+    ata: '27'
+    description: FLIGHT CONTROLS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - DAB
+    - SAF
+    - CERT
+    - TEST
+    - CY
+    agencies:
+    - ACTUATION
+    - REDUNDANCY
+    knots:
+    - K01
+    - K05
+    - K07
+    notes: Actuation/servos/surfaces; SW control under SPE.
   ATA_28:
-    ata: "28"
-    description: "FUEL / PROPELLANT SYSTEMS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "OPS", "SPACEPORT", "TEST", "DATA", "SPE"]
-    agencies: ["TECH_PROP", "HAZARDS"]
-    knots: ["K01", "K03", "K05", "K09"]
-    notes: "Tanks/feeds/venting/leak; spaceport servicing ICDs."
-
+    ata: '28'
+    description: FUEL / PROPELLANT SYSTEMS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - OPS
+    - SPACEPORT
+    - TEST
+    - DAB
+    agencies:
+    - TECH_PROP
+    - HAZARDS
+    knots:
+    - K01
+    - K03
+    - K05
+    - K09
+    notes: Tanks/feeds/venting/leak; spaceport servicing ICDs.
   ATA_29:
-    ata: "29"
-    description: "HYDRAULIC POWER"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO", "DATA", "SPE"]
-    agencies: ["HYDRAULICS", "ACTUATION"]
-    knots: ["K01", "K05", "K11"]
-    notes: "Hydraulic generation/distribution/health monitoring."
-
+    ata: '29'
+    description: HYDRAULIC POWER
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - HYDRAULICS
+    - ACTUATION
+    knots:
+    - K01
+    - K05
+    - K11
+    notes: Hydraulic generation/distribution/health monitoring.
   ATA_30:
-    ata: "30"
-    description: "ICE AND RAIN PROTECTION / ATMOSPHERIC PROTECTION"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "SPE"]
-    agencies: ["ENV_PROTECTION", "THERMAL"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Atmospheric protection (air) or env protection features (space)."
-
+    ata: '30'
+    description: ICE AND RAIN PROTECTION / ATMOSPHERIC PROTECTION
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - ENV_PROTECTION
+    - THERMAL
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Atmospheric protection (air) or env protection features (space).
   ATA_31:
-    ata: "31"
-    description: "INDICATING / RECORDING SYSTEMS"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["SE", "CY", "CERT", "TEST", "DATA", "OPS"]
-    agencies: ["DISPLAYS", "LOGGING", "RECORDERS"]
-    knots: ["K01", "K06", "K13"]
-    notes: "Indication/recording SW + data logging governance."
-
+    ata: '31'
+    description: INDICATING / RECORDING SYSTEMS
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - SE
+    - CY
+    - CERT
+    - TEST
+    - DAB
+    - OPS
+    agencies:
+    - DISPLAYS
+    - LOGGING
+    - RECORDERS
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: Indication/recording SW + data logging governance.
   ATA_32:
-    ata: "32"
-    description: "LANDING GEAR"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "OPS", "MRO", "DATA", "SPE"]
-    agencies: ["GEAR", "LOADS", "KINEMATICS"]
-    knots: ["K01", "K05", "K11"]
-    notes: "Gear/brakes/steering + deployment logic interfaces."
-
+    ata: '32'
+    description: LANDING GEAR
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - OPS
+    - MRO
+    - DAB
+    agencies:
+    - GEAR
+    - LOADS
+    - KINEMATICS
+    knots:
+    - K01
+    - K05
+    - K11
+    notes: Gear/brakes/steering + deployment logic interfaces.
   ATA_33:
-    ata: "33"
-    description: "LIGHTS"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["PHM", "SE", "OPS", "SAF", "CERT", "SPACEPORT", "DATA"]
-    agencies: ["LIGHTS", "SIGNALING"]
-    knots: ["K01", "K05"]
-    notes: "Lighting control SW + HW integration."
-
+    ata: '33'
+    description: LIGHTS
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - PHM
+    - SE
+    - OPS
+    - SAF
+    - CERT
+    - SPACEPORT
+    - DAB
+    agencies:
+    - LIGHTS
+    - SIGNALING
+    knots:
+    - K01
+    - K05
+    notes: Lighting control SW + HW integration.
   ATA_34:
-    ata: "34"
-    description: "NAVIGATION"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["SE", "CY", "OPS", "CERT", "TEST", "DATA", "AI"]
-    agencies: ["NAV", "SENSOR_FUSION"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Nav sensors fusion + integrity + cyber resilience."
-
+    ata: '34'
+    description: NAVIGATION
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - SE
+    - CY
+    - OPS
+    - CERT
+    - TEST
+    - DAB
+    - AI
+    agencies:
+    - NAV
+    - SENSOR_FUSION
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Nav sensors fusion + integrity + cyber resilience.
   ATA_35:
-    ata: "35"
-    description: "OXYGEN / LIFE SUPPORT GAS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["OPS", "SAF", "SE", "CERT", "MRO", "SPE"]
-    agencies: ["LS_GAS", "EMERGENCY"]
-    knots: ["K01", "K03", "K11"]
-    notes: "Breathing gas storage/distribution + emergency procedures."
-
+    ata: '35'
+    description: OXYGEN / LIFE SUPPORT GAS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - OPS
+    - SAF
+    - SE
+    - CERT
+    - MRO
+    - DAB
+    agencies:
+    - LS_GAS
+    - EMERGENCY
+    knots:
+    - K01
+    - K03
+    - K11
+    notes: Breathing gas storage/distribution + emergency procedures.
   ATA_36:
-    ata: "36"
-    description: "PNEUMATIC / GAS DISTRIBUTION"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO", "DATA", "SPE"]
-    agencies: ["PNEUMATICS", "GAS_NETS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Pneumatics/gas distribution, valves, sensors, alarms."
-
+    ata: '36'
+    description: PNEUMATIC / GAS DISTRIBUTION
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - PNEUMATICS
+    - GAS_NETS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Pneumatics/gas distribution, valves, sensors, alarms.
   ATA_37:
-    ata: "37"
-    description: "VACUUM (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO"]
-    agencies: ["VACUUM_SYSTEMS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Vacuum systems where applicable."
-
+    ata: '37'
+    description: VACUUM (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    agencies:
+    - VACUUM_SYSTEMS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Vacuum systems where applicable.
   ATA_38:
-    ata: "38"
-    description: "WATER / WASTE (LIFE SUPPORT)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["OPS", "SAF", "SE", "CERT", "TEST", "SPE"]
-    agencies: ["WATER_WASTE", "CONTAMINATION"]
-    knots: ["K01", "K03", "K11"]
-    notes: "Water/waste loops + hygiene + contamination controls."
-
+    ata: '38'
+    description: WATER / WASTE (LIFE SUPPORT)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - OPS
+    - SAF
+    - SE
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - WATER_WASTE
+    - CONTAMINATION
+    knots:
+    - K01
+    - K03
+    - K11
+    notes: Water/waste loops + hygiene + contamination controls.
   ATA_39:
-    ata: "39"
-    description: "ELECTRICAL / ELECTRONIC PANELS & MULTIPURPOSE COMPONENTS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CY", "CERT", "TEST", "MRO", "DATA", "SPE"]
-    agencies: ["PANELS", "LRU_RACKS"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Panels/racks/enclosures, harness interfaces, maintainability."
-
+    ata: '39'
+    description: ELECTRICAL / ELECTRONIC PANELS & MULTIPURPOSE COMPONENTS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CY
+    - CERT
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - PANELS
+    - LRU_RACKS
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Panels/racks/enclosures, harness interfaces, maintainability.
   ATA_40:
-    ata: "40"
-    description: "MULTI-SYSTEM / INTEGRATION SERVICES"
-    domain: "T-TECHNOLOGY"
-    aor: "SE"
-    stks: ["CM", "CERT", "TEST", "DATA", "CY", "PHM", "SPE"]
-    agencies: ["INTEGRATION", "ICDS", "MBSE"]
-    knots: ["K01", "K04", "K06", "K10"]
-    notes: "Cross-system integration services + ICD governance."
-
+    ata: '40'
+    description: MULTI-SYSTEM / INTEGRATION SERVICES
+    domain: T-TECHNOLOGY
+    aor: SE
+    stks:
+    - CM
+    - CERT
+    - TEST
+    - DAB
+    - CY
+    - PHM
+    agencies:
+    - INTEGRATION
+    - ICDS
+    - MBSE
+    knots:
+    - K01
+    - K04
+    - K06
+    - K10
+    notes: Cross-system integration services + ICD governance.
   ATA_41:
-    ata: "41"
-    description: "WATER BALLAST / MASS TRIM (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "TEST", "DATA"]
-    agencies: ["MASS_TRIM", "BALLAST"]
-    knots: ["K01", "K05", "K06"]
-    notes: "Ballast/mass trim where applicable."
-
+    ata: '41'
+    description: WATER BALLAST / MASS TRIM (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - TEST
+    - DAB
+    agencies:
+    - MASS_TRIM
+    - BALLAST
+    knots:
+    - K01
+    - K05
+    - K06
+    notes: Ballast/mass trim where applicable.
   ATA_42:
-    ata: "42"
-    description: "INTEGRATED MODULAR AVIONICS / COMPUTE PLATFORM"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["CY", "SE", "SAF", "CERT", "DATA", "TEST", "AI"]
-    agencies: ["IMA", "COMPUTE", "PLATFORM"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Compute platform SW/toolchains; cyber & partitioning."
-
+    ata: '42'
+    description: INTEGRATED MODULAR AVIONICS / COMPUTE PLATFORM
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - CY
+    - SE
+    - SAF
+    - CERT
+    - DAB
+    - TEST
+    - AI
+    agencies:
+    - IMA
+    - COMPUTE
+    - PLATFORM
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Compute platform SW/toolchains; cyber & partitioning.
   ATA_43:
-    ata: "43"
-    description: "RESERVED / PLATFORM INTEGRATION"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "CERT", "SPE"]
-    agencies: ["PLATFORM_POLICY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved platform integration governance."
-
+    ata: '43'
+    description: RESERVED / PLATFORM INTEGRATION
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    - DAB
+    agencies:
+    - PLATFORM_POLICY
+    knots:
+    - K01
+    - K04
+    notes: Reserved platform integration governance.
   ATA_44:
-    ata: "44"
-    description: "CABIN / HABITAT SYSTEMS"
-    domain: "T-TECHNOLOGY"
-    aor: "OPS"
-    stks: ["SAF", "CERT", "SE", "PHM", "SPE"]
-    agencies: ["HABITAT", "SERVICES", "HFE"]
-    knots: ["K01", "K02", "K11"]
-    notes: "Passenger/crew services + ops training integration."
-
+    ata: '44'
+    description: CABIN / HABITAT SYSTEMS
+    domain: T-TECHNOLOGY
+    aor: OPS
+    stks:
+    - SAF
+    - CERT
+    - SE
+    - PHM
+    - DAB
+    agencies:
+    - HABITAT
+    - SERVICES
+    - HFE
+    knots:
+    - K01
+    - K02
+    - K11
+    notes: Passenger/crew services + ops training integration.
   ATA_45:
-    ata: "45"
-    description: "CENTRAL MAINTENANCE SYSTEM / HEALTH MONITORING"
-    domain: "T-TECHNOLOGY"
-    aor: "DATA"
-    stks: ["SPE", "MRO", "SE", "CY", "CERT", "TEST"]
-    agencies: ["PHM_HEALTH", "LOGS", "DIAG"]
-    knots: ["K01", "K06", "K11", "K13"]
-    notes: "Health monitoring, diagnostics, maintenance data pipelines."
-
+    ata: '45'
+    description: CENTRAL MAINTENANCE SYSTEM / HEALTH MONITORING
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - DAB
+    - MRO
+    - SE
+    - CY
+    - CERT
+    - TEST
+    agencies:
+    - PHM_HEALTH
+    - LOGS
+    - DIAG
+    knots:
+    - K01
+    - K06
+    - K11
+    - K13
+    notes: Health monitoring, diagnostics, maintenance data pipelines.
   ATA_46:
-    ata: "46"
-    description: "INFORMATION SYSTEMS / DATA NETWORKS"
-    domain: "T-TECHNOLOGY"
-    aor: "DATA"
-    stks: ["CY", "SPE", "SE", "CERT", "TEST", "OPS"]
-    agencies: ["DATA_NETWORKS", "AVIONICS_NETS"]
-    knots: ["K01", "K06", "K13"]
-    notes: "Onboard networks + data services; cyber-required."
-
+    ata: '46'
+    description: INFORMATION SYSTEMS / DATA NETWORKS
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - CY
+    - DAB
+    - SE
+    - CERT
+    - TEST
+    - OPS
+    agencies:
+    - DATA_NETWORKS
+    - AVIONICS_NETS
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: Onboard networks + data services; cyber-required.
   ATA_47:
-    ata: "47"
-    description: "INERT GAS SYSTEM / TANK INERTING"
-    domain: "T-TECHNOLOGY"
-    aor: "SAF"
-    stks: ["PHM", "SE", "OPS", "CERT", "TEST", "SPE"]
-    agencies: ["INERTING", "HAZARDS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Inerting safety system + procedures + validation."
-
+    ata: '47'
+    description: INERT GAS SYSTEM / TANK INERTING
+    domain: T-TECHNOLOGY
+    aor: SAF
+    stks:
+    - PHM
+    - SE
+    - OPS
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - INERTING
+    - HAZARDS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Inerting safety system + procedures + validation.
   ATA_48:
-    ata: "48"
-    description: "IN-FLIGHT FUEL DISPENSING (RESERVED)"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "SAF", "CERT", "SPE", "PHM"]
-    agencies: ["APPLICABILITY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved; activate only if applicable."
-
+    ata: '48'
+    description: IN-FLIGHT FUEL DISPENSING (RESERVED)
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - DAB
+    - PHM
+    agencies:
+    - APPLICABILITY
+    knots:
+    - K01
+    - K04
+    notes: Reserved; activate only if applicable.
   ATA_49:
-    ata: "49"
-    description: "AIRBORNE AUXILIARY POWER / APU / AUX POWER MODULES"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO", "SPE"]
-    agencies: ["AUX_POWER", "START", "SAFETY"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Auxiliary power modules (as applicable)."
-
+    ata: '49'
+    description: AIRBORNE AUXILIARY POWER / APU / AUX POWER MODULES
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - AUX_POWER
+    - START
+    - SAFETY
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Auxiliary power modules (as applicable).
   ATA_50:
-    ata: "50"
-    description: "CARGO AND ACCESSORY COMPARTMENTS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO"]
-    agencies: ["CARGO", "COMPARTMENTS"]
-    knots: ["K01", "K05", "K11"]
-    notes: "Compartments/structure/access/inspection."
-
-  # ATA 51-57: STRUCTURES family
+    ata: '50'
+    description: CARGO AND ACCESSORY COMPARTMENTS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    agencies:
+    - CARGO
+    - COMPARTMENTS
+    knots:
+    - K01
+    - K05
+    - K11
+    notes: Compartments/structure/access/inspection.
   ATA_51:
-    ata: "51"
-    description: "STANDARD PRACTICES & STRUCTURES - GENERAL"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA"]
-    agencies: ["STRUCT_PRACTICES", "MATERIALS"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Structural practices, allowables, methods."
-
+    ata: '51'
+    description: STANDARD PRACTICES & STRUCTURES - GENERAL
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - STRUCT_PRACTICES
+    - MATERIALS
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Structural practices, allowables, methods.
   ATA_52:
-    ata: "52"
-    description: "DOORS / HATCHES"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "OPS", "TEST", "MRO", "SPE"]
-    agencies: ["DOORS", "EGRESS"]
-    knots: ["K01", "K05", "K11"]
-    notes: "Doors/hatches/seals/actuation; egress compliance."
-
+    ata: '52'
+    description: DOORS / HATCHES
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - OPS
+    - TEST
+    - MRO
+    - DAB
+    agencies:
+    - DOORS
+    - EGRESS
+    knots:
+    - K01
+    - K05
+    - K11
+    notes: Doors/hatches/seals/actuation; egress compliance.
   ATA_53:
-    ata: "53"
-    description: "FUSELAGE / PRESSURE VESSEL"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA"]
-    agencies: ["PRESSURE_VESSEL", "LOADS"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Primary structure / pressure vessel (Space-T)."
-
+    ata: '53'
+    description: FUSELAGE / PRESSURE VESSEL
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - PRESSURE_VESSEL
+    - LOADS
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Primary structure / pressure vessel (Space-T).
   ATA_54:
-    ata: "54"
-    description: "NACELLES / PYLONS (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST"]
-    agencies: ["NACELLES", "PYLONS"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Nacelles/pylons and integration structures."
-
+    ata: '54'
+    description: NACELLES / PYLONS (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    agencies:
+    - NACELLES
+    - PYLONS
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Nacelles/pylons and integration structures.
   ATA_55:
-    ata: "55"
-    description: "STABILIZERS / CONTROL SURFACES"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA", "SPE"]
-    agencies: ["CONTROL_SURFACES"]
-    knots: ["K01", "K05", "K07"]
-    notes: "Control surfaces mechanisms, loads, actuation interfaces."
-
+    ata: '55'
+    description: STABILIZERS / CONTROL SURFACES
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - CONTROL_SURFACES
+    knots:
+    - K01
+    - K05
+    - K07
+    notes: Control surfaces mechanisms, loads, actuation interfaces.
   ATA_56:
-    ata: "56"
-    description: "WINDOWS / VIEWPORTS"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "OPS", "MRO", "TEST"]
-    agencies: ["VIEWPORTS", "DEBRIS"]
-    knots: ["K01", "K05", "K11"]
-    notes: "Viewports/windows, debris protection, inspection."
-
+    ata: '56'
+    description: WINDOWS / VIEWPORTS
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - OPS
+    - MRO
+    - TEST
+    agencies:
+    - VIEWPORTS
+    - DEBRIS
+    knots:
+    - K01
+    - K05
+    - K11
+    notes: Viewports/windows, debris protection, inspection.
   ATA_57:
-    ata: "57"
-    description: "WINGS / LIFTING SURFACES"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "DATA"]
-    agencies: ["LIFT_SURFACES", "AEROELASTIC"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Lifting surfaces / lifting body structures."
-
+    ata: '57'
+    description: WINGS / LIFTING SURFACES
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - LIFT_SURFACES
+    - AEROELASTIC
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Lifting surfaces / lifting body structures.
   ATA_58:
-    ata: "58"
-    description: "RESERVED / EXTENSION"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved extension."
-
+    ata: '58'
+    description: RESERVED / EXTENSION
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    knots:
+    - K01
+    - K04
+    notes: Reserved extension.
   ATA_59:
-    ata: "59"
-    description: "RESERVED / EXTENSION"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved extension."
-
-  # ATA 60-67: PROP/ROTOR family
+    ata: '59'
+    description: RESERVED / EXTENSION
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    knots:
+    - K01
+    - K04
+    notes: Reserved extension.
   ATA_60:
-    ata: "60"
-    description: "STANDARD PRACTICES - PROPELLER / ROTOR"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["PROP_ROTOR_PRACTICES"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Prop/rotor practices (if applicable)."
-
+    ata: '60'
+    description: STANDARD PRACTICES - PROPELLER / ROTOR
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - PROP_ROTOR_PRACTICES
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Prop/rotor practices (if applicable).
   ATA_61:
-    ata: "61"
-    description: "PROPELLERS / PROPULSORS (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST"]
-    agencies: ["PROPULSORS"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Propulsors hardware (if applicable)."
-
+    ata: '61'
+    description: PROPELLERS / PROPULSORS (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    agencies:
+    - PROPULSORS
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Propulsors hardware (if applicable).
   ATA_62:
-    ata: "62"
-    description: "ROTORS (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["ROTORS"]
-    knots: ["K01", "K05"]
-    notes: "Rotors (if applicable)."
-
+    ata: '62'
+    description: ROTORS (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - ROTORS
+    knots:
+    - K01
+    - K05
+    notes: Rotors (if applicable).
   ATA_63:
-    ata: "63"
-    description: "ROTOR DRIVES (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["ROTOR_DRIVES"]
-    knots: ["K01", "K05"]
-    notes: "Rotor drive trains (if applicable)."
-
+    ata: '63'
+    description: ROTOR DRIVES (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - ROTOR_DRIVES
+    knots:
+    - K01
+    - K05
+    notes: Rotor drive trains (if applicable).
   ATA_64:
-    ata: "64"
-    description: "TAIL ROTOR (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["TAIL_ROTOR"]
-    knots: ["K01", "K05"]
-    notes: "Tail rotor (if applicable)."
-
+    ata: '64'
+    description: TAIL ROTOR (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - TAIL_ROTOR
+    knots:
+    - K01
+    - K05
+    notes: Tail rotor (if applicable).
   ATA_65:
-    ata: "65"
-    description: "TAIL ROTOR DRIVE (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["TAIL_ROTOR_DRIVE"]
-    knots: ["K01", "K05"]
-    notes: "Tail rotor drive (if applicable)."
-
+    ata: '65'
+    description: TAIL ROTOR DRIVE (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - TAIL_ROTOR_DRIVE
+    knots:
+    - K01
+    - K05
+    notes: Tail rotor drive (if applicable).
   ATA_66:
-    ata: "66"
-    description: "FOLDING BLADES / TAIL PYLON (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "CERT", "TEST"]
-    agencies: ["FOLDING_MECH"]
-    knots: ["K01", "K05"]
-    notes: "Folding mechanisms (if applicable)."
-
+    ata: '66'
+    description: FOLDING BLADES / TAIL PYLON (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - FOLDING_MECH
+    knots:
+    - K01
+    - K05
+    notes: Folding mechanisms (if applicable).
   ATA_67:
-    ata: "67"
-    description: "ROTORS FLIGHT CONTROL (IF APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SPE", "CERT", "TEST"]
-    agencies: ["ROTOR_CONTROL"]
-    knots: ["K01", "K05", "K07"]
-    notes: "Rotor control interfaces and VV (if applicable)."
-
+    ata: '67'
+    description: ROTORS FLIGHT CONTROL (IF APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - DAB
+    - CERT
+    - TEST
+    agencies:
+    - ROTOR_CONTROL
+    knots:
+    - K01
+    - K05
+    - K07
+    notes: Rotor control interfaces and VV (if applicable).
   ATA_68:
-    ata: "68"
-    description: "RESERVED / EXTENSION"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved extension."
-
+    ata: '68'
+    description: RESERVED / EXTENSION
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    knots:
+    - K01
+    - K04
+    notes: Reserved extension.
   ATA_69:
-    ata: "69"
-    description: "RESERVED / EXTENSION"
-    domain: "T-TECHNOLOGY"
-    aor: "CM"
-    stks: ["SE", "CERT"]
-    agencies: ["TAXONOMY"]
-    knots: ["K01", "K04"]
-    notes: "Reserved extension."
-
-  # ATA 70-79: PROPULSION family
+    ata: '69'
+    description: RESERVED / EXTENSION
+    domain: T-TECHNOLOGY
+    aor: CM
+    stks:
+    - SE
+    - CERT
+    agencies:
+    - TAXONOMY
+    knots:
+    - K01
+    - K04
+    notes: Reserved extension.
   ATA_70:
-    ata: "70"
-    description: "STANDARD PRACTICES - ENGINE"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST"]
-    agencies: ["ENGINE_PRACTICES"]
-    knots: ["K01", "K05", "K10"]
-    notes: "Engine/propulsion practices, methods, inspections."
-
+    ata: '70'
+    description: STANDARD PRACTICES - ENGINE
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    agencies:
+    - ENGINE_PRACTICES
+    knots:
+    - K01
+    - K05
+    - K10
+    notes: Engine/propulsion practices, methods, inspections.
   ATA_71:
-    ata: "71"
-    description: "POWER PLANT / PROPULSION INTEGRATION"
-    domain: "T-TECHNOLOGY"
-    aor: "SE"
-    stks: ["PHM", "SPE", "SAF", "CERT", "TEST", "SPACEPORT", "DATA"]
-    agencies: ["PROP_INTEGRATION", "ICDS"]
-    knots: ["K01", "K04", "K05", "K09"]
-    notes: "Propulsion integration architecture + ICD governance."
-
+    ata: '71'
+    description: POWER PLANT / PROPULSION INTEGRATION
+    domain: T-TECHNOLOGY
+    aor: SE
+    stks:
+    - PHM
+    - DAB
+    - SAF
+    - CERT
+    - TEST
+    - SPACEPORT
+    agencies:
+    - PROP_INTEGRATION
+    - ICDS
+    knots:
+    - K01
+    - K04
+    - K05
+    - K09
+    notes: Propulsion integration architecture + ICD governance.
   ATA_72:
-    ata: "72"
-    description: "ENGINE (TURBINE/ROCKET/HYBRID AS APPLICABLE)"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "SPACEPORT", "DATA", "SPE"]
-    agencies: ["TECH_PROP", "QUAL_TESTS"]
-    knots: ["K01", "K03", "K05", "K09"]
-    notes: "Propulsion unit hardware + integration constraints."
-
+    ata: '72'
+    description: ENGINE (TURBINE/ROCKET/HYBRID AS APPLICABLE)
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - SPACEPORT
+    - DAB
+    agencies:
+    - TECH_PROP
+    - QUAL_TESTS
+    knots:
+    - K01
+    - K03
+    - K05
+    - K09
+    notes: Propulsion unit hardware + integration constraints.
   ATA_73:
-    ata: "73"
-    description: "ENGINE FUEL AND CONTROL"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["PHM", "SE", "CY", "SAF", "CERT", "TEST", "DATA"]
-    agencies: ["FADEC_LIKE", "CYSEC"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Propulsion control SW + safety/cyber evidence."
-
+    ata: '73'
+    description: ENGINE FUEL AND CONTROL
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - PHM
+    - SE
+    - CY
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - FADEC_LIKE
+    - CYSEC
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Propulsion control SW + safety/cyber evidence.
   ATA_74:
-    ata: "74"
-    description: "IGNITION"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "SPE"]
-    agencies: ["IGNITION", "INTERLOCKS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Ignition hardware + interlocks + validation."
-
+    ata: '74'
+    description: IGNITION
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - IGNITION
+    - INTERLOCKS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Ignition hardware + interlocks + validation.
   ATA_75:
-    ata: "75"
-    description: "AIR (BLEED / INLET / APU AIR) / INTAKE"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST"]
-    agencies: ["INTAKES", "FLOW_PATHS"]
-    knots: ["K01", "K03", "K05"]
-    notes: "Intake/bleed/flow paths (as applicable)."
-
+    ata: '75'
+    description: AIR (BLEED / INLET / APU AIR) / INTAKE
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    agencies:
+    - INTAKES
+    - FLOW_PATHS
+    knots:
+    - K01
+    - K03
+    - K05
+    notes: Intake/bleed/flow paths (as applicable).
   ATA_76:
-    ata: "76"
-    description: "ENGINE CONTROLS"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["PHM", "SE", "CY", "CERT", "TEST", "DATA"]
-    agencies: ["CONTROL_INTEGRATION"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Integrated propulsion control SW (ICDs + VV)."
-
+    ata: '76'
+    description: ENGINE CONTROLS
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - PHM
+    - SE
+    - CY
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - CONTROL_INTEGRATION
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Integrated propulsion control SW (ICDs + VV).
   ATA_77:
-    ata: "77"
-    description: "ENGINE INDICATING"
-    domain: "T-TECHNOLOGY"
-    aor: "SPE"
-    stks: ["PHM", "SE", "CERT", "TEST", "DATA"]
-    agencies: ["ENGINE_INDICATION"]
-    knots: ["K01", "K05", "K06"]
-    notes: "Indication/recording for propulsion."
-
+    ata: '77'
+    description: ENGINE INDICATING
+    domain: T-TECHNOLOGY
+    aor: DAB
+    stks:
+    - PHM
+    - SE
+    - CERT
+    - TEST
+    - DAB
+    agencies:
+    - ENGINE_INDICATION
+    knots:
+    - K01
+    - K05
+    - K06
+    notes: Indication/recording for propulsion.
   ATA_78:
-    ata: "78"
-    description: "EXHAUST / PLUME MANAGEMENT"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "SPACEPORT"]
-    agencies: ["PLUME", "THERMAL", "SAFETY"]
-    knots: ["K01", "K03", "K05", "K09"]
-    notes: "Exhaust/plume/thermal interactions + constraints."
-
+    ata: '78'
+    description: EXHAUST / PLUME MANAGEMENT
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - SPACEPORT
+    agencies:
+    - PLUME
+    - THERMAL
+    - SAFETY
+    knots:
+    - K01
+    - K03
+    - K05
+    - K09
+    notes: Exhaust/plume/thermal interactions + constraints.
   ATA_79:
-    ata: "79"
-    description: "OIL / LUBRICATION"
-    domain: "T-TECHNOLOGY"
-    aor: "PHM"
-    stks: ["SE", "SAF", "CERT", "TEST", "MRO"]
-    agencies: ["LUBE", "OIL_SYSTEMS"]
-    knots: ["K01", "K03", "K11"]
-    notes: "Lubrication systems + servicing/inspection."
-
-  # I AXIS: INFRASTRUCTURES (80-89)
-
+    ata: '79'
+    description: OIL / LUBRICATION
+    domain: T-TECHNOLOGY
+    aor: PHM
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - TEST
+    - MRO
+    agencies:
+    - LUBE
+    - OIL_SYSTEMS
+    knots:
+    - K01
+    - K03
+    - K11
+    notes: Lubrication systems + servicing/inspection.
   ATA_80:
-    ata: "80"
-    description: "OFF-BOARD / AIRPORT / SPACEPORT INFRASTRUCTURES (MASTER)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "SPACEPORT"
-    stks: ["OPS", "SAF", "CERT", "CM", "DATA"]
-    agencies: ["SPACEPORT_MASTER"]
-    knots: ["K01", "K02", "K09", "K10"]
-    notes: "Master off-board infra baseline (Spaceport/Airport)."
-
+    ata: '80'
+    description: OFF-BOARD / AIRPORT / SPACEPORT INFRASTRUCTURES (MASTER)
+    domain: I-INFRASTRUCTURES
+    aor: SPACEPORT
+    stks:
+    - OPS
+    - SAF
+    - CERT
+    - CM
+    - DAB
+    agencies:
+    - SPACEPORT_MASTER
+    knots:
+    - K01
+    - K02
+    - K09
+    - K10
+    notes: Master off-board infra baseline (Spaceport/Airport).
   ATA_81:
-    ata: "81"
-    description: "OFF-BOARD ENERGY / CRYO SERVICES"
-    domain: "I-INFRASTRUCTURES"
-    aor: "SPACEPORT"
-    stks: ["SAF", "OPS", "CERT", "PHM", "MRO"]
-    agencies: ["CRYO", "ENERGY_SERVICES"]
-    knots: ["K02", "K03", "K09"]
-    notes: "Energy/cryo services & interfaces."
-
+    ata: '81'
+    description: OFF-BOARD ENERGY / CRYO SERVICES
+    domain: I-INFRASTRUCTURES
+    aor: SPACEPORT
+    stks:
+    - SAF
+    - OPS
+    - CERT
+    - PHM
+    - MRO
+    agencies:
+    - CRYO
+    - ENERGY_SERVICES
+    knots:
+    - K02
+    - K03
+    - K09
+    notes: Energy/cryo services & interfaces.
   ATA_82:
-    ata: "82"
-    description: "OFF-BOARD MRO FACILITIES / TOOLING / LOGISTICS"
-    domain: "I-INFRASTRUCTURES"
-    aor: "MRO"
-    stks: ["OPS", "SAF", "CM", "DATA"]
-    agencies: ["MRO_FACILITIES", "TOOLING"]
-    knots: ["K02", "K04", "K11"]
-    notes: "MRO facilities/tooling/logistics baselines."
-
+    ata: '82'
+    description: OFF-BOARD MRO FACILITIES / TOOLING / LOGISTICS
+    domain: I-INFRASTRUCTURES
+    aor: MRO
+    stks:
+    - OPS
+    - SAF
+    - CM
+    - DAB
+    agencies:
+    - MRO_FACILITIES
+    - TOOLING
+    knots:
+    - K02
+    - K04
+    - K11
+    notes: MRO facilities/tooling/logistics baselines.
   ATA_83:
-    ata: "83"
-    description: "GROUND COMMS / DATA EXCHANGE INFRA (GATEWAYS, EDGE)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "DATA"
-    stks: ["CY", "OPS", "SPACEPORT", "CERT", "TEST"]
-    agencies: ["GATEWAYS", "EDGE", "DATA_EXCHANGE"]
-    knots: ["K02", "K06", "K09", "K13"]
-    notes: "Ground gateways/edge data exchange; cyber-required."
-
+    ata: '83'
+    description: GROUND COMMS / DATA EXCHANGE INFRA (GATEWAYS, EDGE)
+    domain: I-INFRASTRUCTURES
+    aor: DAB
+    stks:
+    - CY
+    - OPS
+    - SPACEPORT
+    - CERT
+    - TEST
+    agencies:
+    - GATEWAYS
+    - EDGE
+    - DATA_EXCHANGE
+    knots:
+    - K02
+    - K06
+    - K09
+    - K13
+    notes: Ground gateways/edge data exchange; cyber-required.
   ATA_84:
-    ata: "84"
-    description: "SPACEPORT SAFETY / EMERGENCY RESPONSE INFRA"
-    domain: "I-INFRASTRUCTURES"
-    aor: "SAF"
-    stks: ["SPACEPORT", "OPS", "CERT", "TEST"]
-    agencies: ["EMERGENCY_RESPONSE"]
-    knots: ["K02", "K03", "K09", "K10"]
-    notes: "Safety infra & emergency response baselines."
-
+    ata: '84'
+    description: SPACEPORT SAFETY / EMERGENCY RESPONSE INFRA
+    domain: I-INFRASTRUCTURES
+    aor: SAF
+    stks:
+    - SPACEPORT
+    - OPS
+    - CERT
+    - TEST
+    agencies:
+    - EMERGENCY_RESPONSE
+    knots:
+    - K02
+    - K03
+    - K09
+    - K10
+    notes: Safety infra & emergency response baselines.
   ATA_85:
-    ata: "85"
-    description: "CIRCULARITY INFRA (RETURN FLOWS, RECYCLING, CO2/H2 LOOPS)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "DATA"
-    stks: ["PMO", "CM", "OPS", "SPACEPORT"]
-    agencies: ["CIRCULARITY", "LEDGERS"]
-    knots: ["K01", "K06", "K14"]
-    notes: "Circularity infra + trace/ledger hooks."
-
+    ata: '85'
+    description: CIRCULARITY INFRA (RETURN FLOWS, RECYCLING, CO2/H2 LOOPS)
+    domain: I-INFRASTRUCTURES
+    aor: DAB
+    stks:
+    - PMO
+    - CM
+    - OPS
+    - SPACEPORT
+    agencies:
+    - CIRCULARITY
+    - LEDGERS
+    knots:
+    - K01
+    - K06
+    - K14
+    notes: Circularity infra + trace/ledger hooks.
   ATA_86:
-    ata: "86"
-    description: "OFF-BOARD DIGITAL SERVICES PLATFORM (PORTALS, ORCHESTRATION)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "DATA"
-    stks: ["CY", "OPS", "CM", "TEST", "SPE"]
-    agencies: ["PORTALS", "ORCHESTRATION"]
-    knots: ["K01", "K06", "K13"]
-    notes: "CAXS portals/orchestration services."
-
+    ata: '86'
+    description: OFF-BOARD DIGITAL SERVICES PLATFORM (PORTALS, ORCHESTRATION)
+    domain: I-INFRASTRUCTURES
+    aor: DAB
+    stks:
+    - CY
+    - OPS
+    - CM
+    - TEST
+    - DAB
+    agencies:
+    - PORTALS
+    - ORCHESTRATION
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: CAXS portals/orchestration services.
   ATA_87:
-    ata: "87"
-    description: "IDENTITY / ACCESS / CYBERSECURITY INFRA (PHYSICAL+DIGITAL)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "CY"
-    stks: ["DATA", "CM", "CERT", "OPS"]
-    agencies: ["IAM", "ZTA", "SECOPS"]
-    knots: ["K01", "K06", "K13"]
-    notes: "Identity/access/cyber infra."
-
+    ata: '87'
+    description: IDENTITY / ACCESS / CYBERSECURITY INFRA (PHYSICAL+DIGITAL)
+    domain: I-INFRASTRUCTURES
+    aor: CY
+    stks:
+    - DAB
+    - CM
+    - CERT
+    - OPS
+    agencies:
+    - IAM
+    - ZTA
+    - SECOPS
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: Identity/access/cyber infra.
   ATA_88:
-    ata: "88"
-    description: "GSE CONFIGURATION / ASSET MANAGEMENT"
-    domain: "I-INFRASTRUCTURES"
-    aor: "CM"
-    stks: ["MRO", "DATA", "OPS", "CERT"]
-    agencies: ["ASSET_MGMT", "CONFIG"]
-    knots: ["K01", "K04", "K06"]
-    notes: "GSE asset mgmt + configuration baselines."
-
+    ata: '88'
+    description: GSE CONFIGURATION / ASSET MANAGEMENT
+    domain: I-INFRASTRUCTURES
+    aor: CM
+    stks:
+    - MRO
+    - DAB
+    - OPS
+    - CERT
+    agencies:
+    - ASSET_MGMT
+    - CONFIG
+    knots:
+    - K01
+    - K04
+    - K06
+    notes: GSE asset mgmt + configuration baselines.
   ATA_89:
-    ata: "89"
-    description: "TEST RIGS / INSTRUMENTATION INFRA (GROUND)"
-    domain: "I-INFRASTRUCTURES"
-    aor: "TEST"
-    stks: ["SPACEPORT", "PHM", "SPE", "CERT", "DATA"]
-    agencies: ["TEST_RIGS", "INSTRUMENTATION"]
-    knots: ["K01", "K05", "K09"]
-    notes: "Ground rigs/instrumentation infra."
-
-  # N AXIS: NEURAL NETWORKS / REGISTRIES / SSOT / LEDGERS (90-99)
-
+    ata: '89'
+    description: TEST RIGS / INSTRUMENTATION INFRA (GROUND)
+    domain: I-INFRASTRUCTURES
+    aor: TEST
+    stks:
+    - SPACEPORT
+    - PHM
+    - DAB
+    - CERT
+    agencies:
+    - TEST_RIGS
+    - INSTRUMENTATION
+    knots:
+    - K01
+    - K05
+    - K09
+    notes: Ground rigs/instrumentation infra.
   ATA_90:
-    ata: "90"
-    description: "AI/ML MODEL REGISTRY & MODEL LIFECYCLE"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "AI"
-    stks: ["DATA", "CM", "CERT", "OPS", "CY", "TEST", "SPE"]
-    agencies: ["MODEL_REGISTRY", "GOV"]
-    knots: ["K01", "K06", "K07"]
-    notes: "Model registry + lifecycle governance."
-
+    ata: '90'
+    description: AI/ML MODEL REGISTRY & MODEL LIFECYCLE
+    domain: N-NEURAL_NETWORKS
+    aor: AI
+    stks:
+    - DAB
+    - CM
+    - CERT
+    - OPS
+    - CY
+    - TEST
+    agencies:
+    - MODEL_REGISTRY
+    - GOV
+    knots:
+    - K01
+    - K06
+    - K07
+    notes: Model registry + lifecycle governance.
   ATA_91:
-    ata: "91"
-    description: "DATA SCHEMAS / ONTOLOGIES / SEMANTIC MODEL (SSOT)"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["CM", "SE", "CY", "CERT", "TEST"]
-    agencies: ["ONTOLOGIES", "SSOT"]
-    knots: ["K01", "K06", "K13"]
-    notes: "Ontologies/SSOT for validation and trace."
-
+    ata: '91'
+    description: DATA SCHEMAS / ONTOLOGIES / SEMANTIC MODEL (SSOT)
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - CM
+    - SE
+    - CY
+    - CERT
+    - TEST
+    agencies:
+    - ONTOLOGIES
+    - SSOT
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: Ontologies/SSOT for validation and trace.
   ATA_92:
-    ata: "92"
-    description: "WIRING / CONNECTIVITY GRAPHS & HARNESS DATA PACKAGES"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["PHM", "SE", "CM", "CERT", "TEST"]
-    agencies: ["CONNECTIVITY", "GRAPH"]
-    knots: ["K01", "K06", "K05"]
-    notes: "Connectivity graphs/harness datasets."
-
+    ata: '92'
+    description: WIRING / CONNECTIVITY GRAPHS & HARNESS DATA PACKAGES
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - PHM
+    - SE
+    - CM
+    - CERT
+    - TEST
+    agencies:
+    - CONNECTIVITY
+    - GRAPH
+    knots:
+    - K01
+    - K06
+    - K05
+    notes: Connectivity graphs/harness datasets.
   ATA_93:
-    ata: "93"
-    description: "TRACEABILITY GRAPH (REQ↔DESIGN↔VV↔OPS) & EVIDENCE LEDGERS"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "CM"
-    stks: ["DATA", "SE", "CERT", "TEST", "AI", "SPE"]
-    agencies: ["TRACEABILITY", "EVIDENCE_LEDGER"]
-    knots: ["K01", "K06", "K08"]
-    notes: "Trace graph + evidence ledgers for audits/releases."
-
+    ata: '93'
+    description: TRACEABILITY GRAPH (REQ↔DESIGN↔VV↔OPS) & EVIDENCE LEDGERS
+    domain: N-NEURAL_NETWORKS
+    aor: CM
+    stks:
+    - DAB
+    - SE
+    - CERT
+    - TEST
+    - AI
+    agencies:
+    - TRACEABILITY
+    - EVIDENCE_LEDGER
+    knots:
+    - K01
+    - K06
+    - K08
+    notes: Trace graph + evidence ledgers for audits/releases.
   ATA_94:
-    ata: "94"
-    description: "DPP CORE (DIGITAL PRODUCT PASSPORT) & PROVENANCE"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["CM", "CERT", "CY", "OPS"]
-    agencies: ["DPP", "PROVENANCE"]
-    knots: ["K01", "K06", "K13", "K14"]
-    notes: "DPP core + provenance/export views."
-
+    ata: '94'
+    description: DPP CORE (DIGITAL PRODUCT PASSPORT) & PROVENANCE
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - CM
+    - CERT
+    - CY
+    - OPS
+    agencies:
+    - DPP
+    - PROVENANCE
+    knots:
+    - K01
+    - K06
+    - K13
+    - K14
+    notes: DPP core + provenance/export views.
   ATA_95:
-    ata: "95"
-    description: "SBOM / SWHW BOM / MODEL BOM EXPORTS"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["CY", "CM", "CERT", "SPE"]
-    agencies: ["SBOM", "BOM_EXPORTS"]
-    knots: ["K01", "K06", "K13"]
-    notes: "SBOM/SW/HW BOM exports + signing hooks."
-
+    ata: '95'
+    description: SBOM / SWHW BOM / MODEL BOM EXPORTS
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - CY
+    - CM
+    - CERT
+    - DAB
+    agencies:
+    - SBOM
+    - BOM_EXPORTS
+    knots:
+    - K01
+    - K06
+    - K13
+    notes: SBOM/SW/HW BOM exports + signing hooks.
   ATA_96:
-    ata: "96"
-    description: "AI GOVERNANCE (RISK, ASSURANCE, MONITORING, DRIFT/BIAS)"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "AI"
-    stks: ["SAF", "CERT", "OPS", "CY", "DATA", "CM", "SPE"]
-    agencies: ["AI_RISK", "ASSURANCE"]
-    knots: ["K01", "K07", "K13"]
-    notes: "AI governance, monitors, approvals, rollback."
-
+    ata: '96'
+    description: AI GOVERNANCE (RISK, ASSURANCE, MONITORING, DRIFT/BIAS)
+    domain: N-NEURAL_NETWORKS
+    aor: AI
+    stks:
+    - SAF
+    - CERT
+    - OPS
+    - CY
+    - DAB
+    - CM
+    agencies:
+    - AI_RISK
+    - ASSURANCE
+    knots:
+    - K01
+    - K07
+    - K13
+    notes: AI governance, monitors, approvals, rollback.
   ATA_97:
-    ata: "97"
-    description: "CHANGE IMPACT ANALYTICS (WIRING/CONFIG/TRACE)"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["CM", "SE", "CERT", "TEST"]
-    agencies: ["IMPACT_ANALYTICS"]
-    knots: ["K01", "K04", "K06"]
-    notes: "Change impact analytics across config/trace/connectivity."
-
+    ata: '97'
+    description: CHANGE IMPACT ANALYTICS (WIRING/CONFIG/TRACE)
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - CM
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - IMPACT_ANALYTICS
+    knots:
+    - K01
+    - K04
+    - K06
+    notes: Change impact analytics across config/trace/connectivity.
   ATA_98:
-    ata: "98"
-    description: "SIGNED RELEASE PACKS / MANIFESTS / EXPORTS"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "CM"
-    stks: ["CERT", "DATA", "CY", "OPS"]
-    agencies: ["SIGNING", "MANIFESTS", "EXPORTS"]
-    knots: ["K01", "K04", "K08", "K13"]
-    notes: "Signed releases/manifests/exports (PR-blocking)."
-
+    ata: '98'
+    description: SIGNED RELEASE PACKS / MANIFESTS / EXPORTS
+    domain: N-NEURAL_NETWORKS
+    aor: CM
+    stks:
+    - CERT
+    - DAB
+    - CY
+    - OPS
+    agencies:
+    - SIGNING
+    - MANIFESTS
+    - EXPORTS
+    knots:
+    - K01
+    - K04
+    - K08
+    - K13
+    notes: Signed releases/manifests/exports (PR-blocking).
   ATA_99:
-    ata: "99"
-    description: "MASTER REGISTERS (GOLDEN RECORDS) & REFERENCE DATASETS"
-    domain: "N-NEURAL_NETWORKS"
-    aor: "DATA"
-    stks: ["CM", "SE", "CERT", "TEST"]
-    agencies: ["MASTER_DATA", "REGISTERS"]
-    knots: ["K01", "K06"]
-    notes: "Golden registers + reference datasets."
-
-  # S AXIS: SIM/TEST RANGE (100-116)
-
+    ata: '99'
+    description: MASTER REGISTERS (GOLDEN RECORDS) & REFERENCE DATASETS
+    domain: N-NEURAL_NETWORKS
+    aor: DAB
+    stks:
+    - CM
+    - SE
+    - CERT
+    - TEST
+    agencies:
+    - MASTER_DATA
+    - REGISTERS
+    knots:
+    - K01
+    - K06
+    notes: Golden registers + reference datasets.
   ATA_100:
-    ata: "100"
-    description: "SIM/TEST GOVERNANCE (PLANS, ENVIRONMENTS, QUALITY)"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["CERT", "CM", "DATA", "SE", "SPE"]
-    agencies: ["SIMTEST_GOV", "TOOL_QUAL"]
-    knots: ["K01", "K05"]
-    notes: "Test governance, environments, tool qualification."
-
+    ata: '100'
+    description: SIM/TEST GOVERNANCE (PLANS, ENVIRONMENTS, QUALITY)
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - CERT
+    - CM
+    - DAB
+    - SE
+    agencies:
+    - SIMTEST_GOV
+    - TOOL_QUAL
+    knots:
+    - K01
+    - K05
+    notes: Test governance, environments, tool qualification.
   ATA_101:
-    ata: "101"
-    description: "DIGITAL TWIN CONFIGURATION & SIM MODEL CATALOG"
-    domain: "T-SIMTEST"
-    aor: "DATA"
-    stks: ["TEST", "SE", "CM", "CERT"]
-    agencies: ["DIGITAL_TWIN", "CATALOG"]
-    knots: ["K01", "K06", "K05"]
-    notes: "Digital twin config + model catalog."
-
+    ata: '101'
+    description: DIGITAL TWIN CONFIGURATION & SIM MODEL CATALOG
+    domain: T-SIMTEST
+    aor: DAB
+    stks:
+    - TEST
+    - SE
+    - CM
+    - CERT
+    agencies:
+    - DIGITAL_TWIN
+    - CATALOG
+    knots:
+    - K01
+    - K06
+    - K05
+    notes: Digital twin config + model catalog.
   ATA_102:
-    ata: "102"
-    description: "SCENARIO LIBRARIES (MISSION, OFF-NOMINAL, EMERGENCY)"
-    domain: "T-SIMTEST"
-    aor: "OPS"
-    stks: ["TEST", "SAF", "SE", "DATA"]
-    agencies: ["SCENARIOS", "CONOPS"]
-    knots: ["K01", "K02", "K05"]
-    notes: "Scenario libraries for mission/off-nominal/emergency."
-
+    ata: '102'
+    description: SCENARIO LIBRARIES (MISSION, OFF-NOMINAL, EMERGENCY)
+    domain: T-SIMTEST
+    aor: OPS
+    stks:
+    - TEST
+    - SAF
+    - SE
+    - DAB
+    agencies:
+    - SCENARIOS
+    - CONOPS
+    knots:
+    - K01
+    - K02
+    - K05
+    notes: Scenario libraries for mission/off-nominal/emergency.
   ATA_103:
-    ata: "103"
-    description: "SIL (SOFTWARE-IN-THE-LOOP) AUTOMATION"
-    domain: "T-SIMTEST"
-    aor: "SPE"
-    stks: ["TEST", "CY", "DATA", "SE"]
-    agencies: ["SIL", "AUTOMATION"]
-    knots: ["K01", "K05", "K13"]
-    notes: "SIL harnesses, runners, automation, logs."
-
+    ata: '103'
+    description: SIL (SOFTWARE-IN-THE-LOOP) AUTOMATION
+    domain: T-SIMTEST
+    aor: DAB
+    stks:
+    - TEST
+    - CY
+    - DAB
+    - SE
+    agencies:
+    - SIL
+    - AUTOMATION
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: SIL harnesses, runners, automation, logs.
   ATA_104:
-    ata: "104"
-    description: "HIL (HARDWARE-IN-THE-LOOP) BENCHES"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["PHM", "SPE", "SE", "CERT", "DATA"]
-    agencies: ["HIL", "BENCHES"]
-    knots: ["K01", "K05"]
-    notes: "HIL benches + instrumentation + procedures."
-
+    ata: '104'
+    description: HIL (HARDWARE-IN-THE-LOOP) BENCHES
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - PHM
+    - DAB
+    - SE
+    - CERT
+    agencies:
+    - HIL
+    - BENCHES
+    knots:
+    - K01
+    - K05
+    notes: HIL benches + instrumentation + procedures.
   ATA_105:
-    ata: "105"
-    description: "PIL / TARGET EXECUTION (PROCESSOR/PLATFORM-IN-THE-LOOP)"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["SE", "CM", "CERT", "CY", "SPE", "PHM"]
-    agencies: ["PIL", "TARGET", "PERF_TIMING"]
-    knots: ["K01", "K05", "K13"]
-    notes: "Target execution evidence (timing/mem constraints)."
-
+    ata: '105'
+    description: PIL / TARGET EXECUTION (PROCESSOR/PLATFORM-IN-THE-LOOP)
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - SE
+    - CM
+    - CERT
+    - CY
+    - DAB
+    - PHM
+    agencies:
+    - PIL
+    - TARGET
+    - PERF_TIMING
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: Target execution evidence (timing/mem constraints).
   ATA_106:
-    ata: "106"
-    description: "TEST PROCEDURES / TEST CASES / ACCEPTANCE CRITERIA"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["SE", "SAF", "CERT", "CM", "DATA", "SPE"]
-    agencies: ["TEST_CASES", "ACCEPTANCE"]
-    knots: ["K01", "K06"]
-    notes: "Procedures/cases/criteria + trace links."
-
+    ata: '106'
+    description: TEST PROCEDURES / TEST CASES / ACCEPTANCE CRITERIA
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - CM
+    - DAB
+    agencies:
+    - TEST_CASES
+    - ACCEPTANCE
+    knots:
+    - K01
+    - K06
+    notes: Procedures/cases/criteria + trace links.
   ATA_107:
-    ata: "107"
-    description: "TEST DATA / INPUT DECKS / STIMULI"
-    domain: "T-SIMTEST"
-    aor: "DATA"
-    stks: ["TEST", "SE", "CM"]
-    agencies: ["TEST_DATA", "STIMULI"]
-    knots: ["K01", "K06"]
-    notes: "Controlled test datasets/input decks/stimuli."
-
+    ata: '107'
+    description: TEST DATA / INPUT DECKS / STIMULI
+    domain: T-SIMTEST
+    aor: DAB
+    stks:
+    - TEST
+    - SE
+    - CM
+    agencies:
+    - TEST_DATA
+    - STIMULI
+    knots:
+    - K01
+    - K06
+    notes: Controlled test datasets/input decks/stimuli.
   ATA_108:
-    ata: "108"
-    description: "TEST RESULTS / REPORTING / ANOMALY MANAGEMENT"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["DATA", "OPS", "SAF", "CERT", "CM"]
-    agencies: ["RESULTS", "NCR", "ANOMALIES"]
-    knots: ["K01", "K05", "K08"]
-    notes: "Results reporting + anomaly/NCR management."
-
+    ata: '108'
+    description: TEST RESULTS / REPORTING / ANOMALY MANAGEMENT
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - DAB
+    - OPS
+    - SAF
+    - CERT
+    - CM
+    agencies:
+    - RESULTS
+    - NCR
+    - ANOMALIES
+    knots:
+    - K01
+    - K05
+    - K08
+    notes: Results reporting + anomaly/NCR management.
   ATA_109:
-    ata: "109"
-    description: "VV EVIDENCE PACKS (LINKED TO TRACEABILITY)"
-    domain: "T-SIMTEST"
-    aor: "CERT"
-    stks: ["CM", "TEST", "DATA", "SE", "SPE"]
-    agencies: ["VV_EVIDENCE", "PACKAGING"]
-    knots: ["K01", "K06", "K08"]
-    notes: "Evidence bundling linked to trace graph."
-
+    ata: '109'
+    description: VV EVIDENCE PACKS (LINKED TO TRACEABILITY)
+    domain: T-SIMTEST
+    aor: CERT
+    stks:
+    - CM
+    - TEST
+    - DAB
+    - SE
+    agencies:
+    - VV_EVIDENCE
+    - PACKAGING
+    knots:
+    - K01
+    - K06
+    - K08
+    notes: Evidence bundling linked to trace graph.
   ATA_110:
-    ata: "110"
-    description: "QUALIFICATION / ENVIRONMENTAL TESTING (SPACE-T)"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["SAF", "CERT", "SPACEPORT", "CM", "SE", "PHM", "SPE"]
-    agencies: ["THERMAL_VAC", "VIB", "EMC"]
-    knots: ["K01", "K05", "K09"]
-    notes: "Space-T qual tests + facility constraints."
-
+    ata: '110'
+    description: QUALIFICATION / ENVIRONMENTAL TESTING (SPACE-T)
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - SAF
+    - CERT
+    - SPACEPORT
+    - CM
+    - SE
+    - PHM
+    - DAB
+    agencies:
+    - THERMAL_VAC
+    - VIB
+    - EMC
+    knots:
+    - K01
+    - K05
+    - K09
+    notes: Space-T qual tests + facility constraints.
   ATA_111:
-    ata: "111"
-    description: "SYSTEM INTEGRATION TESTING (END-TO-END)"
-    domain: "T-SIMTEST"
-    aor: "TEST"
-    stks: ["SE", "SAF", "CERT", "DATA", "CY"]
-    agencies: ["E2E_INTEGRATION"]
-    knots: ["K01", "K05", "K13"]
-    notes: "End-to-end integration testing across subsystems."
-
+    ata: '111'
+    description: SYSTEM INTEGRATION TESTING (END-TO-END)
+    domain: T-SIMTEST
+    aor: TEST
+    stks:
+    - SE
+    - SAF
+    - CERT
+    - DAB
+    - CY
+    agencies:
+    - E2E_INTEGRATION
+    knots:
+    - K01
+    - K05
+    - K13
+    notes: End-to-end integration testing across subsystems.
   ATA_112:
-    ata: "112"
-    description: "MISSION/FLIGHT TESTING (OPERATIONAL DEMOS)"
-    domain: "T-SIMTEST"
-    aor: "OPS"
-    stks: ["TEST", "SAF", "CERT", "CM", "SPACEPORT", "SE", "SPE", "PHM"]
-    agencies: ["OPS_DEMOS", "READINESS"]
-    knots: ["K01", "K02", "K11", "K12"]
-    notes: "Operational demos + readiness + limits confirmation."
-
+    ata: '112'
+    description: MISSION/FLIGHT TESTING (OPERATIONAL DEMOS)
+    domain: T-SIMTEST
+    aor: OPS
+    stks:
+    - TEST
+    - SAF
+    - CERT
+    - CM
+    - SPACEPORT
+    - SE
+    - DAB
+    - PHM
+    agencies:
+    - OPS_DEMOS
+    - READINESS
+    knots:
+    - K01
+    - K02
+    - K11
+    - K12
+    notes: Operational demos + readiness + limits confirmation.
   ATA_113:
-    ata: "113"
-    description: "UNCERTAINTY QUANTIFICATION (UQ) / MONTE CARLO / SENSITIVITY"
-    domain: "T-SIMTEST"
-    aor: "DATA"
-    stks: ["TEST", "SE", "AI"]
-    agencies: ["UQ", "MONTE_CARLO"]
-    knots: ["K01", "K05", "K06"]
-    notes: "UQ/Monte Carlo/sensitivity suites."
-
+    ata: '113'
+    description: UNCERTAINTY QUANTIFICATION (UQ) / MONTE CARLO / SENSITIVITY
+    domain: T-SIMTEST
+    aor: DAB
+    stks:
+    - TEST
+    - SE
+    - AI
+    agencies:
+    - UQ
+    - MONTE_CARLO
+    knots:
+    - K01
+    - K05
+    - K06
+    notes: UQ/Monte Carlo/sensitivity suites.
   ATA_114:
-    ata: "114"
-    description: "AI/ML VALIDATION SUITES & MONITORING TESTS"
-    domain: "T-SIMTEST"
-    aor: "AI"
-    stks: ["TEST", "SAF", "CERT", "OPS", "CY", "DATA", "SPE"]
-    agencies: ["AI_VALIDATION", "DRIFT"]
-    knots: ["K01", "K05", "K07", "K13"]
-    notes: "AI validation/robustness/drift suites."
-
+    ata: '114'
+    description: AI/ML VALIDATION SUITES & MONITORING TESTS
+    domain: T-SIMTEST
+    aor: AI
+    stks:
+    - TEST
+    - SAF
+    - CERT
+    - OPS
+    - CY
+    - DAB
+    agencies:
+    - AI_VALIDATION
+    - DRIFT
+    knots:
+    - K01
+    - K05
+    - K07
+    - K13
+    notes: AI validation/robustness/drift suites.
   ATA_115:
-    ata: "115"
-    description: "CERTIFICATION TESTS (SW/HW/ECSS-DO) & COMPLIANCE REPORTS"
-    domain: "T-SIMTEST"
-    aor: "CERT"
-    stks: ["TEST", "CM", "SE", "DATA", "SAF", "CY", "SPE", "PHM"]
-    agencies: ["COMPLIANCE", "AUDIT"]
-    knots: ["K01", "K05", "K10", "K13"]
-    notes: "Compliance tests + reports + authority packs."
-
+    ata: '115'
+    description: CERTIFICATION TESTS (SW/HW/ECSS-DO) & COMPLIANCE REPORTS
+    domain: T-SIMTEST
+    aor: CERT
+    stks:
+    - TEST
+    - CM
+    - SE
+    - DAB
+    - SAF
+    - CY
+    - PHM
+    agencies:
+    - COMPLIANCE
+    - AUDIT
+    knots:
+    - K01
+    - K05
+    - K10
+    - K13
+    notes: Compliance tests + reports + authority packs.
   ATA_116:
-    ata: "116"
-    description: "SIM/TEST ARCHIVES & BASELINES (FROZEN CAMPAIGNS)"
-    domain: "T-SIMTEST"
-    aor: "CM"
-    stks: ["TEST", "DATA", "CERT"]
-    agencies: ["ARCHIVES", "BASELINES"]
-    knots: ["K01", "K04", "K08"]
-    notes: "Frozen campaigns, baselines, retention policy."
-
-# ============================================================================
-# STAKEHOLDER ABBREVIATION MAP
-# ============================================================================
-# Maps stakeholder codes to full names and portal directories
-
+    ata: '116'
+    description: SIM/TEST ARCHIVES & BASELINES (FROZEN CAMPAIGNS)
+    domain: T-SIMTEST
+    aor: CM
+    stks:
+    - TEST
+    - DAB
+    - CERT
+    agencies:
+    - ARCHIVES
+    - BASELINES
+    knots:
+    - K01
+    - K04
+    - K08
+    notes: Frozen campaigns, baselines, retention policy.
 stakeholder_map:
-  CM: 
-    name: "Configuration Management"
-    portal_dir: "STK_CM-cm-configuration-management"
+  CM:
+    name: Configuration Management
+    portal_dir: STK_CM-cm-configuration-management
   PMO:
-    name: "Program Management Office"
-    portal_dir: "STK_PMO-pmo-program-management-office"
+    name: Program Management Office
+    portal_dir: STK_PMO-pmo-program-management-office
   SE:
-    name: "Systems Engineering"
-    portal_dir: "STK_SE-se-systems-engineering"
+    name: Systems Engineering
+    portal_dir: STK_SE-se-systems-engineering
   SAF:
-    name: "Safety"
-    portal_dir: "STK_SAF-saf-safety"
+    name: Safety
+    portal_dir: STK_SAF-saf-safety
   CERT:
-    name: "Certification & Authorities"
-    portal_dir: "STK_CERT-cert-certification-authorities"
+    name: Certification & Authorities
+    portal_dir: STK_CERT-cert-certification-authorities
   OPS:
-    name: "Operations"
-    portal_dir: "STK_OPS-ops-operations"
+    name: Operations
+    portal_dir: STK_OPS-ops-operations
   SPACEPORT:
-    name: "Spaceport/Airport Operations"
-    portal_dir: "STK_SPACEPORT-spaceport-spaceport-airport-ops"
+    name: Spaceport/Airport Operations
+    portal_dir: STK_SPACEPORT-spaceport-spaceport-airport-ops
   MRO:
-    name: "MRO / Maintenance"
-    portal_dir: "STK_MRO-mro-mro-maintenance"
-  DATA:
-    name: "Data Governance"
-    portal_dir: "STK_DATA-data-data-governance"
+    name: MRO / Maintenance
+    portal_dir: STK_MRO-mro-mro-maintenance
+  DAB:
+    name: Digital Applications and Blockchains
+    portal_dir: STK_DAB-dab-digital-applications-blockchains
   AI:
-    name: "AI/ML Engineering"
-    portal_dir: "STK_AI-ai-ai-ml-engineering"
+    name: AI/ML Engineering
+    portal_dir: STK_AI-ai-ai-ml-engineering
   CY:
-    name: "Cybersecurity"
-    portal_dir: "STK_CY-cy-cybersecurity"
+    name: Cybersecurity
+    portal_dir: STK_CY-cy-cybersecurity
   TEST:
-    name: "IVVQ / Testing"
-    portal_dir: "STK_TEST-test-ivvq-testing"
+    name: IVVQ / Testing
+    portal_dir: STK_TEST-test-ivvq-testing
   PHM:
-    name: "Physical Hardware & Materials"
-    portal_dir: "STK_PHM-phm-physical-hardware"
-  SPE:
-    name: "Software & Platform Engineering"
-    portal_dir: "STK_SPE-spe-software-platform-engineering"
-
-# ============================================================================
-# VALIDATION RULES
-# ============================================================================
-
+    name: Physical Hardware & Materials
+    portal_dir: STK_PHM-phm-physical-hardware
 validation:
   enforce_aor_uniqueness: true
   enforce_knot_consistency: true
   require_notes: true
-  
-# ============================================================================
-# CHANGE CONTROL
-# ============================================================================
-
 change_control:
-  authority: "Configuration Management Working Group"
+  authority: Configuration Management Working Group
   approval_required_for:
-    - "New ATA chapter definitions"
-    - "Changes to AoR assignments"
-    - "Changes to stakeholder mappings"
-    - "Changes to knot applicability"
+  - New ATA chapter definitions
+  - Changes to AoR assignments
+  - Changes to stakeholder mappings
+  - Changes to knot applicability
   process:
-    - "Submit change request to CM WG with technical justification"
-    - "Review and approval by CM WG and affected stakeholders"
-    - "Update this ata_master_relations_table.yaml file"
-    - "Update related documentation"
-    - "Communicate to all stakeholders"
-
-# ============================================================================
-# DOCUMENTATION REFERENCES
-# ============================================================================
-
+  - Submit change request to CM WG with technical justification
+  - Review and approval by CM WG and affected stakeholders
+  - Update this ata_master_relations_table.yaml file
+  - Update related documentation
+  - Communicate to all stakeholders
 documentation:
-  ata_partition_matrix: "config/nomenclature/ATA_PARTITION_MATRIX.yaml"
-  stakeholder_knot_config: "scripts/stakeholder_knot_config.json"
-  nomenclature_standard: "docs/standards/NOMENCLATURE_v6_0_R1_0.md"
-  optins_framework: "OPTINS Framework v1.1"
-
-# ============================================================================
-# VERSION HISTORY
-# ============================================================================
-
+  ata_partition_matrix: config/nomenclature/ATA_PARTITION_MATRIX.yaml
+  stakeholder_knot_config: scripts/stakeholder_knot_config.json
+  nomenclature_standard: docs/standards/NOMENCLATURE_v6_0_R1_0.md
+  optins_framework: OPTINS Framework v1.1
 version_history:
-  - version: "1.0"
-    date: "2025-12-18"
-    status: "Initial Release"
-    changes:
-      - "Complete ATA master relations table (00-116)"
-      - "Domain axis classifications (P/O/I/T/N/S)"
-      - "AoR assignments and STK cross-dependencies"
-      - "Agency/context mappings"
-      - "Knot applicability for all chapters"
-    author: "CM WG"
+- version: '1.0'
+  date: '2025-12-18'
+  status: Initial Release
+  changes:
+  - Complete ATA master relations table (00-116)
+  - Domain axis classifications (P/O/I/T/N/S)
+  - AoR assignments and STK cross-dependencies
+  - Agency/context mappings
+  - Knot applicability for all chapters
+  author: CM WG

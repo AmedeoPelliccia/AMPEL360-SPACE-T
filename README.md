@@ -19,7 +19,7 @@ Complete OPT-INS Framework Directory Structure Generator Suite
 - ✅ All allowlists **locked under CM change control**
 - ⚠️ 802 broken links identified (post-release hotfix planned)
 
-📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md)**
+📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R02_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R02_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R02_ACTIVE.md)**
 
 ---
 
@@ -77,15 +77,15 @@ This repository contains the official directory structure generators for AMPEL36
 - **__**: Double underscore separator (mandatory)
 - **SUBJECT**: lowercase-kebab-case description
 - **TYPE**: Artifact type (e.g., `STD`, `PLAN`, `RPT`, `FHA`)
-- **ISSUE-REVISION**: Change tracking (e.g., `I01-R01`, `I12-R03`)
+- **ISSUE-REVISION**: Change tracking (e.g., `I01-R02`, `I12-R03`)
 - **STATUS**: Document status (e.g., `ACTIVE`, `APPROVED`, `RELEASED`)
 - **EXT**: File extension (lowercase, e.g., `md`, `json`, `yaml`)
 
 ### Examples (v6.0 R1.0)
 
-- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
-- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
-- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
+- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R02_ACTIVE.md`
+- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-basis_PLAN_I01-R02_ACTIVE.md`
+- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R02_TEMPLATE.md`
 
 ### BLOCK Field: Domain Partitions (OPTINS Framework)
 
@@ -149,11 +149,11 @@ python scripts/scaffold_v6.py --standard v6.0 \
 # Examples:
 python scripts/scaffold_v6.py --standard v6.0 \
   27 AMPEL360 SPACET Q10 GEN PLUS BB OPS LC03 K06 SE \
-  thermal-loop STD I01-R01 ACTIVE
+  thermal-loop STD I01-R02 ACTIVE
 
 python scripts/scaffold_v6.py --standard v6.0 \
   00 AMPEL360 SPACET Q10 CERT PLUS PR GEN LC10 K01 CERT \
-  certification-plan PLAN I01-R01 DRAFT
+  certification-plan PLAN I01-R02 DRAFT
 ```
 
 📚 **Templates**: [`templates/`](templates/) | **Available**: 22 approved TYPEs
@@ -171,7 +171,7 @@ python scripts/detect_new_types.py --auto-suggest
 ```
 
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
-📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md)
+📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md)
 
 ### Certification Knots System
 
@@ -179,13 +179,13 @@ Cross-cutting workflow elements for systematic certification and compliance acti
 
 ```bash
 # View active knots
-cat 00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json
+cat 00_90_CAT_SB00_CERT_knots-catalog_I01-R02.json
 
 # Validate knot data structure
 python3 -c "
 import json, jsonschema
-schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json'))
-data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json'))
+schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R02.json'))
+data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R02.json'))
 jsonschema.validate(instance=data, schema=schema)
 print('✓ Knot data validated successfully')
 "
@@ -194,9 +194,9 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R01_ACTIVE.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R02_ACTIVE.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R02_ACTIVE.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R02_ACTIVE.md)
 
 ### ATA Master Relations Table
 
@@ -207,10 +207,10 @@ Complete mapping of all 117 ATA chapters with domain assignments, stakeholder in
 cat config/database/ata_master_relations_table.yaml
 
 # View comprehensive catalog documentation
-cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md
 
 # View quick reference table
-cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md
 ```
 
 **Key Features:**
@@ -222,8 +222,8 @@ cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-qui
 - **Knot applicability** (K01-K14 for each ATA chapter)
 
 📊 **Master Data**: [`config/database/ata_master_relations_table.yaml`](config/database/ata_master_relations_table.yaml)  
-📖 **Catalog Documentation**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md)  
-📋 **Quick Reference Table**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md)
+📖 **Catalog Documentation**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md)  
+📋 **Quick Reference Table**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md)
 
 ---
 

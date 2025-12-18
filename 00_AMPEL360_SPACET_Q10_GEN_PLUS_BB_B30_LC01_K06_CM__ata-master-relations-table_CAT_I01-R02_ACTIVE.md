@@ -90,12 +90,12 @@ Each ATA chapter entry contains:
 | OPS | Operations | STK_OPS-ops-operations |
 | SPACEPORT | Spaceport/Airport Operations | STK_SPACEPORT-spaceport-spaceport-airport-ops |
 | MRO | MRO / Maintenance | STK_MRO-mro-mro-maintenance |
-| DATA | Data Governance | STK_DATA-data-data-governance |
+| DAB | Digital Applications and Blockchains | STK_DAB-dab-digital-applications-blockchains |
 | AI | AI/ML Engineering | STK_AI-ai-ai-ml-engineering |
 | CY | Cybersecurity | STK_CY-cy-cybersecurity |
 | TEST | IVVQ / Testing | STK_TEST-test-ivvq-testing |
 | PHM | Physical Hardware & Materials | STK_PHM-phm-physical-hardware |
-| SPE | Software & Platform Engineering | STK_SPE-spe-software-platform-engineering |
+
 
 ## 3. Catalog Entries by Domain Axis
 
@@ -335,7 +335,7 @@ Each ATA chapter entry contains:
 **CM (Configuration Management):**
 - ATA 00, 13-17, 19, 43, 48, 88, 93, 98, 116
 
-**DATA (Data Governance):**
+**DAB (Digital Applications and Blockchains):**
 - ATA 45, 46, 83, 85, 86, 91, 92, 94, 95, 97, 99, 101, 107, 113
 
 **AI (AI/ML Engineering):**
@@ -368,7 +368,7 @@ Each ATA chapter entry contains:
 **PHM (Physical Hardware & Materials):**
 - ATA 06, 08, 20, 21, 24, 25, 27-38, 49-57, 60-79
 
-**SPE (Software & Platform Engineering):**
+**DAB (Digital Applications and Blockchains):**
 - ATA 22, 23, 31, 33, 34, 42, 73, 76, 77, 103
 
 ### 4.2 By Domain Axis
@@ -493,7 +493,7 @@ This catalog enables:
 
 - **Nomenclature Standard:** `docs/standards/NOMENCLATURE_v6_0_R1_0.md`
 - **OPTINS Framework:** OPTINS Framework v1.1
-- **Knots Catalog:** `00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__knots-catalog_CAT_I01-R01_ACTIVE.json`
+- **Knots Catalog:** `00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_SB90_K01_CERT__knots-catalog_CAT_I01-R02_ACTIVE.json`
 
 ### 7.3 Portal Entry Points
 
@@ -549,12 +549,12 @@ Each stakeholder has a dedicated portal directory in `AMPEL360-SPACE-T-PORTAL/`:
 
 | Version | Date | Changes | Changed By | ATAs Affected |
 | :--- | :--- | :--- | :--- | :--- |
-| I01-R01 | 2025-12-18 | Initial catalog creation | CM WG | All (00-116) |
+| I01-R02 | 2025-12-18 | Initial catalog creation | CM WG | All (00-116) |
 
 ---
 
 **Document Control:**
-- **Filename:** 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md
+- **Filename:** 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md
 - **Location:** Repository root
 - **Format:** Markdown (CAT template)
 - **Status:** Active

@@ -32,11 +32,11 @@ This directory is the stakeholder-centric entry point. Work is organized by **Ba
   - Domain mappings, AoR assignments, STK dependencies
   - Knot applicability and agency/context mappings
 
-- **ATA Master Relations Catalog:** `../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R01_ACTIVE.md`
+- **ATA Master Relations Catalog:** `../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md`
   - Comprehensive documentation and usage guidelines
   - Indexes by AoR, domain, knot, and stakeholder
 
-- **ATA Master Relations Quick Reference:** `../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R01_ACTIVE.md`
+- **ATA Master Relations Quick Reference:** `../../00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md`
   - Tabular format matching original specification
   - Quick lookup for ATA relations and interfaces
 
