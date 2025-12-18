@@ -2224,42 +2224,55 @@ stakeholder_map:
   CM:
     name: Configuration Management
     portal_dir: STK_CM-cm-configuration-management
+    description: Governance spine (nomenclature, baselines, change control, approvals, CI enforcement)
   PMO:
     name: Program Management Office
     portal_dir: STK_PMO-pmo-program-management-office
+    description: Program cadence, milestones, resourcing, and portfolio prioritization
   SE:
-    name: Systems Engineering
+    name: Systems Engineering (Architecture, SysML, Governance)
     portal_dir: STK_SE-se-systems-engineering
+    description: System architecture, SysML modeling, requirements decomposition, ICDs, integration governance
   SAF:
     name: Safety
     portal_dir: STK_SAF-saf-safety
+    description: Hazard analysis, safety cases, risk controls, air/space worthiness
   CERT:
     name: Certification & Authorities
     portal_dir: STK_CERT-cert-certification-authorities
+    description: Authority engagement, compliance mapping, evidence packaging, audit readiness
   OPS:
     name: Operations
     portal_dir: STK_OPS-ops-operations
+    description: Operational concepts, procedures, mission profiles, constraints and feedback loops
   SPACEPORT:
     name: Spaceport/Airport Operations
     portal_dir: STK_SPACEPORT-spaceport-spaceport-airport-ops
+    description: Off-board infrastructure, ground ops, turnaround, servicing interfaces
   MRO:
     name: MRO / Maintenance
     portal_dir: STK_MRO-mro-mro-maintenance
+    description: Maintainability, servicing, inspection, continued air/space worthiness
   DAB:
     name: Digital Applications and Blockchains
     portal_dir: STK_DAB-dab-digital-applications-blockchains
+    description: Data networks, control software, digital twins, blockchain ledgers, SSOT governance
   AI:
     name: AI/ML Engineering
     portal_dir: STK_AI-ai-ai-ml-engineering
+    description: ML lifecycle, model governance, automated validation, TEKNIA/NKU instrumentation
   CY:
     name: Cybersecurity
     portal_dir: STK_CY-cy-cybersecurity
+    description: Threat models, security requirements, secure-by-design, vulnerability governance
   TEST:
     name: IVVQ / Testing
     portal_dir: STK_TEST-test-ivvq-testing
+    description: Verification strategy, qualification readiness, reproducible evidence chains
   PHM:
-    name: Physical Hardware & Materials
-    portal_dir: STK_PHM-phm-physical-hardware
+    name: Physical Hardware & Mechanical Engineering
+    portal_dir: STK_PHM-phm-physical-hardware-mechanical-engineering
+    description: Aerostructures, landing gear, pneumatics, flight control, hydraulics, materials
 validation:
   enforce_aor_uniqueness: true
   enforce_knot_consistency: true

@@ -84,17 +84,17 @@ Each ATA chapter entry contains:
 | :--- | :--- | :--- |
 | CM | Configuration Management | STK_CM-cm-configuration-management |
 | PMO | Program Management Office | STK_PMO-pmo-program-management-office |
-| SE | Systems Engineering | STK_SE-se-systems-engineering |
+| SE | Systems Engineering (Architecture, SysML, Governance) | STK_SE-se-systems-engineering |
 | SAF | Safety | STK_SAF-saf-safety |
 | CERT | Certification & Authorities | STK_CERT-cert-certification-authorities |
 | OPS | Operations | STK_OPS-ops-operations |
 | SPACEPORT | Spaceport/Airport Operations | STK_SPACEPORT-spaceport-spaceport-airport-ops |
 | MRO | MRO / Maintenance | STK_MRO-mro-mro-maintenance |
-| DAB | Digital Applications and Blockchains | STK_DAB-dab-digital-applications-blockchains |
+| DAB | Digital Applications and Blockchains (Data Networks, Control SW) | STK_DAB-dab-digital-applications-blockchains |
 | AI | AI/ML Engineering | STK_AI-ai-ai-ml-engineering |
 | CY | Cybersecurity | STK_CY-cy-cybersecurity |
 | TEST | IVVQ / Testing | STK_TEST-test-ivvq-testing |
-| PHM | Physical Hardware & Materials | STK_PHM-phm-physical-hardware |
+| PHM | Physical Hardware & Mechanical Engineering | STK_PHM-phm-physical-hardware-mechanical-engineering |
 
 
 ## 3. Catalog Entries by Domain Axis

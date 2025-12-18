@@ -24,7 +24,8 @@
     {"id": "DATA", "name": "Data Governance", "knots": ["K06","K08","K13"]},
     {"id": "AI", "name": "AI/ML Engineering", "knots": ["K07","K06","K13"]},
     {"id": "CY", "name": "Cybersecurity", "knots": ["K13","K06","K09"]},
-    {"id": "TEST", "name": "IVVQ / Testing", "knots": ["K05","K10","K14","K12"]}
+    {"id": "TEST", "name": "IVVQ / Testing", "knots": ["K05","K10","K14","K12"]},
+    {"id": "PHM", "name": "Physical Hardware & Mechanical Engineering", "knots": ["K01","K03","K05","K10","K11"]}
   ],
   "knots": {
     "K01": {
