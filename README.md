@@ -97,7 +97,7 @@ The **BLOCK** field uses domain partition identifiers (B00-B90) aligned with the
 |   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest |
 |   B20 | CYBERSECURITY                                           | digital + onboard        |
 |   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard        |
-|   B40 | PHYSICS (pressure/thermal/crio)                         | onboard + simtest        |
+|   B40 | PHYSICS (pressure/thermal/cryo)                         | onboard + simtest        |
 |   B50 | PHYSICAL (aerostructures + HW)                          | onboard/offboard         |
 |   B60 | DYNAMICS (thrust/attitude/inerting)                     | onboard + simtest        |
 |   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest        |
