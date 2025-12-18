@@ -107,7 +107,7 @@ allowlists:
     - SAF          # Safety
     - SE           # Systems Engineering
     - OPS          # Operations
-    - DATA         # Data Governance
+    - DAB          # Digital Applications and Blockchains (unified DATA+SPE)
     - AI           # AI/ML Engineering
     - CY           # Cybersecurity
     - TEST         # IVVQ / Testing
@@ -119,6 +119,7 @@ allowlists:
     - LEG          # Legal
     - FIN          # Finance
     - PROC         # Procurement
+    - PHM          # Physical Hardware & Materials (for backward compatibility)
   
   # TYPE allowlist (artifact type)
   # Controlled vocabulary for document/artifact types

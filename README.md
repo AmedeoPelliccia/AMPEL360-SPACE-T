@@ -19,7 +19,7 @@ Complete OPT-INS Framework Directory Structure Generator Suite
 - ✅ All allowlists **locked under CM change control**
 - ⚠️ 802 broken links identified (post-release hotfix planned)
 
-📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md)**
+📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R02_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R02_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R02_ACTIVE.md)**
 
 ---
 
@@ -77,15 +77,15 @@ This repository contains the official directory structure generators for AMPEL36
 - **__**: Double underscore separator (mandatory)
 - **SUBJECT**: lowercase-kebab-case description
 - **TYPE**: Artifact type (e.g., `STD`, `PLAN`, `RPT`, `FHA`)
-- **ISSUE-REVISION**: Change tracking (e.g., `I01-R01`, `I12-R03`)
+- **ISSUE-REVISION**: Change tracking (e.g., `I01-R02`, `I12-R03`)
 - **STATUS**: Document status (e.g., `ACTIVE`, `APPROVED`, `RELEASED`)
 - **EXT**: File extension (lowercase, e.g., `md`, `json`, `yaml`)
 
 ### Examples (v6.0 R1.0)
 
-- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R01_ACTIVE.md`
-- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-basis_PLAN_I01-R01_ACTIVE.md`
-- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R01_TEMPLATE.md`
+- `27_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B10_LC03_K06_SE__thermal-loop_STD_I01-R02_ACTIVE.md`
+- `00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_B00_LC10_K01_CERT__certification-basis_PLAN_I01-R02_ACTIVE.md`
+- `95_AMPEL360_SPACET_Q10_GEN_PLUS_SW_B20_SB04_K11_CM__model-card-template_STD_I01-R02_TEMPLATE.md`
 
 ### BLOCK Field: Domain Partitions (OPTINS Framework)
 
@@ -134,6 +134,7 @@ chmod +x .git/hooks/pre-commit
 - **v6.0 R1.0 (Current)**: `docs/standards/NOMENCLATURE_v6_0_R1_0.md`
 - **Quick Reference**: `docs/standards/NOMENCLATURE_v6_0_R1_0_QUICKREF.md`
 - **Config**: `config/nomenclature/v6_0.yaml`
+- **Glossary**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_B00_LC01_K04_CM__glossary-acronyms-codes_GLO_I01-R01_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_B00_LC01_K04_CM__glossary-acronyms-codes_GLO_I01-R01_ACTIVE.md)
 
 ### Document Templates
 
@@ -149,11 +150,11 @@ python scripts/scaffold_v6.py --standard v6.0 \
 # Examples:
 python scripts/scaffold_v6.py --standard v6.0 \
   27 AMPEL360 SPACET Q10 GEN PLUS BB OPS LC03 K06 SE \
-  thermal-loop STD I01-R01 ACTIVE
+  thermal-loop STD I01-R02 ACTIVE
 
 python scripts/scaffold_v6.py --standard v6.0 \
   00 AMPEL360 SPACET Q10 CERT PLUS PR GEN LC10 K01 CERT \
-  certification-plan PLAN I01-R01 DRAFT
+  certification-plan PLAN I01-R02 DRAFT
 ```
 
 📚 **Templates**: [`templates/`](templates/) | **Available**: 22 approved TYPEs
@@ -171,7 +172,7 @@ python scripts/detect_new_types.py --auto-suggest
 ```
 
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
-📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R01.md)
+📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md)
 
 ### Certification Knots System
 
@@ -179,13 +180,13 @@ Cross-cutting workflow elements for systematic certification and compliance acti
 
 ```bash
 # View active knots
-cat 00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json
+cat 00_90_CAT_SB00_CERT_knots-catalog_I01-R02.json
 
 # Validate knot data structure
 python3 -c "
 import json, jsonschema
-schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R01.json'))
-data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R01.json'))
+schema = json.load(open('00_90_SCH_SB00_GEN_knots-data-structure_I01-R02.json'))
+data = json.load(open('00_90_CAT_SB00_CERT_knots-catalog_I01-R02.json'))
 jsonschema.validate(instance=data, schema=schema)
 print('✓ Knot data validated successfully')
 "
@@ -194,9 +195,36 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R01_ACTIVE.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R01.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R02_ACTIVE.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R02_ACTIVE.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R02_ACTIVE.md)
+
+### ATA Master Relations Table
+
+Complete mapping of all 117 ATA chapters with domain assignments, stakeholder interfaces, and knot applicability:
+
+```bash
+# View structured YAML data
+cat config/database/ata_master_relations_table.yaml
+
+# View comprehensive catalog documentation
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md
+
+# View quick reference table
+cat 00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md
+```
+
+**Key Features:**
+- **117 ATA chapters** (00-116) with complete relations
+- **Domain mappings** to OPTINS Framework axes (P/O/I/T/N/S)
+- **AoR assignments** (primary Area of Responsibility for each ATA)
+- **STK cross-dependencies** (stakeholder interfaces)
+- **Agency/context mappings** (regulatory and operational contexts)
+- **Knot applicability** (K01-K14 for each ATA chapter)
+
+📊 **Master Data**: [`config/database/ata_master_relations_table.yaml`](config/database/ata_master_relations_table.yaml)  
+📖 **Catalog Documentation**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-table_CAT_I01-R02_ACTIVE.md)  
+📋 **Quick Reference Table**: [`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_B30_LC01_K06_CM__ata-master-relations-quick-ref_TAB_I01-R02_ACTIVE.md)
 
 ---
 
@@ -245,499 +273,128 @@ python generate_infrastructures.py --root ./my_project
 
 ---
 
-## OPT-INS Framework Architecture
 
-### Six Axes (OPT-INS = OPT-IN + S Axis)
+| ATA | DESCR | DOMAIN | AoR (portal entry points and main owner) | STKs (AoR cross dependancies) | AGENCY/CONTEXT (EG TECH_PROP, ESG, QA...) | Note |
+|---:|---|---|---|---|---|---|
+| 00 | GENERAL | P-PROGRAM | STK_CM | STK_PMO,STK_SE,STK_SAF,STK_CERT,STK_DATA | PROG_GOV,CM,PMO,DATA_GOV,AUDIT | Program governance baseline (nomenclature, CC, registers). Nudos: K01,K04,K06,K10. |
+| 01 | OPERATIONS/ORGANIZATION POLICY (RESERVED) | O-OPS/ORG | STK_OPS | STK_SAF,STK_CERT,STK_CM,STK_SPACEPORT | OPS_GOV,CONOPS,TRAINING,READINESS | Ops policy/governance. Nudos: K01,K02,K11. |
+| 02 | OPERATIONS/ORGANIZATION (RESERVED) | O-OPS/ORG | STK_OPS | STK_SAF,STK_CERT,STK_CM,STK_SPACEPORT | OPS_GOV,CONOPS,READINESS | Ops organization + readiness. Nudos: K01,K02,K11. |
+| 03 | SUPPORT INFORMATION (RESERVED) | O-OPS/ORG | STK_OPS | STK_SAF,STK_CERT,STK_CM,STK_SPACEPORT | TECHPUBS,OPS_SUPPORT | Support info (procedures/reporting). Nudos: K01,K02,K11. |
+| 04 | AIRWORTHINESS LIMITATIONS / OPERATIONAL LIMITS (RESERVED) | O-OPS/ORG | STK_OPS | STK_SAF,STK_CERT,STK_CM,STK_SPACEPORT | OPS_LIMITS,SAFETY_LIMITS | Operational limits baseline. Nudos: K01,K02,K11. |
+| 05 | TIME LIMITS / MAINTENANCE CHECKS | O-OPS/ORG | STK_MRO | STK_CM,STK_OPS,STK_SAF,STK_CERT,STK_DATA | MRO_PLANS,MSG3_LIKE | Time limits, checks, intervals, escalations. Nudos: K01,K04,K05,K11. |
+| 06 | DIMENSIONS AND AREAS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST,STK_DATA | GEOMETRY,AREAS,MASS_PROP | Reference geometry, areas, envelopes for downstream validation. Nudos: K01,K05,K06. |
+| 07 | LIFTING AND SHORING | I-INFRASTRUCTURES | STK_MRO | STK_PHM,STK_SAF,STK_OPS,STK_CERT | GSE,LIFTING,SAFETY | Ground lifting/jacking/shoring requirements & procedures. Nudos: K02,K03,K05,K11. |
+| 08 | LEVELING AND WEIGHING | T-TECHNOLOGY | STK_PHM | STK_OPS,STK_MRO,STK_TEST,STK_DATA | WEIGHING,CENTER_OF_GRAVITY | Mass properties measurement + leveling methods. Nudos: K01,K05,K06,K11. |
+| 09 | TOWING AND TAXIING | I-INFRASTRUCTURES | STK_OPS | STK_MRO,STK_SAF,STK_SPACEPORT | GROUND_OPS,TOWING | Tow/taxi ground ops constraints + procedures. Nudos: K02,K03,K11. |
+| 10 | PARKING / MOORING / STORAGE / RETURN TO SERVICE | I-INFRASTRUCTURES | STK_OPS | STK_MRO,STK_SAF,STK_SPACEPORT,STK_CM | STORAGE,RTS_PROCEDURES | Parking/mooring/storage + RTS checks. Nudos: K02,K04,K11. |
+| 11 | PLACARDS AND MARKINGS | P-PROGRAM | STK_OPS | STK_MRO,STK_SAF,STK_CERT,STK_CM | OPS_LABELS,HFE,TECHPUBS | Labels/markings governance. Nudos: K01,K11. |
+| 12 | SERVICING | I-INFRASTRUCTURES | STK_MRO | STK_OPS,STK_SAF,STK_SPACEPORT,STK_CERT | SERVICING,FLUIDS,CRYO | Servicing procedures (fluids/consumables/cryo/prop). Nudos: K02,K03,K09,K11. |
+| 13 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 14 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 15 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 16 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 17 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 18 | NOISE & VIBRATION MANAGEMENT | O-OPS/ORG | STK_SAF | STK_OPS,STK_CERT,STK_TEST,STK_SE,STK_PHM,STK_SPACEPORT | NVH,ENV,MONITORING | NVH constraints/monitoring/mitigation. Nudos: K01,K05,K12. |
+| 19 | NOT ASSIGNED / RESERVED | Not Assigned | STK_CM | STK_SE,STK_CERT | TAXONOMY,CM | Reserved (Space-T tailoring). Nudos: K01,K04. |
+| 20 | STANDARD PRACTICES - AIRFRAME | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA | PRACTICES,FASTENERS,REPAIRS | Airframe standard practices, materials, repair methods. Nudos: K01,K05,K10. |
+| 21 | AIR CONDITIONING / ENVIRONMENTAL CONTROL | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA,STK_SPE | ECLSS,ECS,THERMAL | ECLSS/ECS physical plant + controls. Nudos: K01,K03,K05,K06. |
+| 22 | AUTO FLIGHT / GUIDANCE-NAVIGATION-CONTROL | T-TECHNOLOGY | STK_SPE | STK_SE,STK_AI,STK_SAF,STK_CERT,STK_TEST,STK_OPS,STK_CY,STK_DATA,STK_PHM | GNC,AUTONOMY,FDIR | GNC SW/control-law implementation; SE governs architecture. Nudos: K01,K05,K07,K13. |
+| 23 | COMMUNICATIONS | T-TECHNOLOGY | STK_SPE | STK_SE,STK_CY,STK_OPS,STK_CERT,STK_TEST,STK_DATA,STK_SPACEPORT | COMMS,TT&C,LINK_BUDGET | Comms/TT&C stacks + ICDs + link security. Nudos: K01,K05,K09,K13. |
+| 24 | ELECTRICAL POWER | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO,STK_DATA,STK_SPE | EPOWER,HVDC,EMC | Power generation/distribution/protection + monitoring SW. Nudos: K01,K03,K05. |
+| 25 | EQUIPMENT / FURNISHINGS | T-TECHNOLOGY | STK_PHM | STK_OPS,STK_SAF,STK_CERT,STK_MRO,STK_SE | HFE,CABIN,SAFETY_EQUIP | Interiors/equipment/ergonomics + maintainability. Nudos: K01,K10,K11. |
+| 26 | FIRE PROTECTION | T-TECHNOLOGY | STK_SAF | STK_PHM,STK_SE,STK_SPE,STK_CERT,STK_OPS,STK_TEST | FIRE_SAFETY,HAZARDS | Detection/suppression, hazard zoning, flammability. Nudos: K01,K03,K05. |
+| 27 | FLIGHT CONTROLS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SPE,STK_SAF,STK_CERT,STK_TEST,STK_DATA,STK_CY | ACTUATION,REDUNDANCY | Actuation/servos/surfaces; SW control under SPE. Nudos: K01,K05,K07. |
+| 28 | FUEL / PROPELLANT SYSTEMS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_OPS,STK_SPACEPORT,STK_TEST,STK_DATA,STK_SPE | TECH_PROP,HAZARDS | Tanks/feeds/venting/leak; spaceport servicing ICDs. Nudos: K01,K03,K05,K09. |
+| 29 | HYDRAULIC POWER | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO,STK_DATA,STK_SPE | HYDRAULICS,ACTUATION | Hydraulic generation/distribution/health monitoring. Nudos: K01,K05,K11. |
+| 30 | ICE AND RAIN PROTECTION / ATMOSPHERIC PROTECTION | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_SPE | ENV_PROTECTION,THERMAL | Atmospheric protection (air) or env protection features (space). Nudos: K01,K03,K05. |
+| 31 | INDICATING / RECORDING SYSTEMS | T-TECHNOLOGY | STK_SPE | STK_SE,STK_CY,STK_CERT,STK_TEST,STK_DATA,STK_OPS | DISPLAYS,LOGGING,RECORDERS | Indication/recording SW + data logging governance. Nudos: K01,K06,K13. |
+| 32 | LANDING GEAR | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_OPS,STK_MRO,STK_DATA,STK_SPE | GEAR,LOADS,KINEMATICS | Gear/brakes/steering + deployment logic interfaces. Nudos: K01,K05,K11. |
+| 33 | LIGHTS | T-TECHNOLOGY | STK_SPE | STK_PHM,STK_SE,STK_OPS,STK_SAF,STK_CERT,STK_SPACEPORT,STK_DATA | LIGHTS,SIGNALING | Lighting control SW + HW integration. Nudos: K01,K05. |
+| 34 | NAVIGATION | T-TECHNOLOGY | STK_SPE | STK_SE,STK_CY,STK_OPS,STK_CERT,STK_TEST,STK_DATA,STK_AI | NAV,SENSOR_FUSION | Nav sensors fusion + integrity + cyber resilience. Nudos: K01,K05,K13. |
+| 35 | OXYGEN / LIFE SUPPORT GAS | T-TECHNOLOGY | STK_PHM | STK_OPS,STK_SAF,STK_SE,STK_CERT,STK_MRO,STK_SPE | LS_GAS,EMERGENCY | Breathing gas storage/distribution + emergency procedures. Nudos: K01,K03,K11. |
+| 36 | PNEUMATIC / GAS DISTRIBUTION | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO,STK_DATA,STK_SPE | PNEUMATICS,GAS_NETS | Pneumatics/gas distribution, valves, sensors, alarms. Nudos: K01,K03,K05. |
+| 37 | VACUUM (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO | VACUUM_SYSTEMS | Vacuum systems where applicable. Nudos: K01,K03,K05. |
+| 38 | WATER / WASTE (LIFE SUPPORT) | T-TECHNOLOGY | STK_PHM | STK_OPS,STK_SAF,STK_SE,STK_CERT,STK_TEST,STK_SPE | WATER_WASTE,CONTAMINATION | Water/waste loops + hygiene + contamination controls. Nudos: K01,K03,K11. |
+| 39 | ELECTRICAL / ELECTRONIC PANELS & MULTIPURPOSE COMPONENTS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CY,STK_CERT,STK_TEST,STK_MRO,STK_DATA,STK_SPE | PANELS,LRU_RACKS | Panels/racks/enclosures, harness interfaces, maintainability. Nudos: K01,K05,K13. |
+| 40 | MULTI-SYSTEM / INTEGRATION SERVICES | T-TECHNOLOGY | STK_SE | STK_CM,STK_CERT,STK_TEST,STK_DATA,STK_CY,STK_PHM,STK_SPE | INTEGRATION,ICDS,MBSE | Cross-system integration services + ICD governance. Nudos: K01,K04,K06,K10. |
+| 41 | WATER BALLAST / MASS TRIM (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_TEST,STK_DATA | MASS_TRIM,BALLAST | Ballast/mass trim where applicable. Nudos: K01,K05,K06. |
+| 42 | INTEGRATED MODULAR AVIONICS / COMPUTE PLATFORM | T-TECHNOLOGY | STK_SPE | STK_CY,STK_SE,STK_SAF,STK_CERT,STK_DATA,STK_TEST,STK_AI | IMA,COMPUTE,PLATFORM | Compute platform SW/toolchains; cyber & partitioning. Nudos: K01,K05,K13. |
+| 43 | RESERVED / PLATFORM INTEGRATION | T-TECHNOLOGY | STK_CM | STK_SE,STK_CERT,STK_SPE | PLATFORM_POLICY | Reserved platform integration governance. Nudos: K01,K04. |
+| 44 | CABIN / HABITAT SYSTEMS | T-TECHNOLOGY | STK_OPS | STK_SAF,STK_CERT,STK_SE,STK_PHM,STK_SPE | HABITAT,SERVICES,HFE | Passenger/crew services + ops training integration. Nudos: K01,K02,K11. |
+| 45 | CENTRAL MAINTENANCE SYSTEM / HEALTH MONITORING | T-TECHNOLOGY | STK_DATA | STK_SPE,STK_MRO,STK_SE,STK_CY,STK_CERT,STK_TEST | PHM_HEALTH,LOGS,DIAG | Health monitoring, diagnostics, maintenance data pipelines. Nudos: K01,K06,K11,K13. |
+| 46 | INFORMATION SYSTEMS / DATA NETWORKS | T-TECHNOLOGY | STK_DATA | STK_CY,STK_SPE,STK_SE,STK_CERT,STK_TEST,STK_OPS | DATA_NETWORKS,AVIONICS_NETS | Onboard networks + data services; cyber-required. Nudos: K01,K06,K13. |
+| 47 | INERT GAS SYSTEM / TANK INERTING | T-TECHNOLOGY | STK_SAF | STK_PHM,STK_SE,STK_OPS,STK_CERT,STK_TEST,STK_SPE | INERTING,HAZARDS | Inerting safety system + procedures + validation. Nudos: K01,K03,K05. |
+| 48 | IN-FLIGHT FUEL DISPENSING (RESERVED) | T-TECHNOLOGY | STK_CM | STK_SE,STK_SAF,STK_CERT,STK_SPE,STK_PHM | APPLICABILITY | Reserved; activate only if applicable. Nudos: K01,K04. |
+| 49 | AIRBORNE AUXILIARY POWER / APU / AUX POWER MODULES | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO,STK_SPE | AUX_POWER,START,SAFETY | Auxiliary power modules (as applicable). Nudos: K01,K03,K05. |
+| 50 | CARGO AND ACCESSORY COMPARTMENTS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO | CARGO,COMPARTMENTS | Compartments/structure/access/inspection. Nudos: K01,K05,K11. |
+| 51 | STANDARD PRACTICES & STRUCTURES - GENERAL | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA | STRUCT_PRACTICES,MATERIALS | Structural practices, allowables, methods. Nudos: K01,K05,K10. |
+| 52 | DOORS / HATCHES | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_OPS,STK_TEST,STK_MRO,STK_SPE | DOORS,EGRESS | Doors/hatches/seals/actuation; egress compliance. Nudos: K01,K05,K11. |
+| 53 | FUSELAGE / PRESSURE VESSEL | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA | PRESSURE_VESSEL,LOADS | Primary structure / pressure vessel (Space-T). Nudos: K01,K05,K10. |
+| 54 | NACELLES / PYLONS (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST | NACELLES,PYLONS | Nacelles/pylons and integration structures. Nudos: K01,K05,K10. |
+| 55 | STABILIZERS / CONTROL SURFACES | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA,STK_SPE | CONTROL_SURFACES | Control surfaces mechanisms, loads, actuation interfaces. Nudos: K01,K05,K07. |
+| 56 | WINDOWS / VIEWPORTS | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_OPS,STK_MRO,STK_TEST | VIEWPORTS,DEBRIS | Viewports/windows, debris protection, inspection. Nudos: K01,K05,K11. |
+| 57 | WINGS / LIFTING SURFACES | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_DATA | LIFT_SURFACES,AEROELASTIC | Lifting surfaces / lifting body structures. Nudos: K01,K05,K10. |
+| 58 | RESERVED / EXTENSION | T-TECHNOLOGY | STK_CM | STK_SE,STK_CERT | TAXONOMY | Reserved extension. Nudos: K01,K04. |
+| 59 | RESERVED / EXTENSION | T-TECHNOLOGY | STK_CM | STK_SE,STK_CERT | TAXONOMY | Reserved extension. Nudos: K01,K04. |
+| 60 | STANDARD PRACTICES - PROPELLER / ROTOR | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | PROP_ROTOR_PRACTICES | Prop/rotor practices (if applicable). Nudos: K01,K05,K10. |
+| 61 | PROPELLERS / PROPULSORS (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST | PROPULSORS | Propulsors hardware (if applicable). Nudos: K01,K05,K10. |
+| 62 | ROTORS (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | ROTORS | Rotors (if applicable). Nudos: K01,K05. |
+| 63 | ROTOR DRIVES (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | ROTOR_DRIVES | Rotor drive trains (if applicable). Nudos: K01,K05. |
+| 64 | TAIL ROTOR (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | TAIL_ROTOR | Tail rotor (if applicable). Nudos: K01,K05. |
+| 65 | TAIL ROTOR DRIVE (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | TAIL_ROTOR_DRIVE | Tail rotor drive (if applicable). Nudos: K01,K05. |
+| 66 | FOLDING BLADES / TAIL PYLON (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_CERT,STK_TEST | FOLDING_MECH | Folding mechanisms (if applicable). Nudos: K01,K05. |
+| 67 | ROTORS FLIGHT CONTROL (IF APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SPE,STK_CERT,STK_TEST | ROTOR_CONTROL | Rotor control interfaces and VV (if applicable). Nudos: K01,K05,K07. |
+| 68 | RESERVED / EXTENSION | T-TECHNOLOGY | STK_CM | STK_SE,STK_CERT | TAXONOMY | Reserved extension. Nudos: K01,K04. |
+| 69 | RESERVED / EXTENSION | T-TECHNOLOGY | STK_CM | STK_SE,STK_CERT | TAXONOMY | Reserved extension. Nudos: K01,K04. |
+| 70 | STANDARD PRACTICES - ENGINE | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST | ENGINE_PRACTICES | Engine/propulsion practices, methods, inspections. Nudos: K01,K05,K10. |
+| 71 | POWER PLANT / PROPULSION INTEGRATION | T-TECHNOLOGY | STK_SE | STK_PHM,STK_SPE,STK_SAF,STK_CERT,STK_TEST,STK_SPACEPORT,STK_DATA | PROP_INTEGRATION,ICDS | Propulsion integration architecture + ICD governance. Nudos: K01,K04,K05,K09. |
+| 72 | ENGINE (TURBINE/ROCKET/HYBRID AS APPLICABLE) | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_SPACEPORT,STK_DATA,STK_SPE | TECH_PROP,QUAL_TESTS | Propulsion unit hardware + integration constraints. Nudos: K01,K03,K05,K09. |
+| 73 | ENGINE FUEL AND CONTROL | T-TECHNOLOGY | STK_SPE | STK_PHM,STK_SE,STK_CY,STK_SAF,STK_CERT,STK_TEST,STK_DATA | FADEC_LIKE,CYSEC | Propulsion control SW + safety/cyber evidence. Nudos: K01,K05,K13. |
+| 74 | IGNITION | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_SPE | IGNITION,INTERLOCKS | Ignition hardware + interlocks + validation. Nudos: K01,K03,K05. |
+| 75 | AIR (BLEED / INLET / APU AIR) / INTAKE | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST | INTAKES,FLOW_PATHS | Intake/bleed/flow paths (as applicable). Nudos: K01,K03,K05. |
+| 76 | ENGINE CONTROLS | T-TECHNOLOGY | STK_SPE | STK_PHM,STK_SE,STK_CY,STK_CERT,STK_TEST,STK_DATA | CONTROL_INTEGRATION | Integrated propulsion control SW (ICDs + VV). Nudos: K01,K05,K13. |
+| 77 | ENGINE INDICATING | T-TECHNOLOGY | STK_SPE | STK_PHM,STK_SE,STK_CERT,STK_TEST,STK_DATA | ENGINE_INDICATION | Indication/recording for propulsion. Nudos: K01,K05,K06. |
+| 78 | EXHAUST / PLUME MANAGEMENT | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_SPACEPORT | PLUME,THERMAL,SAFETY | Exhaust/plume/thermal interactions + constraints. Nudos: K01,K03,K05,K09. |
+| 79 | OIL / LUBRICATION | T-TECHNOLOGY | STK_PHM | STK_SE,STK_SAF,STK_CERT,STK_TEST,STK_MRO | LUBE,OIL_SYSTEMS | Lubrication systems + servicing/inspection. Nudos: K01,K03,K11. |
+| 80 | OFF-BOARD / AIRPORT / SPACEPORT INFRASTRUCTURES (MASTER) | I-INFRASTRUCTURES | STK_SPACEPORT | STK_OPS,STK_SAF,STK_CERT,STK_CM,STK_DATA | SPACEPORT_MASTER | Master off-board infra baseline (Spaceport/Airport). Nudos: K01,K02,K09,K10. |
+| 81 | OFF-BOARD ENERGY / CRYO SERVICES | I-INFRASTRUCTURES | STK_SPACEPORT | STK_SAF,STK_OPS,STK_CERT,STK_PHM,STK_MRO | CRYO,ENERGY_SERVICES | Energy/cryo services & interfaces. Nudos: K02,K03,K09. |
+| 82 | OFF-BOARD MRO FACILITIES / TOOLING / LOGISTICS | I-INFRASTRUCTURES | STK_MRO | STK_OPS,STK_SAF,STK_CM,STK_DATA | MRO_FACILITIES,TOOLING | MRO facilities/tooling/logistics baselines. Nudos: K02,K04,K11. |
+| 83 | GROUND COMMS / DATA EXCHANGE INFRA (GATEWAYS, EDGE) | I-INFRASTRUCTURES | STK_DATA | STK_CY,STK_OPS,STK_SPACEPORT,STK_CERT,STK_TEST | GATEWAYS,EDGE,DATA_EXCHANGE | Ground gateways/edge data exchange; cyber-required. Nudos: K02,K06,K09,K13. |
+| 84 | SPACEPORT SAFETY / EMERGENCY RESPONSE INFRA | I-INFRASTRUCTURES | STK_SAF | STK_SPACEPORT,STK_OPS,STK_CERT,STK_TEST | EMERGENCY_RESPONSE | Safety infra & emergency response baselines. Nudos: K02,K03,K09,K10. |
+| 85 | CIRCULARITY INFRA (RETURN FLOWS, RECYCLING, CO2/H2 LOOPS) | I-INFRASTRUCTURES | STK_DATA | STK_PMO,STK_CM,STK_OPS,STK_SPACEPORT | CIRCULARITY,LEDGERS | Circularity infra + trace/ledger hooks. Nudos: K01,K06,K14. |
+| 86 | OFF-BOARD DIGITAL SERVICES PLATFORM (PORTALS, ORCHESTRATION) | I-INFRASTRUCTURES | STK_DATA | STK_CY,STK_OPS,STK_CM,STK_TEST,STK_SPE | PORTALS,ORCHESTRATION | CAXS portals/orchestration services. Nudos: K01,K06,K13. |
+| 87 | IDENTITY / ACCESS / CYBERSECURITY INFRA (PHYSICAL+DIGITAL) | I-INFRASTRUCTURES | STK_CY | STK_DATA,STK_CM,STK_CERT,STK_OPS | IAM,ZTA,SECOPS | Identity/access/cyber infra. Nudos: K01,K06,K13. |
+| 88 | GSE CONFIGURATION / ASSET MANAGEMENT | I-INFRASTRUCTURES | STK_CM | STK_MRO,STK_DATA,STK_OPS,STK_CERT | ASSET_MGMT,CONFIG | GSE asset mgmt + configuration baselines. Nudos: K01,K04,K06. |
+| 89 | TEST RIGS / INSTRUMENTATION INFRA (GROUND) | I-INFRASTRUCTURES | STK_TEST | STK_SPACEPORT,STK_PHM,STK_SPE,STK_CERT,STK_DATA | TEST_RIGS,INSTRUMENTATION | Ground rigs/instrumentation infra. Nudos: K01,K05,K09. |
+| 90 | AI/ML MODEL REGISTRY & MODEL LIFECYCLE | N-NEURAL_NETWORKS | STK_AI | STK_DATA,STK_CM,STK_CERT,STK_OPS,STK_CY,STK_TEST,STK_SPE | MODEL_REGISTRY,GOV | Model registry + lifecycle governance. Nudos: K01,K06,K07. |
+| 91 | DATA SCHEMAS / ONTOLOGIES / SEMANTIC MODEL (SSOT) | N-NEURAL_NETWORKS | STK_DATA | STK_CM,STK_SE,STK_CY,STK_CERT,STK_TEST | ONTOLOGIES,SSOT | Ontologies/SSOT for validation and trace. Nudos: K01,K06,K13. |
+| 92 | WIRING / CONNECTIVITY GRAPHS & HARNESS DATA PACKAGES | N-NEURAL_NETWORKS | STK_DATA | STK_PHM,STK_SE,STK_CM,STK_CERT,STK_TEST | CONNECTIVITY,GRAPH | Connectivity graphs/harness datasets. Nudos: K01,K06,K05. |
+| 93 | TRACEABILITY GRAPH (REQ↔DESIGN↔VV↔OPS) & EVIDENCE LEDGERS | N-NEURAL_NETWORKS | STK_CM | STK_DATA,STK_SE,STK_CERT,STK_TEST,STK_AI,STK_SPE | TRACEABILITY,EVIDENCE_LEDGER | Trace graph + evidence ledgers for audits/releases. Nudos: K01,K06,K08. |
+| 94 | DPP CORE (DIGITAL PRODUCT PASSPORT) & PROVENANCE | N-NEURAL_NETWORKS | STK_DATA | STK_CM,STK_CERT,STK_CY,STK_OPS | DPP,PROVENANCE | DPP core + provenance/export views. Nudos: K01,K06,K13,K14. |
+| 95 | SBOM / SWHW BOM / MODEL BOM EXPORTS | N-NEURAL_NETWORKS | STK_DATA | STK_CY,STK_CM,STK_CERT,STK_SPE | SBOM,BOM_EXPORTS | SBOM/SW/HW BOM exports + signing hooks. Nudos: K01,K06,K13. |
+| 96 | AI GOVERNANCE (RISK, ASSURANCE, MONITORING, DRIFT/BIAS) | N-NEURAL_NETWORKS | STK_AI | STK_SAF,STK_CERT,STK_OPS,STK_CY,STK_DATA,STK_CM,STK_SPE | AI_RISK,ASSURANCE | AI governance, monitors, approvals, rollback. Nudos: K01,K07,K13. |
+| 97 | CHANGE IMPACT ANALYTICS (WIRING/CONFIG/TRACE) | N-NEURAL_NETWORKS | STK_DATA | STK_CM,STK_SE,STK_CERT,STK_TEST | IMPACT_ANALYTICS | Change impact analytics across config/trace/connectivity. Nudos: K01,K04,K06. |
+| 98 | SIGNED RELEASE PACKS / MANIFESTS / EXPORTS | N-NEURAL_NETWORKS | STK_CM | STK_CERT,STK_DATA,STK_CY,STK_OPS | SIGNING,MANIFESTS,EXPORTS | Signed releases/manifests/exports (PR-blocking). Nudos: K01,K04,K08,K13. |
+| 99 | MASTER REGISTERS (GOLDEN RECORDS) & REFERENCE DATASETS | N-NEURAL_NETWORKS | STK_DATA | STK_CM,STK_SE,STK_CERT,STK_TEST | MASTER_DATA,REGISTERS | Golden registers + reference datasets. Nudos: K01,K06. |
+| 100 | SIM/TEST GOVERNANCE (PLANS, ENVIRONMENTS, QUALITY) | T-SIMTEST | STK_TEST | STK_CERT,STK_CM,STK_DATA,STK_SE,STK_SPE | SIMTEST_GOV,TOOL_QUAL | Test governance, environments, tool qualification. Nudos: K01,K05. |
+| 101 | DIGITAL TWIN CONFIGURATION & SIM MODEL CATALOG | T-SIMTEST | STK_DATA | STK_TEST,STK_SE,STK_CM,STK_CERT | DIGITAL_TWIN,CATALOG | Digital twin config + model catalog. Nudos: K01,K06,K05. |
+| 102 | SCENARIO LIBRARIES (MISSION, OFF-NOMINAL, EMERGENCY) | T-SIMTEST | STK_OPS | STK_TEST,STK_SAF,STK_SE,STK_DATA | SCENARIOS,CONOPS | Scenario libraries for mission/off-nominal/emergency. Nudos: K01,K02,K05. |
+| 103 | SIL (SOFTWARE-IN-THE-LOOP) AUTOMATION | T-SIMTEST | STK_SPE | STK_TEST,STK_CY,STK_DATA,STK_SE | SIL,AUTOMATION | SIL harnesses, runners, automation, logs. Nudos: K01,K05,K13. |
+| 104 | HIL (HARDWARE-IN-THE-LOOP) BENCHES | T-SIMTEST | STK_TEST | STK_PHM,STK_SPE,STK_SE,STK_CERT,STK_DATA | HIL,BENCHES | HIL benches + instrumentation + procedures. Nudos: K01,K05. |
+| 105 | PIL / TARGET EXECUTION (PROCESSOR/PLATFORM-IN-THE-LOOP) | T-SIMTEST | STK_TEST | STK_SE,STK_CM,STK_CERT,STK_CY,STK_SPE,STK_PHM | PIL,TARGET,PERF_TIMING | Target execution evidence (timing/mem constraints). Nudos: K01,K05,K13. |
+| 106 | TEST PROCEDURES / TEST CASES / ACCEPTANCE CRITERIA | T-SIMTEST | STK_TEST | STK_SE,STK_SAF,STK_CERT,STK_CM,STK_DATA,STK_SPE | TEST_CASES,ACCEPTANCE | Procedures/cases/criteria + trace links. Nudos: K01,K06. |
+| 107 | TEST DATA / INPUT DECKS / STIMULI | T-SIMTEST | STK_DATA | STK_TEST,STK_SE,STK_CM | TEST_DATA,STIMULI | Controlled test datasets/input decks/stimuli. Nudos: K01,K06. |
+| 108 | TEST RESULTS / REPORTING / ANOMALY MANAGEMENT | T-SIMTEST | STK_TEST | STK_DATA,STK_OPS,STK_SAF,STK_CERT,STK_CM | RESULTS,NCR,ANOMALIES | Results reporting + anomaly/NCR management. Nudos: K01,K05,K08. |
+| 109 | VV EVIDENCE PACKS (LINKED TO TRACEABILITY) | T-SIMTEST | STK_CERT | STK_CM,STK_TEST,STK_DATA,STK_SE,STK_SPE | VV_EVIDENCE,PACKAGING | Evidence bundling linked to trace graph. Nudos: K01,K06,K08. |
+| 110 | QUALIFICATION / ENVIRONMENTAL TESTING (SPACE-T) | T-SIMTEST | STK_TEST | STK_SAF,STK_CERT,STK_SPACEPORT,STK_CM,STK_SE,STK_PHM,STK_SPE | THERMAL_VAC,VIB,EMC | Space-T qual tests + facility constraints. Nudos: K01,K05,K09. |
+| 111 | SYSTEM INTEGRATION TESTING (END-TO-END) | T-SIMTEST | STK_TEST | STK_SE,STK_SAF,STK_CERT,STK_DATA,STK_CY | E2E_INTEGRATION | End-to-end integration testing across subsystems. Nudos: K01,K05,K13. |
+| 112 | MISSION/FLIGHT TESTING (OPERATIONAL DEMOS) | T-SIMTEST | STK_OPS | STK_TEST,STK_SAF,STK_CERT,STK_CM,STK_SPACEPORT,STK_SE,STK_SPE,STK_PHM | OPS_DEMOS,READINESS | Operational demos + readiness + limits confirmation. Nudos: K01,K02,K11,K12. |
+| 113 | UNCERTAINTY QUANTIFICATION (UQ) / MONTE CARLO / SENSITIVITY | T-SIMTEST | STK_DATA | STK_TEST,STK_SE,STK_AI | UQ,MONTE_CARLO | UQ/Monte Carlo/sensitivity suites. Nudos: K01,K05,K06. |
+| 114 | AI/ML VALIDATION SUITES & MONITORING TESTS | T-SIMTEST | STK_AI | STK_TEST,STK_SAF,STK_CERT,STK_OPS,STK_CY,STK_DATA,STK_SPE | AI_VALIDATION,DRIFT | AI validation/robustness/drift suites. Nudos: K01,K05,K07,K13. |
+| 115 | CERTIFICATION TESTS (SW/HW/ECSS-DO) & COMPLIANCE REPORTS | T-SIMTEST | STK_CERT | STK_TEST,STK_CM,STK_SE,STK_DATA,STK_SAF,STK_CY,STK_SPE,STK_PHM | COMPLIANCE,AUDIT | Compliance tests + reports + authority packs. Nudos: K01,K05,K10,K13. |
+| 116 | SIM/TEST ARCHIVES & BASELINES (FROZEN CAMPAIGNS) | T-SIMTEST | STK_CM | STK_TEST,STK_DATA,STK_CERT | ARCHIVES,BASELINES | Frozen campaigns, baselines, retention policy. Nudos: K01,K04,K08. |
 
-This repository implements **OPT-INS** (extended OPT-IN) to support spacecraft-scale sustainment and test:
 
-- **O — Organization** (Governance, CM, QMS, SMS)
-- **P — Program** (Planning, Cost, Risk, Reviews)
-- **T — Technology** (Onboard systems)
-- **I — Infrastructures** (Ground / launch / mission control)
-- **N — Neural** (AI/ML, DPP, Traceability)
-- **S — SIM/TEST** (new axis, ATA 100–114)
-
-```
-AMPEL360_SPACE-T/
-├── O-ORGANIZATION/                        # Governance, CM, QMS, SMS, Regulatory
-│   ├── ATA_00-GENERAL_INFO/
-│   ├── ATA_01-POLICY_PROCEDURES/
-│   ├── ATA_04-AIRWORTHINESS_LIMITS/
-│   ├── ATA_05-TIME_LIMITS_CHECKS/
-│   ├── ATA_06-CONFIG_MANAGEMENT/
-│   ├── ATA_07-QUALITY_MANAGEMENT/
-│   ├── ATA_08-SAFETY_MANAGEMENT/
-│   └── ATA_09-REGULATORY_AFFAIRS/
-│
-├── P-PROGRAM/                             # Planning, Cost, Risk, Reviews
-│   ├── ATA_06-PROGRAM_PLANNING/
-│   ├── ATA_07-COST_MANAGEMENT/
-│   ├── ATA_08-RISK_MANAGEMENT/
-│   ├── ATA_09-REVIEWS_GATES/
-│   ├── ATA_10-STAKEHOLDER_MGMT/
-│   ├── ATA_11-CONTRACT_MGMT/
-│   └── ATA_12-INTEGRATION_MGMT/
-│
-├── T-TECHNOLOGY_ONBOARD_SYSTEMS/          # Vehicle systems (41 chapters)
-│   ├── ATA_21-ECLSS/
-│   ├── ATA_22-GNC_AUTOFLIGHT/
-│   ├── ATA_23-COMMS/
-│   ├── ATA_24-EPS_POWER/
-│   ├── ATA_25-HABITAT_INTERIORS/
-│   ├── ATA_28-PROPULSION_FUEL/
-│   ├── ATA_31-AVIONICS_CORE/
-│   ├── ATA_53-STRUCTURE_FUSELAGE/
-│   ├── ATA_57-WINGS_LIFTING_BODY/
-│   ├── ATA_72-MAIN_ENGINES/
-│   └── ... (41 systems total)
-│
-├── I-INFRASTRUCTURES/                     # Ground systems, H₂, Launch
-│   ├── ATA_02-OPERATIONS_INFO/
-│   ├── ATA_03-GROUND_EQUIPMENT/
-│   ├── ATA_10-PARKING_MOORING/
-│   ├── ATA_13-LOGISTICS/
-│   ├── ATA_85-H2_VALUE_CHAIN/
-│   ├── ATA_86-LAUNCH_FACILITIES/
-│   ├── ATA_87-LANDING_RECOVERY/
-│   ├── ATA_88-PASSENGER_TERMINAL/
-│   ├── ATA_89-MISSION_CONTROL/
-│   ├── ATA_90-GROUND_SUPPORT/
-│   ├── ATA_115-SUPPLY_CHAIN/
-│   └── ATA_116-FACILITIES_MGMT/
-│
-├── N-NEURAL_NETWORKS_DPP_TRACEABILITY/    # AI/ML, DPP, Analytics
-│   ├── ATA_95-NEURAL_OPS_AI/
-│   ├── ATA_96-DPP_TRACEABILITY/
-│   ├── ATA_97-DATA_ANALYTICS/
-│   └── ATA_98-HUMAN_AI_INTERFACE/
-│
-└── S-SIM_TEST/                            # Simulation, Test, Verification (OPT-INS reserved)
-    ├── ATA_100-SIM_BASELINES/             # Simulation Baselines (SIM)
-    ├── ATA_101-DIGITAL_TWIN/              # Digital Twin Configurations (DT)
-    ├── ATA_102-MODEL_BASED_TEST/          # Model-Based Test Design (MBT)
-    ├── ATA_103-SIL_ENVIRONMENTS/          # Software-in-the-Loop (SIL)
-    ├── ATA_104-HIL_BENCHES/               # Hardware-in-the-Loop (HIL)
-    ├── ATA_105-QUALIFICATION/             # Qualification & Acceptance (QUAL)
-    ├── ATA_106-INTEGRATION_TEST/          # Integration Test Campaigns (ITC)
-    ├── ATA_107-ENVIRONMENTAL_TEST/        # Environmental Test (ENV)
-    ├── ATA_108-FLIGHT_TEST/               # Flight / Mission Test (FLTTEST)
-    ├── ATA_109-OPS_READINESS/             # Ops Readiness Tests (ORT)
-    ├── ATA_110-SAFETY_VALIDATION/         # Safety Validation (SAFVAL)
-    ├── ATA_111-CERT_EVIDENCE/             # Certification Evidence Packs (EVD)
-    ├── ATA_112-GROUND_TEST/               # Ground Test & Checkout (GTC)
-    ├── ATA_113-RANGE_CORRIDOR/            # Range / Corridor / Constraints (RANGE)
-    └── ATA_114-POST_TEST_ANALYTICS/       # Post-Test Analytics (PTA)
-```
-
-> **S Axis (SIM/TEST)**: ATA 100–114 are reserved for the S axis (simulation, test, verification, qualification, and validation). The exact chapter naming is **CM-controlled**; the range is immutable but names may evolve additively under change control.
-
----
-
-## Generator Scripts
-
-| Generator | Axis | Systems | Key Content |
-|:----------|:-----|:--------|:------------|
-| `generate_space_t_structure.py` | T-TECHNOLOGY | 41 ATA chapters | Vehicle HW/SW, engineering cycle |
-| `generate_organization.py` | O-ORGANIZATION | 8 ATA chapters | CM, QMS, SMS, Regulatory |
-| `generate_program.py` | P-PROGRAM | 7 ATA chapters | WBS, EVM, Risk, Reviews |
-| `generate_infrastructures.py` | I-INFRASTRUCTURES | 12 ATA chapters | H₂, Launch, MCC, Terminals |
-| `generate_sim_test.py` *(not yet implemented)* | S-SIM_TEST | 15 ATA chapters | SIM, Digital Twin, V&V, Test |
-
-### Common Options
-
-```bash
---root PATH      # Output directory (default: ./AMPEL360_SPACE-T)
---systems LIST   # Comma-separated ATA codes (e.g., "21,22,53")
---dry-run        # Preview without creating files
-```
-
----
-
-## Canonical Structure
-
-### XX-00_GENERAL (14 Lifecycle Folders)
-
-Every ATA chapter includes:
-
-```
-ATA_XX-DESCRIPTION/
-└── XX-00_GENERAL/
-    ├── XX-00-01_Overview/           # System description, scope
-    ├── XX-00-02_Safety/             # Safety requirements, hazards
-    ├── XX-00-03_Requirements/       # Functional/performance reqs
-    ├── XX-00-04_Design/             # Design philosophy, trade studies
-    ├── XX-00-05_Interfaces/         # ICDs, interface definitions
-    ├── XX-00-06_Engineering/        # Engineering standards, methods
-    ├── XX-00-07_V_AND_V/            # Verification & validation plans
-    ├── XX-00-08_Prototyping/        # Prototype specs, test articles
-    ├── XX-00-09_Production_Planning/# Manufacturing planning
-    ├── XX-00-10_Certification/      # Certification plans, evidence
-    ├── XX-00-11_EIS_Versions_Tags/  # Entry-into-service, baselines
-    ├── XX-00-12_Services/           # Support services, logistics
-    ├── XX-00-13_Subsystems_Components/ # Component breakdown
-    └── XX-00-14_Ops_Std_Sustain/    # Operations, standards, sustainability
-```
-
-### Cross-ATA Buckets (9 Mandatory)
-
-```
-ATA_XX-DESCRIPTION/
-├── XX-10_Operations/              # Operational procedures
-├── XX-20_Subsystems/              # Engineering subsystems (P→CAD→CAE→CAM→CAOS)
-├── XX-30_Circularity/             # Sustainability, LCA, DPP links
-├── XX-40_Software/                # SW, controllers, ML/NN
-├── XX-50_Structures/              # Physical structures, mounts
-├── XX-60_Storages/                # Tanks, reservoirs, archives
-├── XX-70_Propulsion/              # Propulsive interfaces
-├── XX-80_Energy/                  # Power, thermal interfaces
-└── XX-90_Tables_Schemas_Diagrams/ # Data catalogs, drawings
-```
-
----
-
-## Engineering Cycle
-
-### Standard P→CAD→CAE→CAM→CAOS (XX-20_Subsystems)
-
-```
-XX-20-YY_Subsystem_Name/
-├── 00_INDEX_README.md
-├── 00_PRE-CAD_Prompt_Engineering/
-│   ├── PROMPTS/          # ST-XX-YY-P-NNNN prompt files
-│   ├── CONTEXT/          # Standards, references
-│   ├── AGENTS/           # AI agent configurations
-│   ├── SPECS/            # Hard requirements
-│   └── TRACE/            # Prompt→Artifact traceability
-├── 10_CAD/
-│   ├── WORKSPACE/        # Work-in-progress
-│   ├── MASTERS/          # Released geometry (ST-XX-YY-D-NNNN)
-│   ├── COMPONENTS/       # Part models
-│   ├── EXPORTS/          # STEP, IGES, STL
-│   ├── DRAWINGS/         # 2D drawings
-│   └── META/
-├── 20_CAE/
-│   ├── MESHES/           # FEA/CFD meshes
-│   ├── SCENARIOS/        # Analysis cases (ST-XX-YY-E-CaseNN)
-│   ├── RESULTS/          # Simulation outputs
-│   ├── REPORTS/          # Analysis reports
-│   └── META/
-├── 30_CAM/
-│   ├── PROCESS_PLANS/    # Manufacturing process
-│   ├── G-CODE/           # NC programs (ST-XX-YY-M-NNNN)
-│   ├── 3D_PRINT/         # AM build files
-│   ├── BOM/              # Bills of material
-│   ├── TOOLING/          # Tool designs
-│   └── META/
-├── 40_CAOS/
-│   ├── MANUALS/          # User manuals
-│   ├── PROCEDURES/       # Ops procedures (ST-XX-YY-O-NNNN)
-│   ├── DIGITAL_TWINS/    # Twin configurations
-│   ├── AI_AGENTS/        # Runtime agents
-│   ├── SPARES/           # Spare parts lists
-│   └── META/
-└── META/
-    ├── Traceability_Matrix.csv
-    └── Dependencies.yaml
-```
-
-### ML Lifecycle (ATA 95 Neural Systems)
-
-```
-95-20-XX_Neural_Model/
-├── 00_INDEX_README.md
-├── 00_PRE-CAD_Prompt_Engineering/
-├── 10_ARCHITECTURE/      # Network topology, hyperparameters
-├── 20_TRAINING/          # Datasets, pipelines, checkpoints
-├── 30_VALIDATION/        # Test cases, benchmarks, adversarial
-├── 40_DEPLOYMENT/        # ONNX models, runtime configs
-├── 50_MONITORING/        # Dashboards, drift detection
-└── META/
-    ├── Model_Card.yaml
-    └── Certification_Evidence.yaml
-```
-
----
-
-## ATA-SpaceT Chapter Index
-
-### O-ORGANIZATION (8 Chapters)
-
-| Code | System | Description |
-|:-----|:-------|:------------|
-| 00 | GENERAL_INFO | Glossary, units, document numbering |
-| 01 | POLICY_PROCEDURES | Policies, procedures, directives |
-| 04 | AIRWORTHINESS_LIMITS | Certification basis, limitations |
-| 05 | TIME_LIMITS_CHECKS | Maintenance intervals, life limits |
-| 06 | CONFIG_MANAGEMENT | Baselines, change control |
-| 07 | QUALITY_MANAGEMENT | QMS, audits, NCR, supplier QA |
-| 08 | SAFETY_MANAGEMENT | SMS, hazard analysis, risk |
-| 09 | REGULATORY_AFFAIRS | FAA/EASA/ESA certification |
-
-### P-PROGRAM (7 Chapters)
-
-| Code | System | Description |
-|:-----|:-------|:------------|
-| 06 | PROGRAM_PLANNING | WBS, IMS, resources, phases |
-| 07 | COST_MANAGEMENT | Budget, EVM, cost estimation |
-| 08 | RISK_MANAGEMENT | Risk register, mitigation |
-| 09 | REVIEWS_GATES | SRR/PDR/CDR/TRR/FRR, gates |
-| 10 | STAKEHOLDER_MGMT | Communication, reporting |
-| 11 | CONTRACT_MGMT | Procurement, suppliers |
-| 12 | INTEGRATION_MGMT | Cross-axis integration |
-
-### T-TECHNOLOGY (41 Chapters)
-
-| Code | System | Code | System |
-|:-----|:-------|:-----|:-------|
-| 21 | ECLSS | 50 | CARGO_ACCESS |
-| 22 | GNC_AUTOFLIGHT | 51 | STANDARD_PRACTICES |
-| 23 | COMMS | 52 | DOORS |
-| 24 | EPS_POWER | 53 | STRUCTURE_FUSELAGE |
-| 25 | HABITAT_INTERIORS | 55 | STABILIZERS |
-| 26 | FIRE_PROTECTION | 56 | WINDOWS |
-| 27 | FLIGHT_CONTROLS | 57 | WINGS_LIFTING_BODY |
-| 28 | PROPULSION_FUEL | 70 | STANDARD_PRACTICES_PROP |
-| 29 | HYDRAULICS | 71 | POWERPLANT |
-| 30 | ICE_RAIN_PROTECT | 72 | MAIN_ENGINES |
-| 31 | AVIONICS_CORE | 73 | ENGINE_FUEL_CONTROL |
-| 32 | LANDING_GEAR | 74 | IGNITION |
-| 33 | LIGHTS | 75 | ENGINE_AIR |
-| 34 | NAVIGATION | 76 | ENGINE_CONTROLS |
-| 35 | OXYGEN | 77 | ENGINE_INDICATING |
-| 36 | PNEUMATICS | 78 | ENGINE_EXHAUST |
-| 38 | WATER_WASTE | 79 | ENGINE_OIL |
-| 39 | ELECTRICAL_PANELS | 95 | NEURAL_OPS_AI |
-| 42 | INTEGRATED_MODULAR | 96 | DPP_TRACEABILITY |
-| 44 | CABIN_SYSTEMS | 97 | DATA_ANALYTICS |
-| 45 | CENTRAL_MAINTENANCE | | |
-| 46 | INFO_SYSTEMS | | |
-| 49 | APU | | |
-
-### I-INFRASTRUCTURES (12 Chapters)
-
-| Code | System | Description |
-|:-----|:-------|:------------|
-| 02 | OPERATIONS_INFO | Ground operations manuals |
-| 03 | GROUND_EQUIPMENT | GSE, tooling, support |
-| 10 | PARKING_MOORING | Pad ops, umbilicals |
-| 13 | LOGISTICS | Spares, consumables |
-| 85 | H2_VALUE_CHAIN | Hydrogen production, storage |
-| 86 | LAUNCH_FACILITIES | Pads, towers, loading |
-| 87 | LANDING_RECOVERY | Landing zones, recovery |
-| 88 | PASSENGER_TERMINAL | Check-in, training, boarding |
-| 89 | MISSION_CONTROL | MCC, telemetry, flight dynamics |
-| 90 | GROUND_SUPPORT | Transport, erector, checkout |
-| 115 | SUPPLY_CHAIN | Suppliers, procurement |
-| 116 | FACILITIES_MGMT | Buildings, utilities |
-
-### N-NEURAL (4 Chapters)
-
-| Code | System | Description |
-|:-----|:-------|:------------|
-| 95 | NEURAL_OPS_AI | Flight control NN, anomaly detection, predictive maintenance |
-| 96 | DPP_TRACEABILITY | Digital Product Passport, blockchain anchoring |
-| 97 | DATA_ANALYTICS | Telemetry analytics, BI |
-| 98 | HUMAN_AI_INTERFACE | XAI, crew decision support, autonomy |
-
-### S-SIM_TEST (15 Chapters) — OPT-INS Reserved Range
-
-| Code | System | Description |
-|:-----|:-------|:------------|
-| 100 | SIM_BASELINES | Simulation Baselines (SIM) |
-| 101 | DIGITAL_TWIN | Digital Twin Configurations (DT) |
-| 102 | MODEL_BASED_TEST | Model-Based Test Design (MBT) |
-| 103 | SIL_ENVIRONMENTS | Software-in-the-Loop (SIL) |
-| 104 | HIL_BENCHES | Hardware-in-the-Loop (HIL) |
-| 105 | QUALIFICATION | Qualification & Acceptance (QUAL) |
-| 106 | INTEGRATION_TEST | Integration Test Campaigns (ITC) |
-| 107 | ENVIRONMENTAL_TEST | Environmental Test (ENV) |
-| 108 | FLIGHT_TEST | Flight / Mission Test (FLTTEST) |
-| 109 | OPS_READINESS | Ops Readiness Tests (ORT) |
-| 110 | SAFETY_VALIDATION | Safety Validation (SAFVAL) |
-| 111 | CERT_EVIDENCE | Certification Evidence Packs (EVD) |
-| 112 | GROUND_TEST | Ground Test & Checkout (GTC) |
-| 113 | RANGE_CORRIDOR | Range / Corridor / Constraints (RANGE) |
-| 114 | POST_TEST_ANALYTICS | Post-Test Analytics (PTA) |
-
-> **Note**: ATA 100–114 are CM-controlled. The range is immutable; names may evolve additively under change control.
-
----
-
-## Artifact ID Convention
-
-### Standard Pattern
-
-```
-ST-XX-YY-C-NNNN_Name.ext
-```
-
-| Component | Description | Values |
-|:----------|:------------|:-------|
-| ST | Space-T prefix | Fixed |
-| XX | ATA chapter | 00-98, 100-116 (ATA 99 reserved) |
-| YY | Subsystem code | 10, 20, 30... |
-| C | Cycle phase | P, D, E, M, O |
-| NNNN | Sequence | 0001-9999 |
-| Name | Descriptive | Alphanumeric |
-| ext | Extension | .md, .yaml, .prt... |
-
-### Cycle Phase Codes
-
-| Code | Phase | Description |
-|:-----|:------|:------------|
-| P | Prompting | PRE-CAD prompt engineering |
-| D | Design | CAD geometry/models |
-| E | Engineering | CAE analysis/simulation |
-| M | Manufacturing | CAM production data |
-| O | Operations | CAOS procedures/manuals |
-
-### Special Types
-
-| Pattern | Type | Example |
-|:--------|:-----|:--------|
-| `DPP-ST-XX-NNNNNNNN` | Digital Product Passport | DPP-ST-53-A1B2C3D4 |
-| `ST-95-XX-M-NNNN` | ML Model | ST-95-10-M-0001.onnx |
-| `DS-XX-YY-NNN` | Dataset | DS-95-10-001 |
-| `EVD-ST-XX-NNNN` | Evidence package | EVD-ST-53-0001 |
-
----
-
-## Compliance Standards
-
-| Domain | Standards |
-|:-------|:----------|
-| Configuration | ANSI/EIA-649B, MIL-HDBK-61A |
-| Quality | AS9100D, ISO 9001:2015 |
-| Safety | SAE ARP4754A, ARP4761, MIL-STD-882E |
-| Software | DO-178C, DO-330 |
-| Hardware | DO-254 |
-| AI/ML | EASA AI Roadmap, DO-178C/ML Supplement |
-| Publications | S1000D, ATA iSpec 2200 |
-| H₂ Systems | NFPA 2, ISO 14687, SAE AS6858 |
-| Space Ops | ECSS-E-ST-40C, NASA-STD-3001 |
-| DPP | EU DPP Regulation, ISO 14067 |
-
----
-
-## Generated Templates
-
-The generators create standardized templates:
-
-- **README.md files** - Documentation stubs with YAML frontmatter
-- **Traceability matrices** - CSV with ST-XX-YY-C-NNNN convention
-- **Agent configurations** - AI agent YAML configs
-- **System registries** - YAML metadata files
-- **Risk registers** - Program risk CSV templates
-- **Review criteria** - SRR/PDR/CDR checklists
-- **Model cards** - ML model documentation templates
-- **DPP schemas** - Digital passport JSON schemas
-
----
-
-## Usage Examples
-
-### Example 1: Initialize Complete Project
-
-```bash
-# Create all axes
-mkdir AMPEL360_Project && cd AMPEL360_Project
-
-python generate_organization.py --root .
-python generate_program.py --root .
-python generate_space_t_structure.py --root .
-python generate_infrastructures.py --root .
-```
-
-### Example 2: Small Satellite Project
-
-```bash
-# Minimal systems for small sat
-python generate_space_t_structure.py \
-  --root ./SmallSat \
-  --systems 21,22,24,31,53
-
-python generate_organization.py \
-  --root ./SmallSat \
-  --systems 06,07,08
-```
-
-### Example 3: H₂ Infrastructure Focus
-
-```bash
-# H2 value chain development
-python generate_infrastructures.py \
-  --root ./H2_Project \
-  --systems 85,86,90
-```
-
-### Example 4: AI/ML Development
-
-```bash
-# Neural systems only
-python generate_space_t_structure.py \
-  --root ./AI_Dev \
-  --systems 95,96,97,98
-```
-
----
-
-## Requirements
-
-- Python 3.6 or higher
-- No external dependencies (uses standard library only)
-
----
-
-## Repository Contents
-
-```
-AMPEL360-SPACE-T/
-├── README.md                           # This file
-├── generate_space_t_structure.py       # T-TECHNOLOGY generator
-├── generate_organization.py            # O-ORGANIZATION generator
-├── generate_program.py                 # P-PROGRAM generator
-├── generate_infrastructures.py         # I-INFRASTRUCTURES generator
-├── OPT-IN_FRAMEWORK_COMPLETE_v1.1.md   # Master specification
-├── O-ORGANIZATION_SPEC.md              # O-axis specification
-├── P-PROGRAM_SPEC.md                   # P-axis specification
-├── I-INFRASTRUCTURES_SPEC.md           # I-axis specification
-├── N-NEURAL_SPEC.md                    # N-axis specification
-└── AMPEL360_SPACE-T_DIR_SPEC_v1.0.md   # T-axis specification
-```
-
----
-
-## Next Steps After Generation
-
-1. **Review structure** - Verify all required folders exist
-2. **Populate README files** - Add system-specific content
-3. **Add engineering artifacts** - Follow ST-XX-YY-C-NNNN convention
-4. **Configure CI validation** - Set up automated structure checks
-5. **Initialize version control** - Commit baseline structure
-6. **Create traceability links** - Populate META/Traceability_Matrix.csv
-7. **Define baselines** - Establish FBL → ABL → DBL → PBL
-
----
-
-## Contributing
-
-Modifications must maintain:
-
-- OPT-IN Framework v1.1 compatibility
-- ATA-SpaceT numbering consistency
-- 14-folder lifecycle structure
-- 9 cross-ATA bucket presence
-- Complete traceability chains
-
----
-
-## Version
-
-| Version | Date | Changes |
-|:--------|:-----|:--------|
-| 1.0 | 2025-12-09 | Initial T-TECHNOLOGY generator |
-| 1.1 | 2025-12-09 | Added O, P, I, N axis generators |
 
 **Author:** AMPEL360 Documentation WG / IDEALEeu Enterprise
 
