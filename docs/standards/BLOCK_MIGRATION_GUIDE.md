@@ -36,7 +36,7 @@ The new BLOCK field represents domain partitions defined by the OPTINS Framework
 |   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest     | OPS, CERT, SAF, SYS, TEST, MRO |
 |   B20 | CYBERSECURITY                                           | digital + onboard            | AI (partially), SW (partially) |
 |   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard            | DATA                      |
-|   B40 | PHYSICS (pressure/thermal/crio/…)                       | onboard + simtest            | (new semantic)            |
+|   B40 | PHYSICS (pressure/thermal/cryo/…)                       | onboard + simtest            | (new semantic)            |
 |   B50 | PHYSICAL (aerostructures + info HW)                     | onboard/offboard             | STR, HW, STOR             |
 |   B60 | DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) | onboard + simtest            | PROP                      |
 |   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest            | (new semantic)            |
