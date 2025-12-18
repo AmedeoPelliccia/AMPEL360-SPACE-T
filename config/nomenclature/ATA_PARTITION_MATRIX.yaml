@@ -47,7 +47,7 @@ domain_partitions:
     environment: "digital + onboard"
 
   B40:
-    name: "PHYSICS (pressure/thermal/crio/...)"
+    name: "PHYSICS (pressure/thermal/cryo/...)"
     description: "Physical phenomena: pressure, thermal, cryogenic systems"
     environment: "onboard + simtest"
 
