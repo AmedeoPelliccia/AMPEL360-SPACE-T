@@ -85,7 +85,8 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 | Acronym | Meaning | Used for |
 |---|---|---|
 | **CM** | Configuration Management | Change control, baselines, naming/ID governance |
-| **CI** | Continuous Integration | Automated validation gates (PR-blocking) |
+| **CI (Process)** | Continuous Integration | Automated validation gates (PR-blocking) |
+| **CI (Artifact)** | Configuration Item | An aggregation of hardware, software, or both, designated for configuration management |
 | **Gate** | Governance validation step | PLC/validator gates, pass/fail evidence |
 | **PLC** | Process Logic Controller | Logical validators enforcing nomenclature/ontology constraints |
 | **KNOT (K01..K14)** | Controlled process knot | Governed workflow nodes; IDs must remain within K01..K14 |
@@ -115,7 +116,8 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 | ATA | Air Transport Association |
 | BOM | Bill of Materials |
 | CAT | Catalog |
-| CI | Configuration Item / Continuous Integration |
+| CI (Process) | Continuous Integration |
+| CI (Artifact) | Configuration Item |
 | CM | Configuration Management |
 | DAL | Development Assurance Level |
 | DPP | Digital Product Passport |
@@ -130,7 +132,7 @@ This glossary defines acronyms, codes, and terminology used throughout the AMPEL
 | MBSE | Model-Based Systems Engineering |
 | MIN | Minutes |
 | NKU | New Knowledge Unit |
-| PHM | Physical & Mechanical (in this project context) |
+| PHM | Physical & Mechanical (also: Prognostics & Health Management in industry) |
 | PLC | Process Logic Controller |
 | PLAN | Plan |
 | PSSA | Preliminary System Safety Assessment |
