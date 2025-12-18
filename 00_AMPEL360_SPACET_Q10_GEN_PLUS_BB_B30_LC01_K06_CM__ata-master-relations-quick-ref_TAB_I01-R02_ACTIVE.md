@@ -103,7 +103,7 @@ On change basis, managed through Configuration Management WG approval process.
 | 24 | ELECTRICAL POWER | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,MRO,DAB | EPOWER,HVDC,EMC | Power generation/distribution/protection + monitoring SW. Knots: K01,K03,K05. |
 | 25 | EQUIPMENT / FURNISHINGS | T-TECHNOLOGY | PHM | OPS,SAF,CERT,MRO,SE | HFE,CABIN,SAFETY_EQUIP | Interiors/equipment/ergonomics + maintainability. Knots: K01,K10,K11. |
 | 26 | FIRE PROTECTION | T-TECHNOLOGY | SAF | PHM,SE,DAB,CERT,OPS,TEST | FIRE_SAFETY,HAZARDS | Detection/suppression, hazard zoning, flammability. Knots: K01,K03,K05. |
-| 27 | FLIGHT CONTROLS | T-TECHNOLOGY | PHM | SE,DAB,SAF,CERT,TEST,DAB,CY | ACTUATION,REDUNDANCY | Actuation/servos/surfaces; SW control under SPE. Knots: K01,K05,K07. |
+| 27 | FLIGHT CONTROLS | T-TECHNOLOGY | PHM | SE,DAB,SAF,CERT,TEST,CY | ACTUATION,REDUNDANCY | Actuation/servos/surfaces; SW control under DAB. Knots: K01,K05,K07. |
 | 28 | FUEL / PROPELLANT SYSTEMS | T-TECHNOLOGY | PHM | SE,SAF,CERT,OPS,SPACEPORT,TEST,DAB | TECH_PROP,HAZARDS | Tanks/feeds/venting/leak; spaceport servicing ICDs. Knots: K01,K03,K05,K09. |
 | 29 | HYDRAULIC POWER | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,MRO,DAB | HYDRAULICS,ACTUATION | Hydraulic generation/distribution/health monitoring. Knots: K01,K05,K11. |
 | 30 | ICE AND RAIN PROTECTION / ATMOSPHERIC PROTECTION | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,DAB | ENV_PROTECTION,THERMAL | Atmospheric protection (air) or env protection features (space). Knots: K01,K03,K05. |
@@ -116,7 +116,7 @@ On change basis, managed through Configuration Management WG approval process.
 | 37 | VACUUM (IF APPLICABLE) | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,MRO | VACUUM_SYSTEMS | Vacuum systems where applicable. Knots: K01,K03,K05. |
 | 38 | WATER / WASTE (LIFE SUPPORT) | T-TECHNOLOGY | PHM | OPS,SAF,SE,CERT,TEST,DAB | WATER_WASTE,CONTAMINATION | Water/waste loops + hygiene + contamination controls. Knots: K01,K03,K11. |
 | 39 | ELECTRICAL / ELECTRONIC PANELS & MULTIPURPOSE COMPONENTS | T-TECHNOLOGY | PHM | SE,CY,CERT,TEST,MRO,DAB | PANELS,LRU_RACKS | Panels/racks/enclosures, harness interfaces, maintainability. Knots: K01,K05,K13. |
-| 40 | MULTI-SYSTEM / INTEGRATION SERVICES | T-TECHNOLOGY | SE | CM,CERT,TEST,DAB,CY,PHM,DAB | INTEGRATION,ICDS,MBSE | Cross-system integration services + ICD governance. Knots: K01,K04,K06,K10. |
+| 40 | MULTI-SYSTEM / INTEGRATION SERVICES | T-TECHNOLOGY | SE | CM,CERT,TEST,DAB,CY,PHM | INTEGRATION,ICDS,MBSE | Cross-system integration services + ICD governance. Knots: K01,K04,K06,K10. |
 | 41 | WATER BALLAST / MASS TRIM (IF APPLICABLE) | T-TECHNOLOGY | PHM | SE,SAF,TEST,DAB | MASS_TRIM,BALLAST | Ballast/mass trim where applicable. Knots: K01,K05,K06. |
 | 42 | INTEGRATED MODULAR AVIONICS / COMPUTE PLATFORM | T-TECHNOLOGY | DAB | CY,SE,SAF,CERT,DAB,TEST,AI | IMA,COMPUTE,PLATFORM | Compute platform SW/toolchains; cyber & partitioning. Knots: K01,K05,K13. |
 | 43 | RESERVED / PLATFORM INTEGRATION | T-TECHNOLOGY | CM | SE,CERT,DAB | PLATFORM_POLICY | Reserved platform integration governance. Knots: K01,K04. |
@@ -147,7 +147,7 @@ On change basis, managed through Configuration Management WG approval process.
 | 68 | RESERVED / EXTENSION | T-TECHNOLOGY | CM | SE,CERT | TAXONOMY | Reserved extension. Knots: K01,K04. |
 | 69 | RESERVED / EXTENSION | T-TECHNOLOGY | CM | SE,CERT | TAXONOMY | Reserved extension. Knots: K01,K04. |
 | 70 | STANDARD PRACTICES - ENGINE | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST | ENGINE_PRACTICES | Engine/propulsion practices, methods, inspections. Knots: K01,K05,K10. |
-| 71 | POWER PLANT / PROPULSION INTEGRATION | T-TECHNOLOGY | SE | PHM,DAB,SAF,CERT,TEST,SPACEPORT,DAB | PROP_INTEGRATION,ICDS | Propulsion integration architecture + ICD governance. Knots: K01,K04,K05,K09. |
+| 71 | POWER PLANT / PROPULSION INTEGRATION | T-TECHNOLOGY | SE | PHM,DAB,SAF,CERT,TEST,SPACEPORT | PROP_INTEGRATION,ICDS | Propulsion integration architecture + ICD governance. Knots: K01,K04,K05,K09. |
 | 72 | ENGINE (TURBINE/ROCKET/HYBRID AS APPLICABLE) | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,SPACEPORT,DAB | TECH_PROP,QUAL_TESTS | Propulsion unit hardware + integration constraints. Knots: K01,K03,K05,K09. |
 | 73 | ENGINE FUEL AND CONTROL | T-TECHNOLOGY | DAB | PHM,SE,CY,SAF,CERT,TEST,DAB | FADEC_LIKE,CYSEC | Propulsion control SW + safety/cyber evidence. Knots: K01,K05,K13. |
 | 74 | IGNITION | T-TECHNOLOGY | PHM | SE,SAF,CERT,TEST,DAB | IGNITION,INTERLOCKS | Ignition hardware + interlocks + validation. Knots: K01,K03,K05. |
@@ -165,33 +165,33 @@ On change basis, managed through Configuration Management WG approval process.
 | 86 | OFF-BOARD DIGITAL SERVICES PLATFORM (PORTALS, ORCHESTRATION) | I-INFRASTRUCTURES | DAB | CY,OPS,CM,TEST,DAB | PORTALS,ORCHESTRATION | CAXS portals/orchestration services. Knots: K01,K06,K13. |
 | 87 | IDENTITY / ACCESS / CYBERSECURITY INFRA (PHYSICAL+DIGITAL) | I-INFRASTRUCTURES | CY | DAB,CM,CERT,OPS | IAM,ZTA,SECOPS | Identity/access/cyber infra. Knots: K01,K06,K13. |
 | 88 | GSE CONFIGURATION / ASSET MANAGEMENT | I-INFRASTRUCTURES | CM | MRO,DAB,OPS,CERT | ASSET_MGMT,CONFIG | GSE asset mgmt + configuration baselines. Knots: K01,K04,K06. |
-| 89 | TEST RIGS / INSTRUMENTATION INFRA (GROUND) | I-INFRASTRUCTURES | TEST | SPACEPORT,PHM,DAB,CERT,DAB | TEST_RIGS,INSTRUMENTATION | Ground rigs/instrumentation infra. Knots: K01,K05,K09. |
-| 90 | AI/ML MODEL REGISTRY & MODEL LIFECYCLE | N-NEURAL_NETWORKS | AI | DAB,CM,CERT,OPS,CY,TEST,DAB | MODEL_REGISTRY,GOV | Model registry + lifecycle governance. Knots: K01,K06,K07. |
+| 89 | TEST RIGS / INSTRUMENTATION INFRA (GROUND) | I-INFRASTRUCTURES | TEST | SPACEPORT,PHM,DAB,CERT | TEST_RIGS,INSTRUMENTATION | Ground rigs/instrumentation infra. Knots: K01,K05,K09. |
+| 90 | AI/ML MODEL REGISTRY & MODEL LIFECYCLE | N-NEURAL_NETWORKS | AI | DAB,CM,CERT,OPS,CY,TEST | MODEL_REGISTRY,GOV | Model registry + lifecycle governance. Knots: K01,K06,K07. |
 | 91 | DAB SCHEMAS / ONTOLOGIES / SEMANTIC MODEL (SSOT) | N-NEURAL_NETWORKS | DAB | CM,SE,CY,CERT,TEST | ONTOLOGIES,SSOT | Ontologies/SSOT for validation and trace. Knots: K01,K06,K13. |
 | 92 | WIRING / CONNECTIVITY GRAPHS & HARNESS DAB PACKAGES | N-NEURAL_NETWORKS | DAB | PHM,SE,CM,CERT,TEST | CONNECTIVITY,GRAPH | Connectivity graphs/harness datasets. Knots: K01,K06,K05. |
-| 93 | TRACEABILITY GRAPH (REQ↔DESIGN↔VV↔OPS) & EVIDENCE LEDGERS | N-NEURAL_NETWORKS | CM | DAB,SE,CERT,TEST,AI,DAB | TRACEABILITY,EVIDENCE_LEDGER | Trace graph + evidence ledgers for audits/releases. Knots: K01,K06,K08. |
+| 93 | TRACEABILITY GRAPH (REQ↔DESIGN↔VV↔OPS) & EVIDENCE LEDGERS | N-NEURAL_NETWORKS | CM | DAB,SE,CERT,TEST,AI | TRACEABILITY,EVIDENCE_LEDGER | Trace graph + evidence ledgers for audits/releases. Knots: K01,K06,K08. |
 | 94 | DPP CORE (DIGITAL PRODUCT PASSPORT) & PROVENANCE | N-NEURAL_NETWORKS | DAB | CM,CERT,CY,OPS | DPP,PROVENANCE | DPP core + provenance/export views. Knots: K01,K06,K13,K14. |
 | 95 | SBOM / SWHW BOM / MODEL BOM EXPORTS | N-NEURAL_NETWORKS | DAB | CY,CM,CERT,DAB | SBOM,BOM_EXPORTS | SBOM/SW/HW BOM exports + signing hooks. Knots: K01,K06,K13. |
-| 96 | AI GOVERNANCE (RISK, ASSURANCE, MONITORING, DRIFT/BIAS) | N-NEURAL_NETWORKS | AI | SAF,CERT,OPS,CY,DAB,CM,DAB | AI_RISK,ASSURANCE | AI governance, monitors, approvals, rollback. Knots: K01,K07,K13. |
+| 96 | AI GOVERNANCE (RISK, ASSURANCE, MONITORING, DRIFT/BIAS) | N-NEURAL_NETWORKS | AI | SAF,CERT,OPS,CY,DAB,CM | AI_RISK,ASSURANCE | AI governance, monitors, approvals, rollback. Knots: K01,K07,K13. |
 | 97 | CHANGE IMPACT ANALYTICS (WIRING/CONFIG/TRACE) | N-NEURAL_NETWORKS | DAB | CM,SE,CERT,TEST | IMPACT_ANALYTICS | Change impact analytics across config/trace/connectivity. Knots: K01,K04,K06. |
 | 98 | SIGNED RELEASE PACKS / MANIFESTS / EXPORTS | N-NEURAL_NETWORKS | CM | CERT,DAB,CY,OPS | SIGNING,MANIFESTS,EXPORTS | Signed releases/manifests/exports (PR-blocking). Knots: K01,K04,K08,K13. |
 | 99 | MASTER REGISTERS (GOLDEN RECORDS) & REFERENCE DATASETS | N-NEURAL_NETWORKS | DAB | CM,SE,CERT,TEST | MASTER_DATA,REGISTERS | Golden registers + reference datasets. Knots: K01,K06. |
-| 100 | SIM/TEST GOVERNANCE (PLANS, ENVIRONMENTS, QUALITY) | T-SIMTEST | TEST | CERT,CM,DAB,SE,DAB | SIMTEST_GOV,TOOL_QUAL | Test governance, environments, tool qualification. Knots: K01,K05. |
+| 100 | SIM/TEST GOVERNANCE (PLANS, ENVIRONMENTS, QUALITY) | T-SIMTEST | TEST | CERT,CM,DAB,SE | SIMTEST_GOV,TOOL_QUAL | Test governance, environments, tool qualification. Knots: K01,K05. |
 | 101 | DIGITAL TWIN CONFIGURATION & SIM MODEL CATALOG | T-SIMTEST | DAB | TEST,SE,CM,CERT | DIGITAL_TWIN,CATALOG | Digital twin config + model catalog. Knots: K01,K06,K05. |
 | 102 | SCENARIO LIBRARIES (MISSION, OFF-NOMINAL, EMERGENCY) | T-SIMTEST | OPS | TEST,SAF,SE,DAB | SCENARIOS,CONOPS | Scenario libraries for mission/off-nominal/emergency. Knots: K01,K02,K05. |
 | 103 | SIL (SOFTWARE-IN-THE-LOOP) AUTOMATION | T-SIMTEST | DAB | TEST,CY,DAB,SE | SIL,AUTOMATION | SIL harnesses, runners, automation, logs. Knots: K01,K05,K13. |
-| 104 | HIL (HARDWARE-IN-THE-LOOP) BENCHES | T-SIMTEST | TEST | PHM,DAB,SE,CERT,DAB | HIL,BENCHES | HIL benches + instrumentation + procedures. Knots: K01,K05. |
+| 104 | HIL (HARDWARE-IN-THE-LOOP) BENCHES | T-SIMTEST | TEST | PHM,DAB,SE,CERT | HIL,BENCHES | HIL benches + instrumentation + procedures. Knots: K01,K05. |
 | 105 | PIL / TARGET EXECUTION (PROCESSOR/PLATFORM-IN-THE-LOOP) | T-SIMTEST | TEST | SE,CM,CERT,CY,DAB,PHM | PIL,TARGET,PERF_TIMING | Target execution evidence (timing/mem constraints). Knots: K01,K05,K13. |
 | 106 | TEST PROCEDURES / TEST CASES / ACCEPTANCE CRITERIA | T-SIMTEST | TEST | SE,SAF,CERT,CM,DAB | TEST_CASES,ACCEPTANCE | Procedures/cases/criteria + trace links. Knots: K01,K06. |
 | 107 | TEST DAB / INPUT DECKS / STIMULI | T-SIMTEST | DAB | TEST,SE,CM | TEST_DATA,STIMULI | Controlled test datasets/input decks/stimuli. Knots: K01,K06. |
 | 108 | TEST RESULTS / REPORTING / ANOMALY MANAGEMENT | T-SIMTEST | TEST | DAB,OPS,SAF,CERT,CM | RESULTS,NCR,ANOMALIES | Results reporting + anomaly/NCR management. Knots: K01,K05,K08. |
-| 109 | VV EVIDENCE PACKS (LINKED TO TRACEABILITY) | T-SIMTEST | CERT | CM,TEST,DAB,SE,DAB | VV_EVIDENCE,PACKAGING | Evidence bundling linked to trace graph. Knots: K01,K06,K08. |
+| 109 | VV EVIDENCE PACKS (LINKED TO TRACEABILITY) | T-SIMTEST | CERT | CM,TEST,DAB,SE | VV_EVIDENCE,PACKAGING | Evidence bundling linked to trace graph. Knots: K01,K06,K08. |
 | 110 | QUALIFICATION / ENVIRONMENTAL TESTING (SPACE-T) | T-SIMTEST | TEST | SAF,CERT,SPACEPORT,CM,SE,PHM,DAB | THERMAL_VAC,VIB,EMC | Space-T qual tests + facility constraints. Knots: K01,K05,K09. |
 | 111 | SYSTEM INTEGRATION TESTING (END-TO-END) | T-SIMTEST | TEST | SE,SAF,CERT,DAB,CY | E2E_INTEGRATION | End-to-end integration testing across subsystems. Knots: K01,K05,K13. |
 | 112 | MISSION/FLIGHT TESTING (OPERATIONAL DEMOS) | T-SIMTEST | OPS | TEST,SAF,CERT,CM,SPACEPORT,SE,DAB,PHM | OPS_DEMOS,READINESS | Operational demos + readiness + limits confirmation. Knots: K01,K02,K11,K12. |
 | 113 | UNCERTAINTY QUANTIFICATION (UQ) / MONTE CARLO / SENSITIVITY | T-SIMTEST | DAB | TEST,SE,AI | UQ,MONTE_CARLO | UQ/Monte Carlo/sensitivity suites. Knots: K01,K05,K06. |
 | 114 | AI/ML VALIDATION SUITES & MONITORING TESTS | T-SIMTEST | AI | TEST,SAF,CERT,OPS,CY,DAB | AI_VALIDATION,DRIFT | AI validation/robustness/drift suites. Knots: K01,K05,K07,K13. |
-| 115 | CERTIFICATION TESTS (SW/HW/ECSS-DO) & COMPLIANCE REPORTS | T-SIMTEST | CERT | TEST,CM,SE,DAB,SAF,CY,DAB,PHM | COMPLIANCE,AUDIT | Compliance tests + reports + authority packs. Knots: K01,K05,K10,K13. |
+| 115 | CERTIFICATION TESTS (SW/HW/ECSS-DO) & COMPLIANCE REPORTS | T-SIMTEST | CERT | TEST,CM,SE,DAB,SAF,CY,PHM | COMPLIANCE,AUDIT | Compliance tests + reports + authority packs. Knots: K01,K05,K10,K13. |
 | 116 | SIM/TEST ARCHIVES & BASELINES (FROZEN CAMPAIGNS) | T-SIMTEST | CM | TEST,DAB,CERT | ARCHIVES,BASELINES | Frozen campaigns, baselines, retention policy. Knots: K01,K04,K08. |
 
 ## 4. Table Statistics

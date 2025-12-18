@@ -106,19 +106,19 @@ A KNOT is **closed** only when:
 
 To remove ambiguity:
 
-* **AoR** is the **enforced ownership code** (used in filenames, portals, and Role-Based Access Control (RBAC)). Examples: `CM`, `CERT`, `SAF`, `SE`, `OPS`, `AI`, `CY`, `TEST`, `MRO`, `SPACEPORT`, `PMO`, `STK_DAB` (Digital Applications & Blockchains — unified DATA/SPE).
-  These codes are the allowlisted tokens for naming and gate enforcement (e.g., `CERT` for certification/authority ownership, `STK_DAB` for digital/prompting/data/traceability).
+* **AoR** is the **enforced ownership code** (used in filenames, portals, and Role-Based Access Control (RBAC)). Examples: `CM`, `CERT`, `SAF`, `SE`, `OPS`, `AI`, `CY`, `TEST`, `MRO`, `SPACEPORT`, `PMO`, `DAB` (Digital Applications & Blockchains — unified DATA/SPE).
+  These codes are the allowlisted tokens for naming and gate enforcement (e.g., `CERT` for certification/authority ownership, `DAB` for digital/prompting/data/traceability).
 * “STK” (stakeholder domain) can remain as a **directory navigation concept**, but **does not add value in filenames** and may be omitted there. Existing `STK_*` folders remain for portal navigation; filenames/CI gates should use AoR tokens. New artifacts should prefer AoR tokens in filenames while legacy STK-prefixed names are migrated.
 
-#### Stakeholder split (SE vs STK_DAB)
+#### Stakeholder split (SE vs DAB)
 
 * **SE (Architecture & Governance)**: SysML structure, ontology commitments, interface/ICD rules, allocation logic, process constraints, closure criteria definitions.
-* **STK_DAB (Digital Applications & Blockchains)**: software + prompting engineering, data/traceability registries, evidence ledgers/signing, portal automation, and related agentic tooling.
+* **DAB (Digital Applications & Blockchains)**: software + prompting engineering, data/traceability registries, evidence ledgers/signing, portal automation, and related agentic tooling.
 
 KNOTS is the contract between them:
 
 * SE defines **“what must be true”**,
-* STK_DAB implements **“how it is enforced and executed”**,
+* DAB implements **“how it is enforced and executed”**,
 * CM/CERT decide **“what is releasable / acceptable”**.
 
 ---
