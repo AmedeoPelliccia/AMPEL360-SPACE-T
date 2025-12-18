@@ -186,7 +186,7 @@ All files must strictly adhere to the **canonical format**:
 |   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest     |
 |   B20 | CYBERSECURITY                                           | digital + onboard            |
 |   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard            |
-|   B40 | PHYSICS (pressure/thermal/crio/…)                       | onboard + simtest            |
+|   B40 | PHYSICS (pressure/thermal/cryo/…)                       | onboard + simtest            |
 |   B50 | PHYSICAL (aerostructures + info HW)                     | onboard/offboard             |
 |   B60 | DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) | onboard + simtest            |
 |   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest            |
