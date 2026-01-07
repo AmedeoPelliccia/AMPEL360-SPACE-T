@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "AMPEL360-SPACE-T-PORTAL/STK_CERT-cert-certification-authorities/KNOTS/K01_certification-authority-basis/ATA_TASKS/ATA_00_GENERAL/EVIDENCE/00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K01_CERT__k01-ata-00-evidence-pack-manifest_I01-R01.json",
+  "$id": "urn:ampel360:spacet:schema:evidence-pack-manifest:v01",
   "title": "K01 ATA 00 Evidence Pack Manifest (Schema)",
   "type": "object",
   "additionalProperties": false,

@@ -61,7 +61,18 @@ jobs:
         run: |
           echo "🔍 Checking for stale artifacts..."
           if [ -f "scripts/check_staleness.py" ]; then
-            python scripts/check_staleness.py --all
+            set +e
+            OUTPUT=$(python scripts/check_staleness.py --all 2>&1)
+            EXIT_CODE=$?
+            set -e
+            
+            echo "$OUTPUT"
+            
+            if [ $EXIT_CODE -eq 0 ]; then
+              echo "staleness_status=passed" >> $GITHUB_OUTPUT
+            else
+              echo "staleness_status=failed" >> $GITHUB_OUTPUT
+            fi
           else
             echo "⚠️  Staleness check script not yet implemented (planned)"
             echo "staleness_status=planned" >> $GITHUB_OUTPUT
@@ -74,7 +85,18 @@ jobs:
         run: |
           echo "🔍 Detecting shadow registries..."
           if [ -f "scripts/detect_shadow_registries.py" ]; then
-            python scripts/detect_shadow_registries.py --namespaces ATA99
+            set +e
+            OUTPUT=$(python scripts/detect_shadow_registries.py --namespaces ATA99 2>&1)
+            EXIT_CODE=$?
+            set -e
+            
+            echo "$OUTPUT"
+            
+            if [ $EXIT_CODE -eq 0 ]; then
+              echo "shadow_status=passed" >> $GITHUB_OUTPUT
+            else
+              echo "shadow_status=failed" >> $GITHUB_OUTPUT
+            fi
           else
             echo "⚠️  Shadow registry detection script not yet implemented (planned)"
             echo "shadow_status=planned" >> $GITHUB_OUTPUT
@@ -144,8 +166,8 @@ jobs:
           | GATE-001 | ${{ steps.nomenclature_audit.outputs.nomenclature_status == 'passed' && '✅ PASS' || '❌ FAIL' }} | Nomenclature Compliance |
           | GATE-002 | ${{ steps.schema_audit.outputs.schema_status == 'passed' && '✅ PASS' || (steps.schema_audit.outputs.schema_status == 'registry_missing' && '⚠️ MISSING' || '❌ FAIL') }} | Schema Registry |
           | GATE-003 | ${{ steps.trace_links.outputs.trace_status == 'passed' && '✅ PASS' || '❌ FAIL' }} | Trace Link Integrity |
-          | GATE-016 | ⏭️ PLANNED | Staleness Detection |
-          | GATE-017 | ⏭️ PLANNED | Shadow Registry Detection |
+          | GATE-016 | ${{ steps.staleness.outputs.staleness_status == 'passed' && '✅ PASS' || (steps.staleness.outputs.staleness_status == 'planned' && '⏭️ PLANNED' || '❌ FAIL') }} | Staleness Detection |
+          | GATE-017 | ${{ steps.shadow_registry.outputs.shadow_status == 'passed' && '✅ PASS' || (steps.shadow_registry.outputs.shadow_status == 'planned' && '⏭️ PLANNED' || '❌ FAIL') }} | Shadow Registry Detection |
           
           ## Details
           
@@ -153,11 +175,17 @@ jobs:
           - Status: ${{ steps.nomenclature_audit.outputs.nomenclature_status }}
           - Invalid files: ${{ steps.nomenclature_audit.outputs.invalid_count }}
           
+          ### Schema Registry (GATE-002)
+          - Status: ${{ steps.schema_audit.outputs.schema_status }}
+          
           ### Trace Link Integrity (GATE-003)
           - Status: ${{ steps.trace_links.outputs.trace_status }}
           
-          ### Schema Registry (GATE-002)
-          - Status: ${{ steps.schema_audit.outputs.schema_status }}
+          ### Staleness Detection (GATE-016)
+          - Status: ${{ steps.staleness.outputs.staleness_status }}
+          
+          ### Shadow Registry Detection (GATE-017)
+          - Status: ${{ steps.shadow_registry.outputs.shadow_status }}
           
           ## Legend
           - ✅ PASS: Audit check passed
