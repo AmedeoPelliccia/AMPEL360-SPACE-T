@@ -533,10 +533,13 @@ def find_registry_files(repo_root: Path) -> List[Path]:
     registries = []
 
     # Common registry locations and patterns
+    # v5.0 patterns: schema-registry*.csv, 91_*_TAB_*_schema-registry_*.csv
+    # v6.0 patterns: 91_*__schema-registry_TAB_*.csv
     patterns = [
         '**/schema-registry*.csv',
         '**/91_*_TAB_*_schema-registry_*.csv',
-        '**/schema_registry*.csv'
+        '**/schema_registry*.csv',
+        '**/91_*__schema-registry_TAB_*.csv'
     ]
 
     for pattern in patterns:
