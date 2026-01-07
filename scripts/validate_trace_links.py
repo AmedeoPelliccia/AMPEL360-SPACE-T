@@ -158,6 +158,14 @@ class TraceLinkValidator:
         'diagrams', 'figures', 'attachments'
     }
 
+    # Known structural directories that may not have index files (portal build-out in progress)
+    STRUCTURAL_DIRECTORY_PATTERNS = [
+        r'ATA_\d+',           # ATA chapter directories (e.g., ATA_00, ATA_91, ATA_93)
+        r'ATA_\d+_',          # ATA chapter directories with names (e.g., ATA_00_GENERAL)
+        r'^\d+_[A-Z_]+',      # Numbered subdirectories (e.g., 01_WBS, 02_IDS_REGISTRY)
+        r'STK_[A-Z]+-',       # Stakeholder directories (e.g., STK_CM-, STK_AI-)
+    ]
+
     def __init__(self, repo_root: Path = Path('.'), verbose: bool = False,
                  skip_templates: bool = False):
         """
@@ -173,6 +181,7 @@ class TraceLinkValidator:
         self.skip_templates = skip_templates
         self.external_pattern = re.compile('|'.join(self.EXTERNAL_PATTERNS))
         self.template_placeholder_pattern = re.compile('|'.join(self.TEMPLATE_PLACEHOLDER_PATTERNS))
+        self.structural_pattern = re.compile('|'.join(self.STRUCTURAL_DIRECTORY_PATTERNS))
 
     def is_excluded_path(self, path: Path) -> bool:
         """Check if path should be excluded from scanning."""
@@ -200,6 +209,26 @@ class TraceLinkValidator:
             if target.startswith(f'./{placeholder}/') or target == f'./{placeholder}':
                 return True
             if target.endswith(f'/{placeholder}/') or target.endswith(f'/{placeholder}'):
+                return True
+        
+        # Check for numbered subdirectories (e.g., 01_WBS/, 02_IDS_REGISTRY/)
+        # Extract the directory name from the target
+        target_parts = target.rstrip('/').split('/')
+        if target_parts:
+            last_part = target_parts[-1]
+            if self.structural_pattern.match(last_part):
+                return True
+        
+        return False
+
+    def is_structural_directory(self, path: Path) -> bool:
+        """Check if a directory matches known structural patterns."""
+        if not path.is_dir():
+            return False
+        
+        dir_name = path.name
+        for pattern in self.STRUCTURAL_DIRECTORY_PATTERNS:
+            if re.match(pattern, dir_name):
                 return True
         return False
 
@@ -361,6 +390,14 @@ class TraceLinkValidator:
             for index_name in ['index.md', 'README.md', 'index.html']:
                 if (resolved / index_name).exists():
                     return True
+            
+            # When skip_templates is enabled, allow links to structural directories
+            # even if they don't have index files (portal build-out in progress)
+            if self.skip_templates and self.is_structural_directory(resolved):
+                if self.verbose:
+                    print(f"    Skipping structural directory (build-out in progress): {resolved.name}")
+                return True
+            
             return False
 
         # Check if target file exists
