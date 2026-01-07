@@ -146,22 +146,89 @@ class TraceLinkValidator:
         r'^#',  # Internal anchors
     ]
 
-    def __init__(self, repo_root: Path = Path('.'), verbose: bool = False):
+    # Template placeholder patterns to skip (Jinja-style placeholders)
+    TEMPLATE_PLACEHOLDER_PATTERNS = [
+        r'\{\{.*?\}\}',  # {{PLACEHOLDER}}
+        r'\{%.*?%\}',    # {% placeholder %}
+    ]
+
+    # Known placeholder directories that may not have index files yet
+    PLACEHOLDER_DIRECTORIES = {
+        'TASKS', 'DECISIONS', 'EVIDENCE', 'MONITORING',
+        'diagrams', 'figures', 'attachments'
+    }
+
+    # Known structural directories that may not have index files (portal build-out in progress)
+    STRUCTURAL_DIRECTORY_PATTERNS = [
+        r'^ATA_\d+$',         # ATA chapter directories (e.g., ATA_00, ATA_91, ATA_93)
+        r'^ATA_\d+_',         # ATA chapter directories with names (e.g., ATA_00_GENERAL)
+        r'^\d+_[A-Z_]+',      # Numbered subdirectories (e.g., 01_WBS, 02_IDS_REGISTRY)
+        r'^STK_[A-Z]+-',      # Stakeholder directories (e.g., STK_CM-, STK_AI-)
+    ]
+
+    def __init__(self, repo_root: Path = Path('.'), verbose: bool = False,
+                 skip_templates: bool = False):
         """
         Initialize the validator.
 
         Args:
             repo_root: Path to the repository root
             verbose: Enable verbose output
+            skip_templates: Skip validation of template files and placeholder patterns
         """
         self.repo_root = repo_root.resolve()
         self.verbose = verbose
+        self.skip_templates = skip_templates
         self.external_pattern = re.compile('|'.join(self.EXTERNAL_PATTERNS))
+        self.template_placeholder_pattern = re.compile('|'.join(self.TEMPLATE_PLACEHOLDER_PATTERNS))
+        self.structural_pattern = re.compile('|'.join(self.STRUCTURAL_DIRECTORY_PATTERNS))
 
     def is_excluded_path(self, path: Path) -> bool:
         """Check if path should be excluded from scanning."""
         for parent in path.parents:
             if parent.name in self.EXCLUDED_DIRS:
+                return True
+        # Exclude templates directory when skip_templates is enabled
+        if self.skip_templates and 'templates' in [p.name for p in path.parents]:
+            return True
+        return False
+
+    def is_template_file(self, path: Path) -> bool:
+        """Check if a file is a template file."""
+        # Check if file is in templates directory
+        return 'templates' in [p.name for p in path.parents]
+
+    def is_template_placeholder(self, target: str) -> bool:
+        """Check if link target contains template placeholders."""
+        return bool(self.template_placeholder_pattern.search(target))
+
+    def is_placeholder_directory_link(self, target: str) -> bool:
+        """Check if link references a known placeholder directory."""
+        # Check for relative paths starting with ./ to placeholder directories
+        for placeholder in self.PLACEHOLDER_DIRECTORIES:
+            if target.startswith(f'./{placeholder}/') or target == f'./{placeholder}':
+                return True
+            if target.endswith(f'/{placeholder}/') or target.endswith(f'/{placeholder}'):
+                return True
+        
+        # Check for numbered subdirectories (e.g., 01_WBS/, 02_IDS_REGISTRY/)
+        # Extract the directory name from the target
+        target_parts = target.rstrip('/').split('/')
+        if target_parts:
+            last_part = target_parts[-1]
+            if self.structural_pattern.match(last_part):
+                return True
+        
+        return False
+
+    def is_structural_directory(self, path: Path) -> bool:
+        """Check if a directory matches known structural patterns."""
+        if not path.is_dir():
+            return False
+        
+        dir_name = path.name
+        for pattern in self.STRUCTURAL_DIRECTORY_PATTERNS:
+            if re.match(pattern, dir_name):
                 return True
         return False
 
@@ -301,6 +368,17 @@ class TraceLinkValidator:
         if link.link_type == 'external':
             return True
 
+        # Skip template placeholders when skip_templates is enabled
+        if self.skip_templates:
+            if self.is_template_placeholder(link.link_target):
+                if self.verbose:
+                    print(f"    Skipping template placeholder: {link.link_target}")
+                return True
+            if self.is_placeholder_directory_link(link.link_target):
+                if self.verbose:
+                    print(f"    Skipping placeholder directory: {link.link_target}")
+                return True
+
         # Resolve target path
         resolved = self.resolve_link_target(link.source_file, link.link_target)
 
@@ -312,6 +390,14 @@ class TraceLinkValidator:
             for index_name in ['index.md', 'README.md', 'index.html']:
                 if (resolved / index_name).exists():
                     return True
+            
+            # When skip_templates is enabled, allow links to structural directories
+            # even if they don't have index files (portal build-out in progress)
+            if self.skip_templates and self.is_structural_directory(resolved):
+                if self.verbose:
+                    print(f"    Skipping structural directory (build-out in progress): {resolved.name}")
+                return True
+            
             return False
 
         # Check if target file exists
@@ -429,6 +515,11 @@ Exit codes:
         action='store_true',
         help='Enable verbose output'
     )
+    parser.add_argument(
+        '--skip-templates',
+        action='store_true',
+        help='Skip validation of template files and placeholder patterns (e.g., {{PLACEHOLDER}})'
+    )
 
     args = parser.parse_args()
 
@@ -442,7 +533,11 @@ Exit codes:
         return 2
 
     try:
-        validator = TraceLinkValidator(repo_root, verbose=args.verbose)
+        validator = TraceLinkValidator(
+            repo_root,
+            verbose=args.verbose,
+            skip_templates=args.skip_templates
+        )
         result = ValidationResult()
 
         if args.check_file:

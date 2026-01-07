@@ -19,7 +19,7 @@ Complete OPT-INS Framework Directory Structure Generator Suite
 - ✅ All allowlists **locked under CM change control**
 - ⚠️ 802 broken links identified (post-release hotfix planned)
 
-📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R02_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R02_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R02_ACTIVE.md)**
+📖 **[Release Notes](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__pr3-3-release-notes_RPT_I01-R01_RELEASED.md)** | **[Upgrade Guide](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__v6-upgrade-guide_RPT_I01-R01_RELEASED.md)** | **[Known Issues](00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K04_CM__known-issues-pr3-3_LOG_I01-R01_ACTIVE.md)**
 
 ---
 
@@ -172,7 +172,7 @@ python scripts/detect_new_types.py --auto-suggest
 ```
 
 🤖 **Automated**: GitHub Actions runs weekly and on every PR to detect new TYPEs  
-📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md`](00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md)
+📖 **Guide**: [`00_00_IDX_LC01-SPACET_automatic-type-detection_I01-R02.md`](00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_CM__automatic-type-detection_IDX_I01-R02_ACTIVE.md)
 
 ### Certification Knots System
 
@@ -195,9 +195,9 @@ print('✓ Knot data validated successfully')
 **Active Knots:**
 - **K01**: Certification Authority Basis - Establishes certification basis and compliance mapping (52 ATA systems across all axes)
 
-📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R02_ACTIVE.md)  
-📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R02_ACTIVE.md)  
-📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R02_ACTIVE.md)
+📋 **Quick Reference**: [`00_00_CAT_LC10_CERT_knots-quick-reference_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__knots-quick-reference_CAT_I01-R01_ACTIVE.md)  
+📖 **Complete Index**: [`00_00_IDX_LC10_CERT_certification-knots-index_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_BB_GEN_LC10_K01_CERT__certification-knots-index_IDX_I01-R01_ACTIVE.md)  
+📘 **K01 Documentation**: [`00_00_PLAN_LC10_CERT_knot-k01-certification-authority-basis_I01-R02.md`](00_AMPEL360_SPACET_Q10_CERT_PLUS_PR_GEN_LC10_K01_CERT__knot-k01-certification-authority-basis_PLAN_I01-R01_ACTIVE.md)
 
 ### ATA Master Relations Table
 
