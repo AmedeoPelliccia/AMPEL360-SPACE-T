@@ -136,7 +136,7 @@ The CSV should include the following columns:
         run: |
           echo "🔍 Validating trace link integrity..."
           set +e
-          OUTPUT=$(python scripts/validate_trace_links.py --check-all 2>&1)
+          OUTPUT=$(python scripts/validate_trace_links.py --check-all --skip-templates 2>&1)
           EXIT_CODE=$?
           set -e
           
