@@ -102,7 +102,7 @@ Successfully implemented missing governance gates (GATE-016, GATE-017) and fixed
    - Comprehensive staleness detection with configurable thresholds
    - Supports DRAFT, OBSOLETE, and derived artifact checks
 
-2. `scripts/detect_shadow_registries.py` (451 lines)
+2. `scripts/detect_shadow_registries.py` (388 lines)
    - Multi-format shadow registry detection (CSV, JSON, YAML, Markdown)
    - Whitelist for official registries
 
