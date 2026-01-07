@@ -27,7 +27,7 @@ import argparse
 import os
 import sys
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple, Set
 
