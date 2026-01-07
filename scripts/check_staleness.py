@@ -135,7 +135,7 @@ class StalenessDetector:
         status = self.extract_status_from_filename(file_path.name)
         
         if status == "OBSOLETE":
-            age_days = self.get_file_age_days(file_path.name)
+            age_days = self.get_file_age_days(file_path)
             
             if age_days > OBSOLETE_WARNING_DAYS:
                 self.stale_artifacts.append(
