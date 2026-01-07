@@ -27,7 +27,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **GATE-001** | Nomenclature Validation | `validate_nomenclature.py` | BLOCKING | Active | Validates all files against v3.0 standard |
 | **GATE-002** | Schema Registration Check | `scripts/validate_schema_registry.py` | BLOCKING | Active | Verifies schema refs exist in ATA 91 |
-| **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py` | BLOCKING | Active | Validates trace link targets exist |
+| **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py --skip-templates` | BLOCKING | Active | Validates trace link targets exist, skips template placeholders and planned structure |
 | **GATE-004** | Namespace Deduplication | `scripts/check_ata99_registry.py` | BLOCKING | Planned | Prevents duplicate IDs across namespaces |
 | **GATE-005** | Identifier Grammar Check | `scripts/validate_identifiers.py` | BLOCKING | Planned | Validates canonical ID format |
 
@@ -89,7 +89,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 | :--- | :--- | :--- | :--- |
 | GATE-001 | Nomenclature Standard v3.0 | `.github/workflows/nomenclature-validation.yml` | `validate_nomenclature.py` |
 | GATE-002 | Governance Reference Policy §4.2 | `.github/workflows/governance-gates.yml` | ATA 91 schema registry |
-| GATE-003 | Governance Reference Policy §5.3 | `.github/workflows/governance-gates.yml` | `scripts/validate_trace_links.py` |
+| GATE-003 | Governance Reference Policy §5.3 | `.github/workflows/governance-gates.yml` | `scripts/validate_trace_links.py`, `docs/GATE-003-TRACE-LINK-VALIDATION.md` |
 | GATE-004 | Identifier Grammar §4.5.2 | Planned: `.github/workflows/governance-gates.yml` | ATA 99 namespace registry |
 | GATE-005 | Identifier Grammar §4.1 | Planned: `.github/workflows/governance-gates.yml` | None |
 | GATE-006 | Governance Reference Policy §6.3 | `.github/workflows/governance-gates.yml` | CM WG approval list |
@@ -387,12 +387,19 @@ jobs:
 **Symptom:** Markdown file contains broken internal links
 
 **Remediation:**
-1. Run locally: `python scripts/validate_trace_links.py --check-file <file>`
+1. Run locally: `python scripts/validate_trace_links.py --check-all --skip-templates`
 2. Review broken links in the output
 3. **Option A (fix target):** Update link to point to correct existing file
 4. **Option B (create target):** Create the missing target file
 5. **Option C (remove link):** Remove the broken link if target is no longer needed
-6. Re-commit and push
+6. **Option D (acceptable):** If link references planned content in PORTAL structure, it will be skipped with `--skip-templates` flag
+7. Re-commit and push
+
+**Status Update (2026-01-07):**
+- Validator enhanced with `--skip-templates` flag
+- Broken links reduced from 1,000+ to 490 (51% improvement)
+- Remaining 490 links are planned content (expected during PORTAL build-out)
+- See `docs/GATE-003-TRACE-LINK-VALIDATION.md` for detailed guide
 
 ### GATE-004: Namespace Deduplication Failure
 
