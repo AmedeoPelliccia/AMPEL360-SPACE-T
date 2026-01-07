@@ -98,7 +98,7 @@ Successfully implemented missing governance gates (GATE-016, GATE-017) and fixed
    - Modified report generation to show proper status for all gates
 
 ### New Files
-1. `scripts/check_staleness.py` (355 lines)
+1. `scripts/check_staleness.py` (308 lines)
    - Comprehensive staleness detection with configurable thresholds
    - Supports DRAFT, OBSOLETE, and derived artifact checks
 
