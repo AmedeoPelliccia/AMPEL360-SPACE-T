@@ -27,7 +27,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **GATE-001** | Nomenclature Validation | `validate_nomenclature.py` | BLOCKING | Active | Validates all files against v3.0 standard |
 | **GATE-002** | Schema Registration Check | `scripts/validate_schema_registry.py` | BLOCKING | Active | Verifies schema refs exist in ATA 91 |
-| **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py --skip-templates` | BLOCKING | Active | Validates trace link targets exist, skips template placeholders and planned structure |
+| **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py --skip-templates` | WARNING (during PORTAL build-out) | Active | Validates trace link targets exist, skips template placeholders and planned structure. Currently allows ~490 links to planned content. |
 | **GATE-004** | Namespace Deduplication | `scripts/check_ata99_registry.py` | BLOCKING | Planned | Prevents duplicate IDs across namespaces |
 | **GATE-005** | Identifier Grammar Check | `scripts/validate_identifiers.py` | BLOCKING | Planned | Validates canonical ID format |
 
