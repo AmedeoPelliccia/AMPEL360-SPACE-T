@@ -38,7 +38,7 @@ import json
 import os
 import re
 import sys
-import yaml
+import yaml  # Requires PyYAML>=6.0 (declared in scripts/requirements.txt)
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
