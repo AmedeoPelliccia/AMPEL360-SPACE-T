@@ -50,6 +50,7 @@ class SchemaEntry:
     file_path: str
     description: str = ""
     content_hash: str = ""
+    allow_duplicates: bool = False
 
 
 @dataclass
@@ -277,7 +278,8 @@ class SchemaRegistryValidator:
                         status=row.get('status', ''),
                         file_path=row.get('file_path', ''),
                         description=row.get('description', ''),
-                        content_hash=row.get('content_hash', '')
+                        content_hash=row.get('content_hash', ''),
+                        allow_duplicates=(row.get('allow_duplicates', 'false').lower() == 'true')
                     )
                     if entry.schema_id:
                         self.registry[entry.schema_id] = entry
@@ -315,6 +317,8 @@ class SchemaRegistryValidator:
     def validate_duplicate_ids(self, result: ValidationResult) -> None:
         """
         Validate that there are no duplicate schema IDs.
+        
+        Allows duplicates if marked with allow_duplicates=true in the registry.
 
         Args:
             result: ValidationResult to update
@@ -329,10 +333,17 @@ class SchemaRegistryValidator:
 
         if duplicates:
             for schema_id, paths in duplicates.items():
-                result.add_error(
-                    f"Duplicate schema ID '{schema_id}' found in: "
-                    f"{', '.join(str(p) for p in paths)}"
-                )
+                # Check if duplicates are allowed for this schema
+                if schema_id in self.registry and self.registry[schema_id].allow_duplicates:
+                    result.add_info(
+                        f"Schema ID '{schema_id}' is intentionally replicated "
+                        f"across {len(paths)} locations (allowed by registry)"
+                    )
+                else:
+                    result.add_error(
+                        f"Duplicate schema ID '{schema_id}' found in: "
+                        f"{', '.join(str(p) for p in paths)}"
+                    )
         else:
             result.add_info("No duplicate schema IDs found")
 
