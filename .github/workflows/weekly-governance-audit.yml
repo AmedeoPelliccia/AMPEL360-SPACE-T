@@ -108,7 +108,7 @@ jobs:
         run: |
           echo "🔍 Running weekly nomenclature audit..."
           set +e
-          OUTPUT=$(python validate_nomenclature.py --check-all --strict --verbose 2>&1)
+          OUTPUT=$(python validate_nomenclature.py --standard v6.0 --check-all --strict --verbose 2>&1)
           EXIT_CODE=$?
           set -e
           

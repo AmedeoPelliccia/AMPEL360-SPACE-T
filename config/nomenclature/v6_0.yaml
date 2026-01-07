@@ -84,6 +84,7 @@ allowlists:
   # BLOCK allowlist (domain partition system - OPTINS Framework aligned)
   # B00 is universal/implicit (always applies)
   # B10-B90 are domain-specific partitions (10-step increments)
+  # GEN is a legacy/transitional BLOCK for general-purpose files during migration
   # See ATA_PARTITION_MATRIX.yaml for complete ATA_ROOT to BLOCK mapping
   # Extension requires CM change control
   blocks:
@@ -97,6 +98,7 @@ allowlists:
     - B70      # RECIPROCITY & ALTERNATIVE ENGINES (onboard + simtest)
     - B80      # RENEWABLE ENERGY & CIRCULARITY (onboard + offboard)
     - B90      # CONNECTIONS & MAPPING (digital + onboard)
+    - GEN      # Legacy/transitional BLOCK for v5.0 to v6.0 migration
   
   # AoR allowlist (Area of Responsibility / Portal Entry Points)
   # Must match portal entry points exactly (no STK_ prefix)
@@ -107,6 +109,7 @@ allowlists:
     - SAF          # Safety
     - SE           # Systems Engineering (Architecture, SysML, Governance)
     - OPS          # Operations
+    - DATA         # Data Governance (legacy, maps to DAB)
     - DAB          # Digital Applications and Blockchains (Data Networks, Control SW)
     - AI           # AI/ML Engineering
     - CY           # Cybersecurity
