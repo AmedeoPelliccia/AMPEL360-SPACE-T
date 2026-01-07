@@ -131,6 +131,8 @@ The CSV should include the following columns:
             console.log('Created issue for missing schema registry');
       
       # GATE-003: Trace Link Integrity Check (WARNING during PORTAL build-out)
+      # TODO: Change to BLOCKING once PORTAL structure is complete (target: Q2 2026)
+      # Tracked in: PORTAL build-out plan (docs/GATE-003-TRACE-LINK-VALIDATION.md)
       - name: GATE-003 - Trace Link Integrity Check
         id: trace_integrity
         run: |
@@ -142,7 +144,8 @@ The CSV should include the following columns:
           
           echo "$OUTPUT"
           
-          # Extract broken link count
+          # Extract broken link count from validator output
+          # Note: This relies on the validator's output format. Consider adding JSON output mode in future.
           BROKEN_COUNT=$(echo "$OUTPUT" | grep -oP '(?<=❌ VALIDATION FAILED - )\d+' || echo "0")
           echo "broken_count=$BROKEN_COUNT" >> $GITHUB_OUTPUT
           
@@ -151,7 +154,8 @@ The CSV should include the following columns:
             echo "trace_failed=true" >> $GITHUB_OUTPUT
             echo "⚠️  Note: $BROKEN_COUNT broken links found (expected during PORTAL build-out)"
             echo "⚠️  Links to planned content are acceptable. See docs/GATE-003-STATUS-REPORT.md"
-            # Exit 0 to make gate pass with warning
+            # Temporarily exit 0 to make gate pass with warning during build-out phase
+            # This allows PRs to proceed while PORTAL structure is being built out
             exit 0
           else
             echo "trace_failed=false" >> $GITHUB_OUTPUT

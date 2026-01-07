@@ -160,10 +160,10 @@ class TraceLinkValidator:
 
     # Known structural directories that may not have index files (portal build-out in progress)
     STRUCTURAL_DIRECTORY_PATTERNS = [
-        r'ATA_\d+',           # ATA chapter directories (e.g., ATA_00, ATA_91, ATA_93)
-        r'ATA_\d+_',          # ATA chapter directories with names (e.g., ATA_00_GENERAL)
+        r'^ATA_\d+$',         # ATA chapter directories (e.g., ATA_00, ATA_91, ATA_93)
+        r'^ATA_\d+_',         # ATA chapter directories with names (e.g., ATA_00_GENERAL)
         r'^\d+_[A-Z_]+',      # Numbered subdirectories (e.g., 01_WBS, 02_IDS_REGISTRY)
-        r'STK_[A-Z]+-',       # Stakeholder directories (e.g., STK_CM-, STK_AI-)
+        r'^STK_[A-Z]+-',      # Stakeholder directories (e.g., STK_CM-, STK_AI-)
     ]
 
     def __init__(self, repo_root: Path = Path('.'), verbose: bool = False,
