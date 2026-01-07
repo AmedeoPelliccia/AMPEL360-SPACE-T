@@ -539,7 +539,7 @@ def find_registry_files(repo_root: Path) -> List[Path]:
         '**/schema-registry*.csv',
         '**/91_*_TAB_*_schema-registry_*.csv',
         '**/schema_registry*.csv',
-        '**/91_*__schema-registry_*.csv'  # v6.0 format with double underscore before subject
+        '**/91_*__schema-registry_TAB_*.csv'  # v6.0 format with TYPE=TAB and double underscore before subject
     ]
 
     for pattern in patterns:
