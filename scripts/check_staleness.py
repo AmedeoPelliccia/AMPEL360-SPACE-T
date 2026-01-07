@@ -29,7 +29,7 @@ import sys
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple, Set
+from typing import List, Tuple
 
 # Staleness thresholds (in days)
 DEFAULT_THRESHOLD_DAYS = 90
