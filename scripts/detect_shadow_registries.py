@@ -124,7 +124,7 @@ class ShadowRegistryDetector:
                             f.seek(0)
                             reader = csv.DictReader(f)
                             sample_rows = list(row for _, row in zip(range(3), reader))
-                        except:
+                        except Exception:
                             pass
                         
                         if len(sample_rows) > 0:
