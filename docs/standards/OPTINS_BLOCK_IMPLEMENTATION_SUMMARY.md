@@ -21,7 +21,7 @@ This document summarizes the implementation of corrected OPTINS Framework alignm
 ### What Changed
 
 **OLD**: BLOCK used abbreviations (OPS, STR, PROP, AI, DATA, etc.)  
-**NEW**: BLOCK uses domain partition format B00-B90 aligned with OPTINS Framework v1.1
+**NEW**: BLOCK uses domain partition format (B00, B01, B10-B90) aligned with OPTINS Framework v1.1
 
 ---
 
@@ -34,20 +34,21 @@ The corrected BLOCK field now represents domain partitions with clear semantic m
 | BLOCK | Domain-Subsystem                                        | Environment Typical          |
 |------:|:--------------------------------------------------------|:-----------------------------|
 |   B00 | GENERAL (universal, implicit)                           | all                          |
-|   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest     |
-|   B20 | CYBERSECURITY                                           | digital + onboard            |
-|   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard            |
-|   B40 | PHYSICS (pressure/thermal/cryo/…)                       | onboard + simtest            |
-|   B50 | PHYSICAL (aerostructures + info HW)                     | onboard/offboard             |
-|   B60 | DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) | onboard + simtest            |
-|   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest            |
+|   B01 | POLICIES (governance, standards, rules)                 | all                          |
+|   B10 | INFRASTRUCTURES AND SPACEPORTS                          | onboard + offboard + simtest |
+|   B20 | ROBOTICS                                                | onboard + offboard           |
+|   B30 | CYBERSECURITY, DATA, COMMS                              | digital + onboard            |
+|   B40 | PHYSICS (pressure/thermal/cryo)                         | onboard + simtest            |
+|   B50 | PHYSICAL (aerostructures + HW, material)                | onboard + offboard           |
+|   B60 | DYNAMICS (thrust/attitude/inerting)                     | onboard + simtest            |
+|   B70 | LAUNCHERS AND ENGINES                                   | onboard + simtest            |
 |   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard           |
-|   B90 | CONNECTIONS & MAPPING                                   | digital + onboard            |
+|   B90 | OPTICS, SENSORING AND OBSERVATION                       | onboard + offboard + simtest |
 
 ### Key Principles
 
-1. **B00 is Universal**: Always implicit and applicable to all ATA_ROOT values
-2. **10-Step Increments**: Domain partitions use consistent B00, B10, B20, ..., B90 numbering
+1. **B00 and B01 are Universal**: Always implicit and applicable to all ATA_ROOT values
+2. **Normalized Catalogue**: Domain partitions use B00, B01, B10-B90 numbering with controlled environment vocabulary
 3. **ATA-Specific**: Not all BLOCK values are valid for all ATA_ROOT values
 4. **Clear Semantics**: Each partition has defined scope and environmental context
 
@@ -111,8 +112,8 @@ Created `config/nomenclature/ATA_PARTITION_MATRIX.yaml` as the definitive source
 ### config/nomenclature/v6_0.yaml
 
 **Changes**:
-1. **BLOCK Allowlist**: Replaced abbreviations with B00-B90 format
-2. **Pattern Update**: `block: "^B([0-9]0)$"` enforces B## format
+1. **BLOCK Allowlist**: Replaced abbreviations with B00, B01, B10-B90 format
+2. **Pattern Update**: `block: "^(B[0-9]{2}|GEN)$"` enforces B## format
 3. **Length Limit**: Updated from 12 to 3 characters for BLOCK token
 4. **Migration Mapping**: Added legacy BLOCK → B## reference table
 5. **OPTINS Integration**: Added reference to ATA_PARTITION_MATRIX
@@ -177,8 +178,8 @@ optins_framework:
 
 The following validation enhancements are planned for implementation:
 
-1. **Pattern Validation**: Enforce `B[0-9]0` pattern for BLOCK field
-2. **Allowlist Check**: Verify BLOCK is in B00-B90 range
+1. **Pattern Validation**: Enforce `B[0-9]{2}` pattern for BLOCK field
+2. **Allowlist Check**: Verify BLOCK is in approved list (B00, B01, B10-B90)
 3. **ATA_PARTITION_MATRIX Validation**: Check that BLOCK is valid for given ATA_ROOT
 4. **Solution Pack Validation**: Validate SPK naming conventions
 
@@ -186,7 +187,7 @@ The following validation enhancements are planned for implementation:
 
 **Planned Gates**:
 - **Gate 1**: Structural validation (B## pattern)
-- **Gate 2**: BLOCK allowlist validation
+- **Gate 2**: BLOCK allowlist validation (B00, B01, B10-B90)
 - **Gate 3**: ATA_ROOT + BLOCK matrix validation (critical)
 - **Gate 4**: Solution Pack naming validation
 
@@ -194,8 +195,8 @@ The following validation enhancements are planned for implementation:
 
 **Example violations**:
 ```
-❌ BLOCK 'OPS' not valid: Must use B## format (B00-B90)
-❌ BLOCK 'B95' not in allowlist: Valid values are B00, B10, ..., B90
+❌ BLOCK 'OPS' not valid: Must use B## format (B00, B01, B10-B90)
+❌ BLOCK 'B95' not in allowlist: Valid values are B00, B01, B10, B20, ..., B90
 ❌ BLOCK 'B70' not valid for ATA_ROOT '00': See ATA_PARTITION_MATRIX
 ```
 
@@ -279,7 +280,7 @@ The following validation enhancements are planned for implementation:
 
 1. **Semantic Clarity**: Domain partitions have clear, unambiguous definitions
 2. **OPTINS Alignment**: Direct mapping to OPTINS Framework v1.1
-3. **Scalability**: B00-B90 numbering allows for future expansion (if needed)
+3. **Scalability**: B00, B01, B10-B90 numbering with controlled vocabulary
 4. **Validation**: ATA_PARTITION_MATRIX enables automated compliance checking
 
 ### Organizational Benefits
