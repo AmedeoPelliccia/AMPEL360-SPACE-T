@@ -33,7 +33,7 @@ All files must follow this exact pattern:
 | **B60** | DYNAMICS (thrust/attitude/inerting)      | **onboard + simtest**            |
 | **B70** | LAUNCHERS AND ENGINES                    | **onboard + simtest**            |
 | **B80** | RENEWABLE ENERGY & CIRCULARITY           | **onboard + offboard**           |
-| **B90** | OPTICS, SENSORING AND OBSERVATION        | **onboard + offboard + simtest** |
+| **B90** | OPTICS, SENSING AND OBSERVATION          | **onboard + offboard + simtest** |
 
 
 3. **TYPE** (2-8 uppercase alphanumeric): Artifact type
