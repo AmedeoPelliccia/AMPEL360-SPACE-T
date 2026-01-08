@@ -61,10 +61,10 @@ class ATA99RegistryChecker:
     
     # Namespace ID patterns for validation
     NAMESPACE_PATTERNS = {
-        'ata99_namespace': r'^NS-ATA99-[A-Z0-9-]+$',
-        'schema_namespace': r'^NS-SCH-[A-Z0-9-]+$',
-        'trace_namespace': r'^NS-TR-[A-Z0-9-]+$',
-        'identifier_namespace': r'^NS-ID-[A-Z0-9-]+$',
+        'ata99_namespace': r'NS-ATA99-[A-Z0-9-]+',
+        'schema_namespace': r'NS-SCH-[A-Z0-9-]+',
+        'trace_namespace': r'NS-TR-[A-Z0-9-]+',
+        'identifier_namespace': r'NS-ID-[A-Z0-9-]+',
     }
     
     def __init__(self, db_path: str = "plc_ontology.db"):
@@ -213,12 +213,17 @@ class ATA99RegistryChecker:
     
     def generate_report(self) -> Dict[str, Any]:
         """Generate deduplication report."""
-        duplicates = self.db.check_namespace_duplicates()
-        
         report = {
-            'total_duplicates': len(duplicates),
+            'total_duplicates': len(self.conflicts),
             'conflicts': self.conflicts,
-            'duplicates_detail': duplicates
+            'duplicates_detail': [
+                {
+                    'namespace_id': c['namespace_id'],
+                    'count': c['count'],
+                    'paths': ', '.join(c['paths'])
+                }
+                for c in self.conflicts
+            ]
         }
         
         return report
@@ -248,17 +253,45 @@ def run_gate_004(db_path: str = "plc_ontology.db", directory: Path = Path('.')) 
         (passed, report)
     """
     import time
+    from collections import defaultdict
     start_time = time.time()
     
     checker = ATA99RegistryChecker(db_path)
     
     # Scan and register namespaces
     entries = checker.scan_repository(directory)
+    
+    # Check for duplicates in scanned entries BEFORE registering
+    namespace_to_paths = defaultdict(list)
+    for entry in entries:
+        namespace_to_paths[entry.namespace_id].append(entry.artifact_path)
+    
+    conflicts = []
+    for namespace_id, paths in namespace_to_paths.items():
+        if len(paths) > 1:
+            # Record conflict
+            conflict_id = checker.db.record_namespace_conflict(
+                namespace_id=namespace_id,
+                artifact_path_1=paths[0],
+                artifact_path_2=paths[1],
+                conflict_type='DUPLICATE_ID'
+            )
+            conflicts.append({
+                'conflict_id': conflict_id,
+                'namespace_id': namespace_id,
+                'count': len(paths),
+                'paths': paths
+            })
+            checker.conflicts.append({
+                'conflict_id': conflict_id,
+                'namespace_id': namespace_id,
+                'count': len(paths),
+                'paths': paths
+            })
+    
+    # Register namespaces (INSERT OR REPLACE will update existing ones)
     if entries:
         checker.register_namespaces(entries)
-    
-    # Check for duplicates
-    conflicts = checker.check_duplicates()
     
     # Generate report
     report = checker.generate_report()
@@ -388,7 +421,20 @@ Examples:
             if args.json:
                 print(json.dumps(report, indent=2))
             else:
-                checker.print_conflicts()
+                # Print conflicts from report
+                conflicts = report.get('conflicts', [])
+                if not conflicts:
+                    print("\n✅ No namespace conflicts detected")
+                else:
+                    print(f"\n❌ Found {len(conflicts)} namespace conflict(s):\n")
+                    
+                    for conflict in conflicts:
+                        print(f"Namespace ID: {conflict['namespace_id']}")
+                        print(f"  Occurrences: {conflict['count']}")
+                        print(f"  Conflicting files:")
+                        for path in conflict['paths']:
+                            print(f"    - {path}")
+                        print()
                 
                 print(f"\n{'═'*70}")
                 print(f"GATE-004: Namespace Deduplication Check")
