@@ -189,17 +189,13 @@ The CSV should include the following columns:
           exit $EXIT_CODE
         continue-on-error: false
       
-      # GATE-004: Namespace Deduplication Check (BLOCKING - when script exists)
+      # GATE-004: Namespace Deduplication Check (BLOCKING)
       - name: GATE-004 - Namespace Deduplication Check
         id: namespace_dedup
         run: |
           echo "🔍 Checking for duplicate namespace IDs..."
-          if [ -f "scripts/check_ata99_registry.py" ]; then
-            python scripts/check_ata99_registry.py --deduplicate
-          else
-            echo "⚠️  Script not yet implemented (planned)"
-          fi
-        continue-on-error: true
+          python scripts/check_ata99_registry.py --deduplicate
+        continue-on-error: false
       
       # GATE-006: Detect Governance Changes (LABELING)
       - name: GATE-006 - Detect Governance Changes
@@ -319,7 +315,7 @@ This PR modifies governance-impacting files and requires **CM WG approval** befo
           echo "| GATE-002 | ${{ steps.schema_registration.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Schema Registration Check |"
           echo "| GATE-003 | ${{ steps.trace_integrity.outcome == 'success' && (steps.trace_integrity.outputs.broken_count > 0 && '⚠️ PASS (warnings)' || '✅ PASS') || '❌ FAIL' }} | Trace Link Integrity (${{ steps.trace_integrity.outputs.broken_count || 0 }} links to planned content) |"
           echo "| GATE-LINK-001 | ${{ steps.link_integrity.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Internal Link Integrity (mode: ${{ steps.link_integrity.outputs.link_mode }}) |"
-          echo "| GATE-004 | ⏭️ PLANNED | Namespace Deduplication |"
+          echo "| GATE-004 | ${{ steps.namespace_dedup.outcome == 'success' && '✅ PASS' || '❌ FAIL' }} | Namespace Deduplication |"
           echo "| GATE-006 | ${{ steps.governance_changes.outputs.governance_change == 'true' && '⚠️ REVIEW' || '✅ PASS' }} | Governance Change Detection |"
           echo "| GATE-007 | ⏭️ PLANNED | Breaking Schema Detection |"
           echo "| GATE-008 | ⏭️ PLANNED | Evidence Link Validation |"

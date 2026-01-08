@@ -28,7 +28,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 | **GATE-001** | Nomenclature Validation | `validate_nomenclature.py` | BLOCKING | Active | Validates all files against v3.0 standard |
 | **GATE-002** | Schema Registration Check | `scripts/validate_schema_registry.py` | BLOCKING | Active | Verifies schema refs exist in ATA 91 |
 | **GATE-003** | Trace Link Integrity | `scripts/validate_trace_links.py --skip-templates` | WARNING (during PORTAL build-out) | Active | Validates trace link targets exist, skips template placeholders and planned structure. Currently allows ~490 links to planned content. |
-| **GATE-004** | Namespace Deduplication | `scripts/check_ata99_registry.py` | BLOCKING | Planned | Prevents duplicate IDs across namespaces |
+| **GATE-004** | Namespace Deduplication | `scripts/check_ata99_registry.py` | BLOCKING | Active | Prevents duplicate IDs across namespaces |
 | **GATE-005** | Identifier Grammar Check | `scripts/validate_identifiers.py` | BLOCKING | Planned | Validates canonical ID format |
 
 ### Category B: Pull Request Review Gates
@@ -71,8 +71,8 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 
 ### By Status
 
-- **Active (implemented):** GATE-001, GATE-002, GATE-003, GATE-006, GATE-009, GATE-010
-- **Planned (to be implemented):** GATE-004, GATE-005, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
+- **Active (implemented):** GATE-001, GATE-002, GATE-003, GATE-004, GATE-006, GATE-009, GATE-010
+- **Planned (to be implemented):** GATE-005, GATE-007, GATE-008, GATE-011, GATE-012, GATE-013, GATE-014, GATE-015, GATE-016, GATE-017, GATE-018
 
 ### By Responsible Team
 
@@ -90,7 +90,7 @@ This index catalogs all **CI/CD governance gates** implemented to enforce nomenc
 | GATE-001 | Nomenclature Standard v3.0 | `.github/workflows/nomenclature-validation.yml` | `validate_nomenclature.py` |
 | GATE-002 | Governance Reference Policy §4.2 | `.github/workflows/governance-gates.yml` | ATA 91 schema registry |
 | GATE-003 | Governance Reference Policy §5.3 | `.github/workflows/governance-gates.yml` | `scripts/validate_trace_links.py`, `docs/GATE-003-TRACE-LINK-VALIDATION.md` |
-| GATE-004 | Identifier Grammar §4.5.2 | Planned: `.github/workflows/governance-gates.yml` | ATA 99 namespace registry |
+| GATE-004 | Identifier Grammar §4.5.2 | `.github/workflows/governance-gates.yml` | ATA 99 namespace registry, `scripts/check_ata99_registry.py` |
 | GATE-005 | Identifier Grammar §4.1 | Planned: `.github/workflows/governance-gates.yml` | None |
 | GATE-006 | Governance Reference Policy §6.3 | `.github/workflows/governance-gates.yml` | CM WG approval list |
 | GATE-007 | Governance Reference Policy §4.3 | Planned: `.github/workflows/governance-gates.yml` | ATA 91 schema versioning |
@@ -447,9 +447,9 @@ jobs:
 
 ### Implementation Priority
 
-**Phase 1 (Immediate - Complete):** GATE-001, GATE-002, GATE-003, GATE-006, GATE-009, GATE-010 (active)
+**Phase 1 (Immediate - Complete):** GATE-001, GATE-002, GATE-003, GATE-004, GATE-006, GATE-009, GATE-010 (active)
 
-**Phase 2 (Q1 2026):** GATE-004, GATE-005 (critical for governance enforcement)
+**Phase 2 (Q1 2026):** GATE-005 (critical for governance enforcement)
 
 **Phase 3 (Q2 2026):** GATE-007, GATE-008, GATE-015, GATE-016, GATE-017 (audit and staleness detection)
 
