@@ -1,0 +1,9 @@
+Work_Item,Description,Responsible (R),Accountable (A),Consulted (C),Informed (I),Approval_Path
+T001,SSOT source & ownership,STK_AI,STK_CM,STK_SE;STK_PMO,STK_CERT,"PR + CM signoff"
+T002,Identifier grammar,STK_AI,STK_CM,STK_SE,STK_PMO;STK_CERT,"PR + CM signoff"
+T003,Schema registry definition,STK_AI,STK_CM,STK_SE,STK_PMO,"PR + CM signoff"
+T004,Versioning & compatibility policy,STK_AI,STK_CM,STK_SE;STK_PMO,STK_CERT,"PR + CM signoff"
+T005,CI validation gates,STK_AI,STK_CM,STK_SE,STK_PMO,"PR + CM signoff"
+T006,Schema pack export,STK_AI,STK_CM,STK_SE,STK_PMO;STK_CERT,"PR + CM signoff"
+T007,Canonical model alignment,STK_SE,STK_CM,STK_AI;STK_PMO,STK_CERT,"PR + CM signoff"
+T008,Schema consumer onboarding,STK_AI,STK_PMO,STK_CM;STK_SE,STK_CERT,"PR + PMO signoff; CM referenced for policy"
