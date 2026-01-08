@@ -83,22 +83,88 @@ allowlists:
   
   # BLOCK allowlist (domain partition system - OPTINS Framework aligned)
   # B00 is universal/implicit (always applies)
+  # B01 is policies/governance (universal)
   # B10-B90 are domain-specific partitions (10-step increments)
   # GEN is a legacy/transitional BLOCK for general-purpose files during migration
   # See ATA_PARTITION_MATRIX.yaml for complete ATA_ROOT to BLOCK mapping
   # Extension requires CM change control
   blocks:
     - B00      # GENERAL (universal baseline, implicit)
-    - B10      # OPERATIONAL SYSTEMS (onboard/offboard/simtest)
-    - B20      # CYBERSECURITY (digital + onboard)
-    - B30      # DATA, COMMS AND REGISTRY (digital + onboard)
-    - B40      # PHYSICS (pressure/thermal/crio/...) (onboard + simtest)
-    - B50      # PHYSICAL (aerostructures + info HW) (onboard/offboard)
-    - B60      # DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) (onboard + simtest)
-    - B70      # RECIPROCITY & ALTERNATIVE ENGINES (onboard + simtest)
-    - B80      # RENEWABLE ENERGY & CIRCULARITY (onboard + offboard)
-    - B90      # CONNECTIONS & MAPPING (digital + onboard)
+    - B01      # POLICIES (governance, standards, rules)
+    - B10      # INFRASTRUCTURES AND SPACEPORTS
+    - B20      # ROBOTICS
+    - B30      # CYBERSECURITY, DATA, COMMS
+    - B40      # PHYSICS (pressure/thermal/cryo)
+    - B50      # PHYSICAL (aerostructures + HW, material)
+    - B60      # DYNAMICS (thrust/attitude/inerting)
+    - B70      # LAUNCHERS AND ENGINES
+    - B80      # RENEWABLE ENERGY & CIRCULARITY
+    - B90      # OPTICS, SENSORING AND OBSERVATION
     - GEN      # Legacy/transitional BLOCK for v5.0 to v6.0 migration
+  
+  # BLOCK catalog with environment mappings
+  # Defines the normalized BLOCK catalogue with controlled environment vocabulary
+  # Environment tokens: onboard, offboard, simtest, digital, all
+  # Combination rules:
+  #   - "all" cannot be combined with any other token
+  #   - Combinations use space-plus-space separator: " + "
+  #   - Canonical order: digital + onboard + offboard + simtest
+  block_catalog:
+    - block: B00
+      domain: "GENERAL (universal, implicit)"
+      environment: ["all"]
+    - block: B01
+      domain: "POLICIES (governance, standards, rules)"
+      environment: ["all"]
+    - block: B10
+      domain: "INFRASTRUCTURES AND SPACEPORTS"
+      environment: ["onboard", "offboard", "simtest"]
+    - block: B20
+      domain: "ROBOTICS"
+      environment: ["onboard", "offboard"]
+    - block: B30
+      domain: "CYBERSECURITY, DATA, COMMS"
+      environment: ["digital", "onboard"]
+    - block: B40
+      domain: "PHYSICS (pressure/thermal/cryo)"
+      environment: ["onboard", "simtest"]
+    - block: B50
+      domain: "PHYSICAL (aerostructures + HW, material)"
+      environment: ["onboard", "offboard"]
+    - block: B60
+      domain: "DYNAMICS (thrust/attitude/inerting)"
+      environment: ["onboard", "simtest"]
+    - block: B70
+      domain: "LAUNCHERS AND ENGINES"
+      environment: ["onboard", "simtest"]
+    - block: B80
+      domain: "RENEWABLE ENERGY & CIRCULARITY"
+      environment: ["onboard", "offboard"]
+    - block: B90
+      domain: "OPTICS, SENSORING AND OBSERVATION"
+      environment: ["onboard", "offboard", "simtest"]
+  
+  # Environment controlled vocabulary
+  # Used for deterministic CI validation of BLOCK environment mappings
+  environment_vocabulary:
+    tokens:
+      - onboard      # Onboard systems and components
+      - offboard     # Ground-based/external infrastructure
+      - simtest      # Simulation and testing environments
+      - digital      # Digital/software-only domains
+      - all          # Universal applicability
+    
+    combination_rules:
+      separator: " + "
+      canonical_order: ["digital", "onboard", "offboard", "simtest"]
+      exclusivity:
+        all: true    # "all" cannot be combined with any other token
+    
+    validation:
+      enforce_canonical_order: true
+      enforce_separator: true
+      enforce_token_vocabulary: true
+      enforce_all_exclusivity: true
   
   # AoR allowlist (Area of Responsibility / Portal Entry Points)
   # Must match portal entry points exactly (no STK_ prefix)
