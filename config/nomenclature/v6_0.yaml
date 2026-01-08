@@ -270,8 +270,9 @@ patterns:
   # First capture group is the brand root for extraction
   version: "^(PLUS|PLUSULTRA)([0-9]{2})?$"
   model: "^(BB|HW|SW|PR)$"
-  # BLOCK is B## format (00-90 in increments of 10)
-  block: "^B[0-9]0$"
+  # BLOCK is B## format (B00, B01, B10-B90 in increments of 10, plus GEN for legacy)
+  # Pattern allows B00-B99 but allowlist constrains to approved blocks
+  block: "^(B[0-9]{2}|GEN)$"
   phase: "^(LC(0[1-9]|1[0-4])|SB[0-9]{2})$"
   knot_task: "^K(0[1-9]|1[0-4])(-T[0-9]{3})?$"
   subject: "^[a-z0-9]+(-[a-z0-9]+)*$"
