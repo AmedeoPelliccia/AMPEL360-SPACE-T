@@ -91,18 +91,36 @@ This repository contains the official directory structure generators for AMPEL36
 
 The **BLOCK** field uses domain partition identifiers (B00-B90) aligned with the OPTINS Framework v1.1:
 
-| BLOCK | Domain-Subsystem                                        | Environment              |
-|------:|:--------------------------------------------------------|:-------------------------|
-|   B00 | GENERAL (universal, implicit)                           | all                      |
-|   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest |
-|   B20 | CYBERSECURITY                                           | digital + onboard        |
-|   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard        |
-|   B40 | PHYSICS (pressure/thermal/cryo)                         | onboard + simtest        |
-|   B50 | PHYSICAL (aerostructures + HW)                          | onboard/offboard         |
-|   B60 | DYNAMICS (thrust/attitude/inerting)                     | onboard + simtest        |
-|   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest        |
-|   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard       |
-|   B90 | CONNECTIONS & MAPPING                                   | digital + onboard        |
+| BLOCK   | Domain–Subsystem                         | Environment                      |
+| ------- | ---------------------------------------- | -------------------------------- |
+| **B00** | GENERAL (universal, implicit)            | **all**                          |
+| **B01** | POLICIES (governance, standards, rules)  | **all**                          |
+| **B10** | INFRASTRUCTURES AND SPACEPORTS           | **onboard + offboard + simtest** |
+| **B20** | ROBOTICS                                 | **onboard + offboard**           |
+| **B30** | CYBERSECURITY, DATA, COMMS               | **digital + onboard**            |
+| **B40** | PHYSICS (pressure/thermal/cryo)          | **onboard + simtest**            |
+| **B50** | PHYSICAL (aerostructures + HW, material) | **onboard + offboard**           |
+| **B60** | DYNAMICS (thrust/attitude/inerting)      | **onboard + simtest**            |
+| **B70** | LAUNCHERS AND ENGINES                    | **onboard + simtest**            |
+| **B80** | RENEWABLE ENERGY & CIRCULARITY           | **onboard + offboard**           |
+| **B90** | OPTICS, SENSORING AND OBSERVATION        | **onboard + offboard + simtest** |
+
+**Rationale for B90 environment:** sensors/optics typically have **onboard** operation, **simtest** validation (SIL/HIL, lab scenes), and **offboard** calibration/test assets (benches, metrology, ground stations).
+
+#### Controlled Vocabulary
+
+To keep CI validation deterministic, Environment is constrained to these tokens:
+
+* `onboard` — Onboard systems and components
+* `offboard` — Ground-based/external infrastructure
+* `simtest` — Simulation and testing environments
+* `digital` — Digital/software-only domains
+* `all` — Universal applicability (exclusive, cannot combine with others)
+
+**Combination Rules:**
+* `all` **cannot** be combined with any other environment token
+* Combinations use ` + ` (space-plus-space) as separator
+* Combinations should follow canonical order: `digital + onboard + offboard + simtest`
 
 **Note:** Not all BLOCK values are valid for all ATA_ROOT values. See `config/nomenclature/ATA_PARTITION_MATRIX.yaml` for the complete ATA_ROOT to BLOCK mapping.
 

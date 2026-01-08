@@ -23,7 +23,7 @@
 | VARIANT         | Allowlist (GEN, BASELINE, etc.)      | `GEN`, `CERT`, `FLIGHTTEST`  |
 | VERSION         | Allowlist (PLUS, PLUSULTRA)          | `PLUS`, `PLUSULTRA`          |
 | MODEL           | Allowlist (BB, HW, SW, PR)           | `BB`, `HW`, `SW`, `PR`       |
-| BLOCK           | B## format (B00-B90)                 | `B10`, `B50`, `B60`, `B20`   |
+| BLOCK           | B## format (B00, B01, B10-B90)       | `B00`, `B01`, `B10`, `B50`   |
 | PHASE           | LC01-LC14 or SB01-SB99               | `LC03`, `SB04`, `LC10`       |
 | KNOT_TASK       | K01-K14, optional -T001 to -T999     | `K06`, `K06-T001`, `K02`     |
 | AoR             | Allowlist (portal entry points)      | `CM`, `CERT`, `SAF`, `SE`    |
@@ -97,17 +97,21 @@ PR               # Process/Procedure
 
 ### BLOCK (Domain Partitions - OPTINS Framework)
 ```
-B00      # GENERAL (universal, implicit)
-B10      # OPERATIONAL SYSTEMS (onboard/offboard/simtest)
-B20      # CYBERSECURITY (digital + onboard)
-B30      # DATA, COMMS AND REGISTRY (digital + onboard)
-B40      # PHYSICS (pressure/thermal/cryo) (onboard + simtest)
-B50      # PHYSICAL (aerostructures + HW) (onboard/offboard)
-B60      # DYNAMICS (thrust/attitude/inerting) (onboard + simtest)
-B70      # RECIPROCITY & ALTERNATIVE ENGINES (onboard + simtest)
-B80      # RENEWABLE ENERGY & CIRCULARITY (onboard + offboard)
-B90      # CONNECTIONS & MAPPING (digital + onboard)
+B00      # GENERAL (universal, implicit) - all
+B01      # POLICIES (governance, standards, rules) - all
+B10      # INFRASTRUCTURES AND SPACEPORTS - onboard + offboard + simtest
+B20      # ROBOTICS - onboard + offboard
+B30      # CYBERSECURITY, DATA, COMMS - digital + onboard
+B40      # PHYSICS (pressure/thermal/cryo) - onboard + simtest
+B50      # PHYSICAL (aerostructures + HW, material) - onboard + offboard
+B60      # DYNAMICS (thrust/attitude/inerting) - onboard + simtest
+B70      # LAUNCHERS AND ENGINES - onboard + simtest
+B80      # RENEWABLE ENERGY & CIRCULARITY - onboard + offboard
+B90      # OPTICS, SENSORING AND OBSERVATION - onboard + offboard + simtest
 ```
+
+**Environment vocabulary:** `onboard`, `offboard`, `simtest`, `digital`, `all` (exclusive)
+**Combination rules:** Use ` + ` separator; canonical order: `digital + onboard + offboard + simtest`
 
 **Note:** Not all BLOCK values are valid for all ATA_ROOT values. See `config/nomenclature/ATA_PARTITION_MATRIX.yaml` for complete mapping.
 

@@ -22,6 +22,7 @@ status: "Normative"
 # ============================================================================
 # 
 # B00 is universal (implicit for all ATA roots)
+# B01 is policies/governance (universal)
 # B10-B90 are domain-specific partitions
 
 domain_partitions:
@@ -31,39 +32,45 @@ domain_partitions:
     environment: "all"
     implicit: true
 
+  B01:
+    name: "POLICIES"
+    description: "Governance, standards, rules - applies to all ATA roots"
+    environment: "all"
+    implicit: true
+
   B10:
-    name: "OPERATIONAL SYSTEMS"
-    description: "Operational systems and procedures"
-    environment: "onboard/offboard/simtest"
+    name: "INFRASTRUCTURES AND SPACEPORTS"
+    description: "Infrastructure systems and spaceport operations"
+    environment: "onboard + offboard + simtest"
 
   B20:
-    name: "CYBERSECURITY"
-    description: "Cybersecurity and information assurance"
-    environment: "digital + onboard"
+    name: "ROBOTICS"
+    description: "Robotics and automated systems"
+    environment: "onboard + offboard"
 
   B30:
-    name: "DATA, COMMS AND REGISTRY"
-    description: "Data management, communications, and registry systems"
+    name: "CYBERSECURITY, DATA, COMMS"
+    description: "Cybersecurity, data management, and communications"
     environment: "digital + onboard"
 
   B40:
-    name: "PHYSICS (pressure/thermal/cryo/...)"
+    name: "PHYSICS (pressure/thermal/cryo)"
     description: "Physical phenomena: pressure, thermal, cryogenic systems"
     environment: "onboard + simtest"
 
   B50:
-    name: "PHYSICAL (aerostructures + info HW)"
-    description: "Physical structures and hardware"
-    environment: "onboard/offboard"
+    name: "PHYSICAL (aerostructures + HW, material)"
+    description: "Physical structures, hardware, and materials"
+    environment: "onboard + offboard"
 
   B60:
-    name: "DYNAMICS (thrust/drag-lift/balancing/attitude/inerting)"
-    description: "Dynamic systems: propulsion, aerodynamics, attitude control"
+    name: "DYNAMICS (thrust/attitude/inerting)"
+    description: "Dynamic systems: propulsion, attitude control, inerting"
     environment: "onboard + simtest"
 
   B70:
-    name: "RECIPROCITY & ALTERNATIVE ENGINES"
-    description: "Alternative propulsion and reciprocating systems"
+    name: "LAUNCHERS AND ENGINES"
+    description: "Launcher systems and propulsion engines"
     environment: "onboard + simtest"
 
   B80:
@@ -72,9 +79,9 @@ domain_partitions:
     environment: "onboard + offboard"
 
   B90:
-    name: "CONNECTIONS & MAPPING"
-    description: "Connectivity, mapping, and integration systems"
-    environment: "digital + onboard"
+    name: "OPTICS, SENSORING AND OBSERVATION"
+    description: "Optical systems, sensors, and observation equipment"
+    environment: "onboard + offboard + simtest"
 
 # ============================================================================
 # SECTION 1: SOLUTION PACK SCHEMA

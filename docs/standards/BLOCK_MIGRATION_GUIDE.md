@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-This document provides guidance for migrating from legacy BLOCK abbreviations (OPS, STR, AI, etc.) to the new domain partition system (B00-B90) aligned with the OPTINS Framework v1.1.
+This document provides guidance for migrating from legacy BLOCK abbreviations (OPS, STR, AI, etc.) to the new domain partition system (B00, B01, B10-B90) aligned with the OPTINS Framework v1.1.
 
 ### Why This Change?
 
@@ -21,7 +21,7 @@ This document provides guidance for migrating from legacy BLOCK abbreviations (O
 ### Key Changes
 
 - **Old**: BLOCK used abbreviations (OPS, STR, PROP, AI, DATA, etc.)
-- **New**: BLOCK uses B## format (B00, B10, B20, ..., B90)
+- **New**: BLOCK uses B## format (B00, B01, B10-B90)
 - **Validation**: BLOCK values must be valid for the given ATA_ROOT per ATA_PARTITION_MATRIX
 
 ---
@@ -33,17 +33,18 @@ The new BLOCK field represents domain partitions defined by the OPTINS Framework
 | BLOCK | Domain-Subsystem                                        | Environment Typical          | Legacy Mapping Hint       |
 |------:|:--------------------------------------------------------|:-----------------------------|:--------------------------|
 |   B00 | GENERAL (universal, implicit)                           | all                          | GEN (partially)           |
-|   B10 | OPERATIONAL SYSTEMS                                     | onboard/offboard/simtest     | OPS, CERT, SAF, SYS, TEST, MRO |
-|   B20 | CYBERSECURITY                                           | digital + onboard            | AI (partially), SW (partially) |
-|   B30 | DATA, COMMS AND REGISTRY                                | digital + onboard            | DATA                      |
-|   B40 | PHYSICS (pressure/thermal/cryo/…)                       | onboard + simtest            | (new semantic)            |
-|   B50 | PHYSICAL (aerostructures + info HW)                     | onboard/offboard             | STR, HW, STOR             |
-|   B60 | DYNAMICS (thrust/drag-lift/balancing/attitude/inerting) | onboard + simtest            | PROP                      |
-|   B70 | RECIPROCITY & ALTERNATIVE ENGINES                       | onboard + simtest            | (new semantic)            |
+|   B01 | POLICIES (governance, standards, rules)                 | all                          | (new semantic)            |
+|   B10 | INFRASTRUCTURES AND SPACEPORTS                          | onboard + offboard + simtest | OPS, CERT, SAF, SYS, TEST, MRO |
+|   B20 | ROBOTICS                                                | onboard + offboard           | AI (partially), SW (partially) |
+|   B30 | CYBERSECURITY, DATA, COMMS                              | digital + onboard            | DATA                      |
+|   B40 | PHYSICS (pressure/thermal/cryo)                         | onboard + simtest            | (new semantic)            |
+|   B50 | PHYSICAL (aerostructures + HW, material)                | onboard + offboard           | STR, HW, STOR             |
+|   B60 | DYNAMICS (thrust/attitude/inerting)                     | onboard + simtest            | PROP                      |
+|   B70 | LAUNCHERS AND ENGINES                                   | onboard + simtest            | (new semantic)            |
 |   B80 | RENEWABLE ENERGY & CIRCULARITY                          | onboard + offboard           | CIRC, ENRG                |
-|   B90 | CONNECTIONS & MAPPING                                   | digital + onboard            | (new semantic)            |
+|   B90 | OPTICS, SENSORING AND OBSERVATION                       | onboard + offboard + simtest | (new semantic)            |
 
-**Note**: B00 is universal and implicit - always valid for all ATA_ROOT values.
+**Note**: B00 and B01 are universal and implicit - always valid for all ATA_ROOT values.
 
 ---
 
