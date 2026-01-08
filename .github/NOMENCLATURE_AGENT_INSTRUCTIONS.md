@@ -29,7 +29,7 @@ All files must follow this exact pattern:
 | **B20** | ROBOTICS                                 | **onboard + offboard**           |
 | **B30** | CYBERSECURITY, DATA, COMMS               | **digital + onboard**            |
 | **B40** | PHYSICS (pressure/thermal/cryo)          | **onboard + simtest**            |
-| **B50** | PHYSICAL (aerostructures + HW, material) | **onboard + offboard**           |
+| **B50** | PHYSICAL (aerostructures + HW, materials) | **onboard + offboard**           |
 | **B60** | DYNAMICS (thrust/attitude/inerting)      | **onboard + simtest**            |
 | **B70** | LAUNCHERS AND ENGINES                    | **onboard + simtest**            |
 | **B80** | RENEWABLE ENERGY & CIRCULARITY           | **onboard + offboard**           |
