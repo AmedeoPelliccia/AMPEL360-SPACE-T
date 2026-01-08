@@ -266,24 +266,19 @@ def run_gate_004(db_path: str = "plc_ontology.db", directory: Path = Path('.')) 
     for entry in entries:
         namespace_to_paths[entry.namespace_id].append(entry.artifact_path)
     
-    conflicts = []
     for namespace_id, paths in namespace_to_paths.items():
         if len(paths) > 1:
-            # Record conflict
-            conflict_id = checker.db.record_namespace_conflict(
-                namespace_id=namespace_id,
-                artifact_path_1=paths[0],
-                artifact_path_2=paths[1],
-                conflict_type='DUPLICATE_ID'
-            )
-            conflicts.append({
-                'conflict_id': conflict_id,
-                'namespace_id': namespace_id,
-                'count': len(paths),
-                'paths': paths
-            })
+            # Record all conflicts in the database (for 3+ duplicates, record multiple conflict pairs)
+            for i in range(len(paths) - 1):
+                checker.db.record_namespace_conflict(
+                    namespace_id=namespace_id,
+                    artifact_path_1=paths[i],
+                    artifact_path_2=paths[i + 1],
+                    conflict_type='DUPLICATE_ID'
+                )
+            
+            # Add to checker's conflict list (used for reporting)
             checker.conflicts.append({
-                'conflict_id': conflict_id,
                 'namespace_id': namespace_id,
                 'count': len(paths),
                 'paths': paths
@@ -299,23 +294,23 @@ def run_gate_004(db_path: str = "plc_ontology.db", directory: Path = Path('.')) 
     execution_time_ms = int((time.time() - start_time) * 1000)
     
     # Record gate run in database
-    passed = len(conflicts) == 0
+    passed = len(checker.conflicts) == 0
     run_id = checker.db.record_gate_run(
         gate_code='GATE-004',
         passed=passed,
-        error_count=len(conflicts),
+        error_count=len(checker.conflicts),
         warning_count=0,
         execution_time_ms=execution_time_ms,
         metadata=report
     )
     
     # Record findings
-    for conflict in conflicts:
+    for conflict in checker.conflicts:
         checker.db.record_gate_finding(
             run_id=run_id,
             gate_code='GATE-004',
             severity='ERROR',
-            message=f"Duplicate namespace ID: {conflict['namespace_id']}",
+            message=f"Duplicate namespace ID: {conflict['namespace_id']} ({conflict['count']} occurrences)",
             finding_code='NAMESPACE_DUPLICATE',
             details=conflict
         )
