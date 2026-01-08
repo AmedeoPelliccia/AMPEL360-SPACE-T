@@ -19,17 +19,22 @@ All files must follow this exact pattern:
    - Example: `00`, `24`, `72`
 
 2. **BUCKET** (2 digits): Domain classification
-   - Allowed values: `00`, `10`, `20`, `30`, `40`, `50`, `60`, `70`, `80`, `90`
-   - `00` = Lifecycle artifacts only
-   - `10` = Operations
-   - `20` = Primary Subsystem
-   - `30` = Circularity
-   - `40` = Software
-   - `50` = Structures
-   - `60` = Storages
-   - `70` = Propulsion
-   - `80` = Energy
-   - `90` = Tables/Schemas/Diagrams/Reference
+   - Allowed values: `00`,`01`, `10`, `20`, `30`, `40`, `50`, `60`, `70`, `80`, `90`
+    
+| BLOCK   | Domain–Subsystem                         | Environment                      |
+| ------- | ---------------------------------------- | -------------------------------- |
+| **B00** | GENERAL (universal, implicit)            | **all**                          |
+| **B01** | POLICIES (governance, standards, rules)  | **all**                          |
+| **B10** | INFRASTRUCTURES AND SPACEPORTS           | **onboard + offboard + simtest** |
+| **B20** | ROBOTICS                                 | **onboard + offboard**           |
+| **B30** | CYBERSECURITY, DATA, COMMS               | **digital + onboard**            |
+| **B40** | PHYSICS (pressure/thermal/cryo)          | **onboard + simtest**            |
+| **B50** | PHYSICAL (aerostructures + HW, materials) | **onboard + offboard**           |
+| **B60** | DYNAMICS (thrust/attitude/inerting)      | **onboard + simtest**            |
+| **B70** | LAUNCHERS AND ENGINES                    | **onboard + simtest**            |
+| **B80** | RENEWABLE ENERGY & CIRCULARITY           | **onboard + offboard**           |
+| **B90** | OPTICS, SENSING AND OBSERVATION          | **onboard + offboard + simtest** |
+
 
 3. **TYPE** (2-8 uppercase alphanumeric): Artifact type
    - Approved types: `PLAN`, `MIN`, `RPT`, `LOG`, `ACT`, `IDX`, `FHA`, `PSSA`, `SSA`, `FTA`, `ANA`, `REQ`, `DAL`, `TRC`, `CAT`, `LST`, `GLO`, `MAT`, `SCH`, `DIA`, `TAB`, `STD`
