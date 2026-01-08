@@ -195,7 +195,7 @@ class ATA99RegistryChecker:
             (is_valid, error_message)
         """
         for ns_type, pattern in self.NAMESPACE_PATTERNS.items():
-            if re.match(pattern, namespace_id):
+            if re.search(pattern, namespace_id):
                 return (True, None)
         
         return (False, f"Namespace ID '{namespace_id}' does not match any known pattern")
@@ -268,14 +268,16 @@ def run_gate_004(db_path: str = "plc_ontology.db", directory: Path = Path('.')) 
     
     for namespace_id, paths in namespace_to_paths.items():
         if len(paths) > 1:
-            # Record all conflicts in the database (for 3+ duplicates, record multiple conflict pairs)
-            for i in range(len(paths) - 1):
-                checker.db.record_namespace_conflict(
-                    namespace_id=namespace_id,
-                    artifact_path_1=paths[i],
-                    artifact_path_2=paths[i + 1],
-                    conflict_type='DUPLICATE_ID'
-                )
+            # Record all unique conflict pairs in the database
+            # For N duplicates, record all N*(N-1)/2 unique pairs
+            for i in range(len(paths)):
+                for j in range(i + 1, len(paths)):
+                    checker.db.record_namespace_conflict(
+                        namespace_id=namespace_id,
+                        artifact_path_1=paths[i],
+                        artifact_path_2=paths[j],
+                        conflict_type='DUPLICATE_ID'
+                    )
             
             # Add to checker's conflict list (used for reporting)
             checker.conflicts.append({
