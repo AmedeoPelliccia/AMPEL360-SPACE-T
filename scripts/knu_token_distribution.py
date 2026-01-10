@@ -229,28 +229,39 @@ class TokenDistributor:
         """
         Calculate spillover impact S_i for a KNU entry.
         
-        Formula: S_i = Σ(a_k→j · ΔR_j,i) for adjacent KNOTs
+        Conceptual formula:
+            S_i = Σ(a_k→j · ΔR_j,i) for adjacent KNOTs
+        
+        In this implementation, the spillover term is expected to be
+        pre-computed externally (including adjacency weights a_k→j) and
+        provided via ``knu.dR_adj_sum``:
+        
+            knu.dR_adj_sum ≡ Σ(a_k→j · ΔR_j,i)
+        
+        The ``adjacency_graph`` parameter is accepted for backwards and
+        forwards compatibility but is not currently used inside this
+        method. It allows future versions to derive ``dR_adj_sum`` from
+        the graph if needed without changing the public API.
         
         Args:
-            knu: KNU reward entry
-            adjacency_graph: Override adjacency graph (default: use config)
+            knu: KNU reward entry, with ``dR_adj_sum`` already including
+                adjacency weights (Σ(a_k→j · ΔR_j,i)).
+            adjacency_graph: Optional adjacency graph (currently unused in
+                this calculation; kept for API compatibility).
         
         Returns:
-            Spillover impact value
+            Spillover impact value (pre-weighted sum from ``knu.dR_adj_sum``).
         """
-        if adjacency_graph is None:
-            adjacency_graph = self.adjacency_graph
-        
-        # Get adjacent KNOTs from adjacency graph
-        adjacent_knots = adjacency_graph.get(knu.knot_id, {})
+        # Mark adjacency_graph as intentionally unused for now while keeping
+        # the parameter for API compatibility and potential future use.
+        _ = adjacency_graph
         
         # If no dR_adj_sum provided, spillover is 0
         if knu.dR_adj_sum == 0.0:
             return 0.0
         
-        # Spillover is the sum of adjacent residue reductions
-        # In practice, dR_adj_sum should be pre-calculated as Σ(a_k→j · ΔR_j,i)
-        # For simplicity, we use dR_adj_sum directly as it represents the weighted sum
+        # Spillover is provided as the pre-weighted sum of adjacent residue
+        # reductions: knu.dR_adj_sum ≡ Σ(a_k→j · ΔR_j,i)
         return knu.dR_adj_sum
     
     def validate_eligibility(self, knu: KNURewardEntry) -> Tuple[bool, str]:
