@@ -364,12 +364,6 @@ class TokenDistributor:
             i_norm = normalized_impacts[knu.knu_id]
             weights[knu.knu_id] = alpha * e_norm + (1 - alpha) * i_norm
         
-        # Normalize weights to sum to 1.0
-        total_weight = sum(weights.values())
-        if total_weight > 0:
-            for knu_id in weights:
-                weights[knu_id] = weights[knu_id] / total_weight
-        
         # Distribute tokens T_i = P_k · w_i
         for knu in eligible_knus:
             knu.weight = weights[knu.knu_id]
