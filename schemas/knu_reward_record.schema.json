@@ -1,0 +1,262 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space/schemas/knu-reward-record-v01.json",
+  "title": "KNU Reward Record Schema",
+  "description": "Schema for KNU (Known Non-Unknowns / Uncertainty Resolution Unit) token reward records in the AMPEL360 Space-T project.",
+  "version": "v01",
+  "type": "object",
+  "definitions": {
+    "KNURewardEntry": {
+      "type": "object",
+      "description": "A single KNU reward entry with effort, impact, and token allocation",
+      "properties": {
+        "knot_id": {
+          "type": "string",
+          "description": "KNOT identifier (K01-K14)",
+          "pattern": "^K(0[1-9]|1[0-4])$",
+          "examples": ["K01", "K06", "K14"]
+        },
+        "knu_id": {
+          "type": "string",
+          "description": "Unique identifier for the KNU entry. Format: KNU-{KNOT}-{PARTITION}-{SEQUENCE}",
+          "pattern": "^KNU-K(0[1-9]|1[0-4])-[A-Z0-9]{2,6}-\\d{3}$",
+          "examples": ["KNU-K06-00-001", "KNU-K01-CERT-042", "KNU-K14-MRO-003"]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Person or team responsible for the KNU resolution"
+        },
+        "E_pred": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Predicted effort score (normalized across entries)"
+        },
+        "dR_primary": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Direct residue reduction in primary KNOT (0-100%)"
+        },
+        "dR_adj_sum": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Sum of residue reductions in adjacent KNOTs (0-100%)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "submitted", "in_review", "accepted", "merged", "rejected"],
+          "description": "Current status of the KNU entry"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "description": "List of artifact references or URLs produced by this KNU"
+        },
+        "validated_by": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Validator who confirmed the KNU impact"
+        },
+        "validated_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Timestamp when validation occurred (ISO 8601 format)"
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Calculated weight for token distribution (0.0-1.0)"
+        },
+        "tokens_awarded": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of KNU tokens awarded to this entry"
+        }
+      },
+      "required": ["knot_id", "knu_id", "owner", "E_pred", "dR_primary", "status"],
+      "additionalProperties": false
+    },
+    "KNOTPool": {
+      "type": "object",
+      "description": "Token pool configuration for a specific KNOT",
+      "properties": {
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K(0[1-9]|1[0-4])$",
+          "description": "KNOT identifier (K01-K14)"
+        },
+        "pool_amount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total tokens available for distribution in this KNOT"
+        },
+        "residue_before": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Residue level before KNU resolutions (0-100%)"
+        },
+        "residue_after": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Residue level after KNU resolutions (0-100%)"
+        }
+      },
+      "required": ["knot_id", "pool_amount"],
+      "additionalProperties": false
+    },
+    "DistributionReport": {
+      "type": "object",
+      "description": "Complete token distribution report for a KNOT",
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the report was generated"
+        },
+        "knot_id": {
+          "type": "string",
+          "pattern": "^K(0[1-9]|1[0-4])$",
+          "description": "KNOT identifier for this distribution"
+        },
+        "pool": {
+          "$ref": "#/definitions/KNOTPool",
+          "description": "Pool configuration and residue metrics"
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "alpha": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Effort weight parameter (α)"
+            },
+            "lambda_spillover": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Spillover multiplier (λ)"
+            }
+          },
+          "required": ["alpha", "lambda_spillover"]
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KNURewardEntry"
+          },
+          "description": "List of KNU reward entries in this distribution"
+        },
+        "total_tokens_distributed": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total tokens distributed to all entries"
+        },
+        "eligible_entries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of eligible KNU entries"
+        }
+      },
+      "required": ["generated_at", "knot_id", "pool", "parameters", "entries", "total_tokens_distributed"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "v01",
+      "description": "Version of the KNU reward record schema"
+    },
+    "rewards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/KNURewardEntry"
+      },
+      "description": "List of KNU reward entries"
+    }
+  },
+  "required": ["schema_version", "rewards"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schema_version": "v01",
+      "rewards": [
+        {
+          "knot_id": "K06",
+          "knu_id": "KNU-K06-00-001",
+          "owner": "CM WG",
+          "E_pred": 5.0,
+          "dR_primary": 30.0,
+          "dR_adj_sum": 20.0,
+          "status": "merged",
+          "artifacts": ["schema_v2.json", "migration_guide.md"],
+          "validated_by": "Lead Architect",
+          "validated_at": "2026-01-10T12:00:00Z",
+          "weight": 0.421,
+          "tokens_awarded": 421.0
+        },
+        {
+          "knot_id": "K06",
+          "knu_id": "KNU-K06-00-002",
+          "owner": "AI/ML Engineering",
+          "E_pred": 3.0,
+          "dR_primary": 15.0,
+          "dR_adj_sum": 10.0,
+          "status": "accepted",
+          "artifacts": ["trace_validator.py"],
+          "validated_by": "QA Team",
+          "validated_at": "2026-01-10T14:00:00Z",
+          "weight": 0.298,
+          "tokens_awarded": 298.0
+        }
+      ]
+    }
+  ],
+  "_documentation": {
+    "distribution_formula": {
+      "description": "KNU token distribution uses a weighted combination of effort and impact",
+      "formulas": {
+        "weight": "w_i = α·Ê_i + (1-α)·Î_i",
+        "tokens": "T_i = P_k · w_i",
+        "normalized_effort": "Ê_i = E_i / Σ E_i",
+        "effective_impact": "I_i = ΔR_k,i + λ·S_i",
+        "normalized_impact": "Î_i = I_i / Σ I_i",
+        "spillover": "S_i = Σ(a_k→j · ΔR_j,i)"
+      },
+      "parameters": {
+        "α (alpha)": "Effort weight (default: 0.30 = 30% effort, 70% impact)",
+        "λ (lambda)": "Spillover multiplier (default: 0.50 = 50% of direct impact)",
+        "P_k": "Prize pool for KNOT k (total tokens to distribute)",
+        "E_i": "Predicted effort for entry i",
+        "ΔR_k,i": "Direct residue reduction in KNOT k by entry i",
+        "ΔR_j,i": "Residue reduction in adjacent KNOT j by entry i",
+        "a_k→j": "Adjacency weight from KNOT k to KNOT j"
+      }
+    },
+    "eligibility_criteria": {
+      "status": "Must be 'accepted' or 'merged'",
+      "artifacts": "Must have associated artifacts",
+      "validation": "Must be validated by authorized reviewer"
+    },
+    "status_values": {
+      "draft": "Initial draft, not ready for review",
+      "submitted": "Submitted for review",
+      "in_review": "Under active review",
+      "accepted": "Accepted, ready for merge",
+      "merged": "Merged and deployed",
+      "rejected": "Rejected, not eligible for rewards"
+    }
+  }
+}
