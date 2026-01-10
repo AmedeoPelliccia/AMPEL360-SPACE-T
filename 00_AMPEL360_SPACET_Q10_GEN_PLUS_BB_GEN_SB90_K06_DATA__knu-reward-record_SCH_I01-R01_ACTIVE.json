@@ -59,14 +59,28 @@
           "minItems": 0,
           "description": "List of artifact references or URLs produced by this KNU"
         },
-        "validated_by": {
-          "type": ["string", "null"],
-          "maxLength": 100,
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ],
           "description": "Validator who confirmed the KNU impact"
         },
         "validated_at": {
-          "type": ["string", "null"],
-          "format": "date-time",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "description": "Timestamp when validation occurred (ISO 8601 format)"
         },
         "weight": {
