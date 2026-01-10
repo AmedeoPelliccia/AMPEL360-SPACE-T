@@ -15,7 +15,7 @@
 #   - dR_primary: Direct residue reduction in primary KNOT (0-100%)
 #   - dR_adj_sum: Sum of residue reductions in adjacent KNOTs (0-100%)
 #   - status: Current status (draft|submitted|in_review|accepted|merged|rejected)
-#   - artifacts: Comma-separated list of artifact references (URLs, file paths, etc.)
+#   - artifacts: Semicolon-separated list of artifact references (URLs, file paths, etc.)
 #   - validated_by: Name of validator who confirmed impact
 #   - validated_at: Validation timestamp (ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ)
 #   - weight: Calculated distribution weight (filled by script)
