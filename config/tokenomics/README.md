@@ -31,7 +31,7 @@ Where:
 - **`config/tokenomics/knu_distribution.yaml`** - Central configuration for distribution parameters, eligibility criteria, KNOT pools, and adjacency graph
 
 ### Schema
-- **`schemas/knu_reward_record.schema.json`** - JSON Schema for reward record validation
+- **`00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_SB90_K06_DATA__knu-reward-record_SCH_I01-R01_ACTIVE.json`** - JSON Schema for reward record validation
 
 ### Templates
 - **`templates/knu-reward-ledger.csv`** - CSV template for tracking KNU rewards
