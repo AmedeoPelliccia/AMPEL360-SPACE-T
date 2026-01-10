@@ -61,7 +61,6 @@
         },
         "validated_by": {
           "type": ["string", "null"],
-          "minLength": 1,
           "maxLength": 100,
           "description": "Validator who confirmed the KNU impact"
         },
