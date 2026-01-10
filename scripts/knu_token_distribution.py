@@ -53,14 +53,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 
-# Import KNOT_AOR_MAPPING for adjacency relationships
-try:
-    from knot_aor_mapping import KNOT_AOR_MAPPING
-except ImportError:
-    # If running from scripts directory, try relative import
-    sys.path.insert(0, str(Path(__file__).parent))
-    from knot_aor_mapping import KNOT_AOR_MAPPING
-
 # CSV injection prevention (reuse pattern from nku_scoring.py)
 CSV_INJECTION_CHARS = ('=', '+', '-', '@', '\t', '\r', '\n')
 
