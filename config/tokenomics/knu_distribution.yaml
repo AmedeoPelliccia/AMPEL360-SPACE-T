@@ -1,0 +1,187 @@
+# KNU Token Distribution Configuration
+# =====================================
+# Version: 1.0
+# Date: 2026-01-10
+#
+# Configuration for KNU (Known Non-Unknowns / Uncertainty Resolution Unit) 
+# token distribution system. Defines parameters, eligibility criteria, 
+# KNOT pools, and adjacency graph for spillover calculations.
+
+version: "1.0"
+
+# Distribution Parameters
+# -----------------------
+# Controls the weight of effort vs impact in token allocation
+parameters:
+  # α (alpha): Weight given to predicted effort
+  # Formula: w_i = α·Ê_i + (1-α)·Î_i
+  # Default: 0.30 means 30% effort, 70% impact
+  alpha: 0.30
+  
+  # λ (lambda): Spillover multiplier for adjacent KNOT impact
+  # Formula: S_i = Σ(a_k→j · ΔR_j,i) where spillover is worth λ * direct impact
+  # Default: 0.50 means spillover worth 50% of direct impact
+  lambda_spillover: 0.50
+
+# Eligibility Criteria
+# --------------------
+# Defines requirements for KNU entries to qualify for token rewards
+eligibility:
+  # Required status values for reward eligibility
+  required_status:
+    - "accepted"
+    - "merged"
+  
+  # Whether artifacts must be present for eligibility
+  require_artifacts: true
+  
+  # Whether validation is required for eligibility
+  require_validation: true
+
+# KNOT Prize Pools
+# ----------------
+# Base token allocation per KNOT. Actual distribution depends on
+# the number of eligible KNU entries and their weights.
+knot_pools:
+  K01:
+    base_pool: 1000
+    description: "Certification authority basis"
+  
+  K02:
+    base_pool: 1000
+    description: "ConOps command authority readiness"
+  
+  K03:
+    base_pool: 1000
+    description: "Hazard management cryogenic fire containment"
+  
+  K04:
+    base_pool: 1000
+    description: "Interfaces geometry ICDs datums"
+  
+  K05:
+    base_pool: 1000
+    description: "Model fidelity uncertainty budgets substantiation"
+  
+  K06:
+    base_pool: 1000
+    description: "Data governance SSOT schemas identifiers"
+  
+  K07:
+    base_pool: 1000
+    description: "AI autonomy assurance monitoring"
+  
+  K08:
+    base_pool: 1000
+    description: "DPP provenance SBOM circularity"
+  
+  K09:
+    base_pool: 1000
+    description: "Spaceport infrastructure interfaces permits"
+  
+  K10:
+    base_pool: 1000
+    description: "Industrial readiness supply chain tool qualification"
+  
+  K11:
+    base_pool: 1000
+    description: "Human factors training readiness gates"
+  
+  K12:
+    base_pool: 1000
+    description: "Noise vibration plume environment"
+  
+  K13:
+    base_pool: 1000
+    description: "Cybersecurity zones key management"
+  
+  K14:
+    base_pool: 1000
+    description: "Reliability maintenance intervals health monitoring"
+
+# Adjacency Graph
+# ---------------
+# Defines spillover relationships between KNOTs
+# Each entry represents: KNOT_source -> { KNOT_target: weight }
+# Weight indicates strength of spillover effect (0.0-1.0)
+#
+# Based on KNOT uncertainty focus relationships:
+# - Certification (K01) influences ConOps (K02) and Data governance (K06)
+# - ConOps (K02) influences Certification (K01) and Human factors (K11)
+# - Safety (K03) influences Operations (K02) and Human factors (K11)
+# - Systems Engineering (K04, K05) influence multiple technical KNOTs
+# - Data governance (K06) is foundational and influences many KNOTs
+# - AI/ML (K07) influences Autonomy, Data, and Human factors
+# - DPP (K08) influences Data governance and Supply chain
+adjacency_graph:
+  K01:
+    K02: 0.3  # Certification → ConOps (authority model affects operations)
+    K06: 0.4  # Certification → Data governance (evidence packaging requires data standards)
+    K10: 0.2  # Certification → Industrial readiness (qualification affects supply chain)
+  
+  K02:
+    K01: 0.3  # ConOps → Certification (operational requirements inform compliance)
+    K03: 0.4  # ConOps → Safety (mission phases affect hazard management)
+    K11: 0.5  # ConOps → Human factors (command authority requires training)
+    K12: 0.3  # ConOps → Environment (operations affect noise/plume)
+  
+  K03:
+    K02: 0.4  # Safety → ConOps (emergency response affects operations)
+    K09: 0.3  # Safety → Spaceport (containment affects infrastructure)
+    K11: 0.4  # Safety → Human factors (emergency procedures require training)
+  
+  K04:
+    K05: 0.5  # Interfaces → Model fidelity (geometry affects modeling)
+    K06: 0.3  # Interfaces → Data governance (ICD requires data standards)
+    K09: 0.3  # Interfaces → Spaceport (physical interfaces with infrastructure)
+  
+  K05:
+    K04: 0.4  # Model fidelity → Interfaces (substantiation validates ICDs)
+    K06: 0.4  # Model fidelity → Data governance (uncertainty budgets need tracking)
+    K07: 0.3  # Model fidelity → AI/ML (model validation affects ML assurance)
+  
+  K06:
+    K01: 0.3  # Data governance → Certification (schema standards support evidence)
+    K05: 0.3  # Data governance → Model fidelity (data quality affects models)
+    K07: 0.4  # Data governance → AI/ML (data governance enables ML ops)
+    K08: 0.5  # Data governance → DPP (SSOT foundation for provenance)
+  
+  K07:
+    K02: 0.3  # AI/ML → ConOps (autonomy affects mission phases)
+    K05: 0.3  # AI/ML → Model fidelity (ML models need validation)
+    K06: 0.4  # AI/ML → Data governance (drift monitoring needs data standards)
+    K11: 0.4  # AI/ML → Human factors (autonomy affects human-machine interaction)
+  
+  K08:
+    K06: 0.5  # DPP → Data governance (provenance requires data standards)
+    K10: 0.5  # DPP → Industrial readiness (SBOM links to supply chain)
+    K13: 0.3  # DPP → Cybersecurity (signed exports require key management)
+  
+  K09:
+    K02: 0.3  # Spaceport → ConOps (infrastructure affects operations)
+    K03: 0.3  # Spaceport → Safety (cryogenic services affect containment)
+    K04: 0.3  # Spaceport → Interfaces (physical interfaces with vehicle)
+  
+  K10:
+    K01: 0.3  # Industrial readiness → Certification (supplier qual affects compliance)
+    K08: 0.4  # Industrial readiness → DPP (supply chain links to provenance)
+    K13: 0.2  # Industrial readiness → Cybersecurity (tool qualification affects security)
+  
+  K11:
+    K02: 0.5  # Human factors → ConOps (training enables operational readiness)
+    K03: 0.4  # Human factors → Safety (procedures affect emergency response)
+    K07: 0.3  # Human factors → AI/ML (human-machine interface affects autonomy)
+  
+  K12:
+    K02: 0.3  # Environment → ConOps (noise/vibration affects operations)
+    K09: 0.3  # Environment → Spaceport (plume affects infrastructure)
+  
+  K13:
+    K06: 0.4  # Cybersecurity → Data governance (crypto requires data standards)
+    K07: 0.3  # Cybersecurity → AI/ML (secure comms affects ML ops)
+    K08: 0.3  # Cybersecurity → DPP (signing affects provenance)
+  
+  K14:
+    K03: 0.2  # Reliability → Safety (health monitoring affects hazard prevention)
+    K10: 0.3  # Reliability → Industrial readiness (maintenance intervals affect supply)
+    K11: 0.3  # Reliability → Human factors (maintenance procedures require training)
