@@ -555,6 +555,9 @@ python scripts/scaffold.py 00 70 FHA SB70 AMPEL360 SPACET PLUS propulsion v01
 | Identifier Grammar | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__identifier-grammar_I01-R01.md` | ID format rules |
 | SSOT Decision Matrix | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__ssot-decision-matrix_I01-R01.md` | Ownership rules |
 | Governance Reference Policy | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K04_DATA__governance-reference-policy_I01-R01.md` | Policy framework |
+| Portal Card Data Model | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_SB90_K11_AI__portal-card-data-model_SCH_I01-R01_ACTIVE.json` | Card/AI Generator schema |
+| AI Generator Prompt Token Schema | `00_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_SB90_K11_AI__ai-generator-prompt-token-schema_SCH_I01-R01_ACTIVE.json` | Tokenized prompt schema |
+| Portal Card UI & Data Model STD | `AMPEL360-SPACE-T-PORTAL/00_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC01_K11_AI__portal-card-ui-data-model_STD_I01-R01_ACTIVE.md` | Product documentation |
 | GitHub Copilot Instructions | `.github/copilot-instructions.md` | Agent integration |
 
 ---

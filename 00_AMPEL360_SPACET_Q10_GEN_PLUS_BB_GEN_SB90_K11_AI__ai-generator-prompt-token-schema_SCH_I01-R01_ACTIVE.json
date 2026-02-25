@@ -1,0 +1,330 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space/schemas/ai-generator-prompt-token-schema.json",
+  "title": "AMPEL360 Space-T AI Generator Prompt Token Schema",
+  "description": "Schema for tokenized prompts used by the AI Generator tab in portal AoR cards. Defines reusable prompt units bound to audience/role, template ID, and required metadata schema.",
+  "type": "object",
+  "properties": {
+    "prompt_registry": {
+      "type": "object",
+      "description": "Central registry of all tokenized prompts and shared token units",
+      "properties": {
+        "registry_version": {
+          "type": "string",
+          "description": "Version of this prompt registry",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "shared_tokens": {
+          "type": "array",
+          "description": "Library of reusable prompt tokens shared across AoR cards",
+          "items": {
+            "$ref": "#/definitions/shared_token"
+          }
+        },
+        "prompt_definitions": {
+          "type": "array",
+          "description": "Complete prompt definitions referencing shared tokens",
+          "items": {
+            "$ref": "#/definitions/prompt_definition"
+          }
+        }
+      },
+      "required": ["registry_version", "prompt_definitions"]
+    }
+  },
+  "required": ["prompt_registry"],
+  "definitions": {
+    "shared_token": {
+      "type": "object",
+      "description": "A reusable prompt token that can be referenced by multiple prompt definitions",
+      "properties": {
+        "token_id": {
+          "type": "string",
+          "description": "Globally unique token identifier",
+          "pattern": "^TKN-[A-Z]+-[0-9]{4}$"
+        },
+        "token_type": {
+          "type": "string",
+          "description": "Functional category of this token",
+          "enum": [
+            "instruction",
+            "context",
+            "constraint",
+            "example",
+            "format",
+            "audience_directive",
+            "schema_directive"
+          ]
+        },
+        "token_value": {
+          "type": "string",
+          "description": "The prompt text content of this token"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Named parameters that can be interpolated using {{param_name}} syntax",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["string", "number", "boolean", "enum"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "enum_values": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "default": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "description"]
+          }
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Classification tags for token discovery and filtering",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["token_id", "token_type", "token_value", "version"]
+    },
+    "prompt_definition": {
+      "type": "object",
+      "description": "A complete tokenized prompt definition bound to audience, template, and metadata schema",
+      "properties": {
+        "prompt_id": {
+          "type": "string",
+          "description": "Unique prompt identifier",
+          "pattern": "^PROMPT-[A-Z]{2,10}-[0-9]{4}$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of this prompt",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable prompt title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose and expected output of this prompt"
+        },
+        "audience_binding": {
+          "type": "object",
+          "description": "Audience/role that this prompt targets",
+          "properties": {
+            "role_code": {
+              "type": "string",
+              "description": "AoR code of the target audience"
+            },
+            "role_name": {
+              "type": "string",
+              "description": "Human-readable audience name"
+            },
+            "clearance_level": {
+              "type": "string",
+              "enum": ["public", "internal", "restricted", "confidential"]
+            }
+          },
+          "required": ["role_code", "role_name"]
+        },
+        "template_binding": {
+          "type": "object",
+          "description": "Template that this prompt is designed to fill",
+          "properties": {
+            "template_id": {
+              "type": "string",
+              "description": "TYPE code from v6.0 allowlist",
+              "enum": [
+                "IDX", "STD", "PLAN", "RPT", "FHA", "PSSA", "SSA", "FTA",
+                "ANA", "REQ", "DAL", "TRC", "CAT", "LST", "GLO", "MAT",
+                "SCH", "DIA", "TAB", "MIN", "LOG", "ACT"
+              ]
+            },
+            "template_path": {
+              "type": "string",
+              "description": "Relative path to the template file",
+              "pattern": "^templates/[A-Z]+\\.md$"
+            },
+            "required_sections": {
+              "type": "array",
+              "description": "Template sections that the generator must populate",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["template_id", "template_path"]
+        },
+        "metadata_schema_binding": {
+          "type": "object",
+          "description": "Metadata schema that generator output must satisfy",
+          "properties": {
+            "schema_ref": {
+              "type": "string",
+              "description": "Schema reference in ATA 91 registry format",
+              "pattern": "^SCH-[A-Z]+-[0-9]{3}-V[0-9]{2}$"
+            },
+            "schema_version": {
+              "type": "string",
+              "pattern": "^V[0-9]{2}$"
+            },
+            "required_metadata_fields": {
+              "type": "array",
+              "description": "Metadata fields that the generator must emit",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "field_name": {
+                    "type": "string"
+                  },
+                  "field_type": {
+                    "type": "string",
+                    "enum": ["string", "number", "boolean", "date", "enum", "array"]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "enum_values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "validation_pattern": {
+                    "type": "string",
+                    "description": "Regex pattern for field validation"
+                  }
+                },
+                "required": ["field_name", "field_type"]
+              },
+              "minItems": 1
+            }
+          },
+          "required": ["schema_ref", "required_metadata_fields"]
+        },
+        "token_sequence": {
+          "type": "array",
+          "description": "Ordered list of token references composing this prompt",
+          "items": {
+            "type": "object",
+            "properties": {
+              "token_ref": {
+                "type": "string",
+                "description": "Reference to a shared token ID or inline token",
+                "pattern": "^TKN-[A-Z]+-[0-9]{4}$"
+              },
+              "parameter_overrides": {
+                "type": "object",
+                "description": "Parameter values to interpolate into the referenced token",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "inline_token": {
+                "type": "object",
+                "description": "Alternative: define a token inline instead of referencing a shared one",
+                "properties": {
+                  "token_type": {
+                    "type": "string",
+                    "enum": [
+                      "instruction",
+                      "context",
+                      "constraint",
+                      "example",
+                      "format",
+                      "audience_directive",
+                      "schema_directive"
+                    ]
+                  },
+                  "token_value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["token_type", "token_value"]
+              }
+            },
+            "oneOf": [
+              { "required": ["token_ref"] },
+              { "required": ["inline_token"] }
+            ]
+          },
+          "minItems": 1
+        },
+        "output_spec": {
+          "type": "object",
+          "description": "Specification for what the generator must produce",
+          "properties": {
+            "content_format": {
+              "type": "string",
+              "description": "Expected format of the generated content body",
+              "enum": ["markdown", "yaml", "json", "csv", "plain_text"]
+            },
+            "must_fill_placeholders": {
+              "type": "array",
+              "description": "Template placeholders the generator must resolve",
+              "items": {
+                "type": "string",
+                "pattern": "^\\{\\{[A-Z_]+\\}\\}$"
+              }
+            },
+            "writeback_target": {
+              "type": "string",
+              "description": "AoR record field or path where output is written back",
+              "enum": [
+                "aor_record",
+                "knot_task",
+                "ata_evidence",
+                "stakeholder_entrypoint"
+              ]
+            }
+          },
+          "required": ["content_format", "writeback_target"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "active", "deprecated"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "prompt_id",
+        "version",
+        "title",
+        "audience_binding",
+        "template_binding",
+        "metadata_schema_binding",
+        "token_sequence",
+        "output_spec",
+        "status"
+      ]
+    }
+  }
+}
