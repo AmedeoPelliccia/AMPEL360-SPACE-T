@@ -1,0 +1,393 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ampel360.space/schemas/portal-card-data-model.json",
+  "title": "AMPEL360 Space-T Portal Card Data Model",
+  "description": "Schema for portal AoR cards. Each card represents exactly one Area of Responsibility entry and contains an AI Generator tab with tokenized prompts.",
+  "type": "object",
+  "properties": {
+    "cards": {
+      "type": "array",
+      "description": "Collection of portal cards; each card maps 1:1 to an AoR entry",
+      "items": {
+        "$ref": "#/definitions/aor_card"
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["cards"],
+  "definitions": {
+    "aor_card": {
+      "type": "object",
+      "description": "A single portal card representing one Area of Responsibility",
+      "properties": {
+        "card_id": {
+          "type": "string",
+          "description": "Unique card identifier derived from the AoR code",
+          "pattern": "^CARD-[A-Z]{2,10}-[0-9]{3}$"
+        },
+        "aor_code": {
+          "type": "string",
+          "description": "Area of Responsibility code from v6.0 allowlist",
+          "enum": [
+            "CM", "CERT", "SAF", "SE", "OPS", "DATA", "DAB",
+            "AI", "CY", "TEST", "MRO", "SPACEPORT", "PMO",
+            "QA", "SEC", "LEG", "FIN", "PROC", "PHM"
+          ]
+        },
+        "aor_name": {
+          "type": "string",
+          "description": "Human-readable name for the AoR"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the AoR scope and responsibilities"
+        },
+        "stakeholder_path": {
+          "type": "string",
+          "description": "Relative path to the STK_* portal directory for this AoR",
+          "pattern": "^AMPEL360-SPACE-T-PORTAL/STK_[A-Z]+-[a-z-]+/$"
+        },
+        "entrypoint_ref": {
+          "type": "string",
+          "description": "Filename of the stakeholder entrypoint IDX document"
+        },
+        "knots": {
+          "type": "array",
+          "description": "Active backlog knots assigned to this AoR",
+          "items": {
+            "type": "object",
+            "properties": {
+              "knot_id": {
+                "type": "string",
+                "pattern": "^K(0[1-9]|1[0-4])$"
+              },
+              "title": {
+                "type": "string"
+              },
+              "affected_atas": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[0-9]{2,3}$"
+                }
+              }
+            },
+            "required": ["knot_id", "title"]
+          }
+        },
+        "ai_generator": {
+          "$ref": "#/definitions/ai_generator_tab"
+        },
+        "card_metadata": {
+          "type": "object",
+          "description": "Card-level metadata for display and governance",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["active", "draft", "deprecated"]
+            },
+            "owner": {
+              "type": "string",
+              "description": "Team or role owning this AoR card"
+            },
+            "last_updated": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "portal_effectivity": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["SPACET-INT", "SPACET-OPS", "SPACET-AUTH", "SPACET-SUP"]
+              }
+            }
+          },
+          "required": ["status", "owner"]
+        }
+      },
+      "required": [
+        "card_id",
+        "aor_code",
+        "aor_name",
+        "stakeholder_path",
+        "ai_generator",
+        "card_metadata"
+      ]
+    },
+    "ai_generator_tab": {
+      "type": "object",
+      "description": "AI Generator tab within a portal card. Stores tokenized prompts and manages generation lifecycle.",
+      "properties": {
+        "prompt_library": {
+          "type": "array",
+          "description": "Collection of tokenized prompts available for this AoR card",
+          "items": {
+            "$ref": "#/definitions/tokenized_prompt"
+          },
+          "minItems": 0
+        },
+        "generation_log": {
+          "type": "array",
+          "description": "Audit trail of generator activations and outputs",
+          "items": {
+            "$ref": "#/definitions/generation_record"
+          }
+        }
+      },
+      "required": ["prompt_library"]
+    },
+    "tokenized_prompt": {
+      "type": "object",
+      "description": "A reusable prompt unit bound to audience, template, and metadata schema",
+      "properties": {
+        "prompt_id": {
+          "type": "string",
+          "description": "Unique identifier for this tokenized prompt",
+          "pattern": "^PROMPT-[A-Z]{2,10}-[0-9]{4}$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of this prompt definition",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable prompt title"
+        },
+        "audience_role": {
+          "$ref": "#/definitions/audience_binding"
+        },
+        "template_id": {
+          "type": "string",
+          "description": "TYPE code of the target template (from v6.0 TYPE allowlist)",
+          "enum": [
+            "IDX", "STD", "PLAN", "RPT", "FHA", "PSSA", "SSA", "FTA",
+            "ANA", "REQ", "DAL", "TRC", "CAT", "LST", "GLO", "MAT",
+            "SCH", "DIA", "TAB", "MIN", "LOG", "ACT"
+          ]
+        },
+        "metadata_schema_ref": {
+          "$ref": "#/definitions/metadata_schema_binding"
+        },
+        "prompt_tokens": {
+          "type": "array",
+          "description": "Ordered sequence of reusable prompt token units composing this prompt",
+          "items": {
+            "$ref": "#/definitions/prompt_token"
+          },
+          "minItems": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "active", "deprecated"],
+          "description": "Lifecycle status of this prompt definition"
+        }
+      },
+      "required": [
+        "prompt_id",
+        "version",
+        "audience_role",
+        "template_id",
+        "metadata_schema_ref",
+        "prompt_tokens",
+        "status"
+      ]
+    },
+    "audience_binding": {
+      "type": "object",
+      "description": "Audience/role binding for a tokenized prompt",
+      "properties": {
+        "role_code": {
+          "type": "string",
+          "description": "AoR code of the target audience",
+          "enum": [
+            "CM", "CERT", "SAF", "SE", "OPS", "DATA", "DAB",
+            "AI", "CY", "TEST", "MRO", "SPACEPORT", "PMO",
+            "QA", "SEC", "LEG", "FIN", "PROC", "PHM"
+          ]
+        },
+        "role_name": {
+          "type": "string",
+          "description": "Human-readable role or audience name"
+        },
+        "clearance_level": {
+          "type": "string",
+          "description": "Required clearance level for this audience",
+          "enum": ["public", "internal", "restricted", "confidential"]
+        }
+      },
+      "required": ["role_code", "role_name"]
+    },
+    "metadata_schema_binding": {
+      "type": "object",
+      "description": "Binding to the metadata schema that generator output must satisfy",
+      "properties": {
+        "schema_ref": {
+          "type": "string",
+          "description": "Reference to the schema definition in ATA 91 registry",
+          "pattern": "^SCH-[A-Z]+-[0-9]{3}-V[0-9]{2}$"
+        },
+        "required_fields": {
+          "type": "array",
+          "description": "List of metadata field names that the generator must populate",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "description": "Version of the metadata schema",
+          "pattern": "^V[0-9]{2}$"
+        }
+      },
+      "required": ["schema_ref", "required_fields"]
+    },
+    "prompt_token": {
+      "type": "object",
+      "description": "A single reusable prompt token unit within a tokenized prompt",
+      "properties": {
+        "token_id": {
+          "type": "string",
+          "description": "Unique identifier for this prompt token",
+          "pattern": "^TKN-[A-Z]+-[0-9]{4}$"
+        },
+        "token_type": {
+          "type": "string",
+          "description": "Category of this prompt token",
+          "enum": [
+            "instruction",
+            "context",
+            "constraint",
+            "example",
+            "format",
+            "audience_directive",
+            "schema_directive"
+          ]
+        },
+        "token_value": {
+          "type": "string",
+          "description": "The prompt text content of this token"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Optional dynamic parameters that can be interpolated into token_value",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "reusable": {
+          "type": "boolean",
+          "description": "Whether this token can be shared across prompts",
+          "default": true
+        }
+      },
+      "required": ["token_id", "token_type", "token_value"]
+    },
+    "generation_record": {
+      "type": "object",
+      "description": "Audit record of a single generator activation and its output",
+      "properties": {
+        "generation_id": {
+          "type": "string",
+          "description": "Unique identifier for this generation event",
+          "pattern": "^GEN-[0-9]{8}-[0-9]{6}-[A-Z0-9]{4}$"
+        },
+        "prompt_id": {
+          "type": "string",
+          "description": "ID of the tokenized prompt used"
+        },
+        "prompt_version": {
+          "type": "string",
+          "description": "Version of the prompt at time of generation"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the generation event"
+        },
+        "output": {
+          "$ref": "#/definitions/generator_output"
+        },
+        "aor_record_ref": {
+          "type": "string",
+          "description": "Reference to the AoR record where output was written back"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "completed", "failed", "written_back"],
+          "description": "Status of the generation lifecycle"
+        }
+      },
+      "required": [
+        "generation_id",
+        "prompt_id",
+        "prompt_version",
+        "timestamp",
+        "status"
+      ]
+    },
+    "generator_output": {
+      "type": "object",
+      "description": "Structured output produced by the AI generator",
+      "properties": {
+        "content_body": {
+          "type": "string",
+          "description": "Audience-targeted content that fills the template body"
+        },
+        "metadata_values": {
+          "type": "object",
+          "description": "Key-value pairs satisfying the template metadata schema",
+          "additionalProperties": true
+        },
+        "schema_validation": {
+          "type": "object",
+          "description": "Result of validating output against the required metadata schema",
+          "properties": {
+            "schema_ref": {
+              "type": "string"
+            },
+            "is_conformant": {
+              "type": "boolean"
+            },
+            "validation_errors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["schema_ref", "is_conformant"]
+        },
+        "trace": {
+          "type": "object",
+          "description": "Traceability information linking output to prompt",
+          "properties": {
+            "prompt_id": {
+              "type": "string"
+            },
+            "prompt_version": {
+              "type": "string"
+            },
+            "generation_id": {
+              "type": "string"
+            },
+            "template_id": {
+              "type": "string"
+            },
+            "audience_role_code": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "prompt_id",
+            "prompt_version",
+            "generation_id",
+            "template_id"
+          ]
+        }
+      },
+      "required": ["content_body", "metadata_values", "schema_validation", "trace"]
+    }
+  }
+}
