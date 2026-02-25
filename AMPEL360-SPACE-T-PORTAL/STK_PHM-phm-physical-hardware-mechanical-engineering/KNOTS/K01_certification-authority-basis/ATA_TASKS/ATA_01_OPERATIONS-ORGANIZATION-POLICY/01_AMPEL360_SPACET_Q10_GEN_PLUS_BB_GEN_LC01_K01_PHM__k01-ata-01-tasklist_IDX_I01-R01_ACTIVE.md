@@ -30,15 +30,15 @@ owner: "Physical Hardware & Mechanical Engineering"
 
 ## Tasks (minimum set)
 
-| Task ID | Description | Owner | Evidence Type | Target Phase |
-|---------|-------------|-------|---------------|-------------|
-| K01-T001 | Define PHM organizational chart within DOA/POA structure | PHM Lead | ORG chart + delegation matrix | LC01 |
-| K01-T002 | Establish PHM engineering authority delegation (stress, materials, systems) | PHM Lead + CERT | Delegation of Authority document | LC01 |
-| K01-T003 | Define PHM maintenance philosophy (MSG-3/RCM approach for hardware) | PHM + MRO | Maintenance philosophy document | LC02 |
-| K01-T004 | Map PHM-owned ATA chapters to applicable certification specifications (CS-25, ECSS, 14 CFR) | PHM + CERT | Compliance matrix | LC01 |
-| K01-T005 | Define competency and training requirements for PHM signatories | PHM + QA | Competency register | LC01 |
-| K01-T006 | Establish PHM interface control with SE, SAF, CERT, TEST stakeholders | PHM + SE | ICD register | LC02 |
-| K01-T007 | Record decisions; update baseline and trace links | PHM + CM | Decision record + CM baseline | LC02 |
+| Task ID | Description | Owner | Evidence Type | Target Phase | Status |
+|---------|-------------|-------|---------------|-------------|--------|
+| K01-T001 | Define PHM organizational chart within DOA/POA structure | PHM Lead | ORG chart + delegation matrix | LC01 | 🟡 In Progress — see [EVIDENCE/](./EVIDENCE/) |
+| K01-T002 | Establish PHM engineering authority delegation (stress, materials, systems) | PHM Lead + CERT | Delegation of Authority document | LC01 | |
+| K01-T003 | Define PHM maintenance philosophy (MSG-3/RCM approach for hardware) | PHM + MRO | Maintenance philosophy document | LC02 | |
+| K01-T004 | Map PHM-owned ATA chapters to applicable certification specifications (CS-25, ECSS, 14 CFR) | PHM + CERT | Compliance matrix | LC01 | |
+| K01-T005 | Define competency and training requirements for PHM signatories | PHM + QA | Competency register | LC01 | |
+| K01-T006 | Establish PHM interface control with SE, SAF, CERT, TEST stakeholders | PHM + SE | ICD register | LC02 | |
+| K01-T007 | Record decisions; update baseline and trace links | PHM + CM | Decision record + CM baseline | LC02 | |
 
 ## Task Structure
 
