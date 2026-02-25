@@ -1,0 +1,7 @@
+Task_ID,Task_Title,AI,DATA,CM,SE,CERT,OPS,V&V,Notes
+T001,SSOT Source & Ownership,R,A,C,C,I,I,I,Declares authoritative SSOT for service catalogs/contracts/datasets and defines change control
+T002,Identifier Grammar,R,A,C,C,I,I,I,Defines canonical IDs for services/endpoints/contracts/datasets and naming/version constraints
+T003,Schema Definition,R,C,C,A,I,C,I,Stabilizes semantics for service payloads/metadata (units/frames/QoS/timing/validity)
+T004,Export Publication,R,A,C,C,I,C,I,Defines deterministic export packs (service catalog + contract schemas + manifests)
+T005,CI Validation Gates,R,C,A,C,I,I,I,Enforces rules and blocks noncompliant PRs (duplicate IDs/breaking changes without versioning)
+T006,Baseline Service Contract Set,R,C,C,C,A,C,R,Produces frozen baseline of services/contracts for integration and ops usage

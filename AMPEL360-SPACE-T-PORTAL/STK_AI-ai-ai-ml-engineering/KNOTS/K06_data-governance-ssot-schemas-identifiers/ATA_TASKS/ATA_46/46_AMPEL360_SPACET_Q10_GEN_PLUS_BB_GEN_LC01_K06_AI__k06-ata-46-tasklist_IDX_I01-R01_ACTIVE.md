@@ -58,31 +58,31 @@ Each partition corresponds to a dedicated folder. **Do not credit closure** unle
 - Folder: [01_WBS/](01_WBS/)  
   _Comment:_ Converts uncertainty into executable work packages (tasks, owners, inputs/outputs).
 
-- WBS index: [K06 ATA 46 Work Breakdown](01_WBS/46_00_IDX_LC01_AMPEL360_SPACET_PLUS_k06-ata-46-workbreakdown_I01-R01.md)  
+- WBS index: [K06 ATA 46 Work Breakdown](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC01_K06_AI__k06-ata-46-workbreakdown_IDX_I01-R01_ACTIVE.md)  
   _Closes:_ “We don’t know what to do next / who owns it.”  
   _Done when:_ T001–T006 exist with owners, acceptance criteria, and artifact links.
 
-- RACI (CSV): [RACI](01_WBS/46_00_MAT_LC06_AMPEL360_SPACET_PLUS_k06-ata-46-raci_I01-R01.csv)  
+- RACI (CSV): [RACI](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_BB_GEN_LC06_K06_AI__k06-ata-46-raci_MAT_I01-R01_ACTIVE.csv)  
   _Closes:_ Responsibility ambiguity (execution vs approval).  
   _Done when:_ CM approval path is explicit and accepted.
 
 **Task stubs (minimum set):**
-- T001: [SSOT source & ownership](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t001-ssot-source-ownership_I01-R01.md)  
+- T001: [SSOT source & ownership](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T001_AI__k06-t001-ssot-source-ownership_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Declares authoritative SSOT for service catalogs/contracts/datasets and defines change control.
 
-- T002: [Identifier grammar](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t002-identifier-grammar_I01-R01.md)  
+- T002: [Identifier grammar](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T002_AI__k06-t002-identifier-grammar_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Defines canonical IDs for services/endpoints/contracts/datasets and naming/version constraints.
 
-- T003: [Schema definition](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t003-schema-definition_I01-R01.md)  
+- T003: [Schema definition](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T003_AI__k06-t003-schema-definition_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Stabilizes semantics for payloads/metadata (units, frames, QoS, timing, validity).
 
-- T004: [Export publication](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t004-export-publication_I01-R01.md)  
+- T004: [Export publication](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T004_AI__k06-t004-export-publication_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Defines deterministic export packs (service catalog + contract schemas + manifests).
 
-- T005: [CI validation gates](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t005-ci-validation-gates_I01-R01.md)  
+- T005: [CI validation gates](01_WBS/46_AMPEL360_SPACET_Q10_GEN_PLUS_PR_GEN_LC06_K06-T005_AI__k06-t005-ci-validation-gates_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Enforces rules; blocks noncompliant PRs (duplicate IDs, breaking changes without versioning).
 
-- T006: [Baseline service contract set](01_WBS/46_00_ACT_LC06_AMPEL360_SPACET_PLUS_k06-t006-baseline-service-contract-set_I01-R01.md)  
+- T006: [Baseline service contract set](01_WBS/46_AMPEL360_SPACET_Q10_BASELINE_PLUS_PR_GEN_LC06_K06-T006_AI__k06-t006-baseline-service-contract-set_ACT_I01-R01_ACTIVE.md)  
   _Comment:_ Produces a frozen baseline of services/contracts for integration and ops usage.
 
 ---
