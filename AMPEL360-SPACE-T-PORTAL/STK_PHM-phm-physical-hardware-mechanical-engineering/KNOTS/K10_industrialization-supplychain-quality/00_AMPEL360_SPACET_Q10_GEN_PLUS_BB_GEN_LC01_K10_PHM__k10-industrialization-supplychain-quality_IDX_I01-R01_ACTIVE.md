@@ -8,22 +8,55 @@ stakeholder_id: "PHM"
 affected_atas: ["00", "05", "10", "20", "51", "70", "80", "82", "89", "100", "115"]
 ---
 
-# Backlog Knot K10 — industrialization-supplychain-quality
+# Backlog Knot K10 — Industrialization, Supply Chain & Quality (PHM Scope)
 
 ## Problem Statement
-_Define the uncertainty precisely; specify the decision required._
+
+Define the industrialization strategy, supply chain architecture, and quality requirements for PHM hardware manufacturing and assembly. Establish make-or-buy decisions, supplier qualification criteria, and manufacturing readiness levels for structural, mechanical, and propulsion hardware.
 
 ## Scope Boundary
-- In-scope: ...
-- Out-of-scope: ...
+- In-scope: Hardware manufacturing processes, supplier qualification for structural/mechanical parts, material procurement strategy, manufacturing readiness levels, quality inspection criteria
+- Out-of-scope: Software supply chain (SW AoR), MRO logistics (MRO AoR)
 
-## Impacted ATAs
-- ATA 00, ATA 05, ATA 10, ATA 20, ATA 51, ATA 70, ATA 80, ATA 82, ATA 89, ATA 100, ATA 115
+## PHM ATA Impact Breakdown
+
+| ATA | Chapter Title | K10 Relevance |
+|-----|--------------|---------------|
+| 00 | General | Cross-cutting industrialization framework |
+| 05 | Time Limits / Maintenance Checks | Manufacturing-driven maintenance |
+| 10 | Parking, Mooring, Storage | Storage/handling of hardware |
+| 20 | Standard Practices - Airframe | Airframe manufacturing standards |
+| 51 | Standard Practices & Structures | Structural manufacturing processes |
+| 70 | Engine / Propulsion (General) | Propulsion hardware manufacturing |
+| 80 | Starting | Starter system supply chain |
+| 82 | Water Injection | Injection system manufacturing |
+| 89 | SpaceT Propulsion Integration | Propulsion integration manufacturing |
+| 100 | SpaceT-specific | Novel configuration manufacturing |
+| 115 | SpaceT Structural | Structural assembly processes |
+
+## Tasks (minimum set)
+
+1. Define make-or-buy strategy for PHM hardware domains
+2. Establish supplier qualification criteria for structural/mechanical parts
+3. Define manufacturing readiness level targets per ATA domain
+4. Establish quality inspection and acceptance criteria
+5. Record decisions; update baseline and trace links
+
+## Cross-Dependencies
+
+- **PMO** — Program schedule and budget
+- **CM** — Configuration control of manufacturing data
+- **MRO** — Maintenance-driven manufacturing requirements
+- **TEST** — Production test requirements
 
 ## Decision & Closure Criteria
-- Decision owner: ...
-- Evidence required: ...
-- Acceptance criteria: ...
+- Decision owner: PHM + PMO leads
+- Evidence required: Make-or-buy matrix, supplier qualification plan, MRL assessment
+- Acceptance criteria:
+  - [ ] Make-or-buy decisions recorded for all critical hardware
+  - [ ] Supplier qualification criteria defined
+  - [ ] Manufacturing readiness levels assessed
+  - [ ] Baseline updated (CM)
 
 ## Pathways
 1) Requirements/ConOps
